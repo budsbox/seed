@@ -16,7 +16,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
 
-    "useDefineForClassFields": true,
+    "useDefineForClassFields": true, // https://vitejs.dev/guide/features.html#typescript
     "lib": [
       "ES5",
       "ES2015",
@@ -27,7 +27,7 @@
       "DOM.Iterable"
     ],
     "skipLibCheck": true,
-
+    "types": ["./globals.d.ts"],
     /* Bundler mode */
     "allowImportingTsExtensions": true,
     "noEmit": true,
