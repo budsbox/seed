@@ -2,7 +2,8 @@ import process from 'node:process';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 
-const isProd = process.env.NODE_ENV === 'production';
+const { env } = process;
+const isProd = env.NODE_ENV === 'production';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,4 +14,7 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  server: {
+    port: Number(env.PORT!),
+  },
 });
