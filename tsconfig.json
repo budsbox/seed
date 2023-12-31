@@ -1,6 +1,8 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
 
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }],
   "compilerOptions": {
     // Language and Environment
     "target": "ES2020",
@@ -11,6 +13,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    "verbatimModuleSyntax": true,
 
     // Interop Constraints
     "esModuleInterop": true,
@@ -28,6 +31,7 @@
     ],
     "skipLibCheck": true,
     "types": ["./globals.d.ts"],
+
     /* Bundler mode */
     "allowImportingTsExtensions": true,
     "noEmit": true,
@@ -42,7 +46,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
-  },
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  }
 }
