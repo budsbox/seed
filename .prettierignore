@@ -266,5 +266,6 @@ bh_unicode_properties.cache
 # https://packagecontrol.io/packages/sublime-github
 GitHub.sublime-settings
 
+yarn.lock
 *.module.s[ac]ss.d.ts
 /stuff
