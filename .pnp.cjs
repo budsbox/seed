@@ -40,6 +40,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-hooks", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:4.6.0"],\
           ["eslint-plugin-react-refresh", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:0.4.5"],\
           ["husky", "npm:8.0.3"],\
+          ["json5", "npm:2.2.3"],\
           ["lint-staged", "npm:15.2.0"],\
           ["prettier", "npm:3.1.1"],\
           ["react", "npm:18.2.0"],\
@@ -5382,6 +5383,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react-hooks", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:4.6.0"],\
           ["eslint-plugin-react-refresh", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:0.4.5"],\
           ["husky", "npm:8.0.3"],\
+          ["json5", "npm:2.2.3"],\
           ["lint-staged", "npm:15.2.0"],\
           ["prettier", "npm:3.1.1"],\
           ["react", "npm:18.2.0"],\

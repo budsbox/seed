@@ -1,5 +1,5 @@
 /**
- * Hack to show the inferred type (instead of union, intersections, generics, etc) in tips
+ * Hack to show the inferred type (instead of union, intersections, generics, etc.) in tips
  *
  * @example
  * ```typescript
@@ -24,6 +24,7 @@ export type Infer<T> =
   : T extends object ? InferObj<T>
   : T;
 
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Def<T> = Exclude<T, undefined | void>;
 
 export type Undef<T = never> = T | undefined;
@@ -32,7 +33,7 @@ export type Nil = null | undefined;
 
 export type Maybe<T = never> = T | Nil;
 
-export type Sure<T> = Exclude<T, Nil>;
+export type Sure<T> = NonNullable<T>;
 
 export type Mixin<Parent extends object, Child extends object> = InferObj<
   Omit<Parent, keyof Child> & Child
@@ -44,6 +45,7 @@ export type Diff<T1 extends object, T2 extends object> = Infer<
 
 export type Deferred<T> = T | Promise<T>;
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Key<T = any> =
   T extends Record<infer K, unknown> ? K
   : T extends object ? keyof T

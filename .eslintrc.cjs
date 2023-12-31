@@ -1,10 +1,30 @@
+const fs = require('fs');
+const path = require('path');
+const { parse } = require('json5');
+
+const tsconfig = parse(
+  fs.readFileSync(require.resolve('./tsconfig.json'), { encoding: 'utf-8' }),
+);
+
+const projects = [
+  path.join(__dirname, 'tsconfig.json'),
+  ...tsconfig.references.map((ref) => path.join(__dirname, ref.path)),
+];
+
 const esmExtensions = ['*.mjs', '*.ts', '*.tsx'];
 
 module.exports = {
   root: true,
   env: { es2021: true },
   extends: ['eslint:recommended'],
-  ignorePatterns: ['dist', '.husky', '.idea', '.pnp.*', '*.scss.d.ts'],
+  ignorePatterns: [
+    'dist',
+    '.husky',
+    '.idea',
+    '.pnp.*',
+    '*.scss.d.ts',
+    'typed-scss-modules.config.ts',
+  ],
   rules: {
     /* eslint sort-keys: ["error", "asc", {"natural": false, "allowLineSeparatedGroups": true}] */
     'no-console': 'error',
@@ -125,7 +145,7 @@ module.exports = {
         'react/jsx-child-element-spacing': 'error',
         'react/jsx-curly-brace-presence': [
           'error',
-          { props: 'always', children: 'never', propElementValues: 'always' },
+          { props: 'never', children: 'never', propElementValues: 'always' },
         ],
         'react/jsx-fragments': 'error',
         'react/jsx-handler-names': 'error',
@@ -152,7 +172,7 @@ module.exports = {
       parserOptions: {
         sourceType: 'module',
         tsconfigRootDir: __dirname,
-        project: true,
+        project: projects,
       },
       plugins: ['@typescript-eslint'],
       extends: [
@@ -160,7 +180,9 @@ module.exports = {
         'plugin:import/typescript',
       ],
       settings: {
-        'import/resolver': { typescript: { alwaysTryTypes: true } },
+        'import/resolver': {
+          typescript: { alwaysTryTypes: true, project: projects },
+        },
       },
       rules: {
         /* eslint sort-keys: ["error", "asc", {"natural": false, "allowLineSeparatedGroups": true}] */
@@ -184,7 +206,7 @@ module.exports = {
         '@typescript-eslint/await-thenable': 'error',
         '@typescript-eslint/consistent-type-assertions': [
           'error',
-          { objectLiteralTypeAssertions: 'never' },
+          { assertionStyle: 'as', objectLiteralTypeAssertions: 'never' },
         ],
         '@typescript-eslint/consistent-type-definitions': [
           'error',
@@ -203,45 +225,6 @@ module.exports = {
         '@typescript-eslint/explicit-member-accessibility': 'error',
         '@typescript-eslint/explicit-module-boundary-types': 'error',
         '@typescript-eslint/method-signature-style': 'error',
-        '@typescript-eslint/naming-convention': [
-          'error',
-          [
-            {
-              selector: 'default',
-              format: ['camelCase'],
-              leadingUnderscore: 'allow',
-              trailingUnderscore: 'allow',
-            },
-
-            {
-              selector: 'import',
-              format: ['camelCase', 'PascalCase'],
-            },
-
-            {
-              selector: 'variable',
-              format: ['camelCase', 'UPPER_CASE'],
-              leadingUnderscore: 'allow',
-              trailingUnderscore: 'allow',
-            },
-
-            {
-              selector: 'typeLike',
-              format: ['PascalCase'],
-            },
-
-            {
-              selector: 'global',
-              format: ['UPPER_CASE'],
-            },
-
-            {
-              selector: ['typeLike', 'variableLike'],
-              modifiers: 'unused',
-              leadingUnderscore: 'require',
-            },
-          ],
-        ],
         '@typescript-eslint/no-base-to-string': 'error',
         '@typescript-eslint/no-confusing-void-expression': [
           'error',
@@ -252,6 +235,7 @@ module.exports = {
         '@typescript-eslint/no-dynamic-delete': 'warn',
         '@typescript-eslint/no-empty-interface': 'off',
         '@typescript-eslint/no-non-null-assertion': 'warn',
+        '@typescript-eslint/no-meaningless-void-operator': 'off',
         '@typescript-eslint/no-misused-promises': [
           'error',
           {
@@ -260,14 +244,16 @@ module.exports = {
             },
           },
         ],
-        '@typescript-eslint/no-parameter-properties': 'error',
         '@typescript-eslint/no-shadow': 'error',
         '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/prefer-nullish-coalescing': 'error',
         '@typescript-eslint/prefer-optional-chain': 'error',
         '@typescript-eslint/prefer-reduce-type-parameter': 'error',
         '@typescript-eslint/prefer-regexp-exec': 'error',
-        '@typescript-eslint/prefer-readonly-parameter-types': 'error',
+        '@typescript-eslint/prefer-readonly-parameter-types': [
+          'error',
+          { ignoreInferredTypes: true },
+        ],
         '@typescript-eslint/prefer-ts-expect-error': 'error',
         '@typescript-eslint/require-array-sort-compare': 'error',
         '@typescript-eslint/strict-boolean-expressions': 'error',
@@ -287,6 +273,7 @@ module.exports = {
        * when using prettier
        * The last item in 'overrides' has the highest priority over the config
        */
+      files: ['**/*.*'],
       extends: ['prettier'],
     },
   ],

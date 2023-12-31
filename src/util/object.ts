@@ -1,25 +1,24 @@
-import type { Def, FilteredByType, WithoutNilProps, Value } from './types.ts';
+import type { Def, FilteredByType, Key, Value, WithoutNilProps } from './types';
 
-import { isNotNil } from './guards.ts';
+import { isNotNil } from './guards';
 
-export function filterBy<T, Key extends string, R extends T>(
-  value: Partial<Record<Key, T>>,
+export function filterBy<T, K extends string, R extends Def<T>>(
+  value: Partial<Record<K, T>>,
   test: (value: T) => value is R,
-): FilteredByType<Record<Key, T>, R>;
-export function filterBy<T, Key extends string, R extends Def<T>>(
-  value: Partial<Record<Key, T>>,
+): FilteredByType<Record<K, T>, R>;
+export function filterBy<T, K extends string, R extends T>(
+  // eslint-disable-next-line @typescript-eslint/unified-signatures
+  value: Partial<Record<K, T>> | Record<K, T>,
   test: (value: T) => value is R,
-): FilteredByType<Record<Key, T>, R>;
-export function filterBy<T, Key extends string, R extends T>(
-  value: Record<Key, T>,
-  test: (value: T) => value is R,
-): FilteredByType<Record<Key, T>, R>;
+): FilteredByType<Record<K, T>, R>;
 export function filterBy<V extends object>(
   obj: V,
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   filter: (value: V[keyof V], key: keyof V & string, obj: V) => boolean,
 ): Partial<V>;
 export function filterBy<V extends object>(
   obj: V,
+  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
   filter: (value: V[keyof V], key: keyof V & string, obj: V) => boolean,
 ): Partial<V> {
   const newObj: Partial<V> = {};
@@ -46,7 +45,7 @@ export function filterOutNilProps<T extends object>(
 }
 
 export function reduce<U>(
-  obj: Record<string, unknown>,
+  obj: Readonly<Record<string, unknown>>,
   callback: (
     previousValue: U,
     currentValue: Value<typeof obj>,
@@ -73,7 +72,7 @@ export function getKey<T extends string>(
   value: Partial<Record<T, unknown>>,
 ): T | undefined;
 export function getKey<T extends object>(value: T): keyof T;
-export function getKey(value: object): keyof any | undefined {
+export function getKey(value: object): Key | undefined {
   for (const key in value) {
     if (Object.hasOwn(value, key)) {
       return key;

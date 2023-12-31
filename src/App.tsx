@@ -1,23 +1,26 @@
-import { useState } from 'react';
 import reactLogo from './assets/react.svg';
-import viteLogo from '/vite.svg';
-import classes from './App.module.scss';
-import { className } from './util/component.ts';
+import viteLogo from './assets/vite.svg';
 
-function App() {
+import { type FC, useState } from 'react';
+
+import { className } from './util/component';
+
+import classes from './App.module.scss';
+
+const App: FC = () => {
   const [flag, setFlag] = useState(false);
 
   return (
     <>
       <div>
-        <a href="https://vitejs.dev" target="_blank">
+        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
           <img
             src={viteLogo}
             className={className(classes.logo, { [classes.shiny]: flag })}
             alt="Vite logo"
           />
         </a>
-        <a href="https://react.dev" target="_blank">
+        <a href="https://react.dev" target="_blank" rel="noreferrer">
           <img
             src={reactLogo}
             className={className(classes.logo, classes.react, {
@@ -29,7 +32,9 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className={classes.card}>
-        <button onClick={() => setFlag(!flag)}>Toggle me</button>
+        <button type="button" onClick={() => void setFlag(!flag)}>
+          Toggle me
+        </button>
         <p>
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
@@ -39,6 +44,6 @@ function App() {
       </p>
     </>
   );
-}
+};
 
 export default App;

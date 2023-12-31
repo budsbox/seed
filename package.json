@@ -2,17 +2,17 @@
   "name": "seed",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "sideEffects": [
     "./**/*.scss"
   ],
+  "type": "module",
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
     "format": "yarn format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"package.json\"",
     "postinstall": "husky install",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint": "eslint --quiet .",
     "preview": "vite preview",
     "scss-types": "typed-scss-modules src",
     "watch-scss-types": "yarn scss-types --watch"
@@ -31,6 +31,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
+    "json5": "^2.2.3",
     "prettier": "3.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

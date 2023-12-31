@@ -1,4 +1,4 @@
-import type { Def, Undef, Nil, Sure } from './types';
+import type { Def, Nil, Sure, Undef } from './types';
 
 export function isUndef(value: unknown): value is Undef {
   return value === undefined;
@@ -31,7 +31,7 @@ export function isTruly(value: unknown): boolean {
 }
 
 export function isFalsy(value: unknown): boolean {
-  return !value;
+  return !Boolean(value);
 }
 
 export function isObject(value: unknown): value is object {
@@ -43,6 +43,7 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 export function isArray<T>(value: T | readonly T[]): value is readonly T[];
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export function isArray<T>(value: T | T[]): value is T[];
 export function isArray(value: unknown): value is unknown[];
 
@@ -50,9 +51,11 @@ export function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
 }
 
+/* eslint-disable @typescript-eslint/prefer-readonly-parameter-types, @typescript-eslint/no-explicit-any */
 export function isFunction(value: unknown): value is (...args: any[]) => any {
   return typeof value === 'function';
 }
+/* eslint-enable @typescript-eslint/prefer-readonly-parameter-types, @typescript-eslint/no-explicit-any */
 
 export function isString(value: unknown): value is string {
   return typeof value === 'string';

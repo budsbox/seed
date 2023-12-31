@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/method-signature-style */
+
 /* ------ Extends ES interfaces ------ */
 
 interface ObjectConstructor {
@@ -12,13 +14,19 @@ interface ObjectConstructor {
   keys<T extends object>(obj: T): Array<keyof T>;
 }
 
+interface ArrayConstructor {
+  /** @see https://github.com/microsoft/TypeScript/issues/17002 */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  isArray(arg: any): arg is readonly any[];
+}
+
 interface Array<T> {
   reduce<U>(
     callback: (
       previousValue: U,
       currentValue: T,
       currentIndex: number,
-      array: T[],
+      array: readonly T[],
     ) => U,
     initialValue: Partial<U>, // that's why
   ): U;

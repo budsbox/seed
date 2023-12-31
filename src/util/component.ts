@@ -1,14 +1,17 @@
-import { Maybe } from './types.ts';
-import { isNotNil, isObject, isTrue } from './guards.ts';
-import { filterBy } from './object.ts';
+import type { Maybe } from './types';
+
+import { isNotNil, isObject, isTrue } from './guards';
+import { filterBy } from './object';
 
 type ClassNameKey = string | number;
 
 export type ClassNameArg = Maybe<
-  ClassNameKey | Record<ClassNameKey, boolean> | ClassNameArg[]
+  | ClassNameKey
+  | Readonly<Record<ClassNameKey, boolean>>
+  | readonly ClassNameArg[]
 >;
 
-export function className(...classNames: ClassNameArg[]): string {
+export function className(...classNames: readonly ClassNameArg[]): string {
   return classNames
     .map((v): Maybe<ClassNameKey> => {
       if (Array.isArray(v)) {
