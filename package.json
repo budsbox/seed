@@ -12,7 +12,7 @@
     "eslint": "eslint --quiet .",
     "format": "yarn format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"package.json\"",
-    "postinstall": "husky install",
+    "postinstall": "husky",
     "preview": "vite preview",
     "scss-types": "typed-scss-modules src",
     "watch-scss-types": "yarn scss-types --watch"
@@ -42,7 +42,7 @@
     "vite": "^5.0.10"
   },
   "devDependencies": {
-    "husky": "^8.0.3",
+    "husky": "^9.0.10",
     "lint-staged": "^15.2.0"
   },
   "packageManager": "yarn@4.1.0"

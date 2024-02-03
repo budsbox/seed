@@ -39,7 +39,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:7.33.2"],\
           ["eslint-plugin-react-hooks", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:4.6.0"],\
           ["eslint-plugin-react-refresh", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:0.4.5"],\
-          ["husky", "npm:8.0.3"],\
+          ["husky", "npm:9.0.10"],\
           ["json5", "npm:2.2.3"],\
           ["lint-staged", "npm:15.2.0"],\
           ["prettier", "npm:3.1.1"],\
@@ -3502,10 +3502,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["husky", [\
-      ["npm:8.0.3", {\
-        "packageLocation": "./.yarn/cache/husky-npm-8.0.3-b0b59c5127-6722591771.zip/node_modules/husky/",\
+      ["npm:9.0.10", {\
+        "packageLocation": "./.yarn/cache/husky-npm-9.0.10-93b6062488-585d95fec1.zip/node_modules/husky/",\
         "packageDependencies": [\
-          ["husky", "npm:8.0.3"]\
+          ["husky", "npm:9.0.10"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -5382,7 +5382,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:7.33.2"],\
           ["eslint-plugin-react-hooks", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:4.6.0"],\
           ["eslint-plugin-react-refresh", "virtual:ad5101b8f001161bd68408dd80e35a19c1ad82a1ad571b4bb381931a28272ab3598de72053e3ffff39a517f6504d5a8920705b030052c0795a74e7e3fe1ce052#npm:0.4.5"],\
-          ["husky", "npm:8.0.3"],\
+          ["husky", "npm:9.0.10"],\
           ["json5", "npm:2.2.3"],\
           ["lint-staged", "npm:15.2.0"],\
           ["prettier", "npm:3.1.1"],\
