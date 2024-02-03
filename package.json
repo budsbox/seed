@@ -9,10 +9,10 @@
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
+    "eslint": "eslint --quiet .",
     "format": "yarn format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"package.json\"",
     "postinstall": "husky install",
-    "lint": "eslint --quiet .",
     "preview": "vite preview",
     "scss-types": "typed-scss-modules src",
     "watch-scss-types": "yarn scss-types --watch"
@@ -45,5 +45,5 @@
     "husky": "^8.0.3",
     "lint-staged": "^15.2.0"
   },
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@4.1.0"
 }
