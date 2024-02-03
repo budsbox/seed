@@ -12,7 +12,7 @@
     "eslint": "eslint --quiet .",
     "format": "yarn format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"package.json\"",
-    "postinstall": "husky",
+    "prepare": "husky",
     "preview": "vite preview",
     "scss-types": "typed-scss-modules src",
     "watch-scss-types": "yarn scss-types --watch"
