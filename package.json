@@ -18,11 +18,11 @@
     "watch-scss-types": "yarn scss-types --watch"
   },
   "dependencies": {
-    "@types/node": "^20.10.5",
-    "@types/react": "^18.2.45",
+    "@types/node": "^20.11.16",
+    "@types/react": "^18.2.52",
     "@types/react-dom": "^18.2.18",
-    "@typescript-eslint/eslint-plugin": "^6.15.0",
-    "@typescript-eslint/parser": "^6.15.0",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
     "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
@@ -32,18 +32,18 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "json5": "^2.2.3",
-    "prettier": "3.1.1",
+    "prettier": "3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sass": "^1.69.5",
-    "sort-package-json": "^2.6.0",
+    "sass": "^1.70.0",
+    "sort-package-json": "^2.7.0",
     "typed-scss-modules": "^8.0.0",
     "typescript": "^5.3.3",
-    "vite": "^5.0.10"
+    "vite": "^5.0.12"
   },
   "devDependencies": {
     "husky": "^9.0.10",
-    "lint-staged": "^15.2.0"
+    "lint-staged": "^15.2.1"
   },
   "packageManager": "yarn@4.1.0"
 }
