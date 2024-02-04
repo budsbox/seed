@@ -3,6 +3,8 @@ import process from 'node:process';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 
+import { createImporter } from './build/json-to-sass.mjs';
+
 const { env } = process;
 const isProd = env.NODE_ENV === 'production';
 
@@ -12,6 +14,11 @@ export default defineConfig({
     modules: {
       localsConvention: 'camelCaseOnly',
       generateScopedName: isProd ? '[hash:hex]' : '[path][name]__[local]',
+    },
+    preprocessorOptions: {
+      scss: {
+        importer: [createImporter()],
+      },
     },
   },
   plugins: [react()],
