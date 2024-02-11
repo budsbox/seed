@@ -1,9 +1,8 @@
 import process from 'node:process';
 
+import { createImporter } from '@seed/build/json-to-sass.mjs';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
-
-import { createImporter } from './build/json-to-sass.mjs';
 
 const { env } = process;
 const isProd = env.NODE_ENV === 'production';

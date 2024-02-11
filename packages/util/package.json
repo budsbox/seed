@@ -1,0 +1,15 @@
+{
+  "name": "@seed/util",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./component": "./src/component.ts",
+    "./object": "./src/object.ts",
+    "./type-guards": "./src/type-guards.ts"
+  },
+  "dependencies": {
+    "@seed/root": "workspace:^",
+    "@seed/types": "workspace:^"
+  },
+  "packageManager": "yarn@4.1.0"
+}

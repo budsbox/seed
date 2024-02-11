@@ -1,0 +1,19 @@
+{
+  "name": "@seed/const",
+  "version": "0.1.0",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/budsbox/seed.git"
+  },
+  "type": "module",
+  "exports": {
+    "types": {
+      "colors": "./colors/index.ts"
+    }
+  },
+  "main": "index.js",
+  "dependencies": {
+    "@seed/root": "workspace:^"
+  }
+}

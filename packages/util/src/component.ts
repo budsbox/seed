@@ -1,7 +1,7 @@
-import type { Maybe } from './types';
+import type { Maybe } from '@seed/types';
 
-import { isNotNil, isObject, isTrue } from './guards';
 import { filterBy } from './object';
+import { isNotNil, isObject, isTrue } from './type-guards';
 
 type ClassNameKey = string | number;
 

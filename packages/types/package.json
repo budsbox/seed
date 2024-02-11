@@ -1,0 +1,12 @@
+{
+  "name": "@seed/types",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./es.d.ts": "./src/es.d.ts"
+  },
+  "dependencies": {
+    "@seed/root": "workspace:^"
+  },
+  "packageManager": "yarn@4.1.0"
+}

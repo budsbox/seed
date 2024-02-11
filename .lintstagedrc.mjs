@@ -16,7 +16,12 @@ const defaultPrettierExts = Array.from(
 ).filter((ext) => !excludeFromDefaultPrettier.has(ext));
 
 export default {
-  'package.json': ['sort-package-json', prettier],
+  'package.json': [
+    () => 'yarn constraints',
+    () => 'yarn install --immutable --immutable-cache',
+    'sort-package-json',
+    prettier,
+  ],
   [`*.{${eslintedExts.join()}}`]: ['eslint --quiet', prettier],
   [`*.{${defaultPrettierExts.join()}},!(package).json`]: prettier,
 };

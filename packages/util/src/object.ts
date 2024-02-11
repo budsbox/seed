@@ -1,6 +1,12 @@
-import type { Def, FilteredByType, Key, Value, WithoutNilProps } from './types';
+import type {
+  Def,
+  FilteredByType,
+  Key,
+  Value,
+  WithoutNilProps,
+} from '@seed/types';
 
-import { isNotNil } from './guards';
+import { isNotNil } from './type-guards';
 
 export function filterBy<T, K extends string, R extends Def<T>>(
   value: Partial<Record<K, T>>,

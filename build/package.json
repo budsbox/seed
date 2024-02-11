@@ -1,0 +1,14 @@
+{
+  "name": "@seed/build",
+  "type": "module",
+  "exports": {
+    "./json-to-sass.mjs": {
+      "import": "./src/json-to-sass.mjs",
+      "types": "./src/json-to-sass.mjs.d.ts"
+    }
+  },
+  "dependencies": {
+    "@seed/root": "workspace:^"
+  },
+  "packageManager": "yarn@4.1.0"
+}

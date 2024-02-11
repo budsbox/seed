@@ -1,4 +1,4 @@
-import type { Def, Nil, Sure, Undef } from './types';
+import type { Def, Nil, Sure, Undef } from '@seed/types';
 
 export function isUndef(value: unknown): value is Undef {
   return value === undefined;

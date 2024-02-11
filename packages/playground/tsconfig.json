@@ -1,0 +1,8 @@
+{
+  "extends": "@seed/root/tsconfig.json",
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "compilerOptions": {
+    "types": ["@seed/types/es.d.ts"],
+  },
+}

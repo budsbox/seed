@@ -1,15 +1,8 @@
-const fs = require('fs');
-const path = require('path');
-const { parse } = require('json5');
+const { globSync } = require('glob');
 
-const tsconfig = parse(
-  fs.readFileSync(require.resolve('./tsconfig.json'), { encoding: 'utf-8' }),
-);
-
-const projects = [
-  path.join(__dirname, 'tsconfig.json'),
-  ...tsconfig.references.map((ref) => path.join(__dirname, ref.path)),
-];
+const projects = globSync(['**/{tsconfig.json,tsconfig.*.json}'], {
+  absolute: true,
+});
 
 const esmExtensions = ['*.mjs', '*.ts', '*.tsx'];
 
@@ -117,7 +110,7 @@ module.exports = {
 
     {
       // lint files for browser's runtime
-      files: esmExtensions.map((ext) => `src/**/${ext}`),
+      files: esmExtensions.map((ext) => `packages/**/${ext}`),
       env: { browser: true, node: false },
       settings: { react: { version: 'detect', linkComponents: ['Link'] } },
       plugins: ['react', 'react-hooks', 'react-refresh'],

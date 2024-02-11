@@ -1,0 +1,7 @@
+{
+  "extends": "@seed/root/tsconfig.json",
+  "include": ["src"],
+  "compilerOptions": {
+    "types": ["@seed/types/es.d.ts"],
+  },
+}

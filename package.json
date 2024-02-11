@@ -1,20 +1,31 @@
 {
-  "name": "seed",
-  "version": "0.0.0",
+  "name": "@seed/root",
+  "version": "0.1.0",
   "private": true,
   "sideEffects": [
     "./**/*.scss"
   ],
   "type": "module",
+  "exports": {
+    "./tsconfig.json": "./tsconfig.json",
+    "./tsconfig.node.json": "./tsconfig.node.json"
+  },
+  "workspaces": [
+    "./build",
+    "./packages/*"
+  ],
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
     "eslint": "eslint --quiet .",
     "format": "yarn format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"package.json\"",
+    "lint-staged": "lint-staged",
+    "package:serve": "cd $INIT_CWD && vite",
+    "playground": "yarn workspace @seed/playground package:serve",
     "prepare": "husky",
     "preview": "vite preview",
-    "scss-types": "typed-scss-modules src",
+    "scss-types": "typed-scss-modules packages",
     "watch-scss-types": "yarn scss-types --watch"
   },
   "dependencies": {
@@ -24,6 +35,7 @@
     "@typescript-eslint/eslint-plugin": "^6.20.0",
     "@typescript-eslint/parser": "^6.20.0",
     "@vitejs/plugin-react": "^4.2.1",
+    "@yarnpkg/types": "^4.0.0",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.6.1",
@@ -31,7 +43,7 @@
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
-    "json5": "^2.2.3",
+    "glob": "^10.3.10",
     "prettier": "3.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

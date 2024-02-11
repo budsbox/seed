@@ -51,11 +51,12 @@ export type Key<T = any> =
   : T extends object ? keyof T
   : never;
 
-export type Value<T = object, K extends Key = Key<T>> = T extends object ?
-  K extends keyof T ?
-    T[K]
-  : never
-: never;
+export type Value<T = object, K extends Key = Key<T>> =
+  T extends object ?
+    K extends keyof T ?
+      T[K]
+    : never
+  : never;
 
 export type WithoutNeverProps<T extends object> = Infer<
   Pick<
