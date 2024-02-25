@@ -4,34 +4,21 @@ Just to fill a space:
 
 [Zen of Python](https://peps.python.org/pep-0020/#the-zen-of-python)
 
-## To start development
+## Prepare environment
 
-First,
+1. Install [nvm](https://github.com/nvm-sh/nvm)
 
+2. Install node.js and dependencies
 ```shell
 nvm use && yarn
 ```
 
-After that, if you use **Webstorm**, you can use ready-to-go configuration "start",
-or else
-
+### Types for .scss files
+Use it to make types for CSS Modules
 ```shell
-yarn watch-scss-types
+yarn watch-scss-types # auto-rebuild on changes
+yarn scss-types # One-run command
 ```
-
-and in a different process
-
-```shell
-yarn dev
-```
-
-## Port
-
-```
-localhost:5024 #default
-```
-
-If you want to change it just create `.env` file with `PORT=<number>`
 
 # Vite template: React + TypeScript
 
