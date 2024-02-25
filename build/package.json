@@ -1,6 +1,12 @@
 {
   "name": "@seed/build",
   "type": "module",
+  "imports": {
+    "#json-to-sass.mjs": {
+      "import": "./src/json-to-sass.mjs",
+      "types": "./src/json-to-sass.mjs.d.ts"
+    }
+  },
   "exports": {
     "./json-to-sass.mjs": {
       "import": "./src/json-to-sass.mjs",

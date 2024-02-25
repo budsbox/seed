@@ -1,11 +1,19 @@
 {
   "name": "@seed/util",
   "type": "module",
+  "imports": {
+    "#@": "./src/index.ts",
+    "#component": "./src/component.ts",
+    "#object": "./src/object.ts",
+    "#type-guards": "./src/type-guards.ts",
+    "#tsconfig.json": "./tsconfig.json"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./component": "./src/component.ts",
     "./object": "./src/object.ts",
-    "./type-guards": "./src/type-guards.ts"
+    "./type-guards": "./src/type-guards.ts",
+    "./tsconfig.json": "./tsconfig.json"
   },
   "dependencies": {
     "@seed/root": "workspace:^",

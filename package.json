@@ -6,6 +6,10 @@
     "./**/*.scss"
   ],
   "type": "module",
+  "imports": {
+    "#tsconfig.json": "./tsconfig.json",
+    "#tsconfig.node.json": "./tsconfig.node.json"
+  },
   "exports": {
     "./tsconfig.json": "./tsconfig.json",
     "./tsconfig.node.json": "./tsconfig.node.json"
@@ -26,7 +30,8 @@
     "prepare": "husky",
     "preview": "vite preview",
     "scss-types": "typed-scss-modules packages",
-    "watch-scss-types": "yarn scss-types --watch"
+    "watch-scss-types": "yarn scss-types --watch",
+    "ws": "yarn workspace"
   },
   "dependencies": {
     "@types/node": "^20.11.16",

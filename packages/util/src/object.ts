@@ -6,7 +6,7 @@ import type {
   WithoutNilProps,
 } from '@seed/types';
 
-import { isNotNil } from './type-guards';
+import { isNotNil } from '#type-guards';
 
 export function filterBy<T, K extends string, R extends Def<T>>(
   value: Partial<Record<K, T>>,

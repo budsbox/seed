@@ -1,6 +1,10 @@
 {
   "name": "@seed/types",
   "type": "module",
+  "imports": {
+    "#@": "./src/index.ts",
+    "#es.d.ts": "./src/es.d.ts"
+  },
   "exports": {
     ".": "./src/index.ts",
     "./es.d.ts": "./src/es.d.ts"

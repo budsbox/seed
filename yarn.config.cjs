@@ -12,15 +12,34 @@ module.exports = defineConfig({
     const rootDependencies = Yarn.dependencies({ workspace: rootWs });
 
     for (const workspace of Yarn.workspaces()) {
-      if (workspace === rootWs) continue;
       workspace.set('type', 'module');
 
       if (!workspace.ident.startsWith(ns)) {
         workspace.set('name', `${ns}${workspace.ident}`);
       }
 
-      for (const { ident, range } of rootDependencies) {
-        Yarn.dependency({ workspace, ident })?.update(range);
+      const { exports } = workspace.manifest;
+      if (exports != null) {
+        const imports = Object.fromEntries(
+          Object.entries(exports).map(([submodule, path]) => [
+            submodule === '.' ? '#@' : submodule.replace('./', '#'),
+            path,
+          ]),
+        );
+
+        workspace.set('imports', imports);
+      }
+
+      if (workspace !== rootWs) {
+        for (const { ident, range } of rootDependencies) {
+          Yarn.dependency({ workspace, ident })?.update(range);
+        }
+      }
+
+      for (const dep of Yarn.dependencies({ workspace })) {
+        if (dep.ident.startsWith(ns)) {
+          dep.update('workspace:^');
+        }
       }
     }
   },

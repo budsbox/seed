@@ -7,6 +7,11 @@
     "url": "https://github.com/budsbox/seed.git"
   },
   "type": "module",
+  "imports": {
+    "types": {
+      "colors": "./colors/index.ts"
+    }
+  },
   "exports": {
     "types": {
       "colors": "./colors/index.ts"
