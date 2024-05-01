@@ -14,20 +14,27 @@ module.exports = defineConfig({
     for (const workspace of Yarn.workspaces()) {
       workspace.set('type', 'module');
 
-      if (!workspace.ident.startsWith(ns)) {
+      if (!workspace.ident.startsWith('@')) {
         workspace.set('name', `${ns}${workspace.ident}`);
       }
 
       const { exports } = workspace.manifest;
       if (exports != null) {
-        const imports = Object.fromEntries(
-          Object.entries(exports).map(([submodule, path]) => [
+        for (const [exportName, path] of Object.entries(exports)) {
+          const importName =
+            exportName === '.' ? '#@' : exportName.replace('./', '#');
+
+          workspace.set(['imports', importName], path);
+        }
+
+        Object.entries(exports)
+          .map(([submodule, path]) => [
             submodule === '.' ? '#@' : submodule.replace('./', '#'),
             path,
-          ]),
-        );
-
-        workspace.set('imports', imports);
+          ])
+          .forEach(([submodule, path]) => {
+            workspace.set(['imports', submodule], path);
+          });
       }
 
       if (workspace !== rootWs) {
