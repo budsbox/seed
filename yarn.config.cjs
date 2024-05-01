@@ -26,15 +26,6 @@ module.exports = defineConfig({
 
           workspace.set(['imports', importName], path);
         }
-
-        Object.entries(exports)
-          .map(([submodule, path]) => [
-            submodule === '.' ? '#@' : submodule.replace('./', '#'),
-            path,
-          ])
-          .forEach(([submodule, path]) => {
-            workspace.set(['imports', submodule], path);
-          });
       }
 
       if (workspace !== rootWs) {
