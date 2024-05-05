@@ -1,8 +1,8 @@
 {
-  "extends": "@seed/root/tsconfig.json",
+  "extends": "@budsbox/root/tsconfig.json",
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }],
   "compilerOptions": {
-    "types": ["@seed/types/es.d.ts"],
+    "types": ["@budsbox/types/es.d.ts"],
   },
 }

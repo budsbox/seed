@@ -1,4 +1,4 @@
 {
-  "extends": "@seed/root/tsconfig.node.json",
+  "extends": "@budsbox/root/tsconfig.node.json",
   "include": ["src"],
 }

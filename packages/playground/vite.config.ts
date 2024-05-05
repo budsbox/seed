@@ -1,6 +1,6 @@
 import process from 'node:process';
 
-import { createImporter } from '@seed/build/json-to-sass.mjs';
+import { createImporter } from '@budsbox/build/json-to-sass.mjs';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 

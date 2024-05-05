@@ -4,7 +4,7 @@ import type {
   Key,
   Value,
   WithoutNilProps,
-} from '@seed/types';
+} from '@budsbox/types';
 
 import { isNotNil } from '#type-guards';
 

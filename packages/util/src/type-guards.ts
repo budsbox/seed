@@ -1,4 +1,4 @@
-import type { Def, Nil, Sure, Undef } from '@seed/types';
+import type { Def, Nil, Sure, Undef } from '@budsbox/types';
 
 export function isUndef(value: unknown): value is Undef {
   return value === undefined;

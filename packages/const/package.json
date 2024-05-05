@@ -1,5 +1,5 @@
 {
-  "name": "@seed/const",
+  "name": "@budsbox/const",
   "version": "0.1.0",
   "private": true,
   "repository": {
@@ -19,6 +19,6 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@seed/root": "workspace:^"
+    "@budsbox/root": "workspace:^"
   }
 }

@@ -1,2 +1,2 @@
-# @seed/build
-Build tools for @seed monorepo
+# @budsbox/build
+Build tools for this monorepo

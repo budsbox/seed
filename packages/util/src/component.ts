@@ -1,4 +1,4 @@
-import type { Maybe } from '@seed/types';
+import type { Maybe } from '@budsbox/types';
 
 import { filterBy } from '#object';
 import { isNotNil, isObject, isTrue } from '#type-guards';

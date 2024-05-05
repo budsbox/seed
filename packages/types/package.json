@@ -1,5 +1,5 @@
 {
-  "name": "@seed/types",
+  "name": "@budsbox/types",
   "type": "module",
   "imports": {
     "#@": "./src/index.ts",
@@ -10,7 +10,7 @@
     "./es.d.ts": "./src/es.d.ts"
   },
   "dependencies": {
-    "@seed/root": "workspace:^"
+    "@budsbox/root": "workspace:^"
   },
   "packageManager": "yarn@4.1.0"
 }

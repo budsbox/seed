@@ -1,5 +1,5 @@
 {
-  "name": "@seed/build",
+  "name": "@budsbox/build",
   "type": "module",
   "imports": {
     "#json-to-sass.mjs": {
@@ -14,7 +14,7 @@
     }
   },
   "dependencies": {
-    "@seed/root": "workspace:^"
+    "@budsbox/root": "workspace:^"
   },
   "packageManager": "yarn@4.1.0"
 }

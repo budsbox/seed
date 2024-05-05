@@ -1,7 +1,7 @@
 import reactLogo from './assets/react.svg';
 import viteLogo from './assets/vite.svg';
 
-import { className } from '@seed/util/component';
+import { className } from '@budsbox/util/component';
 import { type FC, useState } from 'react';
 
 import classes from './App.module.scss';

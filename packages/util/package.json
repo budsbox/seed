@@ -1,5 +1,5 @@
 {
-  "name": "@seed/util",
+  "name": "@budsbox/util",
   "type": "module",
   "imports": {
     "#@": "./src/index.ts",
@@ -16,8 +16,8 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "dependencies": {
-    "@seed/root": "workspace:^",
-    "@seed/types": "workspace:^"
+    "@budsbox/root": "workspace:^",
+    "@budsbox/types": "workspace:^"
   },
   "packageManager": "yarn@4.1.0"
 }

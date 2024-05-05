@@ -1,5 +1,5 @@
 {
-  "name": "@seed/root",
+  "name": "@budsbox/root",
   "version": "0.1.0",
   "private": true,
   "license": "MIT",
@@ -26,8 +26,9 @@
     "format": "yarn format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"package.json\"",
     "lint-staged": "lint-staged",
-    "package:serve": "cd $INIT_CWD && vite",
-    "playground": "yarn workspace @seed/playground package:serve",
+    "package:build": "cd $INIT_CWD; tsc && vite build",
+    "package:serve": "cd $INIT_CWD; vite",
+    "playground": "yarn workspace @budsbox/playground package:serve",
     "prepare": "husky",
     "preview": "vite preview",
     "scss-types": "typed-scss-modules packages",
