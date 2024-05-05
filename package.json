@@ -2,6 +2,7 @@
   "name": "@seed/root",
   "version": "0.1.0",
   "private": true,
+  "license": "MIT",
   "sideEffects": [
     "./**/*.scss"
   ],
