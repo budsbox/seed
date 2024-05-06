@@ -281,6 +281,8 @@ __metadata:
   resolution: "@budsbox/build@workspace:build"
   dependencies:
     "@budsbox/root": "workspace:^"
+    "@vitejs/plugin-react": "npm:^4.2.1"
+    vite: "npm:^5.2.11"
   languageName: unknown
   linkType: soft
 

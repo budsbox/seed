@@ -28,6 +28,7 @@
     "lint-staged": "lint-staged",
     "package:build": "cd $INIT_CWD; tsc && vite build",
     "package:serve": "cd $INIT_CWD; vite",
+    "package:tscheck": "tsc --noEmit --project $INIT_CWD",
     "playground": "yarn workspace @budsbox/playground package:serve",
     "prepare": "husky",
     "preview": "vite preview",

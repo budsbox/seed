@@ -1,27 +1,19 @@
 import process from 'node:process';
 
-import { createImporter } from '@budsbox/build/json-to-sass.mjs';
-import react from '@vitejs/plugin-react';
-import { defineConfig } from 'vite';
+import { createViteConfig } from '@budsbox/build/vite-config-factory.mjs';
+import { type UserConfig, defineConfig } from 'vite';
 
-const { env } = process;
-const isProd = env.NODE_ENV === 'production';
+import packageJson from './package.json';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  css: {
-    modules: {
-      localsConvention: 'camelCaseOnly',
-      generateScopedName: isProd ? '[hash:hex]' : '[path][name]__[local]',
+export default defineConfig((viteEnv): UserConfig => {
+  return {
+    ...createViteConfig({
+      projectName: packageJson.name,
+      viteEnv,
+    }),
+    server: {
+      port: Number(process.env.PORT),
     },
-    preprocessorOptions: {
-      scss: {
-        importer: [createImporter()],
-      },
-    },
-  },
-  plugins: [react()],
-  server: {
-    port: Number(env.PORT),
-  },
+  };
 });

@@ -1,4 +1,9 @@
 {
   "extends": "@budsbox/root/tsconfig.node.json",
-  "include": ["src"],
+  "include": ["src", "src/*.mjs"],
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "allowArbitraryExtensions": true
+  }
 }
