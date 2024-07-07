@@ -51,7 +51,7 @@ const RAW_RUNTIME_STATE =
       [null, {\
         "packageLocation": "./",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.14.9"],\
+          ["@types/node", "npm:20.14.10"],\
           ["@types/react", "npm:18.3.3"],\
           ["@types/react-dom", "npm:18.3.0"],\
           ["@typescript-eslint/eslint-plugin", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:6.21.0"],\
@@ -65,7 +65,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:7.34.3"],\
           ["eslint-plugin-react-hooks", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.6.2"],\
           ["eslint-plugin-react-refresh", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.4.7"],\
-          ["glob", "npm:10.4.2"],\
+          ["glob", "npm:10.4.3"],\
           ["husky", "npm:9.0.11"],\
           ["lint-staged", "npm:15.2.7"],\
           ["prettier", "npm:3.2.5"],\
@@ -501,7 +501,7 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./",\
         "packageDependencies": [\
           ["@budsbox/root", "workspace:."],\
-          ["@types/node", "npm:20.14.9"],\
+          ["@types/node", "npm:20.14.10"],\
           ["@types/react", "npm:18.3.3"],\
           ["@types/react-dom", "npm:18.3.0"],\
           ["@typescript-eslint/eslint-plugin", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:6.21.0"],\
@@ -515,7 +515,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-plugin-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:7.34.3"],\
           ["eslint-plugin-react-hooks", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.6.2"],\
           ["eslint-plugin-react-refresh", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.4.7"],\
-          ["glob", "npm:10.4.2"],\
+          ["glob", "npm:10.4.3"],\
           ["husky", "npm:9.0.11"],\
           ["lint-staged", "npm:15.2.7"],\
           ["prettier", "npm:3.2.5"],\
@@ -1235,10 +1235,10 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@types/node", [\
-      ["npm:20.14.9", {\
-        "packageLocation": "./.yarn/cache/@types-node-npm-20.14.9-a4571e1932-911ffa444d.zip/node_modules/@types/node/",\
+      ["npm:20.14.10", {\
+        "packageLocation": "./.yarn/cache/@types-node-npm-20.14.10-5efcbc9009-0b06cff143.zip/node_modules/@types/node/",\
         "packageDependencies": [\
-          ["@types/node", "npm:20.14.9"],\
+          ["@types/node", "npm:20.14.10"],\
           ["undici-types", "npm:5.26.5"]\
         ],\
         "linkType": "HARD"\
@@ -3808,10 +3808,10 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "HARD"\
       }],\
-      ["npm:10.4.2", {\
-        "packageLocation": "./.yarn/cache/glob-npm-10.4.2-c8431e09a9-2c7296695f.zip/node_modules/glob/",\
+      ["npm:10.4.3", {\
+        "packageLocation": "./.yarn/cache/glob-npm-10.4.3-bf249cfb31-bea148e5da.zip/node_modules/glob/",\
         "packageDependencies": [\
-          ["glob", "npm:10.4.2"],\
+          ["glob", "npm:10.4.3"],\
           ["foreground-child", "npm:3.1.1"],\
           ["jackspeak", "npm:3.1.2"],\
           ["minimatch", "npm:9.0.4"],\
@@ -7032,7 +7032,7 @@ const RAW_RUNTIME_STATE =
           ["vite", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:5.3.3"],\
           ["@types/less", null],\
           ["@types/lightningcss", null],\
-          ["@types/node", "npm:20.14.9"],\
+          ["@types/node", "npm:20.14.10"],\
           ["@types/sass", null],\
           ["@types/stylus", null],\
           ["@types/sugarss", null],\
