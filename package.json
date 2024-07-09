@@ -1,6 +1,5 @@
 {
   "name": "@budsbox/root",
-  "version": "0.1.0",
   "private": true,
   "license": "MIT",
   "sideEffects": [
@@ -28,7 +27,8 @@
     "lint-staged": "lint-staged",
     "package:build": "cd $INIT_CWD; tsc && vite build",
     "package:serve": "cd $INIT_CWD; vite",
-    "package:tscheck": "tsc --noEmit --project $INIT_CWD",
+    "package:tsc": "cd $INIT_CWD; tsc --project $INIT_CWD",
+    "package:tscheck": "cd $INIT_CWD; tsc --project $INIT_CWD --noEmit",
     "playground": "yarn workspace @budsbox/playground package:serve",
     "prepare": "husky",
     "preview": "vite preview",
@@ -37,6 +37,8 @@
     "ws": "yarn workspace"
   },
   "dependencies": {
+    "@budsbox/sass-importers": "workspace:^",
+    "@budsbox/tsconfigs": "workspace:^",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
@@ -58,7 +60,7 @@
     "sass": "^1.77.6",
     "sort-package-json": "^2.10.0",
     "typed-scss-modules": "^8.0.1",
-    "typescript": "^5.5.3",
+    "typescript": "5.4.5",
     "vite": "^5.3.3"
   },
   "devDependencies": {

@@ -1,9 +1,9 @@
 import type { CLIOptions } from 'typed-scss-modules/dist/lib/core';
-import { createImporter } from './build/json-to-sass.mjs';
+import { createJsonImporter } from '@budsbox/sass-importers';
 
 export const config: Partial<CLIOptions> = {
   exportType: 'default',
   implementation: 'sass',
   updateStaleOnly: true,
-  importer: [createImporter()],
+  importer: [createJsonImporter()],
 };

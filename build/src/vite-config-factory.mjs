@@ -1,6 +1,9 @@
 import react from '@vitejs/plugin-react';
 
-import { createImporter, createVirtualImporter } from './json-to-sass.mjs';
+import {
+  createJsonImporter,
+  createVirtualImporter,
+} from '@budsbox/sass-importers';
 
 /** @type { import("./vite-config-factory.d.mjs.js").ViteConfigFactory } */
 export function createViteConfig({ viteEnv: { mode } }) {
@@ -14,7 +17,7 @@ export function createViteConfig({ viteEnv: { mode } }) {
       preprocessorOptions: {
         scss: {
           importer: [
-            createImporter(),
+            createJsonImporter(),
             createVirtualImporter('envs', { lol: 1 }),
           ],
         },

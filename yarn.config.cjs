@@ -4,6 +4,9 @@
 const { defineConfig } = require(`@yarnpkg/types`);
 const packageJson = require('./package.json');
 
+const sharedFields = new Set(['packageManager', 'type', 'license']);
+const forbiddenDependencies = new Set(['@budsbox/root']);
+
 module.exports = defineConfig({
   constraints: async ({ Yarn }) => {
     const rootIdent = packageJson.name;
@@ -12,7 +15,9 @@ module.exports = defineConfig({
     const rootDependencies = Yarn.dependencies({ workspace: rootWs });
 
     for (const workspace of Yarn.workspaces()) {
-      workspace.set('type', 'module');
+      for (const field of sharedFields) {
+        workspace.set(field, rootWs.manifest[field]);
+      }
 
       if (!workspace.ident.startsWith('@')) {
         workspace.set('name', `${ns}${workspace.ident}`);
@@ -35,7 +40,9 @@ module.exports = defineConfig({
       }
 
       for (const dep of Yarn.dependencies({ workspace })) {
-        if (dep.ident.startsWith(ns)) {
+        if (forbiddenDependencies.has(dep.ident)) {
+          dep.delete();
+        } else if (dep.ident.startsWith(ns)) {
           dep.update('workspace:^');
         }
       }

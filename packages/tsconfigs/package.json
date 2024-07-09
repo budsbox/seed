@@ -1,0 +1,17 @@
+{
+  "name": "@budsbox/tsconfigs",
+  "version": "1.0.0",
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#tsconfig.base.json": "./tsconfig.base.json",
+    "#tsconfig.node.json": "./tsconfig.node.json",
+    "#tsconfig.app.json": "./tsconfig.app.json"
+  },
+  "exports": {
+    "./tsconfig.app.json": "./tsconfig.app.json",
+    "./tsconfig.base.json": "./tsconfig.base.json",
+    "./tsconfig.node.json": "./tsconfig.node.json"
+  },
+  "packageManager": "yarn@4.3.1"
+}

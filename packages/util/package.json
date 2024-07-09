@@ -1,5 +1,6 @@
 {
   "name": "@budsbox/util",
+  "license": "MIT",
   "type": "module",
   "imports": {
     "#@": "./src/index.ts",
@@ -16,8 +17,10 @@
     "./tsconfig.json": "./tsconfig.json"
   },
   "dependencies": {
-    "@budsbox/root": "workspace:^",
     "@budsbox/types": "workspace:^"
   },
-  "packageManager": "yarn@4.1.0"
+  "devDependencies": {
+    "@budsbox/tsconfigs": "workspace:^"
+  },
+  "packageManager": "yarn@4.3.1"
 }

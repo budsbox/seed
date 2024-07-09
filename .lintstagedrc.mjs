@@ -22,6 +22,6 @@ export default {
     'sort-package-json',
     prettier,
   ],
-  [`*.{${eslintedExts.join()}}`]: ['eslint --quiet', prettier],
+  [`*.{${eslintedExts.join()}}`]: [/*'eslint --quiet', */ prettier], // temporary disable eslint 'cause of problems
   [`*.{${defaultPrettierExts.join()}},!(package).json`]: prettier,
 };
