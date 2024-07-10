@@ -1,0 +1,23 @@
+{
+  "name": "@budsbox/linting",
+  "license": "MIT",
+  "type": "module",
+  "imports": {
+    "#eslint": "./eslint.js"
+  },
+  "exports": {
+    "./eslint": "./eslint.js"
+  },
+  "dependencies": {
+    "@eslint/js": "^9.6.0",
+    "@types/eslint": "^8.56.10",
+    "eslint": "^9.6.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.8",
+    "globals": "^15.8.0",
+    "typescript-eslint": "^7.16.0"
+  },
+  "packageManager": "yarn@4.3.1"
+}
