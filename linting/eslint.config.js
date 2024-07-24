@@ -1,9 +1,10 @@
-import { globs, presets, withNested } from '#eslint';
+import { globalIgnores, presets } from '#eslint';
 
-export default [
-  ...presets.node,
+const config = [
+  { ignores: globalIgnores },
+  ...presets.node(),
   {
-    files: withNested(globs.js),
+    files: ['./src/eslint.ts'],
     rules: {
       'sort-keys': [
         'error',
@@ -13,3 +14,5 @@ export default [
     },
   },
 ];
+
+export default config;

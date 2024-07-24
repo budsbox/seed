@@ -1,9 +1,9 @@
 import type {
   Def,
-  FilteredByType,
+  FilterByType,
   Key,
   Value,
-  WithoutNilProps,
+  OmitNilProps,
 } from '@budsbox/types';
 
 import { isNotNil } from '#type-guards';
@@ -11,12 +11,12 @@ import { isNotNil } from '#type-guards';
 export function filterBy<T, K extends string, R extends Def<T>>(
   value: Partial<Record<K, T>>,
   test: (value: T) => value is R,
-): FilteredByType<Record<K, T>, R>;
+): FilterByType<Record<K, T>, R>;
 export function filterBy<T, K extends string, R extends T>(
   // eslint-disable-next-line @typescript-eslint/unified-signatures
   value: Partial<Record<K, T>> | Record<K, T>,
   test: (value: T) => value is R,
-): FilteredByType<Record<K, T>, R>;
+): FilterByType<Record<K, T>, R>;
 export function filterBy<V extends object>(
   obj: V,
   // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
@@ -46,7 +46,7 @@ export function filterBy<V extends object>(
 
 export function filterOutNilProps<T extends object>(
   object: T,
-): WithoutNilProps<T> {
+): OmitNilProps<T> {
   return filterBy(object, isNotNil) as never;
 }
 

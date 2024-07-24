@@ -58,7 +58,23 @@ export type Value<T = object, K extends Key = Key<T>> =
     : never
   : never;
 
-export type WithoutNeverProps<T extends object> = Infer<
+export type EmptyRecord = Record<string, never>;
+
+export type OptionalKeys<
+  T extends Record<keyof any, unknown>,
+  Keys extends keyof T,
+> = InferObj<Omit<T, Keys> & Partial<Pick<T, Keys>>>;
+
+export type RequiredKeys<T extends object, Keys extends keyof T> = Infer<
+  Omit<T, Keys> & Required<Pick<T, Keys>>
+>;
+
+export type Override<
+  Source extends object,
+  Values extends { [K in keyof Source]: unknown },
+> = Mixin<Source, Values>;
+
+export type OmitNeverProps<T extends object> = Infer<
   Pick<
     T,
     {
@@ -67,14 +83,20 @@ export type WithoutNeverProps<T extends object> = Infer<
   >
 >;
 
-export type WithoutNilProps<T extends object> = WithoutNeverProps<{
+export type OmitNilProps<T extends object> = OmitNeverProps<{
   [K in keyof T]: T[K] extends Nil ? never
   : T[K] extends Maybe<infer U> ? U
   : T[K];
 }>;
 
-export type FilteredByType<T extends object, U> = Infer<
-  WithoutNeverProps<{
+export type OmitByType<T extends object, U> = Infer<
+  OmitNeverProps<{
+    [K in keyof T]: T[K] extends U ? never : T[K];
+  }>
+>;
+
+export type FilterByType<T extends object, U> = Infer<
+  OmitNeverProps<{
     [K in keyof T]: T[K] extends U ? T[K] : never;
   }>
 >;

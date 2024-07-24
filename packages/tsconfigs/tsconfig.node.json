@@ -5,7 +5,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "allowSyntheticDefaultImports": true,
-    "allowJs": true
+    "allowJs": true,
+    "types": ["@budsbox/types/es.d.ts", "@types/node"]
   },
   "include": ["vite.config.ts", "typed-scss-modules.config.ts"]
 }
