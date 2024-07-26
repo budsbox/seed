@@ -13,5 +13,9 @@
     "./tsconfig.base.json": "./tsconfig.base.json",
     "./tsconfig.node.json": "./tsconfig.node.json"
   },
+  "peerDependencies": {
+    "@budsbox/types": "workspace:^",
+    "@types/node": "^20.14.10"
+  },
   "packageManager": "yarn@4.3.1"
 }

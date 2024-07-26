@@ -26,14 +26,10 @@
     "prepack": "yarn package:ts:build --force"
   },
   "dependencies": {
-    "@budsbox/tsconfigs": "workspace:^",
-    "@budsbox/types": "workspace:^",
     "@eslint/js": "^9.6.0",
     "@types/eslint": "^8.56.10",
-    "@types/node": "^20.14.10",
     "@typescript-eslint/parser": "^7.17.0",
     "eslint": "^8.0.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.34.3",
     "eslint-plugin-react-hooks": "^4.6.2",
@@ -44,7 +40,14 @@
     "typescript-eslint": "^7.16.0"
   },
   "devDependencies": {
-    "@types/micromatch": "^4"
+    "@budsbox/tsconfigs": "workspace:^",
+    "@budsbox/types": "workspace:^",
+    "@types/micromatch": "^4",
+    "@types/node": "^20.14.10",
+    "eslint-import-resolver-typescript": "^3.6.1"
+  },
+  "peerDependencies": {
+    "eslint-import-resolver-typescript": "^3.6.1"
   },
   "packageManager": "yarn@4.3.1"
 }

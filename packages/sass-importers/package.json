@@ -16,10 +16,11 @@
     }
   },
   "scripts": {
-    "prepack": "yarn package:tsc"
+    "prepack": "yarn package:ts:build"
   },
   "devDependencies": {
     "@budsbox/tsconfigs": "workspace:^",
+    "@budsbox/types": "workspace:^",
     "@types/node": "^20.14.10"
   },
   "packageManager": "yarn@4.3.1"

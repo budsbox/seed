@@ -20,7 +20,9 @@
   },
   "main": "index.js",
   "devDependencies": {
-    "@budsbox/tsconfigs": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^",
+    "@budsbox/types": "workspace:^",
+    "@types/node": "^20.14.10"
   },
   "packageManager": "yarn@4.3.1"
 }

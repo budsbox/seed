@@ -325,6 +325,8 @@ __metadata:
   resolution: "@budsbox/const@workspace:packages/const"
   dependencies:
     "@budsbox/tsconfigs": "workspace:^"
+    "@budsbox/types": "workspace:^"
+    "@types/node": "npm:^20.14.10"
   languageName: unknown
   linkType: soft
 
@@ -349,6 +351,8 @@ __metadata:
     micromatch: "npm:^4.0.7"
     typescript: "npm:5.5.3"
     typescript-eslint: "npm:^7.16.0"
+  peerDependencies:
+    eslint-import-resolver-typescript: ^3.6.1
   languageName: unknown
   linkType: soft
 
@@ -365,9 +369,9 @@ __metadata:
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
     "@typescript-eslint/eslint-plugin": "npm:^7.16.0"
-    "@typescript-eslint/parser": "npm:^7.16.0"
     "@vitejs/plugin-react": "npm:^4.3.1"
     eslint: "npm:^8.0.0"
+    eslint-import-resolver-typescript: "npm:^3.6.1"
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-react-refresh: "npm:^0.4.8"
     react: "npm:^18.3.1"
@@ -384,6 +388,7 @@ __metadata:
     "@budsbox/linting": "workspace:^"
     "@budsbox/sass-importers": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
+    "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.6.0"
     "@types/eslint": "npm:^8.56.10"
     "@types/node": "npm:^20.14.10"
@@ -417,6 +422,7 @@ __metadata:
   resolution: "@budsbox/sass-importers@workspace:packages/sass-importers"
   dependencies:
     "@budsbox/tsconfigs": "workspace:^"
+    "@budsbox/types": "workspace:^"
     "@types/node": "npm:^20.14.10"
   languageName: unknown
   linkType: soft
@@ -424,6 +430,9 @@ __metadata:
 "@budsbox/tsconfigs@workspace:^, @budsbox/tsconfigs@workspace:packages/tsconfigs":
   version: 0.0.0-use.local
   resolution: "@budsbox/tsconfigs@workspace:packages/tsconfigs"
+  peerDependencies:
+    "@budsbox/types": "workspace:^"
+    "@types/node": ^20.14.10
   languageName: unknown
   linkType: soft
 
@@ -432,6 +441,7 @@ __metadata:
   resolution: "@budsbox/types@workspace:packages/types"
   dependencies:
     "@budsbox/tsconfigs": "workspace:^"
+    "@types/node": "npm:^20.14.10"
   languageName: unknown
   linkType: soft
 
@@ -441,6 +451,7 @@ __metadata:
   dependencies:
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
+    "@types/node": "npm:^20.14.10"
   languageName: unknown
   linkType: soft
 
@@ -1109,7 +1120,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:7.16.0, @typescript-eslint/parser@npm:^7.16.0":
+"@typescript-eslint/parser@npm:7.16.0":
   version: 7.16.0
   resolution: "@typescript-eslint/parser@npm:7.16.0"
   dependencies:

@@ -22,7 +22,6 @@
   "scripts": {
     "build": "tsc && vite build",
     "dev": "vite",
-    "eslint": "eslint --quiet .",
     "format": "yarn format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"package.json\"",
     "lint-staged": "lint-staged",
@@ -43,6 +42,7 @@
     "@budsbox/linting": "workspace:^",
     "@budsbox/sass-importers": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
+    "@budsbox/types": "workspace:^",
     "@eslint/js": "^9.6.0",
     "@types/eslint": "^8.56.10",
     "@types/node": "^20.14.10",
