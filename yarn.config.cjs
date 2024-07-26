@@ -1,7 +1,7 @@
 // @ts-check
 
 /** @type {import('@yarnpkg/types')} */
-const { defineConfig } = require(`@yarnpkg/types`);
+const { defineConfig } = require('@yarnpkg/types');
 const packageJson = require('./package.json');
 
 const sharedFields = new Set(['packageManager', 'type', 'license']);

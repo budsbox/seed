@@ -1,9 +1,5 @@
-import { presets, globs, withNested } from '@budsbox/linting/eslint';
+import { globalIgnores, presets } from '@budsbox/linting/eslint';
 
-export default [
-  ...presets.node,
-  {
-    files: withNested(globs.all),
-    ignorePatterns: ['packages'],
-  },
-];
+const config = [{ ignores: [...globalIgnores, '*/'] }, ...presets.node()];
+
+export default config;

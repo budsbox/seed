@@ -22,19 +22,19 @@ import { type MatchOptions, match, queryExtensions } from '#match';
 
 const configFactories = {
   common: (options: ConfigFactoryDefaultOptions): Linter.FlatConfig[] => {
-    const { ecmaVersion, sourceType } = options;
+    const { ecmaVersion, sourceType, ...restOptions } = options;
 
     return [
       {
         name: '@budsbox/linting/common',
 
         files: match({
-          ...options,
+          ...restOptions, // to exclude sourceType
           lang: 'all',
 
           jsx: true,
         }),
-        languageOptions: { ecmaVersion, sourceType },
+        languageOptions: { ecmaVersion },
         linterOptions: {
           reportUnusedDisableDirectives: 'error',
         },
@@ -473,12 +473,15 @@ function extractCommonOptions<T extends ConfigFactoryCommonOptions>(
 }
 
 export const presets = {
-  node(
-    options: PresetOptions<'common' | 'ts' | 'node' | 'import'> = {},
-  ): Linter.FlatConfig[] {
+  node({
+    ecmaVersion = 2022,
+    ...options
+  }: PresetOptions<
+    'common' | 'ts' | 'node' | 'import'
+  > = {}): Linter.FlatConfig[] {
     const configs = [
       ...(['common', 'import', 'node', 'ts'] as const).flatMap((name) =>
-        createConfigFromPresetOptions(name, options),
+        createConfigFromPresetOptions(name, { ...options, ecmaVersion }),
       ),
     ];
 

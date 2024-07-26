@@ -1,6 +1,7 @@
 {
   "extends": "@budsbox/tsconfigs/tsconfig.node.json",
   "include": ["eslint.config.js"],
+  "exclude": ["dist"],
   "references": [
     {
       "path": "./tsconfig.main.json"
@@ -9,6 +10,7 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
-    "noEmit": true
+    "noEmit": true,
+    "skipLibCheck": true
   }
 }
