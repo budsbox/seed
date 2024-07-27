@@ -108,6 +108,7 @@ const configFactories = {
   ],
 
   import: (options: ConfigFactoryDefaultOptions): Linter.FlatConfig[] => {
+    const configBaseName = '@budsbox/linting/import';
     const extensions = queryExtensions({
       ...options,
       lang: 'all',
@@ -118,7 +119,7 @@ const configFactories = {
 
     return [
       {
-        name: '@budsbox/linting/import',
+        name: configBaseName,
 
         files: match({
           ...options,
@@ -201,6 +202,32 @@ const configFactories = {
           ],
         },
       },
+
+      {
+        name: `${configBaseName}/ts`,
+
+        files: match({
+          ...options,
+          lang: 'ts',
+
+          jsx: true,
+          targetSourceType: 'module',
+        }),
+        rules: {
+          'import/extensions': [
+            'error',
+            'ignorePackages',
+            queryExtensions({
+              lang: 'ts',
+
+              jsx: true,
+            }).reduce<Record<string, string>>(
+              (acc, ext) => ({ ...acc, [ext]: 'never' }),
+              {},
+            ),
+          ],
+        },
+      },
     ];
   },
 
@@ -223,6 +250,7 @@ const configFactories = {
 
       rules: {
         ...eslintPluginReact.configs.recommended.rules,
+        ...eslintPluginReact.configs['jsx-runtime'].rules,
         ...eslintPluginReactHooks.configs.recommended.rules,
 
         'no-alert': 'error',
@@ -512,7 +540,7 @@ export const globalIgnores = [
   '.husky/',
   '.idea/',
   '.pnp.*',
-  '*.scss.d.ts',
+  '**/*.scss.d.ts',
 ] as const satisfies Readonly<Def<Linter.FlatConfig['ignores']>>;
 
 // export type PresetOptions<Name extends ConfigFactoryName>

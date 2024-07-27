@@ -20,7 +20,7 @@ declare module 'eslint-plugin-react' {
   import type { ESLint, Linter } from 'eslint';
 
   const plugin: ESLint.Plugin & {
-    configs: Record<'recommended', Linter.FlatConfig>;
+    configs: Record<'recommended' | 'jsx-runtime', Linter.FlatConfig>;
   };
   export default plugin;
 }
