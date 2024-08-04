@@ -4,15 +4,18 @@
   "type": "module",
   "imports": {
     "#@": "./src/index.ts",
-    "#es.d.ts": "./src/es.d.ts"
+    "#es.d.ts": "./src/es.d.ts",
+    "#package.json": "./package.json"
   },
   "exports": {
     ".": "./src/index.ts",
-    "./es.d.ts": "./src/es.d.ts"
+    "./es.d.ts": "./src/es.d.ts",
+    "./package.json": "./package.json"
   },
   "devDependencies": {
     "@budsbox/tsconfigs": "workspace:^",
-    "@types/node": "^20.14.10"
+    "@types/node": "^20.14.10",
+    "tslib": "^2.6.3"
   },
   "packageManager": "yarn@4.3.1"
 }

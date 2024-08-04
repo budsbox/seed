@@ -1,0 +1,46 @@
+//
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "include": ["${configDir}/src"],
+  "compilerOptions": {
+    // Projects
+    "composite": true,
+
+    // Emit
+    "declarationMap": true,
+    "importHelpers": true,
+    "outDir": "${configDir}/dist",
+
+    // Language and Environment
+    "target": "ES2020",
+    "lib": ["ES2020"],
+    "useDefineForClassFields": true,
+
+    // Modules
+    "module": "ES2022",
+    "moduleResolution": "Bundler",
+    "rootDir": "${configDir}/src",
+    "resolveJsonModule": true,
+    "types": ["@budsbox/types/es.d.ts"],
+
+    // Interop Constraints,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "isolatedDeclarations": true,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+
+    "skipLibCheck": true,
+
+    // Linting
+    "strict": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  }
+}

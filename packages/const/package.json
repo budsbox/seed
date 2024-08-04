@@ -11,18 +11,21 @@
   "imports": {
     "types": {
       "colors": "./colors/index.ts"
-    }
+    },
+    "#package.json": "./package.json"
   },
   "exports": {
     "types": {
       "colors": "./colors/index.ts"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "main": "index.js",
   "devDependencies": {
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
-    "@types/node": "^20.14.10"
+    "@types/node": "^20.14.10",
+    "tslib": "^2.6.3"
   },
   "packageManager": "yarn@4.3.1"
 }

@@ -535,13 +535,13 @@ const configFactoryDefaultOptions = {
   sourceType: 'module',
 } as const satisfies ConfigFactoryDefaultOptions;
 
-export const globalIgnores = [
+export const globalIgnores: Readonly<Def<Linter.FlatConfig['ignores']>> = [
   '**/dist/',
   '.husky/',
   '.idea/',
   '.pnp.*',
   '**/*.scss.d.ts',
-] as const satisfies Readonly<Def<Linter.FlatConfig['ignores']>>;
+];
 
 // export type PresetOptions<Name extends ConfigFactoryName>
 interface ConfigFactoryCommonOptions

@@ -1,8 +1,4 @@
 {
-  "extends": "@budsbox/tsconfigs/tsconfig.app.json",
-  "include": ["src"],
-  "references": [{ "path": "./tsconfig.node.json" }],
-  "compilerOptions": {
-    "types": ["@budsbox/types/es.d.ts"]
-  }
+  "extends": "@budsbox/tsconfigs/tsconfig.client.json",
+  "references": [{ "path": "./tsconfig.node.json" }]
 }

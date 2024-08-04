@@ -7,16 +7,15 @@
   ],
   "type": "module",
   "imports": {
-    "#tsconfig.json": "./tsconfig.json",
-    "#tsconfig.node.json": "./tsconfig.node.json"
+    "#package.json": "./package.json"
   },
   "exports": {
-    "./tsconfig.json": "./tsconfig.json",
-    "./tsconfig.node.json": "./tsconfig.node.json"
+    "./package.json": "./package.json"
   },
   "workspaces": [
     "./build",
     "./linting",
+    "./tsconfigs",
     "./packages/*"
   ],
   "scripts": {
@@ -63,6 +62,7 @@
     "react-dom": "^18.3.1",
     "sass": "^1.77.6",
     "sort-package-json": "^2.10.0",
+    "tslib": "^2.6.3",
     "typed-scss-modules": "^8.0.1",
     "typescript": "5.5.3",
     "vite": "^5.3.3"

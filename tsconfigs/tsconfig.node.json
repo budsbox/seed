@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "Node16",
+    "moduleResolution": "Node16",
+    "lib": ["es2023"],
+    "target": "ES2022",
+    "types": ["@budsbox/types/es.d.ts", "@types/node"]
+  }
+}

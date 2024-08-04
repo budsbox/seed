@@ -1,7 +1,7 @@
 {
+  "include": [],
   "references": [
-    { "path": "./tsconfig.eslint.json" },
+    { "path": "./tsconfig.tools.json" },
     { "path": "./tsconfig.main.json" }
-  ],
-  "include": []
+  ]
 }

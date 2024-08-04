@@ -10,7 +10,8 @@
     "#match": {
       "import": "./dist/match.js",
       "types": "./dist/match.d.ts"
-    }
+    },
+    "#package.json": "./package.json"
   },
   "exports": {
     "./eslint": {
@@ -20,7 +21,8 @@
     "./match": {
       "import": "./dist/match.js",
       "types": "./dist/match.d.ts"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "scripts": {
     "prepack": "yarn package:ts:build --force"
@@ -44,7 +46,8 @@
     "@budsbox/types": "workspace:^",
     "@types/micromatch": "^4",
     "@types/node": "^20.14.10",
-    "eslint-import-resolver-typescript": "^3.6.1"
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "tslib": "^2.6.3"
   },
   "peerDependencies": {
     "eslint-import-resolver-typescript": "^3.6.1"

@@ -2,7 +2,7 @@
 
 /** @type {import('@yarnpkg/types')} */
 const { defineConfig } = require('@yarnpkg/types');
-const packageJson = require('./package.json');
+const packageJson = require('#package.json');
 
 const sharedFields = new Set(['packageManager', 'type', 'license']);
 const prohibitedDependencies = new Set([packageJson.name]);
@@ -10,7 +10,7 @@ const prohibitedDependencies = new Set([packageJson.name]);
 /**
  * @typedef {Object} ConstraintOptions
  * @prop {import('@yarnpkg/types').Yarn.Constraints.Workspace} root - root workspace
- * @prop {string} ns — monorepo namespace
+ * @prop {string} ns — monorepo's default namespace (includes leading "/")
  * @prop {import('@yarnpkg/types').Yarn.Constraints.Yarn} Yarn — Yarn object
  *
  * @typedef {(options: ConstraintOptions) => void | Promise<void>} Constraint
@@ -28,6 +28,7 @@ module.exports = defineConfig({
     [
       constraintIdent,
       constraintSharedFields,
+      constraintExports,
       constraintImports,
       constraintRootDependencies,
       constraintPeerDependencies,
@@ -51,6 +52,13 @@ const constraintSharedFields = ({ Yarn, root }) => {
     for (const field of sharedFields) {
       workspace.set(field, root.manifest[field]);
     }
+  }
+};
+
+/** @type {Constraint} */
+const constraintExports = ({ Yarn }) => {
+  for (const workspace of Yarn.workspaces()) {
+    workspace.set(['exports', './package.json'], './package.json');
   }
 };
 
