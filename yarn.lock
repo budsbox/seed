@@ -331,6 +331,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@budsbox/iso-utils@workspace:^, @budsbox/iso-utils@workspace:packages/iso-utils":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/iso-utils@workspace:packages/iso-utils"
+  dependencies:
+    "@budsbox/linting": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@budsbox/types": "workspace:^"
+    "@types/node": "npm:^20.14.10"
+    eslint-import-resolver-typescript: "npm:^3.6.1"
+    tslib: "npm:^2.6.3"
+  languageName: unknown
+  linkType: soft
+
 "@budsbox/linting@workspace:^, @budsbox/linting@workspace:linting":
   version: 0.0.0-use.local
   resolution: "@budsbox/linting@workspace:linting"
@@ -363,10 +376,10 @@ __metadata:
   resolution: "@budsbox/playground@workspace:packages/playground"
   dependencies:
     "@budsbox/build": "workspace:^"
+    "@budsbox/iso-utils": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@budsbox/util": "workspace:^"
     "@types/node": "npm:^20.14.10"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
@@ -447,19 +460,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/types@workspace:packages/types"
   dependencies:
-    "@budsbox/tsconfigs": "workspace:^"
-    "@types/node": "npm:^20.14.10"
-    tslib: "npm:^2.6.3"
-  languageName: unknown
-  linkType: soft
-
-"@budsbox/util@workspace:^, @budsbox/util@workspace:packages/util":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/util@workspace:packages/util"
-  dependencies:
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
     "@types/node": "npm:^20.14.10"
     eslint-import-resolver-typescript: "npm:^3.6.1"
     tslib: "npm:^2.6.3"

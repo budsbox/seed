@@ -10,7 +10,7 @@ const excludeFromDefaultPrettier = new Set([
 const defaultPrettierExts = Array.from(
   new Set( // deduplicate
     (await getSupportInfo()).languages
-      .flatMap(({ extensions }) => extensions)
+      .flatMap(({ extensions }) => extensions ?? [])
       .map((ext) => ext.replace('.', '')), // remove leading dot
   ),
 ).filter((ext) => !excludeFromDefaultPrettier.has(ext));

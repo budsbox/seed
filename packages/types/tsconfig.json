@@ -1,4 +1,7 @@
 {
-  "extends": "@budsbox/tsconfigs/tsconfig.app.json",
-  "include": ["src"]
+  "include": [],
+  "references": [
+    { "path": "tsconfig.tools.json" },
+    { "path": "tsconfig.lib.json" }
+  ]
 }

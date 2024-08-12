@@ -2,7 +2,12 @@
   "name": "@budsbox/playground",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
   "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
     "#package.json": "./package.json"
@@ -16,10 +21,10 @@
   },
   "devDependencies": {
     "@budsbox/build": "workspace:^",
+    "@budsbox/iso-utils": "workspace:^",
     "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
-    "@budsbox/util": "workspace:^",
     "@types/node": "^20.14.10",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",

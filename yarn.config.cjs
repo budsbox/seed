@@ -1,26 +1,24 @@
-// @ts-check
-
 /** @type {import('@yarnpkg/types')} */
 const { defineConfig } = require('@yarnpkg/types');
 const packageJson = require('#package.json');
 
-const sharedFields = new Set(['packageManager', 'type', 'license']);
-const prohibitedDependencies = new Set([packageJson.name]);
-
-/**
- * @typedef {Object} ConstraintOptions
- * @prop {import('@yarnpkg/types').Yarn.Constraints.Workspace} root - root workspace
- * @prop {string} ns — monorepo's default namespace (includes leading "/")
- * @prop {import('@yarnpkg/types').Yarn.Constraints.Yarn} Yarn — Yarn object
- *
- * @typedef {(options: ConstraintOptions) => void | Promise<void>} Constraint
- */
+const sharedFields = new Set([
+  'author',
+  'bugs',
+  'homepage',
+  'license',
+  'packageManager',
+  'type',
+]);
+const bannedDependencies = new Set([packageJson.name]);
 
 module.exports = defineConfig({
   constraints: async ({ Yarn }) => {
     const rootIdent = packageJson.name;
-    const [ns] = rootIdent.match(/^@[^/]+\//);
-    const root = Yarn.workspace({ ident: rootIdent });
+    const [ns] = rootIdent.match(/^@[^/]+\//) ?? [''];
+
+    /** @type {!import('@yarnpkg/types').Yarn.Constraints.Workspace} */
+    const root = notNull(Yarn.workspace({ ident: rootIdent }));
 
     /** @type {ConstraintOptions} */
     const options = { root, ns, Yarn };
@@ -37,10 +35,19 @@ module.exports = defineConfig({
   },
 });
 
+/**
+ * @typedef {Object} ConstraintOptions
+ * @prop {import('@yarnpkg/types').Yarn.Constraints.Workspace} root - root workspace
+ * @prop {string} ns — monorepo's default namespace (includes leading "/")
+ * @prop {import('@yarnpkg/types').Yarn.Constraints.Yarn} Yarn — Yarn object
+ *
+ * @typedef {(options: ConstraintOptions) => void | Promise<void>} Constraint
+ */
+
 /** @type {Constraint} */
 const constraintIdent = ({ Yarn, ns }) => {
   for (const workspace of Yarn.workspaces()) {
-    if (!workspace.ident.startsWith('@')) {
+    if (!(workspace.ident ?? '').startsWith('@')) {
       workspace.set('name', `${ns}${workspace.ident}`);
     }
   }
@@ -110,22 +117,36 @@ Please add this dependency to the root workspace manually`,
   }
 };
 
+/** @type {Constraint} */
 const constraintPeerDependencies = ({ Yarn }) => {
+  /** @type { import('@yarnpkg/types').Yarn.Constraints.Workspace[]} */
   const workspaces = Yarn.workspaces();
 
   /** @type {Map<string, import('@yarnpkg/types').Yarn.Constraints.Dependency[]>} */
   const wsPeersMap = new Map();
 
   for (const workspace of workspaces) {
-    const peers = Yarn.dependencies({ workspace, type: 'peerDependencies' });
-
-    if (peers.length > 0) {
-      wsPeersMap.set(workspace.ident, peers);
+    if (workspace.ident == null) {
+      continue;
     }
+
+    /** @type {{peerDependenciesMeta: Record<string, {optional?: boolean}>}} */
+    const { peerDependenciesMeta = {} } = workspace.manifest;
+    wsPeersMap.set(
+      workspace.ident,
+      Yarn.dependencies({
+        workspace,
+        type: 'peerDependencies',
+      }).filter((dep) => !peerDependenciesMeta[dep.ident]?.optional),
+    );
   }
 
   for (const workspace of workspaces) {
     for (const [ident, peers] of wsPeersMap) {
+      if (peers.length < 1) {
+        continue;
+      }
+
       const wsDep = Yarn.dependency({ workspace, ident });
 
       if (wsDep != null) {
@@ -158,9 +179,9 @@ const constraintWsDependencies = ({ Yarn, root }) => {
       }
     }
 
-    const prohibited = new Set([workspace.ident, ...prohibitedDependencies]);
+    const banned = new Set([workspace.ident, ...bannedDependencies]);
     for (const dep of Yarn.dependencies({ workspace })) {
-      if (prohibited.has(dep.ident)) {
+      if (banned.has(dep.ident)) {
         dep.delete();
       } else if (Yarn.workspace({ ident: dep.ident }) != null) {
         dep.update('workspace:^');
@@ -168,3 +189,18 @@ const constraintWsDependencies = ({ Yarn, root }) => {
     }
   }
 };
+
+/**
+ * JSDoc types lack a non-null assertion.
+ * https://github.com/Microsoft/TypeScript/issues/23405#issuecomment-873331031
+ *
+ * @template T
+ * @param {T} value
+ */
+function notNull(value) {
+  // Use `==` to check for both null and undefined
+  if (value == null) {
+    throw new Error('did not expect value to be null or undefined');
+  }
+  return value;
+}

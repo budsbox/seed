@@ -3,7 +3,7 @@
 /* ------ Extends ES interfaces ------ */
 
 interface ObjectConstructor {
-  hasOwn: <T extends object>(object: T, key: keyof any) => key is keyof T;
+  hasOwn: <T extends object>(object: T, key: unknown) => key is keyof T;
   hasOwn: <K extends string>(
     record: Readonly<Record<K, unknown>>,
     key: unknown,

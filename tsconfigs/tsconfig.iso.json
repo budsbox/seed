@@ -1,0 +1,8 @@
+// use it for runtime-agnostic libraries
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "Node16", // to be able to use distributed packages
+    "moduleResolution": "Node16"
+  }
+}

@@ -1,7 +1,12 @@
 {
   "name": "@budsbox/root",
   "private": true,
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
   "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "sideEffects": [
     "./**/*.scss"
   ],
@@ -24,13 +29,13 @@
     "format": "yarn format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"package.json\"",
     "lint-staged": "lint-staged",
-    "package:build": "cd $INIT_CWD; tsc && vite build",
-    "package:eslint": "cd $INIT_CWD; eslint --quiet .",
-    "package:serve": "cd $INIT_CWD; vite",
-    "package:ts:build": "cd $INIT_CWD; tsc --build",
-    "package:ts:check": "cd $INIT_CWD; tsc --project $INIT_CWD --noEmit",
-    "package:ts:watch": "cd $INIT_CWD; yarn package:ts:build --watch --verbose",
-    "playground": "yarn workspace @budsbox/playground package:serve",
+    "p:build": "cd $INIT_CWD; tsc && vite build",
+    "p:eslint": "cd $INIT_CWD; eslint --quiet .",
+    "p:serve": "cd $INIT_CWD; vite",
+    "p:ts:build": "cd $INIT_CWD; tsc --build",
+    "p:ts:check": "cd $INIT_CWD; tsc --project $INIT_CWD --noEmit",
+    "p:ts:watch": "cd $INIT_CWD; yarn p:ts:build --watch --verbose",
+    "playground": "yarn workspace @budsbox/playground p:serve",
     "prepare": "husky",
     "preview": "vite preview",
     "scss-types": "typed-scss-modules packages",

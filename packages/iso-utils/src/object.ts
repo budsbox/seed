@@ -2,8 +2,8 @@ import type {
   Def,
   FilterByType,
   Key,
-  Value,
   OmitNilProps,
+  Value,
 } from '@budsbox/types';
 
 import { isNotNil } from '#type-guards';

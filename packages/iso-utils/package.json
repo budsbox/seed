@@ -1,0 +1,55 @@
+{
+  "name": "@budsbox/iso-utils",
+  "description": "isomorphic (aka runtime-agnostic/independent) utilities",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#object": {
+      "import": "./dist/object.js",
+      "types": "./dist/object.d.ts"
+    },
+    "#type-guards": {
+      "import": "./dist/type-guards.js",
+      "types": "./dist/type-guards.d.ts"
+    },
+    "#package.json": "./package.json",
+    "#string": {
+      "import": "./dist/string.js",
+      "types": "./dist/string.d.ts"
+    }
+  },
+  "exports": {
+    "./object": {
+      "import": "./dist/object.js",
+      "types": "./dist/object.d.ts"
+    },
+    "./string": {
+      "import": "./dist/string.js",
+      "types": "./dist/string.d.ts"
+    },
+    "./type-guards": {
+      "import": "./dist/type-guards.js",
+      "types": "./dist/type-guards.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prepack": "yarn p:ts:build --force"
+  },
+  "dependencies": {
+    "@budsbox/types": "workspace:^"
+  },
+  "devDependencies": {
+    "@budsbox/linting": "workspace:^",
+    "@budsbox/tsconfigs": "workspace:^",
+    "@types/node": "^20.14.10",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "tslib": "^2.6.3"
+  },
+  "packageManager": "yarn@4.3.1"
+}

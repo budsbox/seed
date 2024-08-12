@@ -1,6 +1,11 @@
 {
   "name": "@budsbox/build",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
   "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
     "#vite-config-factory.mjs": {

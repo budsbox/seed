@@ -1,0 +1,6 @@
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.base.json",
+  "compilerOptions": {
+    "noEmit": true
+  }
+}
