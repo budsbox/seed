@@ -698,9 +698,11 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/sass-importers/",\
         "packageDependencies": [\
           ["@budsbox/sass-importers", "workspace:packages/sass-importers"],\
+          ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
           ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@types/node", "npm:20.14.10"],\
+          ["eslint-import-resolver-typescript", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:3.6.1"],\
           ["tslib", "npm:2.6.3"]\
         ],\
         "linkType": "SOFT"\

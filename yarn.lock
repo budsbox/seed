@@ -437,9 +437,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/sass-importers@workspace:packages/sass-importers"
   dependencies:
+    "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
     "@types/node": "npm:^20.14.10"
+    eslint-import-resolver-typescript: "npm:^3.6.1"
     tslib: "npm:^2.6.3"
   languageName: unknown
   linkType: soft

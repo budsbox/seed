@@ -10,15 +10,15 @@
   "type": "module",
   "imports": {
     "#@": {
-      "import": "./index.js",
-      "types": "./index.d.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "#package.json": "./package.json"
   },
   "exports": {
     ".": {
-      "import": "./index.js",
-      "types": "./index.d.ts"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     },
     "./package.json": "./package.json"
   },
@@ -26,9 +26,11 @@
     "prepack": "yarn p:ts:build"
   },
   "devDependencies": {
+    "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
     "@types/node": "^20.14.10",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "tslib": "^2.6.3"
   },
   "packageManager": "yarn@4.3.1"
