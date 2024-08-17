@@ -10,8 +10,11 @@ import type {
 
 import type { ESLint, Linter } from 'eslint';
 
+import { isNotNil } from '@budsbox/iso-utils/type-guards';
+import tsConfigTools from '@budsbox/tsconfigs/tsconfig.tools.json' with { type: 'json' };
 import eslint from '@eslint/js';
 import eslintPluginImport from 'eslint-plugin-import';
+import jsdoc from 'eslint-plugin-jsdoc';
 import eslintPluginReact from 'eslint-plugin-react';
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
 import eslintPluginReactRefresh from 'eslint-plugin-react-refresh';
@@ -19,14 +22,17 @@ import globals from 'globals';
 import * as eslintTs from 'typescript-eslint';
 
 import { type MatchOptions, match, queryExtensions } from '#match';
+import packageJson from '#package.json' with { type: 'json' };
 
 const configFactories = {
   common: (options: ConfigFactoryDefaultOptions): Linter.FlatConfig[] => {
     const { ecmaVersion, sourceType, ...restOptions } = options;
+    const configNameCommon = (...names: readonly string[]): string =>
+      configName('common', ...names);
 
     return [
       {
-        name: '@budsbox/linting/common',
+        name: configNameCommon(),
 
         files: match({
           ...restOptions, // to exclude sourceType
@@ -56,7 +62,7 @@ const configFactories = {
       },
 
       {
-        name: '@budsbox/linting/common/commonjs',
+        name: configNameCommon('commonjs'),
 
         files: match({
           ...options,
@@ -70,7 +76,7 @@ const configFactories = {
       },
 
       {
-        name: '@budsbox/linting/common/esm',
+        name: configNameCommon('esm'),
 
         files: match({
           ...options,
@@ -86,7 +92,7 @@ const configFactories = {
 
   node: (options: ConfigFactoryDefaultOptions): Linter.FlatConfig[] => [
     {
-      name: '@budsbox/linting/node',
+      name: configName('node'),
 
       files: match({
         ...options,
@@ -96,7 +102,7 @@ const configFactories = {
       languageOptions: { globals: { ...globals.nodeBuiltin } },
     },
     {
-      name: '@budsbox/linting/node/commonJs',
+      name: configName('node', 'commonJs'),
 
       files: match({
         ...options,
@@ -108,7 +114,8 @@ const configFactories = {
   ],
 
   import: (options: ConfigFactoryDefaultOptions): Linter.FlatConfig[] => {
-    const configBaseName = '@budsbox/linting/import';
+    const configNameImport = (...names: readonly string[]): string =>
+      configName('import', ...names);
     const extensions = queryExtensions({
       ...options,
       lang: 'all',
@@ -119,7 +126,7 @@ const configFactories = {
 
     return [
       {
-        name: configBaseName,
+        name: configNameImport(),
 
         files: match({
           ...options,
@@ -204,7 +211,7 @@ const configFactories = {
       },
 
       {
-        name: `${configBaseName}/ts`,
+        name: configNameImport('ts'),
 
         files: match({
           ...options,
@@ -233,7 +240,7 @@ const configFactories = {
 
   client: (options: ConfigFactoryDefaultOptions): Linter.FlatConfig[] => [
     {
-      name: '@budsbox/linting/client',
+      name: configName('client'),
 
       files: match({ ...options, jsx: true, lang: 'ts' }),
 
@@ -304,7 +311,7 @@ const configFactories = {
   ts: (options: ConfigFactoryDefaultOptions): Linter.FlatConfig[] => [
     {
       ...eslintTs.configs.base,
-      name: '@budsbox/linting/ts',
+      name: configName('ts'),
 
       files: match({
         ...options,
@@ -391,6 +398,20 @@ const configFactories = {
         '@typescript-eslint/switch-exhaustiveness-check': 'error',
         '@typescript-eslint/unified-signatures': 'error',
       },
+    },
+  ],
+
+  jsdoc: (options: ConfigFactoryDefaultOptions): Linter.FlatConfig[] => [
+    {
+      ...jsdoc.configs['flat/recommended-typescript-error'],
+      name: configName('jsdoc'),
+
+      files: match({
+        ...options,
+        lang: 'all',
+
+        jsx: true,
+      }),
     },
   ],
 } as const;
@@ -500,16 +521,77 @@ function extractCommonOptions<T extends ConfigFactoryCommonOptions>(
   );
 }
 
+const nodeEcmaVersion =
+  2022 satisfies ConfigFactoryCommonOptions['ecmaVersion'];
+
 export const presets = {
   node({
-    ecmaVersion = 2022,
+    ecmaVersion = nodeEcmaVersion,
     ...options
   }: PresetOptions<
-    'common' | 'ts' | 'node' | 'import'
+    'common' | 'import' | 'ts' | 'node'
   > = {}): Linter.FlatConfig[] {
     const configs = [
       ...(['common', 'import', 'node', 'ts'] as const).flatMap((name) =>
         createConfigFromPresetOptions(name, { ...options, ecmaVersion }),
+      ),
+    ];
+
+    return configs;
+  },
+
+  tools({
+    ecmaVersion = nodeEcmaVersion,
+    ...options
+  }: PresetOptions<
+    'common' | 'import' | 'ts' | 'node'
+  > = {}): Linter.FlatConfig[] {
+    const files: readonly string[] = tsConfigTools.include
+      .map((record) => record.split('/').at(-1))
+      .filter(isNotNil);
+
+    const configs = [
+      ...(['common', 'import', 'ts', 'node'] as const).flatMap((name) =>
+        createConfigFromPresetOptions(name, { ...options, ecmaVersion, files }),
+      ),
+    ];
+
+    return configs;
+  },
+
+  isoLib(
+    options: PresetOptions<'common' | 'import' | 'ts' | 'jsdoc'> = {},
+  ): Linter.FlatConfig[] {
+    const configs = [
+      ...(['common', 'import', 'ts', 'jsdoc'] as const).flatMap((name) =>
+        createConfigFromPresetOptions(name, options),
+      ),
+    ];
+
+    return configs;
+  },
+
+  nodeLib({
+    ecmaVersion = nodeEcmaVersion,
+    ...options
+  }: PresetOptions<
+    'common' | 'import' | 'ts' | 'node' | 'jsdoc'
+  > = {}): Linter.FlatConfig[] {
+    const configs = [
+      ...(['common', 'import', 'ts', 'node', 'jsdoc'] as const).flatMap(
+        (name) =>
+          createConfigFromPresetOptions(name, { ...options, ecmaVersion }),
+      ),
+    ];
+    return configs;
+  },
+
+  clientLib(
+    options: PresetOptions<'common' | 'import' | 'ts' | 'client' | 'jsdoc'>,
+  ): Linter.FlatConfig[] {
+    const configs = [
+      ...(['common', 'import', 'ts', 'client', 'jsdoc'] as const).flatMap(
+        (name) => createConfigFromPresetOptions(name, options),
       ),
     ];
 
@@ -530,6 +612,7 @@ export const presets = {
 };
 
 const configFactoryDefaultOptions = {
+  files: ['*.*'],
   dirs: ['**'],
   ecmaVersion: 2021,
   sourceType: 'module',
@@ -554,3 +637,7 @@ interface ConfigFactoryDefaultOptions
     ConfigFactoryCommonOptions,
     'ecmaVersion' | 'sourceType'
   > {}
+
+function configName(...name: readonly string[]): string {
+  return [packageJson.name, ...name].join('/');
+}

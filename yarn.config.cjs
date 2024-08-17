@@ -85,7 +85,7 @@ const constraintImports = ({ Yarn }) => {
 };
 
 /** @type {Constraint} */
-const constraintRootDependencies = ({ Yarn, root }) => {
+const constraintRootDependencies = ({ Yarn, root, ns }) => {
   /** @type {Record<string, string[]>} */
   const dependencyRecords = {};
 
@@ -103,7 +103,7 @@ const constraintRootDependencies = ({ Yarn, root }) => {
   }
 
   for (const [ident, ranges] of Object.entries(dependencyRecords)) {
-    if (ranges.length > 1) {
+    if (!ident.startsWith(ns) && ranges.length > 1) {
       const rangeSet = new Set(ranges);
       if (rangeSet.size > 1) {
         root.error(

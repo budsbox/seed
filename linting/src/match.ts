@@ -57,12 +57,12 @@ export function match(options: MatchOptions): string[] {
   const { files } = options;
   const globs = makeGlobs(options);
 
-  return files == null ? globs : (
-      micromatch(
+  return files == null || (files.length === 1 && files[0] === '*.*') ?
+      globs
+    : micromatch(
         files.map((file) => file.replace(/^(\.\/)?/, '')),
         globs,
-      )
-    );
+      );
 }
 
 export type LangCode = 'js' | 'ts';

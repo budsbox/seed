@@ -2,7 +2,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
-    "module": "Node16", // to be able to use distributed packages
-    "moduleResolution": "Node16"
+    "module": "NodeNext", // to be able to use distributed packages
+    "moduleResolution": "NodeNext"
   }
 }
