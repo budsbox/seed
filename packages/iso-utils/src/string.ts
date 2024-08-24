@@ -27,3 +27,8 @@ export function className(...classNames: readonly ClassNameArg[]): string {
     .filter(isNotNil)
     .join(' ');
 }
+
+export function parsePackageJsonNamespace(name: string): string | undefined {
+  const [ns] = /^@[^/]+\//.exec(name) ?? [undefined];
+  return ns;
+}

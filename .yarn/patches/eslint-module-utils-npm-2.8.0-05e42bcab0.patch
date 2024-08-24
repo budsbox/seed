@@ -1,0 +1,12 @@
+diff --git a/parse.js b/parse.js
+index 7646b3177c11c1725ddf1e55151b52a98a84525e..5955c58114a3870c4bbb3b4d7e730772e9f5496f 100644
+--- a/parse.js
++++ b/parse.js
+@@ -83,6 +83,7 @@ exports.default = function parse(path, content, context) {
+   // https://github.com/import-js/eslint-plugin-import/issues/1408#issuecomment-509298962
+   delete parserOptions.project;
+   delete parserOptions.projects;
++  delete parserOptions.projectService;
+ 
+   // require the parser relative to the main module (i.e., ESLint)
+   const parser = typeof parserOrPath === 'string' ? moduleRequire(parserOrPath) : parserOrPath;

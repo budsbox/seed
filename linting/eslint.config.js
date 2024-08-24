@@ -1,10 +1,18 @@
-import { globalIgnores, presets } from '#eslint';
+import { defaultIgnores, presets } from '#eslint';
+import packageJson from '#package.json' with { type: 'json' };
 
 const config = [
-  { ignores: globalIgnores },
-  ...presets.node(),
+  { ignores: defaultIgnores },
+  ...presets.node({
+    tsconfig: import.meta.resolve('./tsconfig.tools.json'),
+    packageJson,
+  }),
+  ...presets.node({
+    tsconfig: import.meta.resolve('./tsconfig.lib.json'),
+    packageJson,
+  }),
   {
-    files: ['./src/eslint.ts'],
+    files: ['./src/eslint/config.ts'],
     rules: {
       'sort-keys': [
         'error',
@@ -14,5 +22,7 @@ const config = [
     },
   },
 ];
+
+// console.log(config);
 
 export default config;

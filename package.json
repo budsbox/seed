@@ -42,6 +42,10 @@
     "watch-scss-types": "yarn scss-types --watch",
     "ws": "yarn workspace"
   },
+  "resolutions": {
+    "eslint-module-utils@npm:^2.7.4": "patch:eslint-module-utils@npm%3A2.8.0#~/.yarn/patches/eslint-module-utils-npm-2.8.0-05e42bcab0.patch",
+    "eslint-module-utils@npm:^2.8.0": "patch:eslint-module-utils@npm%3A2.8.0#~/.yarn/patches/eslint-module-utils-npm-2.8.0-05e42bcab0.patch"
+  },
   "dependencies": {
     "@budsbox/linting": "workspace:^",
     "@budsbox/sass-importers": "workspace:^",
@@ -66,15 +70,15 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "sass": "^1.77.6",
-    "sort-package-json": "^2.10.0",
+    "sort-package-json": "^2.10.1",
     "tslib": "^2.6.3",
     "typed-scss-modules": "^8.0.1",
-    "typescript": "5.5.3",
+    "typescript": "5.5.4",
     "vite": "^5.3.3"
   },
   "devDependencies": {
     "husky": "^9.0.11",
     "lint-staged": "^15.2.7"
   },
-  "packageManager": "yarn@4.3.1"
+  "packageManager": "yarn@4.4.0"
 }

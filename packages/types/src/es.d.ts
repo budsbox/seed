@@ -32,3 +32,15 @@ interface Array<T> {
     initialValue: Partial<U>, // that's why
   ): U;
 }
+
+interface ReadonlyArray<T> {
+  reduce<U>(
+    callback: (
+      previousValue: U,
+      currentValue: T,
+      currentIndex: number,
+      array: readonly T[],
+    ) => U,
+    initialValue: Partial<U>, // that's why
+  ): U;
+}

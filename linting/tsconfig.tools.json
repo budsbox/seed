@@ -2,7 +2,7 @@
   "extends": "@budsbox/tsconfigs/tsconfig.tools.json",
   "references": [
     {
-      "path": "./tsconfig.main.json"
+      "path": "./tsconfig.lib.json"
     }
   ]
 }

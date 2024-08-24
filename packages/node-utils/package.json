@@ -1,0 +1,41 @@
+{
+  "name": "@budsbox/node-utils",
+  "description": "NodeJS utilities",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#package.json": "./package.json",
+    "#tsconfig": {
+      "import": "./dist/tsconfig.cjs",
+      "types": "./dist/tsconfig.d.cts"
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./tsconfig": {
+      "import": "./dist/tsconfig.cjs",
+      "types": "./dist/tsconfig.d.cts"
+    }
+  },
+  "scripts": {
+    "prepack": "yarn p:ts:build --force"
+  },
+  "dependencies": {
+    "@budsbox/iso-utils": "workspace:^",
+    "typescript": "5.5.4"
+  },
+  "devDependencies": {
+    "@budsbox/linting": "workspace:^",
+    "@budsbox/tsconfigs": "workspace:^",
+    "@budsbox/types": "workspace:^",
+    "@types/node": "^20.14.10",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "tslib": "^2.6.3"
+  },
+  "packageManager": "yarn@4.4.0"
+}

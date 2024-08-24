@@ -1,3 +1,5 @@
+import type { Undef } from '@budsbox/types';
+
 import path from 'node:path';
 
 import micromatch from 'micromatch';
@@ -43,26 +45,19 @@ export const queryExtensions = ({
  *
  * @param options
  */
-export const makeGlobs = (options: GlobsOptions): string[] => {
-  const { dirs = ['.'] } = options;
-  const extGlob = `*.{${queryExtensions(options).join(',')}}`;
-  return union(dirs).map((dir) => path.posix.join(dir, extGlob));
-};
+export function match({ files, dirs, ...rest }: MatchOptions): string[] {
+  const extGlob = `*.{${queryExtensions(rest).join(',')}}`;
 
-/**
- *
- * @param options
- */
-export function match(options: MatchOptions): string[] {
-  const { files } = options;
-  const globs = makeGlobs(options);
-
-  return files == null || (files.length === 1 && files[0] === '*.*') ?
-      globs
-    : micromatch(
-        files.map((file) => file.replace(/^(\.\/)?/, '')),
-        globs,
-      );
+  return [
+    ...micromatch(files ?? [], extGlob, {
+      basename: true,
+      dot: true,
+      format: (s: string) => s.replace(/^(\.\/)?/, ''),
+    }),
+    ...(dirs ?? []).map((dir) =>
+      path.posix.join(dir.replace(/\/\*$/, ''), extGlob),
+    ),
+  ];
 }
 
 export type LangCode = 'js' | 'ts';
@@ -75,16 +70,16 @@ type SourceTypeExtensions = SourceType | 'ambiguous';
 
 export interface ExtensionsOptions {
   readonly lang: LangOption;
-  readonly sourceType?: SourceType;
-  readonly targetSourceType?: SourceType;
+  readonly sourceType?: Undef<SourceType>;
+  readonly targetSourceType?: Undef<SourceType>;
   readonly jsx?: boolean;
 }
 
 export interface GlobsOptions extends ExtensionsOptions {
-  readonly dirs?: readonly string[] | undefined;
+  readonly dirs?: Undef<readonly string[]>;
 }
 export interface MatchOptions extends GlobsOptions {
-  readonly files?: readonly string[];
+  readonly files?: Undef<readonly string[]>;
 }
 
 /**

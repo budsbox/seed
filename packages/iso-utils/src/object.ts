@@ -66,6 +66,18 @@ export function reduce<U>(
   );
 }
 
+export function pick<T extends object, Keys extends keyof T>(
+  source: T,
+  ...keys: readonly Keys[]
+): Pick<T, Keys> {
+  return keys.reduce<Pick<T, Keys>>(
+    (acc, key) =>
+      Object.hasOwn(source, key) ? { ...acc, [key]: source[key] } : acc,
+
+    {},
+  );
+}
+
 /**
  * Returns the first key of the given object.
  * Useful when working with objects that have only one key.
