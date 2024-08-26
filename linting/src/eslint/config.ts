@@ -20,7 +20,7 @@ import globals from 'globals';
 import * as eslintTs from 'typescript-eslint';
 
 import { fifs, sure } from '@budsbox/iso-utils/logical';
-import { parsePackageJsonNamespace } from '@budsbox/iso-utils/string';
+import { parsePackageName } from '@budsbox/iso-utils/string';
 import { isNil, isNotNil } from '@budsbox/iso-utils/type-guards';
 import {
   extractTargetFromConfig,
@@ -276,7 +276,7 @@ const config = {
                 },
 
                 ...sure(
-                  parsePackageJsonNamespace(options.packageJson?.name ?? ''),
+                  parsePackageName(options.packageJson?.name ?? '').ns,
                   (ns) => [
                     {
                       pattern: `${ns}**/*`,
