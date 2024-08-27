@@ -1,6 +1,3 @@
 {
-  "extends": "@budsbox/tsconfigs/tsconfig.node.json",
-  "compilerOptions": {
-    "isolatedDeclarations": false
-  }
+  "extends": "@budsbox/tsconfigs/tsconfig.node.json"
 }

@@ -11,7 +11,7 @@ import type { ESLint, Linter } from 'eslint';
 import type { ParsedCommandLine } from 'typescript';
 
 import eslint from '@eslint/js';
-import eslintPluginImport from 'eslint-plugin-import';
+import importX from 'eslint-plugin-import-x';
 import eslintPluginJsdoc from 'eslint-plugin-jsdoc';
 import eslintPluginReact from 'eslint-plugin-react';
 import eslintPluginReactHooks from 'eslint-plugin-react-hooks';
@@ -165,29 +165,6 @@ const config = {
     ];
   },
 
-  node: (options: CommonOptionsNormal): Linter.FlatConfig[] => [
-    {
-      name: configName('node'),
-
-      files: match({
-        ...options,
-        lang: 'all',
-        targetSourceType: 'module',
-      }),
-      languageOptions: { globals: { ...globals.nodeBuiltin } },
-    },
-    {
-      name: configName('node', 'commonJs'),
-
-      files: match({
-        ...options,
-        lang: 'all',
-        targetSourceType: 'commonjs',
-      }),
-      languageOptions: { globals: { ...globals.node } },
-    },
-  ],
-
   import: (options: CommonOptionsNormal): Linter.FlatConfig[] => {
     const configNameImport = (...names: readonly string[]): string =>
       configName('import', ...names);
@@ -210,44 +187,48 @@ const config = {
           jsx: true,
           targetSourceType: 'module',
         }),
-        plugins: { import: eslintPluginImport },
+        plugins: { 'import-x': importX as unknown as ESLint.Plugin },
         settings: {
-          'import/extensions': extensions,
-          'import/external-module-folders': [
+          'import-x/extensions': extensions,
+          'import-x/external-module-folders': [
             'node_modules',
             'node_modules/@types',
           ],
-          'import/parsers': {
+          'import-x/parsers': {
             '@typescript-eslint/parser': extensions,
           },
-          'import/resolver': {
-            typescript: { alwaysTryTypes: true, project: true },
+          'import-x/resolver': {
+            typescript: extensions,
           },
         },
 
         rules: {
-          ...eslintPluginImport.configs.recommended.rules,
+          ...importX.configs.recommended.rules,
 
           'sort-imports': ['error', { ignoreDeclarationSort: true }],
 
-          'import/extensions': ['error', 'ignorePackages'],
-          'import/first': 'error',
-          'import/newline-after-import': ['error', { considerComments: true }],
-          'import/no-absolute-path': 'error',
-          'import/no-amd': 'error',
-          'import/no-commonjs': 'error',
-          'import/no-duplicates': 'error',
-          'import/no-empty-named-blocks': 'error',
-          'import/no-extraneous-dependencies': [
+          'import-x/extensions': ['error', 'ignorePackages'],
+          'import-x/first': 'error',
+          'import-x/newline-after-import': [
+            'error',
+            { considerComments: true },
+          ],
+          'import-x/no-absolute-path': 'error',
+          'import-x/no-amd': 'error',
+          'import-x/no-commonjs': 'error',
+          'import-x/no-duplicates': 'error',
+          'import-x/no-empty-named-blocks': 'error',
+          'import-x/no-extraneous-dependencies': [
             'error',
             { bundledDependencies: false },
           ],
-          'import/no-mutable-exports': 'error',
-          'import/no-self-import': 'error',
-          'import/no-unassigned-import': ['error', { allow: ['**/*.scss'] }],
-          'import/no-useless-path-segments': 'error',
-          'import/no-webpack-loader-syntax': 'error',
-          'import/order': [
+          'import-x/no-mutable-exports': 'error',
+          'import-x/no-named-as-default-member': 'error',
+          'import-x/no-self-import': 'error',
+          'import-x/no-unassigned-import': ['error', { allow: ['**/*.scss'] }],
+          'import-x/no-useless-path-segments': 'error',
+          'import-x/no-webpack-loader-syntax': 'error',
+          'import-x/order': [
             'error',
             {
               'groups': [
@@ -308,19 +289,169 @@ const config = {
           jsx: true,
           targetSourceType: 'module',
         }),
+        settings: {
+          'import-x/resolver': {
+            node: queryExtensions({
+              lang: 'all',
+              jsx: true,
+              targetSourceType: 'module',
+            }),
+          },
+        },
         rules: {
-          'import/extensions': [
+          'import-x/default': 'off',
+          'import-x/namespace': 'off',
+          'import-x/no-named-as-default-member': 'off',
+
+          'import-x/extensions': [
             'error',
             'ignorePackages',
             queryExtensions({
               lang: 'ts',
-
               jsx: true,
+              sourceType: 'module',
             }).reduce<Record<string, string>>(
               (acc, ext) => ({ ...acc, [ext]: 'never' }),
               {},
             ),
           ],
+        },
+      },
+    ];
+  },
+
+  ts: (options: CommonOptionsNormal): Linter.FlatConfig[] => [
+    {
+      ...tsConfig,
+      name: configName('ts'),
+
+      files: match({
+        ...options,
+        lang: 'ts',
+
+        jsx: true,
+        sourceType: undefined,
+      }),
+
+      rules: {
+        ...eslintTs.configs.strictTypeChecked.reduce<Linter.RulesRecord>(
+          (acc, { rules }) => ({
+            ...acc,
+            ...((rules ?? {}) as Linter.RulesRecord),
+          }),
+          {},
+        ),
+
+        '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
+        '@typescript-eslint/await-thenable': 'error',
+        '@typescript-eslint/consistent-type-assertions': [
+          'error',
+          { assertionStyle: 'as', objectLiteralTypeAssertions: 'never' },
+        ],
+        '@typescript-eslint/consistent-type-definitions': [
+          'error',
+          'interface',
+        ],
+        '@typescript-eslint/consistent-type-imports': [
+          'error',
+          { fixStyle: 'inline-type-imports' },
+        ],
+        '@typescript-eslint/explicit-function-return-type': [
+          'error',
+          {
+            allowConciseArrowFunctionExpressionsStartingWithVoid: true,
+          },
+        ],
+        '@typescript-eslint/explicit-member-accessibility': 'error',
+        '@typescript-eslint/explicit-module-boundary-types': 'error',
+        '@typescript-eslint/method-signature-style': 'error',
+        '@typescript-eslint/no-base-to-string': 'error',
+        '@typescript-eslint/no-confusing-void-expression': [
+          'error',
+          { ignoreVoidOperator: true },
+        ],
+        '@typescript-eslint/no-duplicate-enum-values': 'error',
+        '@typescript-eslint/no-dynamic-delete': 'warn',
+        '@typescript-eslint/no-empty-interface': 'off',
+        '@typescript-eslint/no-import-type-side-effects': 'error',
+        '@typescript-eslint/no-meaningless-void-operator': 'off',
+        '@typescript-eslint/no-misused-promises': [
+          'error',
+          {
+            checksVoidReturn: {
+              attributes: false,
+            },
+          },
+        ],
+        '@typescript-eslint/no-non-null-assertion': 'warn',
+        '@typescript-eslint/no-shadow': 'error',
+        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/prefer-nullish-coalescing': 'error',
+        '@typescript-eslint/prefer-optional-chain': 'error',
+        '@typescript-eslint/prefer-readonly-parameter-types': [
+          'warn',
+          { ignoreInferredTypes: true },
+        ],
+        '@typescript-eslint/prefer-reduce-type-parameter': 'error',
+        '@typescript-eslint/prefer-regexp-exec': 'error',
+        '@typescript-eslint/prefer-ts-expect-error': 'error',
+        '@typescript-eslint/require-array-sort-compare': 'error',
+        '@typescript-eslint/strict-boolean-expressions': 'error',
+        '@typescript-eslint/switch-exhaustiveness-check': 'error',
+        '@typescript-eslint/unified-signatures': 'error',
+      },
+    },
+    {
+      name: configName('ts', 'commonjs'),
+
+      files: match({
+        ...options,
+        lang: 'ts',
+        targetSourceType: 'commonjs',
+      }),
+      rules: {
+        '@typescript-eslint/no-require-imports': 'off',
+      },
+    },
+  ],
+
+  node: (options: CommonOptionsNormal): Linter.FlatConfig[] => {
+    const configNameNode = (...names: readonly string[]): string =>
+      configName('node', ...names);
+
+    return [
+      {
+        name: configNameNode(),
+
+        files: match({
+          ...options,
+          lang: 'all',
+          targetSourceType: 'module',
+        }),
+        languageOptions: { globals: { ...globals.nodeBuiltin } },
+      },
+      {
+        name: configNameNode('commonJs'),
+
+        files: match({
+          ...options,
+          lang: 'all',
+          targetSourceType: 'commonjs',
+        }),
+        languageOptions: { globals: { ...globals.node } },
+      },
+      {
+        name: configNameNode('import'),
+
+        files: match({
+          ...options,
+          lang: 'all',
+          targetSourceType: 'module',
+        }),
+        settings: {
+          'import-x/resolver': {
+            node: true,
+          },
         },
       },
     ];
@@ -392,88 +523,6 @@ const config = {
           'error',
           { allowConstantExport: true },
         ],
-      },
-    },
-  ],
-
-  ts: (options: CommonOptionsNormal): Linter.FlatConfig[] => [
-    {
-      ...tsConfig,
-      name: configName('ts'),
-
-      files: match({
-        ...options,
-        lang: 'ts',
-
-        jsx: true,
-      }),
-
-      rules: {
-        ...eslintTs.configs.strictTypeChecked.reduce<Linter.RulesRecord>(
-          (acc, { rules }) => ({
-            ...acc,
-            ...((rules ?? {}) as Linter.RulesRecord),
-          }),
-          {},
-        ),
-
-        '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
-        '@typescript-eslint/await-thenable': 'error',
-        '@typescript-eslint/consistent-type-assertions': [
-          'error',
-          { assertionStyle: 'as', objectLiteralTypeAssertions: 'never' },
-        ],
-        '@typescript-eslint/consistent-type-definitions': [
-          'error',
-          'interface',
-        ],
-        '@typescript-eslint/consistent-type-imports': [
-          'error',
-          { fixStyle: 'inline-type-imports' },
-        ],
-        '@typescript-eslint/explicit-function-return-type': [
-          'error',
-          {
-            allowConciseArrowFunctionExpressionsStartingWithVoid: true,
-          },
-        ],
-        '@typescript-eslint/explicit-member-accessibility': 'error',
-        '@typescript-eslint/explicit-module-boundary-types': 'error',
-        '@typescript-eslint/method-signature-style': 'error',
-        '@typescript-eslint/no-base-to-string': 'error',
-        '@typescript-eslint/no-confusing-void-expression': [
-          'error',
-          { ignoreVoidOperator: true },
-        ],
-        '@typescript-eslint/no-duplicate-enum-values': 'error',
-        '@typescript-eslint/no-dynamic-delete': 'warn',
-        '@typescript-eslint/no-empty-interface': 'off',
-        '@typescript-eslint/no-import-type-side-effects': 'error',
-        '@typescript-eslint/no-meaningless-void-operator': 'off',
-        '@typescript-eslint/no-misused-promises': [
-          'error',
-          {
-            checksVoidReturn: {
-              attributes: false,
-            },
-          },
-        ],
-        '@typescript-eslint/no-non-null-assertion': 'warn',
-        '@typescript-eslint/no-shadow': 'error',
-        '@typescript-eslint/no-unused-vars': 'off',
-        '@typescript-eslint/prefer-nullish-coalescing': 'error',
-        '@typescript-eslint/prefer-optional-chain': 'error',
-        '@typescript-eslint/prefer-readonly-parameter-types': [
-          'warn',
-          { ignoreInferredTypes: true },
-        ],
-        '@typescript-eslint/prefer-reduce-type-parameter': 'error',
-        '@typescript-eslint/prefer-regexp-exec': 'error',
-        '@typescript-eslint/prefer-ts-expect-error': 'error',
-        '@typescript-eslint/require-array-sort-compare': 'error',
-        '@typescript-eslint/strict-boolean-expressions': 'error',
-        '@typescript-eslint/switch-exhaustiveness-check': 'error',
-        '@typescript-eslint/unified-signatures': 'error',
       },
     },
   ],
@@ -553,6 +602,20 @@ export type ConfigWithDefaultOptionsName = Key<
     : never;
   }>
 >;
+
+export function sortNames<Name extends FactoryName>(
+  ...names: readonly Name[]
+): Name[] {
+  const order = Object.keys(config).reduce<Record<FactoryName, number>>(
+    (acc, name, index) => ({
+      ...acc,
+      [name]: index,
+    }),
+    {},
+  );
+
+  return names.toSorted((name1, name2) => order[name1] - order[name2]);
+}
 
 function configName(...name: readonly string[]): string {
   return [packageJson.name, ...name].join('/');

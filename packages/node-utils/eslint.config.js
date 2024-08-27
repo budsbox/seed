@@ -1,3 +1,17 @@
 import { defaultIgnores, presets } from '@budsbox/linting/eslint';
 
-export default [{ ignores: [...defaultIgnores] }, ...presets.node()];
+import packageJson from '#package.json' with { type: 'json' };
+
+const config = [
+  { ignores: defaultIgnores },
+  ...presets.node({
+    tsconfig: import.meta.resolve('./tsconfig.tools.json'),
+    packageJson,
+  }),
+  ...presets.node({
+    tsconfig: import.meta.resolve('./tsconfig.lib.json'),
+    packageJson,
+  }),
+];
+
+export default config;

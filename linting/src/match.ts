@@ -46,7 +46,8 @@ export const queryExtensions = ({
  * @param options
  */
 export function match({ files, dirs, ...rest }: MatchOptions): string[] {
-  const extGlob = `*.{${queryExtensions(rest).join(',')}}`;
+  const extensions = queryExtensions(rest);
+  const extGlob = `*.${extensions.length > 1 ? `{${extensions.join(',')}}` : extensions[0]!}`;
 
   return [
     ...micromatch(files ?? [], extGlob, {

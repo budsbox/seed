@@ -7,15 +7,6 @@ declare module '@eslint/js' {
   export default plugin;
 }
 
-declare module 'eslint-plugin-import' {
-  import type { ESLint, Linter } from 'eslint';
-
-  const plugin: ESLint.Plugin & {
-    configs: Record<'recommended', Linter.FlatConfig>;
-  };
-  export default plugin;
-}
-
 declare module 'eslint-plugin-react' {
   import type { ESLint, Linter } from 'eslint';
 

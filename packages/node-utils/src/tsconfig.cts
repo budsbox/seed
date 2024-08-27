@@ -39,9 +39,7 @@ function extractTargetFromConfig(
   return ts.ScriptTarget[rawTarget] as keyof typeof ts.ScriptTarget;
 }
 
-function makeGlobsByDirs(
-  tsconfig: ts.ParsedCommandLine,
-): string[] {
+function makeGlobsByDirs(tsconfig: ts.ParsedCommandLine): string[] {
   const { wildcardDirectories } = tsconfig;
   if (wildcardDirectories == null) {
     return [];
@@ -49,16 +47,18 @@ function makeGlobsByDirs(
 
   const { WatchDirectoryFlags } = ts;
 
-  return Object.entries(wildcardDirectories).reduce<string[]>((list, [path, flag]) => [
-    ...list,
-    `${path}/${flag === WatchDirectoryFlags.Recursive ? '**' : '*'}`,
-  ], []);
+  return Object.entries(wildcardDirectories).reduce<string[]>(
+    (list, [p, flag]) => [
+      ...list,
+      `${p}/${flag === WatchDirectoryFlags.Recursive ? '**' : '*'}`,
+    ],
+    [],
+  );
 }
 
-function getFilesList(
-  tsconfig: ts.ParsedCommandLine,
-): string[] {
-  const include: (readonly string[]) | undefined = tsconfig.raw?.include;
+function getFilesList(tsconfig: ts.ParsedCommandLine): string[] {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  const include = tsconfig.raw?.include as readonly string[] | undefined;
 
   if (Array.isArray(include)) {
     return include
@@ -70,8 +70,8 @@ function getFilesList(
 }
 
 export = {
-  getParsedConfig: getParsedConfig as typeof getParsedConfig,
-  extractTargetFromConfig: extractTargetFromConfig as typeof extractTargetFromConfig,
-  makeGlobsByDirs: makeGlobsByDirs as typeof makeGlobsByDirs,
-  getFilesList: getFilesList as typeof getFilesList,
+  getParsedConfig: getParsedConfig,
+  extractTargetFromConfig: extractTargetFromConfig,
+  makeGlobsByDirs: makeGlobsByDirs,
+  getFilesList: getFilesList,
 };

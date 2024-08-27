@@ -20,6 +20,7 @@ import {
   type UncommonOptions,
   createConfig,
   defaultOptions,
+  sortNames,
 } from './config.js';
 
 export const presets = {
@@ -29,7 +30,7 @@ export const presets = {
     const normalizedOptions = normalizeOptions(options);
 
     return [
-      ...(['common', 'import', 'node', 'ts'] as const).flatMap((name) =>
+      ...sortNames('common', 'import', 'node', 'ts').flatMap((name) =>
         createConfigFromPresetOptions(name, normalizedOptions),
       ),
     ];
@@ -41,7 +42,7 @@ export const presets = {
     const normalizedOptions = normalizeOptions(options);
 
     return [
-      ...(['common', 'import', 'ts', 'jsdoc'] as const).flatMap((name) =>
+      ...sortNames('common', 'import', 'ts', 'jsdoc').flatMap((name) =>
         createConfigFromPresetOptions(name, normalizedOptions),
       ),
     ];
@@ -53,8 +54,8 @@ export const presets = {
     const normalizedOptions = normalizeOptions(options);
 
     return [
-      ...(['common', 'import', 'ts', 'node', 'jsdoc'] as const).flatMap(
-        (name) => createConfigFromPresetOptions(name, normalizedOptions),
+      ...sortNames('common', 'import', 'ts', 'node', 'jsdoc').flatMap((name) =>
+        createConfigFromPresetOptions(name, normalizedOptions),
       ),
     ];
   },
@@ -67,7 +68,7 @@ export const presets = {
     const normalizedOptions = normalizeOptions(options);
 
     return [
-      ...(['common', 'import', 'ts', 'client', 'jsdoc'] as const).flatMap(
+      ...sortNames('common', 'import', 'ts', 'client', 'jsdoc').flatMap(
         (name) => createConfigFromPresetOptions(name, normalizedOptions),
       ),
     ];
@@ -79,7 +80,7 @@ export const presets = {
     const normalizedOptions = normalizeOptions(options);
 
     return [
-      ...(['common', 'import', 'ts', 'client'] as const).flatMap((name) =>
+      ...sortNames('common', 'import', 'ts', 'client').flatMap((name) =>
         createConfigFromPresetOptions(name, normalizedOptions),
       ),
     ];
