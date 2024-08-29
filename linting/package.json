@@ -1,0 +1,75 @@
+{
+  "name": "@budsbox/linting",
+  "version": "0.1.0",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#eslint": {
+      "import": "./dist/eslint/index.js",
+      "types": "./dist/eslint/index.d.ts"
+    },
+    "#match": {
+      "import": "./dist/match.js",
+      "types": "./dist/match.d.ts"
+    },
+    "#package.json": "./package.json"
+  },
+  "exports": {
+    "./eslint": {
+      "import": "./dist/eslint/index.js",
+      "types": "./dist/eslint/index.d.ts"
+    },
+    "./match": {
+      "import": "./dist/match.js",
+      "types": "./dist/match.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prepack": "yarn p:ts:build --force"
+  },
+  "dependencies": {
+    "@budsbox/iso-utils": "workspace:^",
+    "@budsbox/node-utils": "workspace:^",
+    "@budsbox/types": "workspace:^",
+    "@types/eslint": "^8.56.12",
+    "micromatch": "^4.0.8"
+  },
+  "devDependencies": {
+    "@budsbox/tsconfigs": "workspace:^",
+    "@eslint/js": "^9.9.1",
+    "@types/micromatch": "^4.0.9",
+    "@types/node": "^20.16.2",
+    "@typescript-eslint/parser": "^8.3.0",
+    "eslint": "^8.57.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import-x": "^4.1.0",
+    "eslint-plugin-jsdoc": "^50.2.2",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "tslib": "^2.7.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.3.0"
+  },
+  "peerDependencies": {
+    "@eslint/js": "^9.9.1",
+    "@typescript-eslint/parser": "^8.3.0",
+    "eslint": "^8.57.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-jsdoc": "^50.2.2",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.3.0"
+  },
+  "packageManager": "yarn@4.4.0"
+}

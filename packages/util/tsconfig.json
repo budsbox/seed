@@ -1,7 +1,0 @@
-{
-  "extends": "@budsbox/root/tsconfig.json",
-  "include": ["src"],
-  "compilerOptions": {
-    "types": ["@budsbox/types/es.d.ts"],
-  },
-}

@@ -1,0 +1,29 @@
+{
+  "name": "@budsbox/tsconfigs",
+  "version": "1.0.0",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#tsconfig.*.json": "./tsconfig.*.json",
+    "#package.json": "./package.json"
+  },
+  "exports": {
+    "./tsconfig.*.json": "./tsconfig.*.json",
+    "./package.json": "./package.json"
+  },
+  "devDependencies": {
+    "@types/node": "^20.16.2",
+    "tslib": "^2.7.0"
+  },
+  "peerDependencies": {
+    "@budsbox/types": "workspace:^",
+    "@types/node": "^20.16.2",
+    "tslib": "^2.7.0"
+  },
+  "packageManager": "yarn@4.4.0"
+}

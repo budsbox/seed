@@ -1,0 +1,7 @@
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.base.json",
+  "include": ["src", "es.d.ts"],
+  "compilerOptions": {
+    "noEmit": true
+  }
+}

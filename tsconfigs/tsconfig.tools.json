@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.node.json",
+  "include": [
+    "${configDir}/.lintstagedrc.mjs",
+    "${configDir}/eslint.config.js",
+    "${configDir}/eslint.config.mjs",
+    "${configDir}/typed-scss-modules.config.ts",
+    "${configDir}/yarn.config.cjs"
+  ],
+  "compilerOptions": {
+    "rootDir": "${configDir}",
+    "tsBuildInfoFile": "${configDir}/tools.tsbuildinfo",
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
+    "isolatedDeclarations": false
+  }
+}

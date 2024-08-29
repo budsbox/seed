@@ -1,44 +1,35 @@
-// @ts-check
-
 /** @type {import('@yarnpkg/types')} */
-const { defineConfig } = require(`@yarnpkg/types`);
-const packageJson = require('./package.json');
+const { defineConfig } = require('@yarnpkg/types');
+const {
+  constraintPackageName,
+  createManifestFieldsConstraint,
+  constraintExports,
+  constraintImports,
+  constraintRootDependencies,
+  constraintPeerDependencies,
+  createWorkspaceDependenciesConstraint,
+  runConstraintsSequence,
+} = require('@budsbox/constraints');
 
 module.exports = defineConfig({
   constraints: async ({ Yarn }) => {
-    const rootIdent = packageJson.name;
-    const [ns] = rootIdent.match(/^@[^/]+\//);
-    const rootWs = Yarn.workspace({ ident: rootIdent });
-    const rootDependencies = Yarn.dependencies({ workspace: rootWs });
-
-    for (const workspace of Yarn.workspaces()) {
-      workspace.set('type', 'module');
-
-      if (!workspace.ident.startsWith('@')) {
-        workspace.set('name', `${ns}${workspace.ident}`);
-      }
-
-      const { exports } = workspace.manifest;
-      if (exports != null) {
-        for (const [exportName, path] of Object.entries(exports)) {
-          const importName =
-            exportName === '.' ? '#@' : exportName.replace('./', '#');
-
-          workspace.set(['imports', importName], path);
-        }
-      }
-
-      if (workspace !== rootWs) {
-        for (const { ident, range } of rootDependencies) {
-          Yarn.dependency({ workspace, ident })?.update(range);
-        }
-      }
-
-      for (const dep of Yarn.dependencies({ workspace })) {
-        if (dep.ident.startsWith(ns)) {
-          dep.update('workspace:^');
-        }
-      }
-    }
+    await runConstraintsSequence(
+      { Yarn },
+      constraintPackageName,
+      createManifestFieldsConstraint({
+        sharedFields: [
+          'author',
+          'bugs',
+          'homepage',
+          'license',
+          'packageManager',
+        ],
+      }),
+      constraintExports,
+      constraintImports,
+      constraintRootDependencies,
+      constraintPeerDependencies,
+      createWorkspaceDependenciesConstraint(),
+    );
   },
 });

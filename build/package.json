@@ -1,30 +1,31 @@
 {
   "name": "@budsbox/build",
+  "version": "0.1.0",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
-    "#json-to-sass.mjs": {
-      "import": "./src/json-to-sass.mjs",
-      "types": "./src/json-to-sass.mjs.d.ts"
-    },
     "#vite-config-factory.mjs": {
       "import": "./src/vite-config-factory.mjs",
       "types": "./src/vite-config-factory.d.mjs.ts"
-    }
+    },
+    "#package.json": "./package.json"
   },
   "exports": {
-    "./json-to-sass.mjs": {
-      "import": "./src/json-to-sass.mjs",
-      "types": "./src/json-to-sass.mjs.d.ts"
-    },
     "./vite-config-factory.mjs": {
       "import": "./src/vite-config-factory.mjs",
       "types": "./src/vite-config-factory.d.mjs.ts"
-    }
+    },
+    "./package.json": "./package.json"
   },
   "dependencies": {
-    "@budsbox/root": "workspace:^",
+    "@budsbox/sass-importers": "workspace:^",
     "@vitejs/plugin-react": "^4.3.1",
     "vite": "^5.3.3"
   },
-  "packageManager": "yarn@4.1.0"
+  "packageManager": "yarn@4.4.0"
 }

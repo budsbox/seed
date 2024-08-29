@@ -1,0 +1,7 @@
+{
+  "extends": "./tsconfig.browser.json",
+  "compilerOptions": {
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "lib": ["es2023"],
+    "target": "ES2022",
+    "types": ["@budsbox/types/es.d.ts", "@types/node"]
+  }
+}
