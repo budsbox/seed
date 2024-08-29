@@ -25,6 +25,9 @@
     "./package.json": "./package.json"
   },
   "main": "./src/index.ts",
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",

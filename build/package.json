@@ -22,6 +22,9 @@
     },
     "./package.json": "./package.json"
   },
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@budsbox/sass-importers": "workspace:^",
     "@vitejs/plugin-react": "^4.3.1",
