@@ -26,8 +26,15 @@ declare module 'eslint-plugin-react-hooks' {
 }
 
 declare module 'eslint-plugin-react-refresh' {
-  import { type ESLint, Linter } from 'eslint';
+  import type { ESLint } from 'eslint';
 
   const plugin: ESLint.Plugin;
   export default plugin;
+}
+
+declare module 'eslint-config-prettier' {
+  import type { Linter } from 'eslint';
+
+  const _default: { rules: Linter.RulesRecord };
+  export default _default;
 }

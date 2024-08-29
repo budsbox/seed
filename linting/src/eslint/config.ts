@@ -11,6 +11,7 @@ import type { ESLint, Linter } from 'eslint';
 import type { ParsedCommandLine } from 'typescript';
 
 import eslint from '@eslint/js';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import importX from 'eslint-plugin-import-x';
 import eslintPluginJsdoc from 'eslint-plugin-jsdoc';
 import eslintPluginReact from 'eslint-plugin-react';
@@ -161,6 +162,19 @@ const config = {
           targetSourceType: 'module',
         }),
         ...tsConfig,
+      },
+
+      {
+        name: configNameCommon('prettier'),
+        files: match({
+          ...restOptions,
+          lang: 'all',
+
+          jsx: true,
+          sourceType: undefined,
+        }),
+
+        rules: eslintConfigPrettier.rules,
       },
     ];
   },
