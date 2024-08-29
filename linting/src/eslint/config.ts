@@ -20,9 +20,9 @@ import eslintPluginReactRefresh from 'eslint-plugin-react-refresh';
 import globals from 'globals';
 import * as eslintTs from 'typescript-eslint';
 
-import { fifs, sure } from '@budsbox/iso-utils/logical';
+import { fif, fifs, sure } from '@budsbox/iso-utils/logical';
 import { parsePackageName } from '@budsbox/iso-utils/string';
-import { isNil, isNotNil } from '@budsbox/iso-utils/type-guards';
+import { isNil, isNotNil, isTrue } from '@budsbox/iso-utils/type-guards';
 import {
   extractTargetFromConfig,
   getFilesList,
@@ -471,75 +471,94 @@ const config = {
     ];
   },
 
-  client: (options: CommonOptionsNormal): Linter.FlatConfig[] => [
-    {
-      name: configName('client'),
+  client: (
+    options: CommonOptionsNormal & { readonly disableReactRefresh?: boolean },
+  ): Linter.FlatConfig[] => {
+    const query = { ...options, jsx: true, lang: 'ts' } as const;
 
-      files: match({ ...options, jsx: true, lang: 'ts' }),
+    return [
+      {
+        name: configName('client'),
 
-      languageOptions: {
-        globals: { ...globals.browser },
-        parserOptions: { ecmaFeatures: { jsx: true } },
+        files: match(query),
+
+        languageOptions: {
+          globals: { ...globals.browser },
+          parserOptions: { ecmaFeatures: { jsx: true } },
+        },
+        plugins: {
+          'react': eslintPluginReact,
+          'react-hooks': eslintPluginReactHooks,
+        },
+        settings: { react: { linkComponents: ['Link'], version: 'detect' } },
+
+        rules: {
+          ...eslintPluginReact.configs.recommended.rules,
+          ...eslintPluginReact.configs['jsx-runtime'].rules,
+          ...eslintPluginReactHooks.configs.recommended.rules,
+
+          'no-alert': 'error',
+
+          'react/boolean-prop-naming': 'error',
+          'react/button-has-type': 'error',
+          'react/destructuring-assignment': 'error',
+          'react/function-component-definition': [
+            'error',
+            {
+              namedComponents: 'arrow-function',
+              unnamedComponents: 'arrow-function',
+            },
+          ],
+          'react/hook-use-state': 'error',
+          'react/iframe-missing-sandbox': 'error',
+          'react/jsx-child-element-spacing': 'error',
+          'react/jsx-curly-brace-presence': [
+            'error',
+            {
+              children: 'never',
+              propElementValues: 'always',
+              props: 'never',
+            },
+          ],
+          'react/jsx-fragments': 'error',
+          'react/jsx-handler-names': 'error',
+          'react/jsx-newline': 'error',
+          'react/jsx-no-constructed-context-values': 'error',
+          'react/jsx-no-leaked-render': 'error',
+          'react/jsx-no-script-url': 'error',
+          'react/jsx-no-target-blank': 'error',
+          'react/jsx-no-useless-fragment': 'error',
+          'react/no-array-index-key': 'warn',
+          'react/no-danger': 'error',
+          'react/no-unsafe': 'error',
+          'react/no-unstable-nested-components': 'error',
+          'react/prop-types': 'off',
+          'react/void-dom-elements-no-children': 'error',
+
+          'react-hooks/exhaustive-deps': 'error',
+        },
       },
-      plugins: {
-        'react': eslintPluginReact,
-        'react-hooks': eslintPluginReactHooks,
-        'react-refresh': eslintPluginReactRefresh,
-      },
-      settings: { react: { linkComponents: ['Link'], version: 'detect' } },
 
-      rules: {
-        ...eslintPluginReact.configs.recommended.rules,
-        ...eslintPluginReact.configs['jsx-runtime'].rules,
-        ...eslintPluginReactHooks.configs.recommended.rules,
-
-        'no-alert': 'error',
-
-        'react/boolean-prop-naming': 'error',
-        'react/button-has-type': 'error',
-        'react/destructuring-assignment': 'error',
-        'react/function-component-definition': [
-          'error',
+      ...fif(
+        options.disableReactRefresh,
+        isTrue,
+        () => [
           {
-            namedComponents: 'arrow-function',
-            unnamedComponents: 'arrow-function',
+            name: configName('client', 'react-refresh'),
+            files: match(query),
+            plugins: { 'react-refresh': eslintPluginReactRefresh },
+            rules: {
+              'react-refresh/only-export-components': [
+                'error',
+                { allowConstantExport: true },
+              ] as Linter.RuleEntry,
+            },
           },
         ],
-        'react/hook-use-state': 'error',
-        'react/iframe-missing-sandbox': 'error',
-        'react/jsx-child-element-spacing': 'error',
-        'react/jsx-curly-brace-presence': [
-          'error',
-          {
-            children: 'never',
-            propElementValues: 'always',
-            props: 'never',
-          },
-        ],
-        'react/jsx-fragments': 'error',
-        'react/jsx-handler-names': 'error',
-        'react/jsx-newline': 'error',
-        'react/jsx-no-constructed-context-values': 'error',
-        'react/jsx-no-leaked-render': 'error',
-        'react/jsx-no-script-url': 'error',
-        'react/jsx-no-target-blank': 'error',
-        'react/jsx-no-useless-fragment': 'error',
-        'react/no-array-index-key': 'warn',
-        'react/no-danger': 'error',
-        'react/no-unsafe': 'error',
-        'react/no-unstable-nested-components': 'error',
-        'react/prop-types': 'off',
-        'react/void-dom-elements-no-children': 'error',
-
-        'react-hooks/exhaustive-deps': 'error',
-
-        'react-refresh/only-export-components': [
-          'error',
-          { allowConstantExport: true },
-        ],
-      },
-    },
-  ],
+        [],
+      ),
+    ];
+  },
 
   jsdoc: (options: CommonOptionsNormal): Linter.FlatConfig[] => [
     {
