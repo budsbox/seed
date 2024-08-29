@@ -26,7 +26,8 @@
   },
   "main": "./src/index.ts",
   "files": [
-    "dist"
+    "/src",
+    "/es.d.ts"
   ],
   "devDependencies": {
     "@budsbox/linting": "workspace:^",
