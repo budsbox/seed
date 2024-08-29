@@ -1,0 +1,11 @@
+releases:
+  "@budsbox/build": patch
+  "@budsbox/const": patch
+  "@budsbox/constraints": patch
+  "@budsbox/iso-utils": patch
+  "@budsbox/linting": patch
+  "@budsbox/node-utils": patch
+  "@budsbox/playground": patch
+  "@budsbox/sass-importers": patch
+  "@budsbox/tsconfigs": patch
+  "@budsbox/types": patch
