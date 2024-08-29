@@ -539,24 +539,19 @@ const config = {
         },
       },
 
-      ...fif(
-        options.disableReactRefresh,
-        isTrue,
-        () => [
-          {
-            name: configName('client', 'react-refresh'),
-            files: match(query),
-            plugins: { 'react-refresh': eslintPluginReactRefresh },
-            rules: {
-              'react-refresh/only-export-components': [
-                'error',
-                { allowConstantExport: true },
-              ] as Linter.RuleEntry,
-            },
+      ...fif(options.disableReactRefresh, isTrue, [], () => [
+        {
+          name: configName('client', 'react-refresh'),
+          files: match(query),
+          plugins: { 'react-refresh': eslintPluginReactRefresh },
+          rules: {
+            'react-refresh/only-export-components': [
+              'error',
+              { allowConstantExport: true },
+            ] as Linter.RuleEntry,
           },
-        ],
-        [],
-      ),
+        },
+      ]),
     ];
   },
 
