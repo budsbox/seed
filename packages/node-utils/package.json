@@ -27,7 +27,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "yarn p:ts:build --force"
+    "prepack": "yarn p:ts:prepack"
   },
   "dependencies": {
     "@budsbox/iso-utils": "workspace:^",
