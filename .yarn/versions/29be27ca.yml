@@ -1,0 +1,10 @@
+releases:
+  "@budsbox/linting": minor
+
+declined:
+  - "@budsbox/constraints"
+  - "@budsbox/iso-utils"
+  - "@budsbox/node-utils"
+  - "@budsbox/playground"
+  - "@budsbox/sass-importers"
+  - "@budsbox/types"
