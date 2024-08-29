@@ -47,6 +47,9 @@
     },
     "./package.json": "./package.json"
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepack": "yarn p:ts:build --force --clean"
   },
