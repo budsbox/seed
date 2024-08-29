@@ -17,7 +17,7 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "/tsconfigs.*.json"
   ],
   "devDependencies": {
     "@types/node": "^20.16.2",
