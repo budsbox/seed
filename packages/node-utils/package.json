@@ -1,5 +1,6 @@
 {
   "name": "@budsbox/node-utils",
+  "version": "0.1.0",
   "description": "NodeJS utilities",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {

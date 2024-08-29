@@ -1,5 +1,6 @@
 {
   "name": "@budsbox/iso-utils",
+  "version": "0.1.0",
   "description": "isomorphic (aka runtime-agnostic/independent) utilities",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
