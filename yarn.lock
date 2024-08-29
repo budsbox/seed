@@ -326,8 +326,33 @@ __metadata:
   dependencies:
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@types/node": "npm:^20.14.10"
-    tslib: "npm:^2.6.3"
+    "@types/node": "npm:^20.16.2"
+    tslib: "npm:^2.7.0"
+  languageName: unknown
+  linkType: soft
+
+"@budsbox/constraints@workspace:^, @budsbox/constraints@workspace:constraints":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/constraints@workspace:constraints"
+  dependencies:
+    "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/linting": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@budsbox/types": "workspace:^"
+    "@eslint/js": "npm:^9.9.1"
+    "@types/node": "npm:^20.16.2"
+    "@typescript-eslint/parser": "npm:^8.3.0"
+    "@yarnpkg/types": "npm:^4.0.0"
+    eslint: "npm:^8.57.0"
+    eslint-import-resolver-typescript: "npm:^3.6.3"
+    eslint-plugin-jsdoc: "npm:^50.2.2"
+    eslint-plugin-react: "npm:^7.35.0"
+    eslint-plugin-react-hooks: "npm:^4.6.2"
+    eslint-plugin-react-refresh: "npm:^0.4.11"
+    globals: "npm:^15.9.0"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+    typescript-eslint: "npm:^8.3.0"
   languageName: unknown
   linkType: soft
 
@@ -338,19 +363,19 @@ __metadata:
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.6.0"
-    "@types/node": "npm:^20.14.10"
-    "@typescript-eslint/parser": "npm:^8.2.0"
-    eslint: "npm:^8.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
+    "@eslint/js": "npm:^9.9.1"
+    "@types/node": "npm:^20.16.2"
+    "@typescript-eslint/parser": "npm:^8.3.0"
+    eslint: "npm:^8.57.0"
+    eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-jsdoc: "npm:^50.2.2"
-    eslint-plugin-react: "npm:^7.34.3"
+    eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
-    eslint-plugin-react-refresh: "npm:^0.4.8"
-    globals: "npm:^15.8.0"
-    tslib: "npm:^2.6.3"
-    typescript: "npm:5.5.4"
-    typescript-eslint: "npm:^8.2.0"
+    eslint-plugin-react-refresh: "npm:^0.4.11"
+    globals: "npm:^15.9.0"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+    typescript-eslint: "npm:^8.3.0"
   languageName: unknown
   linkType: soft
 
@@ -362,35 +387,35 @@ __metadata:
     "@budsbox/node-utils": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.6.0"
-    "@types/eslint": "npm:^8.56.10"
-    "@types/micromatch": "npm:^4"
-    "@types/node": "npm:^20.14.10"
-    "@typescript-eslint/parser": "npm:^8.2.0"
-    eslint: "npm:^8.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
-    eslint-plugin-import-x: "npm:^4.0.0"
+    "@eslint/js": "npm:^9.9.1"
+    "@types/eslint": "npm:^8.56.12"
+    "@types/micromatch": "npm:^4.0.9"
+    "@types/node": "npm:^20.16.2"
+    "@typescript-eslint/parser": "npm:^8.3.0"
+    eslint: "npm:^8.57.0"
+    eslint-import-resolver-typescript: "npm:^3.6.3"
+    eslint-plugin-import-x: "npm:^4.1.0"
     eslint-plugin-jsdoc: "npm:^50.2.2"
-    eslint-plugin-react: "npm:^7.34.3"
+    eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
-    eslint-plugin-react-refresh: "npm:^0.4.8"
-    globals: "npm:^15.8.0"
+    eslint-plugin-react-refresh: "npm:^0.4.11"
+    globals: "npm:^15.9.0"
     micromatch: "npm:^4.0.8"
-    tslib: "npm:^2.6.3"
-    typescript: "npm:5.5.4"
-    typescript-eslint: "npm:^8.2.0"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+    typescript-eslint: "npm:^8.3.0"
   peerDependencies:
-    "@eslint/js": ^9.6.0
-    "@typescript-eslint/parser": ^8.2.0
-    eslint: ^8.0.0
-    eslint-import-resolver-typescript: ^3.6.1
+    "@eslint/js": ^9.9.1
+    "@typescript-eslint/parser": ^8.3.0
+    eslint: ^8.57.0
+    eslint-import-resolver-typescript: ^3.6.3
     eslint-plugin-jsdoc: ^50.2.2
-    eslint-plugin-react: ^7.34.3
+    eslint-plugin-react: ^7.35.0
     eslint-plugin-react-hooks: ^4.6.2
-    eslint-plugin-react-refresh: ^0.4.8
-    globals: ^15.8.0
-    typescript: 5.5.4
-    typescript-eslint: ^8.2.0
+    eslint-plugin-react-refresh: ^0.4.11
+    globals: ^15.9.0
+    typescript: ^5.5.4
+    typescript-eslint: ^8.3.0
   languageName: unknown
   linkType: soft
 
@@ -402,19 +427,19 @@ __metadata:
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.6.0"
-    "@types/node": "npm:^20.14.10"
-    "@typescript-eslint/parser": "npm:^8.2.0"
-    eslint: "npm:^8.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
+    "@eslint/js": "npm:^9.9.1"
+    "@types/node": "npm:^20.16.2"
+    "@typescript-eslint/parser": "npm:^8.3.0"
+    eslint: "npm:^8.57.0"
+    eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-jsdoc: "npm:^50.2.2"
-    eslint-plugin-react: "npm:^7.34.3"
+    eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
-    eslint-plugin-react-refresh: "npm:^0.4.8"
-    globals: "npm:^15.8.0"
-    tslib: "npm:^2.6.3"
-    typescript: "npm:5.5.4"
-    typescript-eslint: "npm:^8.2.0"
+    eslint-plugin-react-refresh: "npm:^0.4.11"
+    globals: "npm:^15.9.0"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+    typescript-eslint: "npm:^8.3.0"
   languageName: unknown
   linkType: soft
 
@@ -427,24 +452,24 @@ __metadata:
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.6.0"
-    "@types/node": "npm:^20.14.10"
+    "@eslint/js": "npm:^9.9.1"
+    "@types/node": "npm:^20.16.2"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
-    "@typescript-eslint/parser": "npm:^8.2.0"
+    "@typescript-eslint/parser": "npm:^8.3.0"
     "@vitejs/plugin-react": "npm:^4.3.1"
-    eslint: "npm:^8.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
+    eslint: "npm:^8.57.0"
+    eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-jsdoc: "npm:^50.2.2"
-    eslint-plugin-react: "npm:^7.34.3"
+    eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
-    eslint-plugin-react-refresh: "npm:^0.4.8"
-    globals: "npm:^15.8.0"
+    eslint-plugin-react-refresh: "npm:^0.4.11"
+    globals: "npm:^15.9.0"
     react: "npm:^18.3.1"
     react-dom: "npm:^18.3.1"
-    tslib: "npm:^2.6.3"
-    typescript: "npm:5.5.4"
-    typescript-eslint: "npm:^8.2.0"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+    typescript-eslint: "npm:^8.3.0"
     vite: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -453,27 +478,28 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/root@workspace:."
   dependencies:
+    "@budsbox/constraints": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/sass-importers": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.6.0"
-    "@types/eslint": "npm:^8.56.10"
-    "@types/node": "npm:^20.14.10"
+    "@eslint/js": "npm:^9.9.1"
+    "@types/eslint": "npm:^8.56.12"
+    "@types/node": "npm:^20.16.2"
     "@types/react": "npm:^18.3.3"
     "@types/react-dom": "npm:^18.3.0"
-    "@typescript-eslint/parser": "npm:^8.2.0"
+    "@typescript-eslint/parser": "npm:^8.3.0"
     "@vitejs/plugin-react": "npm:^4.3.1"
     "@yarnpkg/types": "npm:^4.0.0"
-    eslint: "npm:^8.0.0"
+    eslint: "npm:^8.57.0"
     eslint-config-prettier: "npm:^9.1.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
+    eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-import: "npm:^2.29.1"
     eslint-plugin-jsdoc: "npm:^50.2.2"
-    eslint-plugin-react: "npm:^7.34.3"
+    eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
-    eslint-plugin-react-refresh: "npm:^0.4.8"
-    globals: "npm:^15.8.0"
+    eslint-plugin-react-refresh: "npm:^0.4.11"
+    globals: "npm:^15.9.0"
     husky: "npm:^9.1.5"
     lint-staged: "npm:^15.2.9"
     prettier: "npm:3.2.5"
@@ -481,10 +507,10 @@ __metadata:
     react-dom: "npm:^18.3.1"
     sass: "npm:^1.77.6"
     sort-package-json: "npm:^2.10.1"
-    tslib: "npm:^2.6.3"
+    tslib: "npm:^2.7.0"
     typed-scss-modules: "npm:^8.0.1"
-    typescript: "npm:5.5.4"
-    typescript-eslint: "npm:^8.2.0"
+    typescript: "npm:^5.5.4"
+    typescript-eslint: "npm:^8.3.0"
     vite: "npm:^5.3.3"
   languageName: unknown
   linkType: soft
@@ -496,19 +522,19 @@ __metadata:
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.6.0"
-    "@types/node": "npm:^20.14.10"
-    "@typescript-eslint/parser": "npm:^8.2.0"
-    eslint: "npm:^8.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
+    "@eslint/js": "npm:^9.9.1"
+    "@types/node": "npm:^20.16.2"
+    "@typescript-eslint/parser": "npm:^8.3.0"
+    eslint: "npm:^8.57.0"
+    eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-jsdoc: "npm:^50.2.2"
-    eslint-plugin-react: "npm:^7.34.3"
+    eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
-    eslint-plugin-react-refresh: "npm:^0.4.8"
-    globals: "npm:^15.8.0"
-    tslib: "npm:^2.6.3"
-    typescript: "npm:5.5.4"
-    typescript-eslint: "npm:^8.2.0"
+    eslint-plugin-react-refresh: "npm:^0.4.11"
+    globals: "npm:^15.9.0"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+    typescript-eslint: "npm:^8.3.0"
   languageName: unknown
   linkType: soft
 
@@ -516,11 +542,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/tsconfigs@workspace:tsconfigs"
   dependencies:
-    tslib: "npm:^2.6.3"
+    "@types/node": "npm:^20.16.2"
+    tslib: "npm:^2.7.0"
   peerDependencies:
     "@budsbox/types": "workspace:^"
-    "@types/node": ^20.14.10
-    tslib: ^2.6.3
+    "@types/node": ^20.16.2
+    tslib: ^2.7.0
   languageName: unknown
   linkType: soft
 
@@ -530,19 +557,19 @@ __metadata:
   dependencies:
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.6.0"
-    "@types/node": "npm:^20.14.10"
-    "@typescript-eslint/parser": "npm:^8.2.0"
-    eslint: "npm:^8.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.1"
+    "@eslint/js": "npm:^9.9.1"
+    "@types/node": "npm:^20.16.2"
+    "@typescript-eslint/parser": "npm:^8.3.0"
+    eslint: "npm:^8.57.0"
+    eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-jsdoc: "npm:^50.2.2"
-    eslint-plugin-react: "npm:^7.34.3"
+    eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
-    eslint-plugin-react-refresh: "npm:^0.4.8"
-    globals: "npm:^15.8.0"
-    tslib: "npm:^2.6.3"
-    typescript: "npm:5.5.4"
-    typescript-eslint: "npm:^8.2.0"
+    eslint-plugin-react-refresh: "npm:^0.4.11"
+    globals: "npm:^15.9.0"
+    tslib: "npm:^2.7.0"
+    typescript: "npm:^5.5.4"
+    typescript-eslint: "npm:^8.3.0"
   languageName: unknown
   linkType: soft
 
@@ -774,7 +801,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:^9.6.0":
+"@eslint/js@npm:^9.9.1":
   version: 9.9.1
   resolution: "@eslint/js@npm:9.9.1"
   checksum: 10c0/a3a91de2ce78469f7c4eee78c1eba77360706e1d0fa0ace2e19102079bcf237b851217c85ea501dc92c4c3719d60d9df966977abc8554d4c38e3638c1f53dcb2
@@ -1120,13 +1147,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/eslint@npm:^8.56.10":
-  version: 8.56.10
-  resolution: "@types/eslint@npm:8.56.10"
+"@types/eslint@npm:^8.56.12":
+  version: 8.56.12
+  resolution: "@types/eslint@npm:8.56.12"
   dependencies:
     "@types/estree": "npm:*"
     "@types/json-schema": "npm:*"
-  checksum: 10c0/674349d6c342c3864d70f4d5a9965f96fb253801532752c8c500ad6a1c2e8b219e01ccff5dc8791dcb58b5483012c495708bb9f3ff929f5c9322b3da126c15d3
+  checksum: 10c0/e4ca426abe9d55f82b69a3250bec78b6d340ad1e567f91c97ecc59d3b2d6a1d8494955ac62ad0ea14b97519db580611c02be8277cbea370bdfb0f96aa2910504
   languageName: node
   linkType: hard
 
@@ -1151,7 +1178,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/micromatch@npm:^4":
+"@types/micromatch@npm:^4.0.9":
   version: 4.0.9
   resolution: "@types/micromatch@npm:4.0.9"
   dependencies:
@@ -1160,12 +1187,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:^20.14.10":
-  version: 20.14.10
-  resolution: "@types/node@npm:20.14.10"
+"@types/node@npm:^20.16.2":
+  version: 20.16.2
+  resolution: "@types/node@npm:20.16.2"
   dependencies:
-    undici-types: "npm:~5.26.4"
-  checksum: 10c0/0b06cff14365c2d0085dc16cc8cbea5c40ec09cfc1fea966be9eeecf35562760bfde8f88e86de6edfaf394501236e229d9c1084fad04fb4dec472ae245d8ae69
+    undici-types: "npm:~6.19.2"
+  checksum: 10c0/74fac185dbd2c6b301cde75747c1cd6c9ca1ad7266147ea107a798837f40b8a05991177ebd7925fc7450d51334096259d186afad6e0d22864b7c97f8afef6ba7
   languageName: node
   linkType: hard
 
@@ -1236,7 +1263,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:8.3.0, @typescript-eslint/parser@npm:^8.2.0":
+"@typescript-eslint/parser@npm:8.3.0, @typescript-eslint/parser@npm:^8.3.0":
   version: 8.3.0
   resolution: "@typescript-eslint/parser@npm:8.3.0"
   dependencies:
@@ -2783,7 +2810,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-import-resolver-typescript@npm:^3.6.1":
+"eslint-import-resolver-typescript@npm:^3.6.3":
   version: 3.6.3
   resolution: "eslint-import-resolver-typescript@npm:3.6.3"
   dependencies:
@@ -2844,9 +2871,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-import-x@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "eslint-plugin-import-x@npm:4.0.0"
+"eslint-plugin-import-x@npm:^4.1.0":
+  version: 4.1.0
+  resolution: "eslint-plugin-import-x@npm:4.1.0"
   dependencies:
     "@typescript-eslint/typescript-estree": "npm:^8.1.0"
     "@typescript-eslint/utils": "npm:^8.1.0"
@@ -2861,7 +2888,7 @@ __metadata:
     tslib: "npm:^2.6.3"
   peerDependencies:
     eslint: ^8.57.0 || ^9.0.0
-  checksum: 10c0/1c8b6e74aebfa7aec47a62a82534b3c4c0ca807b7a7a424e74bcf37522d5ecb45c3babe9d0a6d86468e5bb39249aa319fd7952aa6b23e71073cd660dff988651
+  checksum: 10c0/0afb415bda227d5fda8b77b9826fdcf813894833cfff5a2daa7ece85eeebaa95cc666878c09573d334fb416a9b8c9e78cc2e417cb645640786bc50201199af1c
   languageName: node
   linkType: hard
 
@@ -2922,7 +2949,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-refresh@npm:^0.4.8":
+"eslint-plugin-react-refresh@npm:^0.4.11":
   version: 0.4.11
   resolution: "eslint-plugin-react-refresh@npm:0.4.11"
   peerDependencies:
@@ -2931,7 +2958,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react@npm:^7.34.3":
+"eslint-plugin-react@npm:^7.35.0":
   version: 7.35.0
   resolution: "eslint-plugin-react@npm:7.35.0"
   dependencies:
@@ -2983,7 +3010,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.0.0":
+"eslint@npm:^8.57.0":
   version: 8.57.0
   resolution: "eslint@npm:8.57.0"
   dependencies:
@@ -3472,7 +3499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"globals@npm:^15.8.0":
+"globals@npm:^15.9.0":
   version: 15.9.0
   resolution: "globals@npm:15.9.0"
   checksum: 10c0/de4b553e412e7e830998578d51b605c492256fb2a9273eaeec6ec9ee519f1c5aa50de57e3979911607fd7593a4066420e01d8c3d551e7a6a236e96c521aee36c
@@ -6129,6 +6156,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"tslib@npm:^2.7.0":
+  version: 2.7.0
+  resolution: "tslib@npm:2.7.0"
+  checksum: 10c0/469e1d5bf1af585742128827000711efa61010b699cb040ab1800bcd3ccdd37f63ec30642c9e07c4439c1db6e46345582614275daca3e0f4abae29b0083f04a6
+  languageName: node
+  linkType: hard
+
 "type-check@npm:^0.4.0, type-check@npm:~0.4.0":
   version: 0.4.0
   resolution: "type-check@npm:0.4.0"
@@ -6274,7 +6308,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript-eslint@npm:^8.2.0":
+"typescript-eslint@npm:^8.3.0":
   version: 8.3.0
   resolution: "typescript-eslint@npm:8.3.0"
   dependencies:
@@ -6288,7 +6322,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.5.4":
+"typescript@npm:^5.5.4":
   version: 5.5.4
   resolution: "typescript@npm:5.5.4"
   bin:
@@ -6298,7 +6332,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A^5.5.4#optional!builtin<compat/typescript>":
   version: 5.5.4
   resolution: "typescript@patch:typescript@npm%3A5.5.4#optional!builtin<compat/typescript>::version=5.5.4&hash=379a07"
   bin:
@@ -6320,10 +6354,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"undici-types@npm:~5.26.4":
-  version: 5.26.5
-  resolution: "undici-types@npm:5.26.5"
-  checksum: 10c0/bb673d7876c2d411b6eb6c560e0c571eef4a01c1c19925175d16e3a30c4c428181fb8d7ae802a261f283e4166a0ac435e2f505743aa9e45d893f9a3df017b501
+"undici-types@npm:~6.19.2":
+  version: 6.19.8
+  resolution: "undici-types@npm:6.19.8"
+  checksum: 10c0/078afa5990fba110f6824823ace86073b4638f1d5112ee26e790155f481f2a868cc3e0615505b6f4282bdf74a3d8caad715fd809e870c2bb0704e3ea6082f344
   languageName: node
   linkType: hard
 

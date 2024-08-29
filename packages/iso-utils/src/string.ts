@@ -40,3 +40,17 @@ export function parsePackageName(packageName: string): {
     name: packageName.replace(ns ?? '', ''),
   };
 }
+
+/**
+ * Returns string representation of the given value
+ * Useful for debugging purposes
+ *
+ * @param value
+ */
+export function debugString(value: unknown): string {
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return String(value);
+  }
+}

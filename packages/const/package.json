@@ -29,8 +29,8 @@
   "devDependencies": {
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
-    "@types/node": "^20.14.10",
-    "tslib": "^2.6.3"
+    "@types/node": "^20.16.2",
+    "tslib": "^2.7.0"
   },
   "packageManager": "yarn@4.4.0"
 }

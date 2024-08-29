@@ -17,12 +17,13 @@
     "./package.json": "./package.json"
   },
   "devDependencies": {
-    "tslib": "^2.6.3"
+    "@types/node": "^20.16.2",
+    "tslib": "^2.7.0"
   },
   "peerDependencies": {
     "@budsbox/types": "workspace:^",
-    "@types/node": "^20.14.10",
-    "tslib": "^2.6.3"
+    "@types/node": "^20.16.2",
+    "tslib": "^2.7.0"
   },
   "packageManager": "yarn@4.4.0"
 }

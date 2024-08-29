@@ -47,7 +47,7 @@
     "./package.json": "./package.json"
   },
   "scripts": {
-    "prepack": "yarn p:ts:build --force"
+    "prepack": "yarn p:ts:build --force --clean"
   },
   "dependencies": {
     "@budsbox/types": "workspace:^"
@@ -55,19 +55,19 @@
   "devDependencies": {
     "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
-    "@eslint/js": "^9.6.0",
-    "@types/node": "^20.14.10",
-    "@typescript-eslint/parser": "^8.2.0",
-    "eslint": "^8.0.0",
-    "eslint-import-resolver-typescript": "^3.6.1",
+    "@eslint/js": "^9.9.1",
+    "@types/node": "^20.16.2",
+    "@typescript-eslint/parser": "^8.3.0",
+    "eslint": "^8.57.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-jsdoc": "^50.2.2",
-    "eslint-plugin-react": "^7.34.3",
+    "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.8",
-    "globals": "^15.8.0",
-    "tslib": "^2.6.3",
-    "typescript": "5.5.4",
-    "typescript-eslint": "^8.2.0"
+    "eslint-plugin-react-refresh": "^0.4.11",
+    "globals": "^15.9.0",
+    "tslib": "^2.7.0",
+    "typescript": "^5.5.4",
+    "typescript-eslint": "^8.3.0"
   },
   "packageManager": "yarn@4.4.0"
 }

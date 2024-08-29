@@ -5,7 +5,6 @@ export function isUndef(value: unknown): value is Undef {
 }
 
 export function isDef<U>(value: U): value is Def<U>;
-
 export function isDef(value: unknown): boolean {
   return value !== undefined;
 }

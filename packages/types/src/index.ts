@@ -43,7 +43,7 @@ export type Diff<T1 extends object, T2 extends object> = Infer<
   Omit<T1, keyof T2 & keyof T1>
 >;
 
-export type Async<T> = T | Promise<T>;
+export type AsyncV<T> = T | Promise<T>;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Key<T = any> =

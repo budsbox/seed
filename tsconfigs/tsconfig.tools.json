@@ -3,6 +3,7 @@
   "include": [
     "${configDir}/.lintstagedrc.mjs",
     "${configDir}/eslint.config.js",
+    "${configDir}/eslint.config.mjs",
     "${configDir}/typed-scss-modules.config.ts",
     "${configDir}/yarn.config.cjs"
   ],
