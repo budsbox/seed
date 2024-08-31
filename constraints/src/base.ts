@@ -1,4 +1,4 @@
-import { type ConstraintFabric, getManifest, parsePackageName } from './utils';
+import { type ConstraintFactory, getManifest, parsePackageName } from './utils';
 
 import { type Constraint, getRootWs } from './utils';
 
@@ -28,14 +28,10 @@ export const constraintPackageName: Constraint = ({ Yarn }) => {
   }
 };
 
-export const createManifestFieldsConstraint: ConstraintFabric<
-  [
-    {
-      readonly sharedFields: readonly string[];
-      requiredFields?: ReadonlyArray<string | [string, unknown]>;
-    },
-  ]
-> = ({ sharedFields, requiredFields }) =>
+export const createManifestFieldsConstraint: ConstraintFactory<{
+  readonly sharedFields: readonly string[];
+  readonly requiredFields?: ReadonlyArray<string | [string, unknown]>;
+}> = ({ sharedFields, requiredFields = [] }) =>
   function constraintManifestFields({ Yarn }) {
     const rootManifest = getManifest(getRootWs(Yarn));
     for (const workspace of Yarn.workspaces()) {
@@ -43,7 +39,7 @@ export const createManifestFieldsConstraint: ConstraintFabric<
         workspace.set(field, rootManifest[field]);
       }
 
-      for (const field of [['type', 'module'], ...(requiredFields ?? [])]) {
+      for (const field of [['type', 'module'], ...requiredFields]) {
         const [key, value] = Array.isArray(field) ? field : [field, null];
         const manifest = getManifest(workspace);
         if (!Object.hasOwn(manifest, key)) {

@@ -1,10 +1,8 @@
-import { type Constraint, getRootWs } from '../utils';
+import { type ConstraintFactory, getRootWs } from '../utils';
 
-export const createWorkspaceDependenciesConstraint = ({
-  bannedDependencies,
-}: {
+export const createWorkspaceDependenciesConstraint: ConstraintFactory<{
   readonly bannedDependencies?: readonly string[];
-} = {}): Constraint =>
+}> = ({ bannedDependencies = [] } = {}) =>
   function constraintWorkspaceDependencies({ Yarn }) {
     const root = getRootWs(Yarn);
     const workspaces = Yarn.workspaces();
@@ -18,7 +16,7 @@ export const createWorkspaceDependenciesConstraint = ({
       const banned = new Set([
         root.ident,
         workspace.ident,
-        ...(bannedDependencies ?? []),
+        ...bannedDependencies,
       ]);
       for (const dep of Yarn.dependencies({ workspace })) {
         if (banned.has(dep.ident)) {

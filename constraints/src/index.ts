@@ -16,6 +16,6 @@ export {
 export { constraintExports, constraintImports } from './esm.js';
 export {
   constraintRootDependencies,
-  constraintPeerDependencies,
+  createPeerDependenciesConstraint,
   createWorkspaceDependenciesConstraint,
 } from './dependencies/index.js';

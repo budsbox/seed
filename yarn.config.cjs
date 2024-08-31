@@ -6,7 +6,7 @@ const {
   constraintExports,
   constraintImports,
   constraintRootDependencies,
-  constraintPeerDependencies,
+  createPeerDependenciesConstraint,
   createWorkspaceDependenciesConstraint,
   runConstraintsSequence,
 } = require('@budsbox/constraints');
@@ -28,7 +28,7 @@ module.exports = defineConfig({
       constraintExports,
       constraintImports,
       constraintRootDependencies,
-      constraintPeerDependencies,
+      createPeerDependenciesConstraint(),
       createWorkspaceDependenciesConstraint(),
     );
   },
