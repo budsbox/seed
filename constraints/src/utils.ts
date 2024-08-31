@@ -7,9 +7,9 @@ export interface ConstraintOptions {
 
 export type Constraint = (options: ConstraintOptions) => AsyncV<void>;
 
-export type ConstraintFabric<T extends readonly unknown[]> = (
-  ...args: T
-) => Constraint;
+export type ConstraintFactory<Options extends object> =
+  object extends Options ? (options?: Options) => Constraint
+  : (options: Options) => Constraint;
 
 export function getRootWs(
   yarn: Yarn.Constraints.Yarn,
