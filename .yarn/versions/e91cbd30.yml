@@ -1,7 +1,7 @@
 releases:
+  "@budsbox/constraints": patch
   "@budsbox/tsconfigs": major
   "@budsbox/types": minor
 
 undecided:
-  - "@budsbox/constraints"
   - "@budsbox/iso-utils"
