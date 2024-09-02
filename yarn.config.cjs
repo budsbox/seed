@@ -23,6 +23,7 @@ module.exports = defineConfig({
           'homepage',
           'license',
           'packageManager',
+          'repository',
         ],
       }),
       constraintExports,

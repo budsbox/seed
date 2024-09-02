@@ -6,6 +6,7 @@
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
   },
+  "repository": "gitlab:budsbox/fe/seed",
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
