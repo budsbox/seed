@@ -10,26 +10,51 @@
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
-    "#@": "./src/index.ts",
+    "#@": {
+      "import": {
+        "types": "./dist/esm/index.d.ts"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts"
+      }
+    },
     "#es.d.ts": {
-      "import": "./es.d.ts",
-      "require": "./es.d.ts"
+      "import": {
+        "types": "./es.d.ts"
+      },
+      "require": {
+        "types": "./es.d.ts"
+      }
     },
     "#package.json": "./package.json"
   },
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts"
+      }
+    },
     "./es.d.ts": {
-      "import": "./es.d.ts",
-      "require": "./es.d.ts"
+      "import": {
+        "types": "./es.d.ts"
+      },
+      "require": {
+        "types": "./es.d.ts"
+      }
     },
     "./package.json": "./package.json"
   },
   "main": "./src/index.ts",
   "files": [
-    "/src",
+    "/dist",
     "/es.d.ts"
   ],
+  "scripts": {
+    "prepack": "yarn p:ts:prepack:dual"
+  },
   "devDependencies": {
     "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
