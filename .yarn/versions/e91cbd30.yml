@@ -1,6 +1,0 @@
-releases:
-  "@budsbox/constraints": patch
-  "@budsbox/iso-utils": minor
-  "@budsbox/sass-importers": minor
-  "@budsbox/tsconfigs": major
-  "@budsbox/types": minor
