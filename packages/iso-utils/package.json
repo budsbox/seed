@@ -12,39 +12,87 @@
   "type": "module",
   "imports": {
     "#object": {
-      "import": "./dist/object.js",
-      "types": "./dist/object.d.ts"
+      "import": {
+        "default": "./dist/esm/object.js",
+        "types": "./dist/esm/object.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/object.js",
+        "types": "./dist/cjs/object.d.ts"
+      }
     },
     "#type-guards": {
-      "import": "./dist/type-guards.js",
-      "types": "./dist/type-guards.d.ts"
+      "import": {
+        "default": "./dist/esm/type-guards.js",
+        "types": "./dist/esm/type-guards.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/type-guards.js",
+        "types": "./dist/cjs/type-guards.d.ts"
+      }
     },
     "#package.json": "./package.json",
     "#string": {
-      "import": "./dist/string.js",
-      "types": "./dist/string.d.ts"
+      "import": {
+        "default": "./dist/esm/string.js",
+        "types": "./dist/esm/string.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/string.js",
+        "types": "./dist/cjs/string.d.ts"
+      }
     },
     "#logical": {
-      "import": "./dist/logical.js",
-      "types": "./dist/logical.d.ts"
+      "import": {
+        "default": "./dist/esm/logical.js",
+        "types": "./dist/esm/logical.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/logical.js",
+        "types": "./dist/cjs/logical.d.ts"
+      }
     }
   },
   "exports": {
     "./object": {
-      "import": "./dist/object.js",
-      "types": "./dist/object.d.ts"
+      "import": {
+        "default": "./dist/esm/object.js",
+        "types": "./dist/esm/object.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/object.js",
+        "types": "./dist/cjs/object.d.ts"
+      }
     },
     "./string": {
-      "import": "./dist/string.js",
-      "types": "./dist/string.d.ts"
+      "import": {
+        "default": "./dist/esm/string.js",
+        "types": "./dist/esm/string.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/string.js",
+        "types": "./dist/cjs/string.d.ts"
+      }
     },
     "./type-guards": {
-      "import": "./dist/type-guards.js",
-      "types": "./dist/type-guards.d.ts"
+      "import": {
+        "default": "./dist/esm/type-guards.js",
+        "types": "./dist/esm/type-guards.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/type-guards.js",
+        "types": "./dist/cjs/type-guards.d.ts"
+      }
     },
     "./logical": {
-      "import": "./dist/logical.js",
-      "types": "./dist/logical.d.ts"
+      "import": {
+        "default": "./dist/esm/logical.js",
+        "types": "./dist/esm/logical.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/logical.js",
+        "types": "./dist/cjs/logical.d.ts"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -52,7 +100,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "yarn p:ts:prepack"
+    "prepack": "yarn p:ts:prepack:dual"
   },
   "dependencies": {
     "@budsbox/types": "workspace:^"
