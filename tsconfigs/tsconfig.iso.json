@@ -2,6 +2,7 @@
 {
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    "outDir": "${configDir}/dist/esm",
     "module": "NodeNext", // to be able to use distributed packages
     "moduleResolution": "NodeNext"
   }

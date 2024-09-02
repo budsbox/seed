@@ -11,15 +11,27 @@
   "type": "module",
   "imports": {
     "#@": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": {
+        "default": "./dist/esm/index.js",
+        "types": "./dist/esm/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/index.js",
+        "types": "./dist/cjs/index.d.ts"
+      }
     },
     "#package.json": "./package.json"
   },
   "exports": {
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "import": {
+        "default": "./dist/esm/index.js",
+        "types": "./dist/esm/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/index.js",
+        "types": "./dist/cjs/index.d.ts"
+      }
     },
     "./package.json": "./package.json"
   },
@@ -27,7 +39,7 @@
     "dist"
   ],
   "scripts": {
-    "prepack": "yarn p:ts:build"
+    "prepack": "yarn p:ts:prepack:dual"
   },
   "devDependencies": {
     "@budsbox/linting": "workspace:^",

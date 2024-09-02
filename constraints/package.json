@@ -12,19 +12,17 @@
   "imports": {
     "#package.json": "./package.json",
     "#@": {
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/cjs/index.d.ts"
     }
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/cjs/index.d.ts"
     }
   },
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],

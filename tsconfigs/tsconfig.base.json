@@ -10,6 +10,7 @@
     "declarationMap": true,
     "importHelpers": true,
     "outDir": "${configDir}/dist",
+    "sourceMap": true,
 
     // Language and Environment
     "target": "ES2020",
