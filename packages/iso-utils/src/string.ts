@@ -1,7 +1,7 @@
 import type { Maybe } from '@budsbox/types';
 
-import { filterBy } from '#object';
-import { isNotNil, isObject, isTrue } from '#type-guards';
+import { filterBy } from './object.js';
+import { isNotNil, isObject, isTrue } from './type-guards.js';
 
 type ClassNameKey = string | number;
 

@@ -1,6 +1,6 @@
 import type { Nil, Sure } from '@budsbox/types';
 
-import { isDef, isFunction, isNotNil, isTrue } from '#type-guards';
+import { isDef, isFunction, isNotNil, isTrue } from './type-guards.js';
 
 type FValue<A, T> = T | ((value: A) => T);
 

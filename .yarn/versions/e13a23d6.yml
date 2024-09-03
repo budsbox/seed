@@ -1,0 +1,4 @@
+releases:
+  "@budsbox/constraints": patch
+  "@budsbox/iso-utils": patch
+  "@budsbox/node-utils": patch
