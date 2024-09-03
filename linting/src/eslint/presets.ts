@@ -1,10 +1,5 @@
-import type {
-  Infer,
-  Maybe,
-  OmitNeverProps,
-  Override,
-  Undef,
-} from '@budsbox/types';
+import type { Infer, Maybe, Undef } from '@budsbox/types';
+import type { OmitNeverProps, Override } from '@budsbox/types/object';
 
 import type { Linter } from 'eslint';
 
@@ -126,14 +121,14 @@ type PresetCommonOptions = Override<
 >;
 
 export type PresetOptions<Name extends FactoryName> = Infer<
-  Readonly<PresetCommonOptions & PresetSuboptions<Name>>
+  Readonly<PresetCommonOptions & PresetSubOptions<Name>>
 >;
 
 type PresetOptionsNormal<Name extends FactoryName> = Infer<
-  Readonly<CommonOptions & PresetSuboptions<Name>>
+  Readonly<CommonOptions & PresetSubOptions<Name>>
 >;
 
-type PresetSuboptions<Name extends FactoryName> = Infer<
+type PresetSubOptions<Name extends FactoryName> = Infer<
   Readonly<
     OmitNeverProps<
       {

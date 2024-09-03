@@ -26,7 +26,23 @@
         "types": "./es.d.ts"
       }
     },
-    "#package.json": "./package.json"
+    "#package.json": "./package.json",
+    "#object": {
+      "import": {
+        "types": "./dist/esm/object.d.ts"
+      },
+      "require": {
+        "types": "./dist/cjs/object.d.ts"
+      }
+    },
+    "#string": {
+      "import": {
+        "types": "./dist/esm/string.d.ts"
+      },
+      "require": {
+        "types": "./dist/cjs/string.d.ts"
+      }
+    }
   },
   "exports": {
     ".": {
@@ -45,12 +61,28 @@
         "types": "./es.d.ts"
       }
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./object": {
+      "import": {
+        "types": "./dist/esm/object.d.ts"
+      },
+      "require": {
+        "types": "./dist/cjs/object.d.ts"
+      }
+    },
+    "./string": {
+      "import": {
+        "types": "./dist/esm/string.d.ts"
+      },
+      "require": {
+        "types": "./dist/cjs/string.d.ts"
+      }
+    }
   },
-  "main": "./src/index.ts",
   "files": [
-    "/dist",
-    "/es.d.ts"
+    "dist/**/*.d.ts",
+    "dist/cjs/package.json",
+    "es.d.ts"
   ],
   "scripts": {
     "prepack": "yarn p:ts:prepack:dual"

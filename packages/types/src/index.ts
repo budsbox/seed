@@ -17,7 +17,7 @@ export type InferObj<T extends object> = {
 }['foo'];
 
 /**
- * Extends inferObj for non-object types
+ * The general version of the hack above
  */
 export type Infer<T> =
   unknown extends T ? T
@@ -35,68 +35,4 @@ export type Maybe<T = never> = T | Nil;
 
 export type Sure<T> = NonNullable<T>;
 
-export type Mixin<Parent extends object, Child extends object> = InferObj<
-  Omit<Parent, keyof Child> & Child
->;
-
-export type Diff<T1 extends object, T2 extends object> = Infer<
-  Omit<T1, keyof T2 & keyof T1>
->;
-
 export type AsyncV<T> = T | Promise<T>;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Key<T = any> =
-  T extends Record<infer K, unknown> ? K
-  : T extends object ? keyof T
-  : never;
-
-export type Value<T = object, K extends Key = Key<T>> =
-  T extends object ?
-    K extends keyof T ?
-      T[K]
-    : never
-  : never;
-
-export type EmptyRecord = Record<string, never>;
-
-export type OptionalKeys<
-  T extends Record<Key, unknown>,
-  Keys extends keyof T,
-> = InferObj<Omit<T, Keys> & Partial<Pick<T, Keys>>>;
-
-export type RequiredKeys<T extends object, Keys extends keyof T> = Infer<
-  Omit<T, Keys> & Required<Pick<T, Keys>>
->;
-
-export type Override<
-  Source extends object,
-  Values extends { [K in keyof Source]: unknown },
-> = Mixin<Source, Values>;
-
-export type OmitNeverProps<T extends object> = Infer<
-  Pick<
-    T,
-    {
-      [K in keyof T]: [T[K]] extends [never] ? never : K;
-    }[keyof T]
-  >
->;
-
-export type OmitNilProps<T extends object> = OmitNeverProps<{
-  [K in keyof T]: T[K] extends Nil ? never
-  : T[K] extends Maybe<infer U> ? U
-  : T[K];
-}>;
-
-export type OmitByType<T extends object, U> = Infer<
-  OmitNeverProps<{
-    [K in keyof T]: T[K] extends U ? never : T[K];
-  }>
->;
-
-export type FilterByType<T extends object, U> = Infer<
-  OmitNeverProps<{
-    [K in keyof T]: T[K] extends U ? T[K] : never;
-  }>
->;

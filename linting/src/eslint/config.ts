@@ -1,12 +1,11 @@
+import type { Infer, Maybe, Sure } from '@budsbox/types';
 import type {
   EmptyRecord,
-  Infer,
   Key,
-  Maybe,
   OmitNeverProps,
-  Sure,
   Value,
-} from '@budsbox/types';
+} from '@budsbox/types/object';
+
 import type { ESLint, Linter } from 'eslint';
 import type { ParsedCommandLine } from 'typescript';
 
