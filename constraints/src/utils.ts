@@ -45,16 +45,3 @@ export function getRangeConsideringRoot(
 
   return rootDep == null ? dependency.range : rootDep.range;
 }
-
-export function parsePackageName(packageName: string): {
-  ns: `@${string}/` | null;
-  name: string;
-} {
-  const [ns] = (/^@[^/]+\//.exec(packageName) as [`@${string}/`] | null) ?? [
-    null,
-  ];
-  return {
-    ns,
-    name: packageName.replace(ns ?? '', ''),
-  };
-}

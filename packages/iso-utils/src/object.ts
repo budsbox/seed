@@ -1,10 +1,10 @@
+import type { Def } from '@budsbox/types';
 import type {
-  Def,
   FilterByType,
   Key,
   OmitNilProps,
   Value,
-} from '@budsbox/types';
+} from '@budsbox/types/object';
 
 import { isNotNil } from './type-guards.js';
 
