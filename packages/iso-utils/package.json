@@ -97,7 +97,9 @@
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist/**/*.d.ts",
+    "dist/**/*.js",
+    "dist/cjs/package.json"
   ],
   "scripts": {
     "prepack": "yarn p:ts:prepack:dual"

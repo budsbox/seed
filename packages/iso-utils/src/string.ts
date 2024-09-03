@@ -1,5 +1,7 @@
 import type { Maybe } from '@budsbox/types';
 
+import type { CamelCase } from '@budsbox/types/string';
+
 import { filterBy } from './object.js';
 import { isNotNil, isObject, isTrue } from './type-guards.js';
 
@@ -53,4 +55,12 @@ export function debugString(value: unknown): string {
   } catch {
     return String(value);
   }
+}
+
+export function camelCase<T extends string>(str: T): CamelCase<T>;
+export function camelCase(str: string): string;
+export function camelCase(name: string): string {
+  return name.replace(/[-_]([^-_])/g, (_, right: string) =>
+    right.toUpperCase(),
+  );
 }
