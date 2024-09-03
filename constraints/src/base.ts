@@ -1,6 +1,7 @@
-import { type ConstraintFactory, getManifest, parsePackageName } from './utils';
+import { type ConstraintFactory, getManifest } from './utils';
 
 import { type Constraint, getRootWs } from './utils';
+import { parsePackageName } from '@budsbox/iso-utils/string';
 
 export const constraintPackageName: Constraint = ({ Yarn }) => {
   const root = getRootWs(Yarn);
