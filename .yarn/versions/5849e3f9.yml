@@ -1,6 +1,6 @@
 releases:
   "@budsbox/constraints": patch
-  "@budsbox/iso-utils": patch
+  "@budsbox/iso-utils": minor
   "@budsbox/linting": patch
   "@budsbox/node-utils": patch
   "@budsbox/sass-importers": patch
