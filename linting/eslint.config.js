@@ -12,7 +12,7 @@ const config = [
     packageJson,
   }),
   {
-    files: ['./src/eslint/config.ts'],
+    files: ['src/eslint/config.ts'],
     rules: {
       'sort-keys': [
         'error',

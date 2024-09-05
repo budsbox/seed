@@ -66,10 +66,12 @@ export interface CommonOptions
 export const defaultOptions: CommonOptionsNormal = {
   dirs: ['**'],
   files: [],
+
   ecmaVersion: 2021,
   sourceType: 'commonjs',
-  tsconfig: undefined,
+
   packageJson: undefined,
+  tsconfig: undefined,
 };
 
 const tsConfig = {
@@ -165,6 +167,7 @@ const config = {
 
       {
         name: configNameCommon('prettier'),
+
         files: match({
           ...restOptions,
           lang: 'all',
@@ -193,13 +196,22 @@ const config = {
       {
         name: configNameImport(),
 
-        files: match({
-          ...options,
-          lang: 'all',
+        files: [
+          ...match({
+            ...options,
+            lang: 'js',
 
-          jsx: true,
-          targetSourceType: 'module',
-        }),
+            jsx: true,
+            targetSourceType: 'module',
+          }),
+          ...match({
+            ...options,
+            lang: 'ts',
+
+            jsx: true,
+            targetSourceType: undefined,
+          }),
+        ],
         plugins: { 'import-x': importX as unknown as ESLint.Plugin },
         settings: {
           'import-x/extensions': extensions,
@@ -300,17 +312,19 @@ const config = {
           lang: 'ts',
 
           jsx: true,
-          targetSourceType: 'module',
+          targetSourceType: undefined,
         }),
         settings: {
           'import-x/resolver': {
             node: queryExtensions({
               lang: 'all',
+
               jsx: true,
               targetSourceType: 'module',
             }),
           },
         },
+
         rules: {
           'import-x/default': 'off',
           'import-x/namespace': 'off',
@@ -321,6 +335,7 @@ const config = {
             'ignorePackages',
             queryExtensions({
               lang: 'ts',
+
               jsx: true,
               sourceType: 'module',
             }).reduce<Record<string, string>>(
@@ -541,6 +556,7 @@ const config = {
       ...fif(options.disableReactRefresh, isTrue, [], () => [
         {
           name: configName('client', 'react-refresh'),
+
           files: match(query),
           plugins: { 'react-refresh': eslintPluginReactRefresh },
           rules: {
@@ -677,8 +693,8 @@ function extractFilesAndDirsFromOptions(
 ): Pick<CommonOptions, 'files' | 'dirs'> | undefined {
   if (isNotNil(options.files) || isNotNil(options.dirs)) {
     return {
-      files: options.files ?? [],
       dirs: options.dirs ?? [],
+      files: options.files ?? [],
     };
   }
 

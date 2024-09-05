@@ -11,31 +11,57 @@
   "type": "module",
   "imports": {
     "#eslint": {
-      "import": "./dist/eslint/index.js",
-      "types": "./dist/eslint/index.d.ts"
+      "import": {
+        "default": "./dist/esm/eslint/index.js",
+        "types": "./dist/esm/eslint/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/eslint/index.js",
+        "types": "./dist/cjs/eslint/index.d.ts"
+      }
     },
     "#match": {
-      "import": "./dist/match.js",
-      "types": "./dist/match.d.ts"
+      "import": {
+        "default": "./dist/esm/match.js",
+        "types": "./dist/esm/match.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/match.js",
+        "types": "./dist/cjs/match.d.ts"
+      }
     },
     "#package.json": "./package.json"
   },
   "exports": {
     "./eslint": {
-      "import": "./dist/eslint/index.js",
-      "types": "./dist/eslint/index.d.ts"
+      "import": {
+        "default": "./dist/esm/eslint/index.js",
+        "types": "./dist/esm/eslint/index.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/eslint/index.js",
+        "types": "./dist/cjs/eslint/index.d.ts"
+      }
     },
     "./match": {
-      "import": "./dist/match.js",
-      "types": "./dist/match.d.ts"
+      "import": {
+        "default": "./dist/esm/match.js",
+        "types": "./dist/esm/match.d.ts"
+      },
+      "require": {
+        "default": "./dist/cjs/match.js",
+        "types": "./dist/cjs/match.d.ts"
+      }
     },
     "./package.json": "./package.json"
   },
   "files": [
-    "dist"
+    "dist/**/*.js",
+    "dist/**/*.ts",
+    "dist/cjs/package.json"
   ],
   "scripts": {
-    "prepack": "yarn p:ts:prepack"
+    "prepack": "yarn p:ts:prepack:dual"
   },
   "dependencies": {
     "@budsbox/iso-utils": "workspace:^",
@@ -76,6 +102,11 @@
     "globals": "^15.9.0",
     "typescript": "^5.5.4",
     "typescript-eslint": "^8.3.0"
+  },
+  "peerDependenciesMeta": {
+    "eslint-plugin-react-refresh": {
+      "optional": true
+    }
   },
   "packageManager": "yarn@4.4.0"
 }
