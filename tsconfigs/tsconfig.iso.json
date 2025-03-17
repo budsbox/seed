@@ -1,8 +1,7 @@
 // use it for runtime-agnostic libraries
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "./tsconfig.lib.json",
   "compilerOptions": {
-    "outDir": "${configDir}/dist/esm",
     "module": "NodeNext", // to be able to use distributed packages
     "moduleResolution": "NodeNext"
   }

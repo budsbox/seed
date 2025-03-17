@@ -14,20 +14,24 @@
     "#package.json": "./package.json"
   },
   "exports": {
-    "./tsconfig.*.json": "./tsconfig.*.json",
+    "./iso.*.json": "./tsconfig.iso.*.json",
+    "./browser.*.json": "./tsconfig.browser.*.json",
+    "./node.*.json": "./tsconfig.node.*.json",
+    "./tools.json": "./tsconfig.tools.json",
+    "./index.json": "./tsconfig.index.json",
     "./package.json": "./package.json"
   },
   "files": [
     "tsconfig.*.json"
   ],
   "devDependencies": {
-    "@types/node": "^20.16.2",
-    "tslib": "^2.7.0"
+    "@types/node": "^22.10.5",
+    "tslib": "^2.8.1"
   },
   "peerDependencies": {
     "@budsbox/types": "workspace:^",
-    "@types/node": "^20.16.2",
-    "tslib": "^2.7.0"
+    "@types/node": "^22.10.5",
+    "tslib": "^2.8.1"
   },
-  "packageManager": "yarn@4.4.0"
+  "packageManager": "yarn@4.5.3"
 }

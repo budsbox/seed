@@ -3,14 +3,8 @@
   "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "jsx": "react-jsx",
-    "lib": [
-      "ES5",
-      "ES2015",
-      "ES2016",
-      "ES2018",
-      "ES2020",
-      "DOM",
-      "DOM.Iterable"
-    ]
+    "lib": ["ES2023", "DOM", "DOM.Iterable"],
+    "verbatimModuleSyntax": true,
+    "allowImportingTsExtensions": false
   }
 }

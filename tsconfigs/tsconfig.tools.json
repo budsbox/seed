@@ -5,11 +5,13 @@
     "${configDir}/eslint.config.js",
     "${configDir}/eslint.config.mjs",
     "${configDir}/typed-scss-modules.config.ts",
-    "${configDir}/yarn.config.cjs"
+    "${configDir}/yarn.config.cjs",
+    "${configDir}/package.json"
   ],
   "compilerOptions": {
     "rootDir": "${configDir}",
     "tsBuildInfoFile": "${configDir}/tools.tsbuildinfo",
+    "emitDeclarationOnly": false,
     "noEmit": true,
     "allowJs": true,
     "checkJs": true,
