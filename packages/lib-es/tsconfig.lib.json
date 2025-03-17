@@ -1,0 +1,7 @@
+{
+  "extends": "@budsbox/tsconfigs/iso.lib.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "verbatimModuleSyntax": false
+  }
+}
