@@ -126,7 +126,6 @@ export function isRecord(
  * @return True if the value is an array, otherwise false.
  */
 export function isArray<T>(value: T | readonly T[]): value is readonly T[];
-
 /**
  * Checks if the provided value is an array.
  *
@@ -145,7 +144,6 @@ export function isArray(value: unknown): value is unknown[];
 export function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
 }
-
 /**
  * Determines if the provided value is of type Function.
  *

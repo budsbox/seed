@@ -14,11 +14,11 @@
     "#package.json": "./package.json"
   },
   "exports": {
-    "./iso.*.json": "./tsconfig.iso.*.json",
-    "./browser.*.json": "./tsconfig.browser.*.json",
-    "./node.*.json": "./tsconfig.node.*.json",
-    "./tools.json": "./tsconfig.tools.json",
-    "./index.json": "./tsconfig.index.json",
+    "./tsconfig.iso.*.json": "./tsconfig.iso.*.json",
+    "./tsconfig.browser.*.json": "./tsconfig.browser.*.json",
+    "./tsconfig.node.*.json": "./tsconfig.node.*.json",
+    "./tsconfig.tools.json": "./tsconfig.tools.json",
+    "./tsconfig.index.json": "./tsconfig.index.json",
     "./package.json": "./package.json"
   },
   "files": [

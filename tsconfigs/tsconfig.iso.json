@@ -1,6 +1,6 @@
 // use it for runtime-agnostic libraries
 {
-  "extends": "./tsconfig.lib.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "module": "NodeNext", // to be able to use distributed packages
     "moduleResolution": "NodeNext"
