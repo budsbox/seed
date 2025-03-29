@@ -6,7 +6,7 @@ import type {
   SnakeCase,
 } from 'type-fest';
 
-import { isNotNil } from './guards.js';
+import { isNotNil } from '#guards';
 
 /**
  * Parses the given NPM package name to extract its namespace and name.

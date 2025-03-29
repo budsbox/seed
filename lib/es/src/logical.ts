@@ -5,7 +5,7 @@ import type {
   TestResultType,
 } from './types.js';
 
-import { isFunction, isNotNil, isTrue } from './guards.js';
+import { isFunction, isNotNil, isTrue } from '#guards';
 
 /**
  * Functional If

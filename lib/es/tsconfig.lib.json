@@ -1,0 +1,3 @@
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.iso.lib.json"
+}

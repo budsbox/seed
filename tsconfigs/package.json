@@ -11,7 +11,12 @@
   "type": "module",
   "imports": {
     "#tsconfig.*.json": "./tsconfig.*.json",
-    "#package.json": "./package.json"
+    "#package.json": "./package.json",
+    "#tsconfig.iso.*.json": "./tsconfig.iso.*.json",
+    "#tsconfig.browser.*.json": "./tsconfig.browser.*.json",
+    "#tsconfig.node.*.json": "./tsconfig.node.*.json",
+    "#tsconfig.tools.json": "./tsconfig.tools.json",
+    "#tsconfig.index.json": "./tsconfig.index.json"
   },
   "exports": {
     "./tsconfig.iso.*.json": "./tsconfig.iso.*.json",

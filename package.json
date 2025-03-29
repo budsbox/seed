@@ -20,8 +20,11 @@
   },
   "workspaces": [
     "./build",
+    "./builder",
     "./constraints",
+    "./lib/*",
     "./linting",
+    "./lint/*",
     "./tsconfigs",
     "./packages/*"
   ],
@@ -31,7 +34,9 @@
     "p:build": "cd $INIT_CWD; tsc && vite build",
     "p:eslint": "echo $INIT_CWD; cd $INIT_CWD; eslint --quiet .",
     "p:eslint:staged": "cd $INIT_CWD; eslint --quiet --no-warn-ignored",
+    "p:prettier": "prettier --write $INIT_CWD/**",
     "p:format-manifest": "cd $INIT_CWD; sort-package-json package.json",
+    "p:lib:build": "cd $INIT_CWD; budsbox-build-lib",
     "p:serve": "cd $INIT_CWD; vite",
     "p:ts:build": "cd $INIT_CWD; tsc --build",
     "p:ts:check": "cd $INIT_CWD; tsc --project $INIT_CWD --noEmit",
@@ -54,6 +59,7 @@
     "eslint-module-utils@npm:^2.8.0": "patch:eslint-module-utils@npm%3A2.8.0#~/.yarn/patches/eslint-module-utils-npm-2.8.0-05e42bcab0.patch"
   },
   "dependencies": {
+    "@budsbox/build": "workspace:^",
     "@budsbox/constraints": "workspace:^",
     "@budsbox/linting": "workspace:^",
     "@budsbox/sass-importers": "workspace:^",

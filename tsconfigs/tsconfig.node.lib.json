@@ -1,7 +1,3 @@
-// use it for runtime-agnostic libraries
 {
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "outDir": "${configDir}/dist/esm"
-  }
+  "extends": "./tsconfig.node.json"
 }

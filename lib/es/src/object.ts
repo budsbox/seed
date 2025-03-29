@@ -2,7 +2,7 @@ import type { Key, OmitNilProps, Value } from '@budsbox/types/object';
 
 import type { ConditionalExcept } from 'type-fest';
 
-import { isNotNil } from './guards.js';
+import { isNotNil } from '#guards';
 
 export function pick<T extends object, Keys extends PropertyKey = keyof T>(
   source: T,
