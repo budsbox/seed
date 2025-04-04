@@ -33,6 +33,8 @@ export type Nil = null | undefined;
 
 export type Maybe<T = never> = T | Nil;
 
-export type Sure<T> = NonNullable<T>;
+export type Sure<T = unknown> = NonNullable<T>;
 
 export type AsyncV<T> = T | Promise<T>;
+
+export type Falsy = false | 0 | '' | null | undefined;

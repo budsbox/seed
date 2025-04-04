@@ -21,17 +21,6 @@ export type Diff<T1 extends object, T2 extends object> = Infer<
   Omit<T1, keyof T2 & keyof T1>
 >;
 
-export type EmptyRecord = Record<string, never>;
-
-export type OptionalKeys<
-  T extends Record<Key, unknown>,
-  Keys extends keyof T,
-> = InferObj<Omit<T, Keys> & Partial<Pick<T, Keys>>>;
-
-export type RequiredKeys<T extends object, Keys extends keyof T> = Infer<
-  Omit<T, Keys> & Required<Pick<T, Keys>>
->;
-
 export type Override<
   Source extends object,
   Values extends { [K in keyof Source]: unknown },

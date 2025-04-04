@@ -1,5 +1,5 @@
 {
-  "extends": "@budsbox/tsconfigs/tsconfig.iso.json",
+  "extends": "@budsbox/tsconfigs/tsconfig.iso.lib.json",
   "compilerOptions": {
     "types": [],
     "emitDeclarationOnly": true

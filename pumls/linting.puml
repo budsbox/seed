@@ -1,0 +1,85 @@
+@startuml
+title @budsbox/linting – структура пресетов
+
+' Базовые (атомарные) конфиги
+class Base {
+  + Общие строгие правила
+}
+class React {
+  + React + React Hooks
+}
+class ReactRefresh {
+  + React Refresh (Vite)
+}
+class Node {
+  + Node.js правила
+}
+class Browser {
+  + Браузерные правила
+}
+class Worker {
+  + WebWorker/ServiceWorker
+}
+class FormatJS {
+  + i18n (FormatJS)
+}
+class Tailwind {
+  + TailwindCSS
+}
+
+' Композиционные пресеты
+class BrowserLib {
+  + Browser
+}
+class BrowserClient {
+  + Browser
+  + React
+  + React Refresh
+}
+class NodeLib {
+  + Node
+}
+class NodeServer {
+  + Node
+}
+class Isomorphic {
+  + Browser
+  + Node
+}
+class NextJSClient {
+  + Browser
+  + React
+}
+class Fullstack {
+  + Browser
+  + Node
+  + React
+  + React Refresh
+}
+
+' Связи (композиция вместо наследования)
+Base <|-- React
+Base <|-- Node
+Base <|-- Browser
+Base <|-- Worker
+Base <|-- FormatJS
+Base <|-- Tailwind
+
+Browser <|-- BrowserLib
+Browser <|-- BrowserClient
+Browser <|-- NextJSClient
+Browser <|-- Isomorphic
+Browser <|-- Fullstack
+
+React <|-- BrowserClient
+React <|-- NextJSClient
+React <|-- Fullstack
+
+ReactRefresh <|-- BrowserClient
+ReactRefresh <|-- Fullstack
+
+Node <|-- NodeLib
+Node <|-- NodeServer
+Node <|-- Isomorphic
+Node <|-- Fullstack
+@enduml

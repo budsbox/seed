@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+file tsconfig.base.json
+file tsconfig.iso.json
+tsconfig.iso.json --> tsconfig.base.json
+
+file tsconfig.node.json
+tsconfig.node.json --> tsconfig.base.json
+
+file tsconfig.browser.json
+tsconfig.browser.json --> tsconfig.base.json
+
+file tsconfig.worker.json
+tsconfig.worker.json --> tsconfig.browser.json
+
+file tsconfig.iso.lib.json
+tsconfig.iso.lib.json --> tsconfig.iso.json
+
+file tsconfig.node.lib.json
+tsconfig.node.lib.json --> tsconfig.node.json
+
+file tsconfig.node.server.json
+tsconfig.node.server.json --> tsconfig.node.json
+
+file tsconfig.tools.json
+tsconfig.tools.json --> tsconfig.node.json
+
+file tsconfig.browser.lib.json
+tsconfig.browser.lib.json --> tsconfig.browser.json
+
+file tsconfig.browser.client.json
+tsconfig.browser.client.json --> tsconfig.browser.json
+
+file tsconfig.browser.webworker.json
+tsconfig.browser.webworker.json --> tsconfig.worker.json
+
+file tsconfig.browser.serviceworker.json
+tsconfig.browser.serviceworker.json --> tsconfig.worker.json
+
+@enduml
