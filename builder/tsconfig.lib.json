@@ -8,6 +8,9 @@
       "path": "../lib/node/tsconfig.lib.json"
     },
     {
+      "path": "../lib/types/tsconfig.lib.json"
+    },
+    {
       "path": "../packages/types/tsconfig.lib.json"
     }
   ]

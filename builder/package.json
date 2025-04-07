@@ -9,10 +9,6 @@
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
-  "bin": {
-    "budsbox-build-lib": "./dist/bin/build-lib.js",
-    "budsbox-update-ts-references": "./dist/bin/update-ts-references.js"
-  },
   "imports": {
     "#package.json": "./package.json",
     "#lib-builder": {
@@ -25,16 +21,22 @@
     },
     "./package.json": "./package.json"
   },
+  "bin": {
+    "budsbox-build-lib": "./dist/bin/build-lib.js",
+    "budsbox-update-ts-references": "./dist/bin/update-ts-references.js"
+  },
   "files": [
     "dist/**/*.d.ts",
     "dist/**/*.js"
   ],
   "scripts": {
-    "prepack": "yarn p:ts:prepack"
+    "prepack": "yarn p:ts:prepack",
+    "setup": "[ -f dist/dist.tsbuildinfo ] || yarn prepack"
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-node": "workspace:^",
+    "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
     "@eslint/js": "^9.18.0",
@@ -64,8 +66,8 @@
     "@budsbox/linting": "workspace:^",
     "@yarnpkg/core": "^4.3.1"
   },
-  "packageManager": "yarn@4.5.3",
   "peerDependencies": {
     "@yarnpkg/core": "^4.3.1"
-  }
+  },
+  "packageManager": "yarn@4.5.3"
 }

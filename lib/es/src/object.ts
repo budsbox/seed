@@ -1,4 +1,4 @@
-import type { Key, OmitNilProps, Value } from '@budsbox/types/object';
+import type { Key, OmitNilProps, Value } from '@budsbox/lib-types/object';
 
 import type { ConditionalExcept } from 'type-fest';
 

@@ -1,4 +1,4 @@
-import type { Def, Nil, Sure, Undef } from '@budsbox/types';
+import type { Def, Nil, NonNil, Undef } from '@budsbox/lib-types';
 
 /**
  * Checks if the provided value is `undefined`.
@@ -43,8 +43,8 @@ export function isNil(value: unknown): value is Nil {
  * @param value - The value to be checked.
  * @return Returns true if the value is not null or undefined; otherwise, false.
  */
-export function isNotNil<T>(value: T): value is Sure<T>;
-export function isNotNil(value: unknown): value is Sure;
+export function isNotNil<T>(value: T): value is NonNil<T>;
+export function isNotNil(value: unknown): value is NonNil;
 export function isNotNil(value: unknown): boolean {
   return !isNil(value);
 }

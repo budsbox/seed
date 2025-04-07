@@ -1,0 +1,44 @@
+{
+  "name": "@budsbox/lib-types",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "repository": "gitlab:budsbox/fe/seed",
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#package.json": "./package.json",
+    "#core": {
+      "types": "./dist/core.d.ts"
+    },
+    "#object": {
+      "types": "./dist/object.d.ts"
+    },
+    "#es.d.ts": {
+      "types": "./es.d.ts"
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./core": {
+      "types": "./dist/core.d.ts"
+    },
+    "./object": {
+      "types": "./dist/object.d.ts"
+    },
+    "./es.d.ts": {
+      "types": "./es.d.ts"
+    },
+    ".": {
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "dependencies": {
+    "@budsbox/tsconfigs": "workspace:^",
+    "@types/node": "^22.10.5",
+    "tslib": "^2.8.1"
+  },
+  "packageManager": "yarn@4.5.3"
+}

@@ -475,6 +475,7 @@ __metadata:
   resolution: "@budsbox/build@workspace:build"
   dependencies:
     "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/node-utils": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
@@ -510,6 +511,7 @@ __metadata:
   dependencies:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-node": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
@@ -548,6 +550,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/const@workspace:packages/const"
   dependencies:
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
     "@types/node": "npm:^22.10.5"
@@ -560,6 +563,7 @@ __metadata:
   resolution: "@budsbox/constraints@workspace:constraints"
   dependencies:
     "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
@@ -597,6 +601,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/iso-utils@workspace:packages/iso-utils"
   dependencies:
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
@@ -621,9 +626,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/lib-es@workspace:lib/es"
   dependencies:
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.18.0"
     "@types/node": "npm:^22.10.5"
     "@typescript-eslint/parser": "npm:^8.19.1"
@@ -647,10 +652,12 @@ __metadata:
   resolution: "@budsbox/lib-extensions@workspace:lib/extensions"
   dependencies:
     "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
     "@types/node": "npm:^22.10.5"
     tslib: "npm:^2.8.1"
+    type-fest: "npm:^4.32.0"
   languageName: unknown
   linkType: soft
 
@@ -659,6 +666,7 @@ __metadata:
   resolution: "@budsbox/lib-node@workspace:lib/node"
   dependencies:
     "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
@@ -682,9 +690,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/lib-types@workspace:lib/types":
+"@budsbox/lib-types@workspace:^, @budsbox/lib-types@workspace:lib/types":
   version: 0.0.0-use.local
   resolution: "@budsbox/lib-types@workspace:lib/types"
+  dependencies:
+    "@budsbox/tsconfigs": "workspace:^"
+    "@types/node": "npm:^22.10.5"
+    tslib: "npm:^2.8.1"
   languageName: unknown
   linkType: soft
 
@@ -693,6 +705,7 @@ __metadata:
   resolution: "@budsbox/linting@workspace:linting"
   dependencies:
     "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/node-utils": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
@@ -738,6 +751,7 @@ __metadata:
   resolution: "@budsbox/node-utils@workspace:packages/node-utils"
   dependencies:
     "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
@@ -769,6 +783,7 @@ __metadata:
   dependencies:
     "@budsbox/build": "workspace:^"
     "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
@@ -802,10 +817,10 @@ __metadata:
     "@budsbox/build": "workspace:^"
     "@budsbox/builder": "workspace:^"
     "@budsbox/constraints": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/sass-importers": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.18.0"
     "@types/eslint": "npm:^8.56.12"
     "@types/node": "npm:^22.10.5"
@@ -848,6 +863,7 @@ __metadata:
   resolution: "@budsbox/sass-importers@workspace:packages/sass-importers"
   dependencies:
     "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
@@ -880,7 +896,7 @@ __metadata:
     "@types/node": "npm:^22.10.5"
     tslib: "npm:^2.8.1"
   peerDependencies:
-    "@budsbox/types": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@types/node": ^22.10.5
     tslib: ^2.8.1
   languageName: unknown
@@ -890,6 +906,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/types@workspace:packages/types"
   dependencies:
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.18.0"
@@ -914,6 +931,7 @@ __metadata:
   resolution: "@budsbox/ui-tools@workspace:packages/ui-tools"
   dependencies:
     "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/sass-importers": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"

@@ -106,7 +106,7 @@ const RAW_RUNTIME_STATE =
     ["@budsbox/playground", ["workspace:packages/playground"]],\
     ["@budsbox/root", ["workspace:."]],\
     ["@budsbox/sass-importers", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:packages/sass-importers", "virtual:c6f27bf34bc363128890a16765476bbbcfeb1f5a05fe66046316a37de38d5bbf9293d534d9fe8e3359af12bb89c9e858bbbeed180838e720494c1df7afdf1730#workspace:packages/sass-importers", "workspace:packages/sass-importers"]],\
-    ["@budsbox/tsconfigs", ["virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs", "workspace:tsconfigs"]],\
+    ["@budsbox/tsconfigs", ["virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs", "workspace:tsconfigs"]],\
     ["@budsbox/types", ["workspace:packages/types"]],\
     ["@budsbox/ui-tools", ["virtual:a752f264edfe9ecdada3a7329ffa6f460716d6f9ebc8fd936712cf00cf1a20c0ea2958a8a16806a4f8e0a5103e34cf5b4ada75bbe0a55251ea943e628a05b4c4#workspace:packages/ui-tools", "virtual:cf5782f3ccf4ada38fd1f2dd4a8bf8ab763b53aa287b0e8841477e646de9e30867726755ce30f92727384ea0347c842595bab38b73af539d982f0653766d16bc#workspace:packages/ui-tools", "workspace:packages/ui-tools"]]\
   ],\
@@ -120,10 +120,10 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/build", "workspace:build"],\
           ["@budsbox/builder", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:builder"],\
           ["@budsbox/constraints", "workspace:constraints"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:linting"],\
           ["@budsbox/sass-importers", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:packages/sass-importers"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
-          ["@budsbox/types", "workspace:packages/types"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/eslint", "npm:8.56.12"],\
           ["@types/node", "npm:22.10.5"],\
@@ -716,9 +716,10 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/build", "workspace:build"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:ea815baed02cabecd22ae3fcf82615e2abb5b9821f2584f5bca49828a8b46bdb3bfaee9dd268b171e63c9c05a899cd55e79b1de3d00aa905aecf4181318014e3#workspace:linting"],\
           ["@budsbox/node-utils", "virtual:53d01815ff8356400f50cde93969d3506fec9c717eb000c789c5a5ca51f252068d1a9b869543a28616b598eab0b91b6cdb8e4fe5e4137e74e10dfd667addc84f#workspace:packages/node-utils"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -751,8 +752,9 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/builder", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:builder"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-node", "virtual:f45585b00defa4741ea2a9a8f5f515b9248c87a04290053dfe41ecd4a09d21fa9d4743e1320cc4ac3f807cb23664321ce3bcbc5089fee2c9f456aa6c51510e60#workspace:lib/node"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:ea815baed02cabecd22ae3fcf82615e2abb5b9821f2584f5bca49828a8b46bdb3bfaee9dd268b171e63c9c05a899cd55e79b1de3d00aa905aecf4181318014e3#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -791,8 +793,9 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/builder", "workspace:builder"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-node", "virtual:f45585b00defa4741ea2a9a8f5f515b9248c87a04290053dfe41ecd4a09d21fa9d4743e1320cc4ac3f807cb23664321ce3bcbc5089fee2c9f456aa6c51510e60#workspace:lib/node"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:ea815baed02cabecd22ae3fcf82615e2abb5b9821f2584f5bca49828a8b46bdb3bfaee9dd268b171e63c9c05a899cd55e79b1de3d00aa905aecf4181318014e3#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -826,7 +829,8 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/const/",\
         "packageDependencies": [\
           ["@budsbox/const", "workspace:packages/const"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@types/node", "npm:22.10.5"],\
           ["tslib", "npm:2.8.1"]\
@@ -840,8 +844,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/constraints", "workspace:constraints"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -885,8 +890,9 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/iso-utils/",\
         "packageDependencies": [\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -911,9 +917,9 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./lib/es/",\
         "packageDependencies": [\
           ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
-          ["@budsbox/types", "workspace:packages/types"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
           ["@typescript-eslint/parser", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:8.19.1"],\
@@ -939,10 +945,12 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/lib-extensions", "workspace:lib/extensions"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@types/node", "npm:22.10.5"],\
-          ["tslib", "npm:2.8.1"]\
+          ["tslib", "npm:2.8.1"],\
+          ["type-fest", "npm:4.32.0"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -953,8 +961,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/lib-node", "virtual:f45585b00defa4741ea2a9a8f5f515b9248c87a04290053dfe41ecd4a09d21fa9d4743e1320cc4ac3f807cb23664321ce3bcbc5089fee2c9f456aa6c51510e60#workspace:lib/node"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:ea815baed02cabecd22ae3fcf82615e2abb5b9821f2584f5bca49828a8b46bdb3bfaee9dd268b171e63c9c05a899cd55e79b1de3d00aa905aecf4181318014e3#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -984,8 +993,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/lib-node", "workspace:lib/node"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:ea815baed02cabecd22ae3fcf82615e2abb5b9821f2584f5bca49828a8b46bdb3bfaee9dd268b171e63c9c05a899cd55e79b1de3d00aa905aecf4181318014e3#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -1010,7 +1020,10 @@ const RAW_RUNTIME_STATE =
       ["workspace:lib/types", {\
         "packageLocation": "./lib/types/",\
         "packageDependencies": [\
-          ["@budsbox/lib-types", "workspace:lib/types"]\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
+          ["@types/node", "npm:22.10.5"],\
+          ["tslib", "npm:2.8.1"]\
         ],\
         "linkType": "SOFT"\
       }]\
@@ -1021,8 +1034,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/node-utils", "virtual:53d01815ff8356400f50cde93969d3506fec9c717eb000c789c5a5ca51f252068d1a9b869543a28616b598eab0b91b6cdb8e4fe5e4137e74e10dfd667addc84f#workspace:packages/node-utils"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/eslint", "npm:8.56.12"],\
@@ -1086,8 +1100,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/linting", "virtual:9b588332e951b6650c5dc67dd1baeede7ac508ba6fb5026dbc0606e2d19159d5f9065a1d5bdc7eacc58032d7337d1171b879533b742f4c51dcec422eb0f235c0#workspace:linting"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/node-utils", "virtual:53d01815ff8356400f50cde93969d3506fec9c717eb000c789c5a5ca51f252068d1a9b869543a28616b598eab0b91b6cdb8e4fe5e4137e74e10dfd667addc84f#workspace:packages/node-utils"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/eslint", "npm:8.56.12"],\
@@ -1151,8 +1166,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/linting", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:linting"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/node-utils", "virtual:53d01815ff8356400f50cde93969d3506fec9c717eb000c789c5a5ca51f252068d1a9b869543a28616b598eab0b91b6cdb8e4fe5e4137e74e10dfd667addc84f#workspace:packages/node-utils"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/eslint", "npm:8.56.12"],\
@@ -1217,8 +1233,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/linting", "virtual:ea815baed02cabecd22ae3fcf82615e2abb5b9821f2584f5bca49828a8b46bdb3bfaee9dd268b171e63c9c05a899cd55e79b1de3d00aa905aecf4181318014e3#workspace:linting"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/node-utils", "virtual:53d01815ff8356400f50cde93969d3506fec9c717eb000c789c5a5ca51f252068d1a9b869543a28616b598eab0b91b6cdb8e4fe5e4137e74e10dfd667addc84f#workspace:packages/node-utils"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/eslint", "npm:8.56.12"],\
@@ -1281,8 +1298,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/linting", "workspace:linting"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/node-utils", "virtual:d4f34cfb64c29c76c18b5497d3f9ea633e36c220a089e7fb1941c6588b866602ff8dd608e503f9c13caf74d6c7272c3e057111ad71f2e95c55f5aa6364720ae5#workspace:packages/node-utils"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/eslint", "npm:8.56.12"],\
@@ -1312,8 +1330,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/node-utils", "virtual:53d01815ff8356400f50cde93969d3506fec9c717eb000c789c5a5ca51f252068d1a9b869543a28616b598eab0b91b6cdb8e4fe5e4137e74e10dfd667addc84f#workspace:packages/node-utils"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -1345,8 +1364,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/node-utils", "virtual:d4f34cfb64c29c76c18b5497d3f9ea633e36c220a089e7fb1941c6588b866602ff8dd608e503f9c13caf74d6c7272c3e057111ad71f2e95c55f5aa6364720ae5#workspace:packages/node-utils"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -1378,8 +1398,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/node-utils", "workspace:packages/node-utils"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:9b588332e951b6650c5dc67dd1baeede7ac508ba6fb5026dbc0606e2d19159d5f9065a1d5bdc7eacc58032d7337d1171b879533b742f4c51dcec422eb0f235c0#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -1409,8 +1430,9 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/playground", "workspace:packages/playground"],\
           ["@budsbox/build", "workspace:build"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -1444,10 +1466,10 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/build", "workspace:build"],\
           ["@budsbox/builder", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:builder"],\
           ["@budsbox/constraints", "workspace:constraints"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:linting"],\
           ["@budsbox/sass-importers", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:packages/sass-importers"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
-          ["@budsbox/types", "workspace:packages/types"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/eslint", "npm:8.56.12"],\
           ["@types/node", "npm:22.10.5"],\
@@ -1492,8 +1514,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/sass-importers", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:packages/sass-importers"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@budsbox/ui-tools", "virtual:a752f264edfe9ecdada3a7329ffa6f460716d6f9ebc8fd936712cf00cf1a20c0ea2958a8a16806a4f8e0a5103e34cf5b4ada75bbe0a55251ea943e628a05b4c4#workspace:packages/ui-tools"],\
           ["@eslint/js", "npm:9.18.0"],\
@@ -1525,8 +1548,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/sass-importers", "virtual:c6f27bf34bc363128890a16765476bbbcfeb1f5a05fe66046316a37de38d5bbf9293d534d9fe8e3359af12bb89c9e858bbbeed180838e720494c1df7afdf1730#workspace:packages/sass-importers"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@budsbox/ui-tools", "virtual:a752f264edfe9ecdada3a7329ffa6f460716d6f9ebc8fd936712cf00cf1a20c0ea2958a8a16806a4f8e0a5103e34cf5b4ada75bbe0a55251ea943e628a05b4c4#workspace:packages/ui-tools"],\
           ["@eslint/js", "npm:9.18.0"],\
@@ -1558,8 +1582,9 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/sass-importers", "workspace:packages/sass-importers"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@budsbox/ui-tools", "virtual:cf5782f3ccf4ada38fd1f2dd4a8bf8ab763b53aa287b0e8841477e646de9e30867726755ce30f92727384ea0347c842595bab38b73af539d982f0653766d16bc#workspace:packages/ui-tools"],\
           ["@eslint/js", "npm:9.18.0"],\
@@ -1583,19 +1608,19 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@budsbox/tsconfigs", [\
-      ["virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs", {\
-        "packageLocation": "./.yarn/__virtual__/@budsbox-tsconfigs-virtual-bc86948e89/1/tsconfigs/",\
+      ["virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs", {\
+        "packageLocation": "./.yarn/__virtual__/@budsbox-tsconfigs-virtual-be7780a9f1/1/tsconfigs/",\
         "packageDependencies": [\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
-          ["@budsbox/types", "workspace:packages/types"],\
-          ["@types/budsbox__types", null],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
+          ["@types/budsbox__lib-types", null],\
           ["@types/node", "npm:22.10.5"],\
           ["@types/tslib", null],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "packagePeers": [\
-          "@budsbox/types",\
-          "@types/budsbox__types",\
+          "@budsbox/lib-types",\
+          "@types/budsbox__lib-types",\
           "@types/node",\
           "@types/tslib",\
           "tslib"\
@@ -1617,8 +1642,9 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./packages/types/",\
         "packageDependencies": [\
           ["@budsbox/types", "workspace:packages/types"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
           ["@typescript-eslint/parser", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:8.19.1"],\
@@ -1643,9 +1669,10 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/ui-tools", "virtual:a752f264edfe9ecdada3a7329ffa6f460716d6f9ebc8fd936712cf00cf1a20c0ea2958a8a16806a4f8e0a5103e34cf5b4ada75bbe0a55251ea943e628a05b4c4#workspace:packages/ui-tools"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
           ["@budsbox/sass-importers", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:packages/sass-importers"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -1678,9 +1705,10 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/ui-tools", "virtual:cf5782f3ccf4ada38fd1f2dd4a8bf8ab763b53aa287b0e8841477e646de9e30867726755ce30f92727384ea0347c842595bab38b73af539d982f0653766d16bc#workspace:packages/ui-tools"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
           ["@budsbox/sass-importers", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:packages/sass-importers"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
@@ -1713,9 +1741,10 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/ui-tools", "workspace:packages/ui-tools"],\
           ["@budsbox/iso-utils", "workspace:packages/iso-utils"],\
+          ["@budsbox/lib-types", "workspace:lib/types"],\
           ["@budsbox/linting", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:linting"],\
           ["@budsbox/sass-importers", "virtual:c6f27bf34bc363128890a16765476bbbcfeb1f5a05fe66046316a37de38d5bbf9293d534d9fe8e3359af12bb89c9e858bbbeed180838e720494c1df7afdf1730#workspace:packages/sass-importers"],\
-          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
           ["@eslint/js", "npm:9.18.0"],\
           ["@types/node", "npm:22.10.5"],\
