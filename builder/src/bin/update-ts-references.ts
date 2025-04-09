@@ -87,9 +87,12 @@ const updateTsconfigsReferences = async (
         new Set(
           [...currentSet].filter((path) => {
             const dirname = posix.dirname(path);
-            const pathWs = rootProject.getWorkspaceByFilePath(
-              dirname as PortablePath,
-            );
+            let pathWs: Workspace;
+            try {
+              pathWs = rootProject.getWorkspaceByCwd(dirname as PortablePath);
+            } catch {
+              return false;
+            }
 
             return (
               isNotNil(pathWs.manifest.name) &&
