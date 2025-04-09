@@ -11,6 +11,7 @@
     "declarationMap": true,
     "importHelpers": true,
     "outDir": "${configDir}/dist",
+    "tsBuildInfoFile": "${configDir}/dist/dist.tsbuildinfo",
     "sourceMap": true,
 
     // Language and Environment
@@ -24,7 +25,7 @@
     "rootDir": "${configDir}/src",
     "resolveJsonModule": true,
     "allowImportingTsExtensions": false,
-    "types": ["@budsbox/types/es.d.ts"],
+    "types": ["@budsbox/lib-types/es.d.ts"],
 
     // Interop Constraints,
     "esModuleInterop": true,

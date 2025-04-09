@@ -32,5 +32,5 @@
     "@budsbox/types": "workspace:^",
     "@types/node": "^22.10.5"
   },
-  "packageManager": "yarn@4.5.3"
+  "packageManager": "yarn@4.8.1"
 }
