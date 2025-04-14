@@ -1,3 +1,4 @@
+import type { ResolvedJson } from './types.js';
 import type { TsConfigJson } from 'type-fest';
 
 import { promises as fs } from 'node:fs';
@@ -35,8 +36,8 @@ export async function getTsConfig(
     readonly absolutePaths?: boolean;
     readonly normalizeRelativePaths?: boolean;
   } = {},
-): Promise<TsConfigJson> {
-  let absPath;
+): Promise<ResolvedJson<TsConfigJson>> {
+  let absPath: string;
 
   try {
     absPath = fileURLToPath(tsconfigPath);
@@ -99,7 +100,7 @@ export async function getTsConfig(
     }
   }
 
-  return tsconfig;
+  return { path: tsconfigFilePath, json: tsconfig };
 }
 
 type SeparatedIncludeLike = Record<'files' | 'dirs', string[]>;

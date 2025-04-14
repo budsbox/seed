@@ -42,8 +42,12 @@ export const queryExtensions = ({
 };
 
 /**
+ * Matches files and directories based on the provided options, applying specific patterns and extensions.
  *
- * @param options
+ * @param files - Array of file paths to be matched.
+ * @param dirs - Array of directory paths to be matched.
+ * @param rest - Additional options, including extensions and other configurations for matching.
+ * @return An array of string paths that match the specified patterns and extensions.
  */
 export function match({ files, dirs, ...rest }: MatchOptions): string[] {
   const extensions = queryExtensions(rest);

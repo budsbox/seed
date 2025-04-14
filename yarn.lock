@@ -585,21 +585,19 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint@workspace:lint/eslint":
+"@budsbox/eslint@workspace:^, @budsbox/eslint@workspace:lint/eslint":
   version: 0.0.0-use.local
   resolution: "@budsbox/eslint@workspace:lint/eslint"
-  languageName: unknown
-  linkType: soft
-
-"@budsbox/eslint~core@workspace:lint/eslint/core":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~core@workspace:lint/eslint/core"
   dependencies:
+    "@budsbox/eslint~core": "workspace:^"
+    "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-node": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.18.0"
+    "@types/eslint": "npm:^8.56.12"
     "@types/node": "npm:^22.10.5"
     "@typescript-eslint/parser": "npm:^8.19.1"
     eslint: "npm:^8.57.0"
@@ -612,6 +610,37 @@ __metadata:
     tslib: "npm:^2.8.1"
     typescript: "npm:^5.7.3"
     typescript-eslint: "npm:^8.19.1"
+  languageName: unknown
+  linkType: soft
+
+"@budsbox/eslint~core@workspace:^, @budsbox/eslint~core@workspace:lint/eslint/core":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/eslint~core@workspace:lint/eslint/core"
+  dependencies:
+    "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-extensions": "workspace:^"
+    "@budsbox/lib-node": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/linting": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@eslint/js": "npm:^9.18.0"
+    "@types/eslint": "npm:^8.56.12"
+    "@types/node": "npm:^22.10.5"
+    "@typescript-eslint/parser": "npm:^8.19.1"
+    eslint: "npm:^8.57.0"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-import-resolver-typescript: "npm:^3.7.0"
+    eslint-plugin-jsdoc: "npm:^50.2.2"
+    eslint-plugin-react: "npm:^7.35.0"
+    eslint-plugin-react-hooks: "npm:^4.6.2"
+    globals: "npm:^15.14.0"
+    tslib: "npm:^2.8.1"
+    type-fest: "npm:^4.32.0"
+    typescript: "npm:^5.7.3"
+    typescript-eslint: "npm:^8.19.1"
+  peerDependencies:
+    "@eslint/js": ^9.18.0
+    "@types/eslint": ^8.56.12
   languageName: unknown
   linkType: soft
 
@@ -644,6 +673,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/lib-es@workspace:lib/es"
   dependencies:
+    "@budsbox/eslint": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
@@ -665,7 +695,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/lib-extensions@workspace:lib/extensions":
+"@budsbox/lib-extensions@workspace:^, @budsbox/lib-extensions@workspace:lib/extensions":
   version: 0.0.0-use.local
   resolution: "@budsbox/lib-extensions@workspace:lib/extensions"
   dependencies:

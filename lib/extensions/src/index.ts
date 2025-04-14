@@ -42,7 +42,7 @@ export const queryFileTypeExtensions = (
  * @returns An array of file extensions that match the specified query parameters, excluding or including JSX extensions as specified.
  */
 export const queryJsExtensions = ({
-  lang,
+  lang = ['js', 'ts'],
   sourceType,
   targetSourceType = sourceType,
   jsx = false,

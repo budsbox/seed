@@ -35,3 +35,8 @@ export type OnFalseParam<
   TestType extends TestParam,
   ReturnType,
 > = FValue<TestResultType<ValueType, TestType, false>, ReturnType>;
+
+export interface ParsedPackageName {
+  scope: string | null;
+  name: string;
+}

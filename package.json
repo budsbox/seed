@@ -48,6 +48,8 @@
     "p:ts:prepack:emit-cjs-pkg": "cd $INIT_CWD; echo '{\"type\":\"commonjs\"}' > dist/cjs/package.json;",
     "p:ts:watch": "cd $INIT_CWD; yarn p:ts:build --watch --verbose",
     "p:wsa": "cd $INIT_CWD; yarn add @budsbox/$0",
+    "p:wsad": "cd $INIT_CWD; yarn add -D @budsbox/$0",
+    "p:wsap": "cd $INIT_CWD; yarn add -P @budsbox/$0",
     "playground": "yarn workspace @budsbox/playground p:serve",
     "prepare": "husky",
     "preview": "vite preview",

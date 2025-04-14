@@ -43,10 +43,12 @@ const getWsLocalTsconfigPaths = (() => {
     }
 
     if (isNil(tsconfigPath)) return [];
-    const { references } = await getTsConfig(tsconfigPath, {
-      absolutePaths: true,
-      stupid: true,
-    });
+    const { references } = (
+      await getTsConfig(tsconfigPath, {
+        absolutePaths: true,
+        stupid: true,
+      })
+    ).json;
     return (
       references
         ?.map(({ path }) => path)
@@ -81,7 +83,7 @@ const updateTsconfigsReferences = async (
         }),
         JSON.parse(await fs.readFile(tsconfigPath, 'utf8')) as TsConfigJson,
       ]);
-      const { references } = tsconfig;
+      const { references } = tsconfig.json;
       const currentSet = new Set(references?.map(({ path }) => path) ?? []);
       const newSet = new Set(refPaths).union(
         new Set(

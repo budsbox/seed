@@ -7,7 +7,7 @@ import type {
 } from '@budsbox/types/object';
 
 import type { ESLint, Linter } from 'eslint';
-import type { ParsedCommandLine } from 'typescript';
+import type { TsConfigJson } from 'type-fest';
 
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
@@ -22,11 +22,7 @@ import * as eslintTs from 'typescript-eslint';
 import { fif, fifs, sure } from '@budsbox/iso-utils/logical';
 import { parsePackageName } from '@budsbox/iso-utils/string';
 import { isNil, isNotNil, isTrue } from '@budsbox/iso-utils/type-guards';
-import {
-  extractTargetFromConfig,
-  getFilesList,
-  makeGlobsByDirs,
-} from '@budsbox/node-utils/tsconfig';
+import { separateIncludes } from '@budsbox/node-utils/tsconfig';
 
 import { type MatchOptions, match, queryExtensions } from '#match';
 import packageJson from '#package.json' with { type: 'json' };
@@ -56,7 +52,7 @@ export function createConfig<Name extends ConfigWithoutRequiredOptionsName>(
 export interface CommonOptions
   extends Pick<MatchOptions, 'sourceType' | 'dirs' | 'files'> {
   readonly ecmaVersion?: Linter.ParserOptions['ecmaVersion'];
-  readonly tsconfig?: Maybe<ParsedCommandLine>;
+  readonly tsconfig?: Maybe<TsConfigJson>;
   readonly packageJson?: Maybe<{
     readonly name: string;
     readonly type?: string;
@@ -241,7 +237,10 @@ const config = {
           'import-x/no-absolute-path': 'error',
           'import-x/no-amd': 'error',
           'import-x/no-commonjs': 'error',
-          'import-x/no-duplicates': 'error',
+          'import-x/no-duplicates': [
+            'error',
+            { 'considerQueryString': true, 'prefer-inline': true },
+          ],
           'import-x/no-empty-named-blocks': 'error',
           'import-x/no-extraneous-dependencies': [
             'error',
@@ -326,6 +325,7 @@ const config = {
         },
 
         rules: {
+          // https://typescript-eslint.io/troubleshooting/typed-linting/performance#eslint-plugin-import
           'import-x/default': 'off',
           'import-x/namespace': 'off',
           'import-x/no-named-as-default-member': 'off',
@@ -388,20 +388,25 @@ const config = {
           'error',
           {
             allowConciseArrowFunctionExpressionsStartingWithVoid: true,
+            allowExpressions: true,
           },
         ],
         '@typescript-eslint/explicit-member-accessibility': 'error',
         '@typescript-eslint/explicit-module-boundary-types': 'error',
         '@typescript-eslint/method-signature-style': 'error',
-        '@typescript-eslint/no-base-to-string': 'error',
         '@typescript-eslint/no-confusing-void-expression': [
           'error',
           { ignoreVoidOperator: true },
         ],
-        '@typescript-eslint/no-duplicate-enum-values': 'error',
-        '@typescript-eslint/no-dynamic-delete': 'warn',
-        '@typescript-eslint/no-empty-interface': 'off',
+        '@typescript-eslint/no-empty-object-type': [
+          'error',
+          { allowInterfaces: 'with-single-extends' },
+        ],
         '@typescript-eslint/no-import-type-side-effects': 'error',
+        '@typescript-eslint/no-invalid-void-type': [
+          'error',
+          { allowAsThisParameter: true },
+        ],
         '@typescript-eslint/no-meaningless-void-operator': 'off',
         '@typescript-eslint/no-misused-promises': [
           'error',
@@ -414,8 +419,10 @@ const config = {
         '@typescript-eslint/no-non-null-assertion': 'warn',
         '@typescript-eslint/no-shadow': 'error',
         '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/non-nullable-type-assertion-style': 'error',
         '@typescript-eslint/prefer-nullish-coalescing': 'error',
         '@typescript-eslint/prefer-optional-chain': 'error',
+        // todo: https://typescript-eslint.io/rules/prefer-readonly-parameter-types/#allow
         '@typescript-eslint/prefer-readonly-parameter-types': [
           'warn',
           { ignoreInferredTypes: true },
@@ -425,8 +432,14 @@ const config = {
         '@typescript-eslint/prefer-ts-expect-error': 'error',
         '@typescript-eslint/require-array-sort-compare': 'error',
         '@typescript-eslint/strict-boolean-expressions': 'error',
-        '@typescript-eslint/switch-exhaustiveness-check': 'error',
-        '@typescript-eslint/unified-signatures': 'error',
+        '@typescript-eslint/switch-exhaustiveness-check': [
+          'error',
+          { requireDefaultForNonUnion: true },
+        ],
+        '@typescript-eslint/unified-signatures': [
+          'error',
+          { ignoreDifferentlyNamedParameters: true },
+        ],
       },
     },
     {
@@ -674,7 +687,12 @@ function extractEcmaVersionFromOptions({
 
   if (isNotNil(tsconfig)) {
     const regex = /^es(\d+)$/i;
-    const target = extractTargetFromConfig(tsconfig);
+    const target = tsconfig.compilerOptions?.target;
+
+    if (target === 'esnext') {
+      return 'latest';
+    }
+
     if (isNil(target) || !regex.test(target)) {
       return undefined;
     }
@@ -691,6 +709,8 @@ function extractEcmaVersionFromOptions({
 function extractFilesAndDirsFromOptions(
   options: CommonOptions,
 ): Pick<CommonOptions, 'files' | 'dirs'> | undefined {
+  console.log(options);
+
   if (isNotNil(options.files) || isNotNil(options.dirs)) {
     return {
       dirs: options.dirs ?? [],
@@ -699,13 +719,15 @@ function extractFilesAndDirsFromOptions(
   }
 
   const { tsconfig } = options;
-  if (isNotNil(tsconfig)) {
-    const daf = {
-      dirs: makeGlobsByDirs(tsconfig),
-      files: getFilesList(tsconfig),
-    };
+  if (isNotNil(tsconfig?.include)) {
+    const { files, dirs } = separateIncludes(tsconfig.include);
 
-    return daf;
+    console.log(files, dirs);
+
+    return {
+      dirs: dirs.map((dir) => (dir.endsWith('*') ? dir : 'dir/**')),
+      files,
+    };
   }
 
   return undefined;

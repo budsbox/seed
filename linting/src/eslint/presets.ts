@@ -5,7 +5,7 @@ import type { Linter } from 'eslint';
 
 import { filterBy } from '@budsbox/iso-utils/object';
 import { isString } from '@budsbox/iso-utils/type-guards';
-import { getParsedConfig } from '@budsbox/node-utils/tsconfig';
+import { getTsConfig } from '@budsbox/node-utils/tsconfig';
 
 import {
   type CommonOptions,
@@ -107,9 +107,7 @@ function normalizeOptions<Name extends FactoryName>(
   return {
     ...options,
     tsconfig:
-      isString(options.tsconfig) ?
-        getParsedConfig(options.tsconfig)
-      : undefined,
+      isString(options.tsconfig) ? getTsConfig(options.tsconfig) : undefined,
   } as const as PresetOptionsNormal<Name>;
 }
 

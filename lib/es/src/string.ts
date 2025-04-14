@@ -1,3 +1,4 @@
+import type { ParsedPackageName } from './types.js';
 import type {
   CamelCase,
   DelimiterCase,
@@ -8,24 +9,23 @@ import type {
 
 import { isNotNil } from '#guards';
 
+export type { ParsedPackageName };
+
 /**
- * Parses the given NPM package name to extract its namespace and name.
+ * Parses a package name string to extract its scope and name.
  *
- * @param packageName The full package name as a string, which may include an optional namespace (e.g., `@namespace/name`).
- * @returns An object containing:
- *         - `ns`: The namespace of the package prefixed with `@` and suffixed with `/`, or `null` if no namespace is present.
- *         - `name`: The name of the package without the namespace.
+ * @param packageName - The full name of the package, potentially including a scope.
+ * @param clean - A flag indicating whether to return a cleaned version (i.e., without a leading `@` and trailing `/`) of the scope. Defaults to false.
+ * @return An object containing the parsed scope and name of the package. The scope will be `null` if no scope is present.
  */
-export function parsePackageName(packageName: string): {
-  ns: `@${string}/` | null;
-  name: string;
-} {
-  const [ns] = (/^@[^/]+\//.exec(packageName) as [`@${string}/`] | null) ?? [
-    null,
-  ];
+export function parsePackageName(
+  packageName: string,
+  clean: boolean = false,
+): ParsedPackageName {
+  const [scope, cleanScope] = /^@([^/]+)\//.exec(packageName) ?? [null, null];
   return {
-    ns,
-    name: packageName.replace(ns ?? '', ''),
+    scope: clean ? cleanScope : scope,
+    name: packageName.replace(scope ?? '', ''),
   };
 }
 
@@ -55,7 +55,9 @@ export function clampWS(str: string): string {
 }
 
 /**
- * Joins multiple parts of a path into a single string. It ensures that there are no duplicate slashes between the parts and trims leading/trailing slashes where necessary.
+ * Joins multiple parts of a path into a single string.
+ * It ensures that there are no duplicate slashes between the parts
+ * and trims leading/trailing slashes where necessary.
  *
  * @param parts - An array of path parts to join. Each part can be a string, number, boolean, null, or undefined. Non-string values will be stringified, and null/undefined values are ignored.
  * @returns The combined path as a single string, with proper slash formatting.

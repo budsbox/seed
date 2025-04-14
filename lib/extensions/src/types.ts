@@ -26,7 +26,7 @@ export type JSXExtensions = ArrayValues<JSXExtensionsList>;
  * I may try to implement it one day j4f
  */
 export interface QueryJsExtensionsParams {
-  lang: JsLangCode | readonly JsLangCode[];
+  lang?: Undef<JsLangCode | readonly JsLangCode[]>;
   sourceType?: Undef<JsSourceType>;
   targetSourceType?: Undef<JsSourceType>;
   jsx?: Undef<boolean>;
