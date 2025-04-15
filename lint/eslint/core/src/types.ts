@@ -39,7 +39,7 @@ export type DependsOnKey = ConfigName | '*';
 
 export interface Config {
   readonly name: ConfigName;
-  readonly dependsOn: readonly DependsOnKey[];
+  readonly modifies: readonly DependsOnKey[];
   readonly configs: readonly Linter.FlatConfig[];
   readonly opinionated: boolean;
   readonly strict: boolean;

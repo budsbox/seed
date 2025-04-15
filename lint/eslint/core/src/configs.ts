@@ -13,6 +13,7 @@ export const coreConfigFactory: ConfigFactory = (ctx) => {
     opinionated: false,
     configs: [
       {
+        name: 'ecma-version',
         files: matchIncludes({ jsx: true, sourceType: undefined }),
         languageOptions: { ecmaVersion: getEcmaVersionFromContext(ctx) },
       },

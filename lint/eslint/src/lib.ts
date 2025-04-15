@@ -57,18 +57,10 @@ export const sortConfigs = (configs: Config[]): Config[] => {
   const nameToConfig = new Map<ConfigName, Config>(
     configs.map((config) => [config.name, config]),
   );
-  if (nameToConfig.size !== configs.length) {
-    throw new Error(
-      `Duplicate config names detected: ${configs
-        .filter((config) => nameToConfig.get(config.name) !== config)
-        .map(({ name }) => name)
-        .join(', ')}`,
-    );
-  }
 
   const withoutWildcards = new Set(
     configs
-      .filter(({ dependsOn }) => !isTrue(dependsOn.includes('*')))
+      .filter(({ modifies }) => !isTrue(modifies.includes('*')))
       .map(({ name }) => name),
   );
   const visited = new Set<ConfigName>();
@@ -85,13 +77,20 @@ export const sortConfigs = (configs: Config[]): Config[] => {
     }
 
     const config = nameToConfig.get(name)!;
-    const { dependsOn = [] } = config;
-    const deps = dependsOn
-      .flatMap((dep) => (dep === '*' ? [...withoutWildcards] : dep))
-      .flatMap((dep) => getWithDeps(dep, [...stack, name]));
+    const modifiesKeys = config.modifies.flatMap((dep) =>
+      dep === '*' ? [...withoutWildcards] : dep,
+    );
+    const deps = modifiesKeys.flatMap((dep) =>
+      getWithDeps(dep, [...stack, name]),
+    );
     visited.add(name);
-    return deps.length === 0 && dependsOn.length > 0 ? [] : [...deps, config];
+    return (
+        modifiesKeys.length === 0 ||
+          modifiesKeys.some((dep) => visited.has(dep))
+      ) ?
+        [...deps, config]
+      : [];
   };
 
-  return configs.flatMap(({ name }) => getWithDeps(name, []));
+  return configs.flatMap(({ name }) => getWithDeps(name));
 };

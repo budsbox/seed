@@ -3,6 +3,7 @@ import type { Linter } from 'eslint';
 
 import { basename } from 'node:path';
 
+import { ensureArray } from '@budsbox/lib-es/array';
 import { hasProp, isArray, isNil, isTrue } from '@budsbox/lib-es/guards';
 import { sure } from '@budsbox/lib-es/logical';
 
@@ -33,7 +34,9 @@ export const createConfig = (
               packageJsonSuffix,
               tsconfigFileSuffix,
               configName,
-              ...sure(name, [name!], length > 0 ? [index.toFixed(0)] : []),
+              ...sure(name, ensureArray, () =>
+                length > 1 ? [index.toFixed(0)] : [],
+              ),
             ].join(':'),
             ...rest,
           }),

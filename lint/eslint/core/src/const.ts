@@ -18,6 +18,6 @@ export const coreSymbol = Symbol('@budsbox/eslint~core#symbol');
 export const configDefaults = {
   opinionated: true,
   strict: false,
-  dependsOn: [],
+  modifies: [],
   [coreSymbol]: true,
 } as const satisfies Partial<Config>;
