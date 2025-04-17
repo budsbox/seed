@@ -37,6 +37,7 @@
     "p:eslint:staged": "cd $INIT_CWD; eslint --quiet --no-warn-ignored",
     "p:format-manifest": "cd $INIT_CWD; sort-package-json package.json",
     "p:lib:build": "cd $INIT_CWD; budsbox-build-lib",
+    "p:lint": "cd $INIT_CWD; yarn p:eslint",
     "p:prettier": "prettier --write $INIT_CWD/**",
     "p:serve": "cd $INIT_CWD; vite",
     "p:ts:build": "cd $INIT_CWD; tsc --build",

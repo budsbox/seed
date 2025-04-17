@@ -1,12 +1,14 @@
-import type { configDefaults, coreSymbol } from './const.js';
+import type { configDefaults, configLevels, coreSymbol } from './const.js';
 import type {
   JsSourceType,
   QueryJsExtensionsParams,
 } from '@budsbox/lib-extensions';
-import type { Awaitable } from '@budsbox/lib-types';
+import type { Awaitable, Maybe } from '@budsbox/lib-types';
 
 import type { Linter } from 'eslint';
 import type {
+  Arrayable,
+  EmptyObject,
   HasRequiredKeys,
   PackageJson,
   SetOptional,
@@ -22,27 +24,31 @@ export interface BaseContext {
   sourceType: JsSourceType;
 }
 
+export type ConfigLevel = keyof typeof configLevels;
+
 /**
  *  This interface can be augmented in other configs via interface merging
- *  to provide correct typings for the `name` and `dependsOn` properties of Config.
- *  The local symbol is used as a value's type to prevent different configs using same name.
+ *  to provide correct typings for the `name` and `modifies` properties of `Config`.
+ *  Use a property's name as a type of value to create a non-namespaced config's name;
+ *  Use any other primitive value or union to create namespaced names.
  */
-export interface ConfigNameDict
-  extends Record<
-    'core' | 'common/strict' | 'common/opinionated',
-    typeof coreSymbol
-  > {}
+export interface ConfigNamespaces {
+  core: 'core';
+  common: ConfigLevel;
+}
 
-export type ConfigName = keyof ConfigNameDict;
+export type ConfigName = {
+  [K in keyof ConfigNamespaces]: ConfigNamespaces[K] extends K ? K
+  : `${K}/${ConfigNamespaces[K]}`;
+}[keyof ConfigNamespaces];
 
-export type DependsOnKey = ConfigName | '*';
+export type ModifiesKey = ConfigName | '*';
 
 export interface Config {
   readonly name: ConfigName;
-  readonly modifies: readonly DependsOnKey[];
+  readonly modifies: readonly ModifiesKey[];
   readonly configs: readonly Linter.FlatConfig[];
-  readonly opinionated: boolean;
-  readonly strict: boolean;
+  readonly level: ConfigLevel;
   readonly [coreSymbol]: true;
 }
 
@@ -63,10 +69,10 @@ export interface ConfigFactory {
   (
     this: void,
     ctx: Readonly<ConfigFactoryContext>,
-  ): Awaitable<Config[] | Config>;
+  ): Awaitable<Arrayable<Maybe<Config>>>;
 }
 
-export type ConfigFactoryCreate<TOptions extends object> = (
+export type ConfigFactoryCreate<TOptions extends object = EmptyObject> = (
   this: void,
   ...args: HasRequiredKeys<TOptions> extends true ?
     [options: Readonly<TOptions>]

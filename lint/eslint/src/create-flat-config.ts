@@ -12,7 +12,7 @@ import {
   defaultIgnores,
 } from '@budsbox/eslint~core';
 
-import { isArray } from '@budsbox/lib-es/guards';
+import { isArray, isNotNil } from '@budsbox/lib-es/guards';
 
 import { findCurrentPackageJson } from '@budsbox/lib-node/pckg';
 import { getTsConfig } from '@budsbox/lib-node/ts';
@@ -71,7 +71,9 @@ export async function createFlatConfig({
             await Promise.all(
               factories.map((factory) => factory(configFactoryContext)),
             )
-          ).flat(),
+          )
+            .flat()
+            .filter((v) => isNotNil(v)),
         ),
       );
     }),

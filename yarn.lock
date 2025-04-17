@@ -613,6 +613,35 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@budsbox/eslint~config-typescript@workspace:^, @budsbox/eslint~config-typescript@workspace:lint/eslint/configs/typescript":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/eslint~config-typescript@workspace:lint/eslint/configs/typescript"
+  dependencies:
+    "@budsbox/eslint~core": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/linting": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@eslint/js": "npm:^9.18.0"
+    "@types/eslint": "npm:^8.56.12"
+    "@types/node": "npm:^22.10.5"
+    "@typescript-eslint/parser": "npm:^8.19.1"
+    eslint: "npm:^8.57.0"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-import-resolver-typescript: "npm:^3.7.0"
+    eslint-plugin-jsdoc: "npm:^50.2.2"
+    eslint-plugin-react: "npm:^7.35.0"
+    eslint-plugin-react-hooks: "npm:^4.6.2"
+    globals: "npm:^15.14.0"
+    tslib: "npm:^2.8.1"
+    typescript: "npm:^5.7.3"
+    typescript-eslint: "npm:^8.19.1"
+  peerDependencies:
+    "@eslint/js": ^9.18.0
+    "@typescript-eslint/parser": ^8.19.1
+    typescript-eslint: ^8.19.1
+  languageName: unknown
+  linkType: soft
+
 "@budsbox/eslint~core@workspace:^, @budsbox/eslint~core@workspace:lint/eslint/core":
   version: 0.0.0-use.local
   resolution: "@budsbox/eslint~core@workspace:lint/eslint/core"
@@ -674,6 +703,7 @@ __metadata:
   resolution: "@budsbox/lib-es@workspace:lib/es"
   dependencies:
     "@budsbox/eslint": "workspace:^"
+    "@budsbox/eslint~config-typescript": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"

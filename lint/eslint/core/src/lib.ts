@@ -31,12 +31,13 @@ export const createConfig = (
         .map(
           ({ name, ...rest }, index, { length }): Linter.FlatConfig => ({
             name: [
-              packageJsonSuffix,
-              tsconfigFileSuffix,
-              configName,
-              ...sure(name, ensureArray, () =>
-                length > 1 ? [index.toFixed(0)] : [],
-              ),
+              [packageJsonSuffix, tsconfigFileSuffix].join('#'),
+              [
+                configName,
+                ...sure(name, ensureArray, () =>
+                  length > 1 ? [index.toFixed(0)] : [],
+                ),
+              ].join('#'),
             ].join(':'),
             ...rest,
           }),

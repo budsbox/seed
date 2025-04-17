@@ -16,8 +16,14 @@ export const defaultIgnores: Readonly<Def<Linter.FlatConfig['ignores']>> = [
 export const coreSymbol = Symbol('@budsbox/eslint~core#symbol');
 
 export const configDefaults = {
-  opinionated: true,
-  strict: false,
   modifies: [],
+  level: 'opinionated',
   [coreSymbol]: true,
 } as const satisfies Partial<Config>;
+
+export const configLevels = {
+  basic: 0,
+  recommended: 100,
+  strict: 200,
+  opinionated: 300,
+};
