@@ -26,6 +26,9 @@
   "files": [
     "dist"
   ],
+  "scripts": {
+    "name": "echo $npm_package_name"
+  },
   "devDependencies": {
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",

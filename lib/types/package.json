@@ -35,6 +35,9 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "scripts": {
+    "name": "echo $npm_package_name"
+  },
   "dependencies": {
     "@budsbox/tsconfigs": "workspace:^",
     "@types/node": "^22.10.5",

@@ -32,6 +32,9 @@
       }
     }
   },
+  "scripts": {
+    "name": "echo $npm_package_name"
+  },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-extensions": "workspace:^",

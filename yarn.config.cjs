@@ -25,6 +25,7 @@ module.exports = defineConfig({
           'packageManager',
           'repository',
         ],
+        requiredFields: [[['scripts', 'name'], 'echo $npm_package_name']],
       }),
       constraintExports,
       constraintImports,

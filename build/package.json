@@ -37,6 +37,9 @@
     "dist/**/*.d.ts",
     "dist/**/*.js"
   ],
+  "scripts": {
+    "name": "echo $npm_package_name"
+  },
   "dependencies": {
     "@budsbox/iso-utils": "workspace:^",
     "@budsbox/lib-types": "workspace:^",

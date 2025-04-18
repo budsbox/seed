@@ -61,6 +61,7 @@
     "dist/cjs/package.json"
   ],
   "scripts": {
+    "name": "echo $npm_package_name",
     "prepack": "yarn p:ts:prepack"
   },
   "dependencies": {

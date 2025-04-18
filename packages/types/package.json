@@ -85,6 +85,7 @@
     "es.d.ts"
   ],
   "scripts": {
+    "name": "echo $npm_package_name",
     "prepack": "yarn p:ts:prepack:dual"
   },
   "devDependencies": {

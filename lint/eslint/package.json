@@ -26,6 +26,9 @@
     "core",
     "presets/*"
   ],
+  "scripts": {
+    "name": "echo $npm_package_name"
+  },
   "dependencies": {
     "@budsbox/eslint~core": "workspace:^",
     "@budsbox/lib-es": "workspace:^",
