@@ -64,3 +64,6 @@ export const queryJsExtensions = ({
     jsx ? [] : jsxExtensions,
   );
 };
+
+export const dotMapper = <TExt extends string>(ext: TExt): `.${TExt}` =>
+  `.${ext}`;
