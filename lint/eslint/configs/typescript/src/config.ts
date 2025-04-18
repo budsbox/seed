@@ -1,3 +1,4 @@
+/// <reference types="@budsbox/eslint~config-import/types" />
 import type { ConfigFactoryCreate } from '@budsbox/eslint~core';
 
 import type { ESLint, Linter } from 'eslint';
@@ -185,6 +186,27 @@ export const createTypescriptConfig: ConfigFactoryCreate =
             }),
             rules: {
               '@typescript-eslint/no-require-imports': 'off',
+            },
+          },
+        ],
+      }),
+
+      createConfig({
+        name: 'typescript/import',
+        level: 'recommended',
+        modifies: ['import/recommended', 'import/opinionated'],
+        configs: [
+          {
+            files: matchIncludes({
+              jsx: true,
+              targetSourceType: 'module',
+            }),
+            rules: {
+              // https://typescript-eslint.io/troubleshooting/typed-linting/performance#eslint-plugin-import
+              'import-x/default': 'off',
+              'import-x/namespace': 'off',
+              'import-x/no-named-as-default-member': 'off',
+              'import-x/no-unresolved': 'off',
             },
           },
         ],

@@ -1,23 +1,13 @@
 {
   "name": "@budsbox/eslint~core",
-  "packageManager": "yarn@4.8.1",
-  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
   },
-  "homepage": "https://gitlab.com/budsbox/fe/seed",
-  "license": "MIT",
   "repository": "gitlab:budsbox/fe/seed",
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": {
-        "default": "./dist/index.js",
-        "types": "./dist/index.d.ts"
-      }
-    }
-  },
   "imports": {
     "#package.json": "./package.json",
     "#types": {
@@ -30,6 +20,15 @@
       "import": {
         "default": "./dist/const.js",
         "types": "./dist/const.d.ts"
+      }
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "default": "./dist/index.js",
+        "types": "./dist/index.d.ts"
       }
     }
   },
@@ -47,10 +46,10 @@
     "@eslint/js": "^9.18.0",
     "@types/eslint": "^8.56.12",
     "@types/node": "^22.10.5",
-    "@typescript-eslint/parser": "^8.19.1",
-    "eslint": "^8.57.0",
+    "@typescript-eslint/parser": "^8.30.1",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^3.7.0",
+    "eslint-import-resolver-typescript": "^3.10.0",
     "eslint-plugin-jsdoc": "^50.2.2",
     "eslint-plugin-react": "^7.35.0",
     "eslint-plugin-react-hooks": "^4.6.2",
@@ -61,5 +60,6 @@
   "peerDependencies": {
     "@eslint/js": "^9.18.0",
     "@types/eslint": "^8.56.12"
-  }
+  },
+  "packageManager": "yarn@4.8.1"
 }

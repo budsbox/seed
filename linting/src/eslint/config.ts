@@ -313,16 +313,6 @@ const config = {
           jsx: true,
           targetSourceType: undefined,
         }),
-        settings: {
-          'import-x/resolver': {
-            node: queryExtensions({
-              lang: 'all',
-
-              jsx: true,
-              targetSourceType: 'module',
-            }),
-          },
-        },
 
         rules: {
           // https://typescript-eslint.io/troubleshooting/typed-linting/performance#eslint-plugin-import
@@ -480,20 +470,6 @@ const config = {
           targetSourceType: 'commonjs',
         }),
         languageOptions: { globals: { ...globals.node } },
-      },
-      {
-        name: configNameNode('import'),
-
-        files: match({
-          ...options,
-          lang: 'all',
-          targetSourceType: 'module',
-        }),
-        settings: {
-          'import-x/resolver': {
-            node: true,
-          },
-        },
       },
     ];
   },
