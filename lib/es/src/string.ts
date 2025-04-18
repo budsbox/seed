@@ -1,4 +1,3 @@
-import type { ParsedPackageName } from './types.js';
 import type {
   CamelCase,
   DelimiterCase,
@@ -6,6 +5,8 @@ import type {
   PascalCase,
   SnakeCase,
 } from 'type-fest';
+
+import type { ParsedPackageName } from './types.js';
 
 import { isNotNil } from '#guards';
 

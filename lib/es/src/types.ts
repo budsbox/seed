@@ -10,6 +10,7 @@ export type FValue<A, T> = T | ((value: A) => T);
 export type TypeGuard<T, V extends T> = (value: T) => value is V;
 export type TestFn<T> = (value: T) => boolean;
 export type TestParam<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ValueType = any,
   NarrowedType extends ValueType = ValueType,
 > = TypeGuard<ValueType, NarrowedType> | TestFn<ValueType>;

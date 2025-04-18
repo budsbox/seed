@@ -1,6 +1,6 @@
-import type { Key, OmitNilProps, Value } from '@budsbox/lib-types/object';
-
 import type { ConditionalExcept } from 'type-fest';
+
+import type { Key, OmitNilProps, Value } from '@budsbox/lib-types/object';
 
 import { isNotNil } from '#guards';
 
@@ -36,10 +36,10 @@ export function omit(source: object, ...keys: readonly PropertyKey[]): object {
   );
 }
 
-export const omitStrict: <T extends object, Key extends keyof T>(
-  source: T,
-  ...keys: readonly Key[]
-) => Omit<T, Key> = omit;
+export const omitStrict: <TSource extends object, TKey extends keyof TSource>(
+  source: TSource,
+  ...keys: readonly TKey[]
+) => Omit<TSource, TKey> = omit;
 
 export function filterBy<T, K extends string, R extends T>(
   value: Partial<Record<K, T>>,
