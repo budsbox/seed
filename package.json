@@ -45,6 +45,7 @@
     "p:scope-prefix": "$SHELL -c 'echo ${@/#/@budsbox/}' sh",
     "p:serve": "cd $INIT_CWD; vite",
     "p:ts:build": "cd $INIT_CWD; tsc --build",
+    "p:ts:config": "cd $INIT_CWD; tsc --showConfig --project",
     "p:ts:check": "cd $INIT_CWD; tsc --project $INIT_CWD --noEmit",
     "p:ts:cjs": "cd $INIT_CWD; tsc --outDir dist/cjs --verbatimModuleSyntax false",
     "p:ts:prepack": "cd $INIT_CWD; tsc --build --clean; tsc --build;",

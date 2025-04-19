@@ -5,7 +5,7 @@ import { join, posix, relative } from 'node:path';
 
 import { getPluginConfiguration } from '@yarnpkg/cli';
 import { Configuration, Project, type Workspace } from '@yarnpkg/core';
-import { type PortablePath, ppath } from '@yarnpkg/fslib';
+import { ppath } from '@yarnpkg/fslib';
 
 import { hasProp, isNil, isNotNil } from '@budsbox/lib-es/guards';
 
@@ -15,7 +15,7 @@ const configuration = await Configuration.find(
   ppath.cwd(),
   getPluginConfiguration(),
 );
-const { project: rootProject, workspace: rootWorkspace } = await Project.find(
+const { workspace: rootWorkspace } = await Project.find(
   configuration,
   ppath.cwd(),
 );
@@ -23,11 +23,18 @@ const { project: rootProject, workspace: rootWorkspace } = await Project.find(
 if (isNil(rootWorkspace)) throw new Error('No root workspace found');
 
 function getWsDirectDependencies(workspace: Workspace): Workspace[] {
-  const { dependencies } = workspace.manifest;
-  return [...workspace.getRecursiveWorkspaceDependencies()].filter(
-    ({ manifest: { name } }) =>
-      isNotNil(name) && dependencies.has(name.identHash),
-  );
+  const { dependencies, peerDependencies } = workspace.manifest;
+  return [...workspace.getRecursiveWorkspaceDependencies()].filter((depWs) => {
+    const {
+      manifest: { name },
+    } = depWs;
+    return (
+      isNotNil(name) &&
+      (dependencies.has(name.identHash) ||
+        peerDependencies.has(name.identHash)) &&
+      !depWs.getRecursiveWorkspaceChildren().includes(workspace)
+    );
+  });
 }
 
 const getWsLocalTsconfigPaths = (() => {
@@ -72,7 +79,6 @@ const updateTsconfigsReferences = async (
   workspace: Workspace,
   refPaths: readonly string[],
 ): Promise<void> => {
-  const { manifest } = workspace;
   const tsconfigPaths = await getWsLocalTsconfigPaths(workspace);
   await Promise.all(
     tsconfigPaths.map(async (tsconfigPath) => {
@@ -85,24 +91,7 @@ const updateTsconfigsReferences = async (
       ]);
       const { references } = tsconfig.json;
       const currentSet = new Set(references?.map(({ path }) => path) ?? []);
-      const newSet = new Set(refPaths).union(
-        new Set(
-          [...currentSet].filter((path) => {
-            const dirname = posix.dirname(path);
-            let pathWs: Workspace;
-            try {
-              pathWs = rootProject.getWorkspaceByCwd(dirname as PortablePath);
-            } catch {
-              return false;
-            }
-
-            return (
-              isNotNil(pathWs.manifest.name) &&
-              manifest.hasDependency(pathWs.manifest.name)
-            );
-          }),
-        ),
-      );
+      const newSet = new Set(refPaths);
 
       if (
         newSet.size !== currentSet.size ||
@@ -134,9 +123,9 @@ const updateTsconfigsReferences = async (
 
 await Promise.all(
   rootWorkspace.getRecursiveWorkspaceChildren().map(async (workspace) => {
-    const children = getWsDirectDependencies(workspace);
+    const dependencies = getWsDirectDependencies(workspace);
     const childrenPaths = await Promise.all(
-      children.map(getWsLocalTsconfigPaths),
+      dependencies.map(getWsLocalTsconfigPaths),
     );
 
     await updateTsconfigsReferences(workspace, childrenPaths.flat());
