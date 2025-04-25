@@ -1,0 +1,14 @@
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.node.lib.json",
+  "references": [
+    {
+      "path": "../../configs/import/tsconfig.lib.json"
+    },
+    {
+      "path": "../../configs/typescript/tsconfig.lib.json"
+    },
+    {
+      "path": "../lib/tsconfig.lib.json"
+    }
+  ]
+}

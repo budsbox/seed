@@ -1,11 +1,12 @@
-import { Undef } from '@budsbox/lib-types';
+import type { ArrayValues } from 'type-fest';
+
+import type { Undef } from '@budsbox/lib-types';
+
 import type {
   fileTypeCodeToExtensions,
-  jsxExtensions,
   jsSourceTypeToExtensions,
+  jsxExtensions,
 } from './const.js';
-
-import { ArrayValues } from 'type-fest';
 
 type FileTypeCodeToExtensions = typeof fileTypeCodeToExtensions;
 type JSXExtensionsList = typeof jsxExtensions;

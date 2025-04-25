@@ -1,17 +1,19 @@
-import {
-  FileTypeCode,
+import type {
   FileExtension,
-  QueryJsExtensionsParams,
-  JsSourceType,
+  FileTypeCode,
   JsLangCode,
+  JsSourceType,
+  QueryJsExtensionsParams,
 } from './types.js';
+
+import { diff, ensureArray, intersection, union } from '@budsbox/lib-es/array';
+import { isNil } from '@budsbox/lib-es/guards';
+
 import {
   fileTypeCodeToExtensions,
   jsSourceTypeToExtensions,
   jsxExtensions,
 } from './const.js';
-import { intersection, union, ensureArray, diff } from '@budsbox/lib-es/array';
-import { isNil } from '@budsbox/lib-es/guards';
 
 export type {
   FileExtension,

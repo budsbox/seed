@@ -1,4 +1,4 @@
-import type { ConfigFactoryCreate } from '@budsbox/eslint~core';
+import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
 import type { ESLint } from 'eslint';
 

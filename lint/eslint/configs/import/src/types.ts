@@ -1,6 +1,6 @@
-import type { ConfigLevel } from '@budsbox/eslint~core';
+import type { ConfigLevel } from '@budsbox/eslint';
 
-declare module '@budsbox/eslint~core' {
+declare module '@budsbox/eslint' {
   interface ConfigNamespaces {
     import: ConfigLevel;
   }

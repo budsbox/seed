@@ -6,9 +6,6 @@
     },
     {
       "path": "../../../../lib/extensions/tsconfig.lib.json"
-    },
-    {
-      "path": "../../core/tsconfig.lib.json"
     }
   ]
 }

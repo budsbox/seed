@@ -3,9 +3,6 @@
   "references": [
     {
       "path": "../import/tsconfig.lib.json"
-    },
-    {
-      "path": "../../core/tsconfig.lib.json"
     }
   ]
 }

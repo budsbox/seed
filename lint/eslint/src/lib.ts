@@ -3,14 +3,22 @@ import type {
   Config,
   ConfigFactoryContext,
   ConfigName,
-} from '@budsbox/eslint~core';
+  CreateConfigOptions,
+} from '#types';
+import type { Linter } from 'eslint';
 
-import { posix } from 'node:path';
+import { basename, posix } from 'node:path';
 
 import { ensureArray } from '@budsbox/lib-es/array';
-import { isTrue } from '@budsbox/lib-es/guards';
+
+import { hasProp, isArray, isNil } from '@budsbox/lib-es/guards';
+import { sure } from '@budsbox/lib-es/logical';
+
+import { parsePackageName } from '@budsbox/lib-es/string';
 import { type FileExtension, queryJsExtensions } from '@budsbox/lib-extensions';
 import { separateIncludes } from '@budsbox/lib-node/ts';
+
+import { configDefaults, eslintSymbol } from '#const';
 
 export const createMatchIncludes = ({
   tsconfig,
@@ -53,14 +61,14 @@ export const createMatchIncludes = ({
   return matchIncludes;
 };
 
-export const sortConfigs = (configs: Config[]): Config[] => {
+export const sortConfigs = (configs: readonly Config[]): Config[] => {
   const nameToConfig = new Map<ConfigName, Config>(
     configs.map((config) => [config.name, config]),
   );
 
   const withoutWildcards = new Set(
     configs
-      .filter(({ modifies }) => !isTrue(modifies.includes('*')))
+      .filter(({ modifies }) => !modifies.includes('*'))
       .map(({ name }) => name),
   );
   const visited = new Set<ConfigName>();
@@ -93,4 +101,76 @@ export const sortConfigs = (configs: Config[]): Config[] => {
   };
 
   return configs.flatMap(({ name }) => getWithDeps(name));
+};
+
+const configMap = new WeakMap<Linter.FlatConfig, Config>();
+
+export const createConfig = (
+  { name: configName, configs, ...restOptions }: CreateConfigOptions,
+  { packageJson, tsconfigPath }: Readonly<BaseContext>,
+): Config => {
+  const packageJsonSuffix = parsePackageName(packageJson.name ?? '').name;
+  const tsconfigFileSuffix =
+    /tsconfig\.(.+)$/.exec(basename(tsconfigPath, '.json'))?.[1] ?? '[index]';
+
+  const config: Config = {
+    ...configDefaults,
+    ...restOptions,
+    name: configName,
+    configs: Object.freeze(
+      configs
+        .filter(({ files }) => isArray(files) && files.length > 0)
+        .map(
+          ({ name, ...rest }, index, { length }): Linter.FlatConfig => ({
+            name: [
+              [packageJsonSuffix, tsconfigFileSuffix].join('#'),
+              [
+                configName,
+                ...sure(name, ensureArray, () =>
+                  length > 1 ? [index.toFixed(0)] : [],
+                ),
+              ].join('#'),
+            ].join(':'),
+            ...rest,
+          }),
+        ),
+    ),
+  };
+
+  // reconfigure to make it non-enumerable
+  Object.defineProperty(config, eslintSymbol, {
+    value: config[eslintSymbol],
+    enumerable: false,
+  });
+
+  config.configs.forEach((flatConfig) => {
+    configMap.set(flatConfig, config);
+  });
+
+  return Object.freeze(config);
+};
+
+export const getConfigByFlatConfig = (
+  flatConfig: Linter.FlatConfig,
+): Config | null => configMap.get(flatConfig) ?? null;
+
+export const isConfig = (value: unknown): value is Config =>
+  hasProp(value, eslintSymbol, (v) => v === configDefaults[eslintSymbol]);
+
+export const getEcmaVersionFromContext = ({
+  tsconfig,
+}: BaseContext): Linter.ParserOptions['ecmaVersion'] | undefined => {
+  const regex = /^es(\d+)$/i;
+  const target = tsconfig.compilerOptions?.target;
+
+  if (target === 'esnext') {
+    return 'latest';
+  }
+
+  return !isNil(target) && regex.test(target) ?
+      (parseInt(
+        target.replace(regex, '$1'),
+        10,
+      ) as Linter.ParserOptions['ecmaVersion'])
+    : undefined;
 };

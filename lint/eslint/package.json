@@ -1,6 +1,5 @@
 {
   "name": "@budsbox/eslint",
-  "private": true,
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
@@ -10,7 +9,31 @@
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
-    "#package.json": "./package.json"
+    "#package.json": "./package.json",
+    "#types": {
+      "import": {
+        "default": "./dist/types.js",
+        "types": "./dist/types.d.ts"
+      }
+    },
+    "#const": {
+      "import": {
+        "default": "./dist/const.js",
+        "types": "./dist/const.d.ts"
+      }
+    },
+    "#configs": {
+      "import": {
+        "default": "./dist/configs/index.js",
+        "types": "./dist/configs/index.d.ts"
+      }
+    },
+    "#lib": {
+      "import": {
+        "default": "./dist/lib.js",
+        "types": "./dist/lib.d.ts"
+      }
+    }
   },
   "exports": {
     "./package.json": "./package.json",
@@ -23,24 +46,22 @@
   },
   "workspaces": [
     "configs/*",
-    "core",
     "presets/*"
   ],
   "scripts": {
     "name": "echo $npm_package_name"
   },
   "dependencies": {
-    "@budsbox/eslint~core": "workspace:^",
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-extensions": "workspace:^",
     "@budsbox/lib-node": "workspace:^",
     "@types/eslint": "^8.56.12",
     "@types/node": "^22.10.5",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "type-fest": "^4.32.0"
   },
   "devDependencies": {
     "@budsbox/lib-types": "workspace:^",
-    "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@eslint/js": "^9.18.0",
     "@typescript-eslint/parser": "^8.30.1",

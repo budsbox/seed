@@ -1,7 +1,7 @@
-export * from './types.js';
-export {
-  createCommonConfigFactory,
-  unopinionated,
-  loose,
-} from '@budsbox/eslint~core';
+export * from '#types';
+export { defaultIgnores } from '#const';
+export { isConfig } from '#lib';
+
+// export { unopinionated, loose } from './filters.js';
+export { createCommonConfigFactory, createNodeConfigFactory } from '#configs';
 export { createFlatConfig } from './create-flat-config.js';

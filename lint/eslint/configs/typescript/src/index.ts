@@ -1,1 +1,1 @@
-export { createTypescriptConfig } from './config.js';
+export { createTypescriptConfigFactory } from './config.js';

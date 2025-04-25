@@ -1,28 +1,31 @@
-import type { CreateFlatConfigParams } from './types.js';
+import type {
+  BaseContext,
+  Config,
+  ConfigFactory,
+  ConfigFactoryContext,
+  CreateConfigOptions,
+  CreateFlatConfigParams,
+} from '#types';
 import type { Linter } from 'eslint';
 
-import {
-  type BaseContext,
-  type Config,
-  type ConfigFactory,
-  type ConfigFactoryContext,
-  type CreateConfigOptions,
-  coreConfigFactory,
-  createConfig as createConfigPure,
-  defaultIgnores,
-} from '@budsbox/eslint~core';
-
-import { isArray, isNotNil } from '@budsbox/lib-es/guards';
+import { isArray, isFalse, isNotNil, isObject } from '@budsbox/lib-es/guards';
 
 import { findCurrentPackageJson } from '@budsbox/lib-node/pckg';
 import { getTsConfig } from '@budsbox/lib-node/ts';
 
-import { createMatchIncludes, sortConfigs } from './lib.js';
+import { coreConfigFactory } from '#configs';
+import { defaultIgnores } from '#const';
+import {
+  createConfig as createConfigPure,
+  createMatchIncludes,
+  sortConfigs,
+} from '#lib';
 
 export async function createFlatConfig({
   importMeta,
   entries,
   ignores = defaultIgnores,
+  inspectConfig = false,
 }: Readonly<CreateFlatConfigParams>): Promise<Linter.FlatConfig[]> {
   const allConfigs: Config[] = [];
   const packageJson = await findCurrentPackageJson(importMeta);
@@ -79,8 +82,15 @@ export async function createFlatConfig({
     }),
   );
 
-  return [
+  const flatConfig = [
     { ignores: [...ignores] },
     ...allConfigs.flatMap(({ configs }) => configs),
   ];
+
+  if (!isFalse(inspectConfig)) {
+    // eslint-disable-next-line no-console
+    console.dir(flatConfig, isObject(inspectConfig) ? inspectConfig : {});
+  }
+
+  return flatConfig;
 }
