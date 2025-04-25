@@ -1,5 +1,5 @@
 {
-  "name": "@budsbox/eslint~presets-lib",
+  "name": "@budsbox/eslint~configs-promise",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
@@ -9,43 +9,45 @@
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
-    "#package.json": "./package.json"
+    "#package.json": "./package.json",
+    "#types": {
+      "types": "./dist/types.d.ts"
+    }
   },
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "import": {
-        "default": "./dist/index.js",
-        "types": "./dist/index.d.ts"
-      }
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts"
     }
   },
   "scripts": {
     "name": "echo $npm_package_name"
   },
   "dependencies": {
-    "@budsbox/eslint~configs-import": "workspace:^",
-    "@budsbox/eslint~configs-prettier": "workspace:^",
-    "@budsbox/eslint~configs-promise": "workspace:^",
-    "@budsbox/eslint~configs-typescript": "workspace:^",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-promise": "^7.2.1"
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@budsbox/eslint~presets-node-lib": "workspace:^",
-    "@budsbox/eslint~presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
+    "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@eslint/js": "^9.18.0",
     "@types/eslint": "^8.56.12",
     "@types/node": "^22.10.5",
     "@typescript-eslint/parser": "^8.30.1",
     "eslint": "^8.57.1",
+    "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-typescript": "^3.10.0",
     "eslint-plugin-import-x": "^4.10.5",
+    "eslint-plugin-jsdoc": "^50.2.2",
+    "eslint-plugin-promise": "^7.2.1",
+    "eslint-plugin-react": "^7.35.0",
+    "eslint-plugin-react-hooks": "^4.6.2",
     "globals": "^15.14.0",
-    "tslib": "^2.8.1",
     "typescript": "^5.7.3",
     "typescript-eslint": "^8.19.1"
   },
@@ -53,7 +55,7 @@
     "@budsbox/eslint": "workspace:^",
     "@types/eslint": "^8.56.12",
     "eslint": "^8.57.1",
-    "typescript": "^5.7.3"
+    "eslint-plugin-promise": "^7.2.1"
   },
   "packageManager": "yarn@4.8.1"
 }

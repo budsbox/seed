@@ -649,6 +649,38 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@budsbox/eslint~configs-promise@workspace:^, @budsbox/eslint~configs-promise@workspace:lint/eslint/configs/promise":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/eslint~configs-promise@workspace:lint/eslint/configs/promise"
+  dependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/linting": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@eslint/js": "npm:^9.18.0"
+    "@types/eslint": "npm:^8.56.12"
+    "@types/node": "npm:^22.10.5"
+    "@typescript-eslint/parser": "npm:^8.30.1"
+    eslint: "npm:^8.57.1"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-import-resolver-typescript: "npm:^3.10.0"
+    eslint-plugin-import-x: "npm:^4.10.5"
+    eslint-plugin-jsdoc: "npm:^50.2.2"
+    eslint-plugin-promise: "npm:^7.2.1"
+    eslint-plugin-react: "npm:^7.35.0"
+    eslint-plugin-react-hooks: "npm:^4.6.2"
+    globals: "npm:^15.14.0"
+    tslib: "npm:^2.8.1"
+    typescript: "npm:^5.7.3"
+    typescript-eslint: "npm:^8.19.1"
+  peerDependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@types/eslint": ^8.56.12
+    eslint: ^8.57.1
+    eslint-plugin-promise: ^7.2.1
+  languageName: unknown
+  linkType: soft
+
 "@budsbox/eslint~configs-typescript@workspace:^, @budsbox/eslint~configs-typescript@workspace:lint/eslint/configs/typescript":
   version: 0.0.0-use.local
   resolution: "@budsbox/eslint~configs-typescript@workspace:lint/eslint/configs/typescript"
@@ -694,6 +726,7 @@ __metadata:
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint~configs-import": "workspace:^"
     "@budsbox/eslint~configs-prettier": "workspace:^"
+    "@budsbox/eslint~configs-promise": "workspace:^"
     "@budsbox/eslint~configs-typescript": "workspace:^"
     "@budsbox/eslint~presets-node-lib": "workspace:^"
     "@budsbox/eslint~presets-tools": "workspace:^"
@@ -707,6 +740,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-import-resolver-typescript: "npm:^3.10.0"
     eslint-plugin-import-x: "npm:^4.10.5"
+    eslint-plugin-promise: "npm:^7.2.1"
     globals: "npm:^15.14.0"
     tslib: "npm:^2.8.1"
     typescript: "npm:^5.7.3"
@@ -756,6 +790,7 @@ __metadata:
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint~configs-import": "workspace:^"
     "@budsbox/eslint~configs-prettier": "workspace:^"
+    "@budsbox/eslint~configs-promise": "workspace:^"
     "@budsbox/eslint~configs-typescript": "workspace:^"
     "@budsbox/eslint~presets-lib": "workspace:^"
     "@budsbox/eslint~presets-node-lib": "workspace:^"
@@ -769,6 +804,7 @@ __metadata:
     eslint-config-prettier: "npm:^9.1.0"
     eslint-import-resolver-typescript: "npm:^3.10.0"
     eslint-plugin-import-x: "npm:^4.10.5"
+    eslint-plugin-promise: "npm:^7.2.1"
     globals: "npm:^15.14.0"
     tslib: "npm:^2.8.1"
     typescript: "npm:^5.7.3"
@@ -1045,6 +1081,7 @@ __metadata:
     eslint-import-resolver-typescript: "npm:^3.10.0"
     eslint-plugin-import-x: "npm:^4.10.5"
     eslint-plugin-jsdoc: "npm:^50.2.2"
+    eslint-plugin-promise: "npm:^7.2.1"
     eslint-plugin-react: "npm:^7.35.0"
     eslint-plugin-react-hooks: "npm:^4.6.2"
     eslint-plugin-react-refresh: "npm:^0.4.11"
@@ -4453,6 +4490,17 @@ __metadata:
   peerDependencies:
     eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
   checksum: 10c0/f41d30246f6a4b6acb55e8cd75cf4fc256315e141ab25f7740fa6fa58cdd24e08cb672b4a350da93aeb126d210bd25981310a50f97cfb108f6a7ce8668b6b90a
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-promise@npm:^7.2.1":
+  version: 7.2.1
+  resolution: "eslint-plugin-promise@npm:7.2.1"
+  dependencies:
+    "@eslint-community/eslint-utils": "npm:^4.4.0"
+  peerDependencies:
+    eslint: ^7.0.0 || ^8.0.0 || ^9.0.0
+  checksum: 10c0/d494982faeeafbd2aa5fae9cbceca546169a8399000f72d5d940fa5c4ba554612903bcafbb8033647179e5d21ccf1d621b433d089695f7f47ce3d9fcf4cd0abf
   languageName: node
   linkType: hard
 

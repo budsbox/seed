@@ -26,8 +26,10 @@
   "dependencies": {
     "@budsbox/eslint~configs-import": "workspace:^",
     "@budsbox/eslint~configs-prettier": "workspace:^",
+    "@budsbox/eslint~configs-promise": "workspace:^",
     "@budsbox/eslint~configs-typescript": "workspace:^",
-    "eslint-config-prettier": "^9.1.0"
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-promise": "^7.2.1"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",

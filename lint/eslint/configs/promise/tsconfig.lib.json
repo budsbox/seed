@@ -1,0 +1,4 @@
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.node.lib.json",
+  "references": []
+}

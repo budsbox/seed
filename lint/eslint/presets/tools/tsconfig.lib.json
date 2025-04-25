@@ -8,6 +8,9 @@
       "path": "../../configs/prettier/tsconfig.lib.json"
     },
     {
+      "path": "../../configs/promise/tsconfig.lib.json"
+    },
+    {
       "path": "../../configs/typescript/tsconfig.lib.json"
     }
   ]
