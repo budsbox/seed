@@ -24,8 +24,6 @@
     "name": "echo $npm_package_name"
   },
   "dependencies": {
-    "@budsbox/eslint~configs-import": "workspace:^",
-    "@budsbox/eslint~configs-typescript": "workspace:^",
     "@budsbox/eslint~presets-lib": "workspace:^"
   },
   "devDependencies": {

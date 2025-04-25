@@ -1,6 +1,8 @@
-import type { Config } from '#types';
-import type { Def } from '@budsbox/lib-types';
 import type { Linter } from 'eslint';
+
+import type { Config } from '#types';
+
+import type { Def } from '@budsbox/lib-types';
 
 export const defaultIgnores: Readonly<Def<Linter.FlatConfig['ignores']>> = [
   '**/.ignored/',

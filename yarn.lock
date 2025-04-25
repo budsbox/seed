@@ -555,6 +555,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/eslint@workspace:lint/eslint"
   dependencies:
+    "@budsbox/eslint~presets-node-lib": "workspace:^"
+    "@budsbox/eslint~presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-node": "workspace:^"
@@ -614,6 +616,39 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@budsbox/eslint~configs-prettier@workspace:^, @budsbox/eslint~configs-prettier@workspace:lint/eslint/configs/prettier":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/eslint~configs-prettier@workspace:lint/eslint/configs/prettier"
+  dependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-extensions": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/linting": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@eslint/js": "npm:^9.18.0"
+    "@types/eslint": "npm:^8.56.12"
+    "@types/node": "npm:^22.10.5"
+    "@typescript-eslint/parser": "npm:^8.30.1"
+    eslint: "npm:^8.57.1"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-import-resolver-typescript: "npm:^3.10.0"
+    eslint-plugin-import-x: "npm:^4.10.5"
+    eslint-plugin-jsdoc: "npm:^50.2.2"
+    eslint-plugin-react: "npm:^7.35.0"
+    eslint-plugin-react-hooks: "npm:^4.6.2"
+    globals: "npm:^15.14.0"
+    tslib: "npm:^2.8.1"
+    typescript: "npm:^5.7.3"
+    typescript-eslint: "npm:^8.19.1"
+  peerDependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@types/eslint": ^8.56.12
+    eslint: ^8.57.1
+    eslint-config-prettier: ^9.1.0
+  languageName: unknown
+  linkType: soft
+
 "@budsbox/eslint~configs-typescript@workspace:^, @budsbox/eslint~configs-typescript@workspace:lint/eslint/configs/typescript":
   version: 0.0.0-use.local
   resolution: "@budsbox/eslint~configs-typescript@workspace:lint/eslint/configs/typescript"
@@ -658,6 +693,7 @@ __metadata:
   dependencies:
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint~configs-import": "workspace:^"
+    "@budsbox/eslint~configs-prettier": "workspace:^"
     "@budsbox/eslint~configs-typescript": "workspace:^"
     "@budsbox/eslint~presets-node-lib": "workspace:^"
     "@budsbox/eslint~presets-tools": "workspace:^"
@@ -668,6 +704,7 @@ __metadata:
     "@types/node": "npm:^22.10.5"
     "@typescript-eslint/parser": "npm:^8.30.1"
     eslint: "npm:^8.57.1"
+    eslint-config-prettier: "npm:^9.1.0"
     eslint-import-resolver-typescript: "npm:^3.10.0"
     eslint-plugin-import-x: "npm:^4.10.5"
     globals: "npm:^15.14.0"
@@ -718,6 +755,7 @@ __metadata:
   dependencies:
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint~configs-import": "workspace:^"
+    "@budsbox/eslint~configs-prettier": "workspace:^"
     "@budsbox/eslint~configs-typescript": "workspace:^"
     "@budsbox/eslint~presets-lib": "workspace:^"
     "@budsbox/eslint~presets-node-lib": "workspace:^"
@@ -728,6 +766,7 @@ __metadata:
     "@types/node": "npm:^22.10.5"
     "@typescript-eslint/parser": "npm:^8.30.1"
     eslint: "npm:^8.57.1"
+    eslint-config-prettier: "npm:^9.1.0"
     eslint-import-resolver-typescript: "npm:^3.10.0"
     eslint-plugin-import-x: "npm:^4.10.5"
     globals: "npm:^15.14.0"
@@ -985,6 +1024,8 @@ __metadata:
     "@budsbox/build": "workspace:^"
     "@budsbox/builder": "workspace:^"
     "@budsbox/constraints": "workspace:^"
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/eslint~presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/linting": "workspace:^"
     "@budsbox/sass-importers": "workspace:^"

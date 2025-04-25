@@ -1,11 +1,3 @@
-import type { configDefaults, configLevels, eslintSymbol } from './const.js';
-
-import type {
-  JsSourceType,
-  QueryJsExtensionsParams,
-} from '@budsbox/lib-extensions';
-import type { Awaitable, Maybe, NonNil } from '@budsbox/lib-types';
-
 import type { Linter } from 'eslint';
 import type {
   Arrayable,
@@ -15,6 +7,14 @@ import type {
   SetOptional,
   TsConfigJson,
 } from 'type-fest';
+
+import type {
+  JsSourceType,
+  QueryJsExtensionsParams,
+} from '@budsbox/lib-extensions';
+import type { Awaitable, Maybe, NonNil } from '@budsbox/lib-types';
+
+import type { configDefaults, configLevels, eslintSymbol } from './const.js';
 
 export interface BaseContext {
   importMeta: ImportMeta;
@@ -105,6 +105,7 @@ export interface CreateFlatConfigEntry {
 export interface CreateFlatConfigParams {
   importMeta: ImportMeta;
   ignores?: readonly string[];
-  entries: readonly CreateFlatConfigEntry[];
+  lintWorkspaces?: boolean;
   inspectConfig?: boolean | NonNil<Parameters<typeof console.dir>[1]>;
+  entries: readonly CreateFlatConfigEntry[];
 }

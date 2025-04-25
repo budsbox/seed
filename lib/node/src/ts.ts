@@ -1,5 +1,6 @@
-import type { ResolvedJson } from './types.js';
 import type { TsConfigJson } from 'type-fest';
+
+import type { ResolvedJson } from './types.js';
 
 import { promises as fs } from 'node:fs';
 import { dirname, extname, join, relative, resolve } from 'node:path';

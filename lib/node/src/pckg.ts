@@ -1,16 +1,15 @@
-import type { ResolvedJson } from './types.js';
+import type { PackageJson } from 'type-fest';
+
 import type { Maybe } from '@budsbox/lib-types';
 
-import type { PackageJson } from 'type-fest';
+import type { ResolvedJson } from './types.js';
 
 import { promises as fs } from 'node:fs';
 import { cwd, env } from 'node:process';
-
 import { fileURLToPath } from 'node:url';
 
-import { hasProp, isNil, isNotNil, isString } from '@budsbox/lib-es/guards';
-
 import { lookupFile } from '#fs';
+import { hasProp, isNil, isNotNil, isString } from '@budsbox/lib-es/guards';
 
 /**
  * Finds the `package.json` file of the current package and returns its path along with the parsed JSON content.

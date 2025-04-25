@@ -1,3 +1,5 @@
+import type { Linter } from 'eslint';
+
 import type {
   BaseContext,
   Config,
@@ -6,12 +8,6 @@ import type {
   CreateConfigOptions,
   CreateFlatConfigParams,
 } from '#types';
-import type { Linter } from 'eslint';
-
-import { isArray, isFalse, isNotNil, isObject } from '@budsbox/lib-es/guards';
-
-import { findCurrentPackageJson } from '@budsbox/lib-node/pckg';
-import { getTsConfig } from '@budsbox/lib-node/ts';
 
 import { coreConfigFactory } from '#configs';
 import { defaultIgnores } from '#const';
@@ -20,12 +16,17 @@ import {
   createMatchIncludes,
   sortConfigs,
 } from '#lib';
+import { isArray, isFalse, isNotNil, isObject } from '@budsbox/lib-es/guards';
+import { fifs } from '@budsbox/lib-es/logical';
+import { findCurrentPackageJson } from '@budsbox/lib-node/pckg';
+import { getTsConfig } from '@budsbox/lib-node/ts';
 
 export async function createFlatConfig({
   importMeta,
   entries,
   ignores = defaultIgnores,
   inspectConfig = false,
+  lintWorkspaces = false,
 }: Readonly<CreateFlatConfigParams>): Promise<Linter.FlatConfig[]> {
   const allConfigs: Config[] = [];
   const packageJson = await findCurrentPackageJson(importMeta);
@@ -83,7 +84,20 @@ export async function createFlatConfig({
   );
 
   const flatConfig = [
-    { ignores: [...ignores] },
+    {
+      ignores: [
+        ...ignores,
+        ...fifs(lintWorkspaces, [], () => {
+          const { workspaces } = packageJson.json;
+
+          return (
+            isArray(workspaces) ? workspaces : workspaces?.packages ?? []).map(
+            (pattern) =>
+              pattern.replace(/^\.\//, '').replace(/(?:\/\*)?$/, '/'),
+          );
+        }),
+      ],
+    },
     ...allConfigs.flatMap(({ configs }) => configs),
   ];
 

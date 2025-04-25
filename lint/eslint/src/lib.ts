@@ -1,3 +1,5 @@
+import type { Linter } from 'eslint';
+
 import type {
   BaseContext,
   Config,
@@ -5,20 +7,18 @@ import type {
   ConfigName,
   CreateConfigOptions,
 } from '#types';
-import type { Linter } from 'eslint';
 
 import { basename, posix } from 'node:path';
 
+import { configDefaults, eslintSymbol } from '#const';
 import { ensureArray } from '@budsbox/lib-es/array';
-
 import { hasProp, isArray, isNil } from '@budsbox/lib-es/guards';
 import { sure } from '@budsbox/lib-es/logical';
-
 import { parsePackageName } from '@budsbox/lib-es/string';
-import { type FileExtension, queryJsExtensions } from '@budsbox/lib-extensions';
 import { separateIncludes } from '@budsbox/lib-node/ts';
 
-import { configDefaults, eslintSymbol } from '#const';
+import { type FileExtension, queryJsExtensions } from '@budsbox/lib-extensions';
+
 
 export const createMatchIncludes = ({
   tsconfig,
