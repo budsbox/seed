@@ -14,10 +14,9 @@ export const constraintImports: Constraint = ({ Yarn }) => {
 
     if (exports != null) {
       for (const [exportName, value] of Object.entries(exports)) {
-        const importName =
-          exportName === '.' ? '#@' : exportName.replace('./', '#');
-
-        workspace.set(['imports', importName], value);
+        if (exportName !== '.') {
+          workspace.set(['imports', exportName.replace('./', '#')], value);
+        }
       }
     }
   }

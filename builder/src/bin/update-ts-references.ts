@@ -8,7 +8,6 @@ import { Configuration, Project, type Workspace } from '@yarnpkg/core';
 import { ppath } from '@yarnpkg/fslib';
 
 import { hasProp, isNil, isNotNil } from '@budsbox/lib-es/guards';
-
 import { getTsConfig } from '@budsbox/lib-node/ts';
 
 const configuration = await Configuration.find(

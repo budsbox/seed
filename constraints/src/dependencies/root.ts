@@ -1,5 +1,6 @@
-import { type Constraint, getRootWs } from '../utils';
 import { isNil } from '@budsbox/iso-utils/type-guards';
+
+import { type Constraint, getRootWs } from '../utils';
 
 /**
  * This function ensures that packages that more than one workspace depends on are added to the root workspace dependencies.
@@ -37,7 +38,7 @@ export const constraintRootDependencies: Constraint = ({ Yarn }) => {
       const rangeSet = new Set(ranges);
       if (rangeSet.size > 1) {
         root.error(
-          `More than one workspaces has dependency "${ident}" with following ranges: "${[...rangeSet].join('", "')}".
+          `More than one workspaces have dependency "${ident}" with following ranges: "${[...rangeSet].join('", "')}".
   Please add this dependency to the root workspace manually`,
         );
       } else if (isNil(Yarn.dependency({ workspace: root, ident }))) {
