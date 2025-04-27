@@ -3,9 +3,9 @@ import { EOL } from 'node:os';
 import { join, relative } from 'node:path';
 import { cwd } from 'node:process';
 
-import { match, queryExtensions } from '@budsbox/linting/match';
-
 import { getSupportInfo } from 'prettier';
+
+import { match, queryExtensions } from '@budsbox/linting/match';
 
 const prettier = 'prettier --write';
 

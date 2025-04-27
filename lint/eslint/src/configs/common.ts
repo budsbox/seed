@@ -25,7 +25,7 @@ export const createCommonConfigFactory: ConfigFactoryCreate = () => (ctx) => {
           files: matchIncludes({ jsx: true, sourceType: undefined }),
           linterOptions: {
             reportUnusedDisableDirectives: 'error',
-            // reportUnusedInlineConfigs: 'error',
+            reportUnusedInlineConfigs: 'error',
           },
         },
       ],

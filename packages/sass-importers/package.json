@@ -10,27 +10,13 @@
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "commonjs",
   "imports": {
-    "#@": {
-      "import": {
-        "default": "./dist/esm/index.js",
-        "types": "./dist/esm/index.d.ts"
-      },
-      "require": {
-        "default": "./dist/cjs/index.js",
-        "types": "./dist/cjs/index.d.ts"
-      }
-    },
     "#package.json": "./package.json"
   },
   "exports": {
     ".": {
       "import": {
-        "default": "./dist/esm/index.js",
-        "types": "./dist/esm/index.d.ts"
-      },
-      "require": {
-        "default": "./dist/cjs/index.js",
-        "types": "./dist/cjs/index.d.ts"
+        "default": "./dist/index.js",
+        "types": "./dist/index.d.ts"
       }
     },
     "./package.json": "./package.json"
@@ -43,33 +29,34 @@
     "prepack": "yarn p:ts:prepack"
   },
   "dependencies": {
-    "@budsbox/iso-utils": "workspace:^",
+    "@budsbox/lib-es": "workspace:^",
     "@budsbox/ui-tools": "workspace:^",
     "enhanced-resolve": "^5.17.1"
   },
   "devDependencies": {
+    "@budsbox/eslint": "workspace:^",
+    "@budsbox/eslint~presets-node-lib": "workspace:^",
+    "@budsbox/eslint~presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
-    "@eslint/js": "^9.18.0",
-    "@types/node": "^22.10.5",
-    "@typescript-eslint/parser": "^8.19.1",
-    "eslint": "^8.57.0",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-import-resolver-typescript": "^3.7.0",
-    "eslint-plugin-jsdoc": "^50.2.2",
-    "eslint-plugin-react": "^7.35.0",
-    "eslint-plugin-react-hooks": "^4.6.2",
-    "eslint-plugin-react-refresh": "^0.4.11",
-    "globals": "^15.14.0",
+    "@eslint/js": "^9.25.1",
+    "@types/eslint": "^9.6.1",
+    "@types/node": "^22.15.2",
+    "@typescript-eslint/parser": "^8.31.0",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-import-resolver-typescript": "^4.3.4",
+    "eslint-plugin-jsdoc": "^50.6.11",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.0.0",
     "sass": "^1.77.6",
+    "sass-embedded": "^1.78.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.19.1"
-  },
-  "peerDependencies": {
-    "sass": "^1.77.6"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0"
   },
   "packageManager": "yarn@4.8.1"
 }
