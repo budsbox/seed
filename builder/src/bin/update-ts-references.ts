@@ -60,8 +60,12 @@ const getWsLocalTsconfigPaths = (() => {
         ?.map(({ path }) => path)
         .filter(
           (path) =>
+            // no external references
             !relative(cwd, path).startsWith('..') &&
-            !path.endsWith('tsconfig.tools.json'),
+            (!path.endsWith('tsconfig.tools.json') ||
+              // it's convenient to reference other projects from the root tsconfig.tools.json,
+              // but it's undesirable in other packages
+              workspace.manifest.name?.name === 'root'),
         ) ?? []
     );
   };
@@ -79,6 +83,7 @@ const updateTsconfigsReferences = async (
   refPaths: readonly string[],
 ): Promise<void> => {
   const tsconfigPaths = await getWsLocalTsconfigPaths(workspace);
+
   await Promise.all(
     tsconfigPaths.map(async (tsconfigPath) => {
       const [tsconfig, rawTsconfig] = await Promise.all([
@@ -121,12 +126,14 @@ const updateTsconfigsReferences = async (
 };
 
 await Promise.all(
-  rootWorkspace.getRecursiveWorkspaceChildren().map(async (workspace) => {
-    const dependencies = getWsDirectDependencies(workspace);
-    const childrenPaths = await Promise.all(
-      dependencies.map(getWsLocalTsconfigPaths),
-    );
+  [rootWorkspace, ...rootWorkspace.getRecursiveWorkspaceChildren()].map(
+    async (workspace) => {
+      const dependencies = getWsDirectDependencies(workspace);
+      const childrenPaths = await Promise.all(
+        dependencies.map(getWsLocalTsconfigPaths),
+      );
 
-    await updateTsconfigsReferences(workspace, childrenPaths.flat());
-  }),
+      await updateTsconfigsReferences(workspace, childrenPaths.flat());
+    },
+  ),
 );
