@@ -16,7 +16,13 @@ import {
   createMatchIncludes,
   sortConfigs,
 } from '#lib';
-import { isArray, isFalse, isNotNil, isObject } from '@budsbox/lib-es/guards';
+import {
+  isArray,
+  isFalse,
+  isFunction,
+  isNotNil,
+  isObject,
+} from '@budsbox/lib-es/guards';
 import { fifs } from '@budsbox/lib-es/logical';
 import { findCurrentPackageJson } from '@budsbox/lib-node/pckg';
 import { getTsConfig } from '@budsbox/lib-node/ts';
@@ -27,7 +33,7 @@ export async function createFlatConfig({
   ignores = defaultIgnores,
   inspectConfig = false,
   lintWorkspaces = false,
-}: Readonly<CreateFlatConfigParams>): Promise<Linter.FlatConfig[]> {
+}: Readonly<CreateFlatConfigParams>): Promise<Linter.Config[]> {
   const allConfigs: Config[] = [];
   const packageJson = await findCurrentPackageJson(importMeta);
   const globalCtx = {
@@ -100,8 +106,9 @@ export async function createFlatConfig({
     },
     ...allConfigs.flatMap(({ configs }) => configs),
   ];
-
-  if (!isFalse(inspectConfig)) {
+  if (isFunction(inspectConfig)) {
+    inspectConfig(flatConfig);
+  } else if (!isFalse(inspectConfig)) {
     // eslint-disable-next-line no-console
     console.dir(flatConfig, isObject(inspectConfig) ? inspectConfig : {});
   }

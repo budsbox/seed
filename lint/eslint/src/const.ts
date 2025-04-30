@@ -4,7 +4,7 @@ import type { Config } from '#types';
 
 import type { Def } from '@budsbox/lib-types';
 
-export const defaultIgnores: Readonly<Def<Linter.FlatConfig['ignores']>> = [
+export const defaultIgnores: Readonly<Def<Linter.Config['ignores']>> = [
   '**/.ignored/',
   '**/dist/',
   '.husky/',

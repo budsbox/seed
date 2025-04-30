@@ -19,7 +19,6 @@ import { separateIncludes } from '@budsbox/lib-node/ts';
 
 import { type FileExtension, queryJsExtensions } from '@budsbox/lib-extensions';
 
-
 export const createMatchIncludes = ({
   tsconfig,
   sourceType,
@@ -103,7 +102,7 @@ export const sortConfigs = (configs: readonly Config[]): Config[] => {
   return configs.flatMap(({ name }) => getWithDeps(name));
 };
 
-const configMap = new WeakMap<Linter.FlatConfig, Config>();
+const configMap = new WeakMap<Linter.Config, Config>();
 
 export const createConfig = (
   { name: configName, configs, ...restOptions }: CreateConfigOptions,
@@ -121,7 +120,7 @@ export const createConfig = (
       configs
         .filter(({ files }) => isArray(files) && files.length > 0)
         .map(
-          ({ name, ...rest }, index, { length }): Linter.FlatConfig => ({
+          ({ name, ...rest }, index, { length }): Linter.Config => ({
             name: [
               [packageJsonSuffix, tsconfigFileSuffix].join('#'),
               [
@@ -151,7 +150,7 @@ export const createConfig = (
 };
 
 export const getConfigByFlatConfig = (
-  flatConfig: Linter.FlatConfig,
+  flatConfig: Linter.Config,
 ): Config | null => configMap.get(flatConfig) ?? null;
 
 export const isConfig = (value: unknown): value is Config =>
@@ -159,7 +158,7 @@ export const isConfig = (value: unknown): value is Config =>
 
 export const getEcmaVersionFromContext = ({
   tsconfig,
-}: BaseContext): Linter.ParserOptions['ecmaVersion'] | undefined => {
+}: Readonly<BaseContext>): Linter.ParserOptions['ecmaVersion'] | undefined => {
   const regex = /^es(\d+)$/i;
   const target = tsconfig.compilerOptions?.target;
 

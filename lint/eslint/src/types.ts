@@ -49,7 +49,7 @@ export type ModifiesKey = ConfigName | '*';
 export interface Config {
   readonly name: ConfigName;
   readonly modifies: readonly ModifiesKey[];
-  readonly configs: readonly Linter.FlatConfig[];
+  readonly configs: readonly Linter.Config[];
   readonly level: ConfigLevel;
   readonly [eslintSymbol]: true;
 }
@@ -77,8 +77,8 @@ export interface ConfigFactory {
 export type ConfigFactoryCreate<TOptions extends object = EmptyObject> = (
   this: void,
   ...args: HasRequiredKeys<TOptions> extends true ?
-    [options: Readonly<TOptions>]
-  : [options?: Readonly<TOptions>]
+    readonly [options: Readonly<TOptions>]
+  : readonly [options?: Readonly<TOptions>]
 ) => ConfigFactory;
 
 export interface PresetContext extends BaseContext {}
@@ -92,8 +92,8 @@ export type PresetFactory = (
 export type Preset<TOptions extends object = EmptyObject> = (
   this: void,
   ...args: HasRequiredKeys<TOptions> extends true ?
-    [options: Readonly<TOptions>]
-  : [options?: Readonly<TOptions>]
+    readonly [options: Readonly<TOptions>]
+  : readonly [options?: Readonly<TOptions>]
 ) => PresetFactory;
 
 export interface CreateFlatConfigEntry {
@@ -106,6 +106,9 @@ export interface CreateFlatConfigParams {
   importMeta: ImportMeta;
   ignores?: readonly string[];
   lintWorkspaces?: boolean;
-  inspectConfig?: boolean | NonNil<Parameters<typeof console.dir>[1]>;
-  entries: readonly CreateFlatConfigEntry[];
+  inspectConfig?:
+    | boolean
+    | Readonly<NonNil<Parameters<typeof console.dir>[1]>>
+    | ((configs: readonly Linter.Config[]) => void);
+  entries: ReadonlyArray<Readonly<CreateFlatConfigEntry>>;
 }

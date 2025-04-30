@@ -1,3 +1,4 @@
 {
-  "extends": "@budsbox/tsconfigs/tsconfig.tools.json"
+  "extends": "@budsbox/tsconfigs/tsconfig.index.json",
+  "references": [{ "path": "tsconfig.tools.json" }]
 }

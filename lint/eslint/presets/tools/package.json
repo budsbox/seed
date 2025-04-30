@@ -28,7 +28,8 @@
     "@budsbox/eslint~configs-prettier": "workspace:^",
     "@budsbox/eslint~configs-promise": "workspace:^",
     "@budsbox/eslint~configs-typescript": "workspace:^",
-    "eslint-config-prettier": "^9.1.0",
+    "@typescript-eslint/type-utils": "^8.31.0",
+    "eslint-config-prettier": "^10.1.2",
     "eslint-plugin-promise": "^7.2.1"
   },
   "devDependencies": {
@@ -39,23 +40,23 @@
     "@budsbox/eslint~presets-node-lib": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
-    "@eslint/js": "^9.18.0",
-    "@types/eslint": "^8.56.12",
-    "@types/node": "^22.10.5",
-    "@typescript-eslint/parser": "^8.30.1",
-    "eslint": "^8.57.1",
-    "eslint-import-resolver-typescript": "^3.10.0",
-    "eslint-plugin-import-x": "^4.10.5",
-    "globals": "^15.14.0",
+    "@eslint/js": "^9.25.1",
+    "@types/eslint": "^9.6.1",
+    "@types/node": "^22.15.2",
+    "@typescript-eslint/parser": "^8.31.0",
+    "eslint": "^9.25.1",
+    "eslint-import-resolver-typescript": "^4.3.4",
+    "eslint-plugin-import-x": "^4.11.0",
+    "globals": "^16.0.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.19.1"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0"
   },
   "peerDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@types/eslint": "^8.56.12",
-    "eslint": "^8.57.1",
-    "typescript": "^5.7.3"
+    "@types/eslint": "^9.6.1",
+    "eslint": "^9.25.1",
+    "typescript": "^5.8.3"
   },
   "packageManager": "yarn@4.8.1"
 }

@@ -4,6 +4,7 @@ import type { ConfigFactoryCreate } from '@budsbox/eslint';
 import type { ESLint, Linter } from 'eslint';
 
 import * as eslintTs from 'typescript-eslint';
+import { readonlyParamAllowSpecifiers } from './const.js';
 
 export const createTypescriptConfigFactory: ConfigFactoryCreate =
   () =>
@@ -20,7 +21,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
               sourceType: undefined,
             }),
             languageOptions: {
-              parser: eslintTs.parser as Linter.FlatConfigParserModule,
+              parser: eslintTs.parser as Linter.Parser,
               parserOptions: {
                 projectService: true,
               },
@@ -156,7 +157,10 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
               '@typescript-eslint/prefer-regexp-exec': 'error',
               '@typescript-eslint/prefer-readonly-parameter-types': [
                 'warn',
-                { ignoreInferredTypes: true },
+                {
+                  ignoreInferredTypes: true,
+                  allow: [...readonlyParamAllowSpecifiers],
+                },
               ],
               '@typescript-eslint/require-array-sort-compare': 'error',
               '@typescript-eslint/return-await': ['error', 'always'],
