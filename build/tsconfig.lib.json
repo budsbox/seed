@@ -1,0 +1,23 @@
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.node.lib.json",
+  "exclude": [
+    "src/swc.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "references": [
+    {
+      "path": "../lib/types/tsconfig.lib.json"
+    },
+    {
+      "path": "../packages/iso-utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../packages/node-utils/tsconfig.lib.json"
+    },
+    {
+      "path": "../packages/types/tsconfig.lib.json"
+    }
+  ]
+}
