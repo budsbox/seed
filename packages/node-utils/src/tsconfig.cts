@@ -6,29 +6,49 @@
 import ts = require('typescript');
 import url = require('url');
 import path = require('path');
+import { isNotNil } from '@budsbox/iso-utils/type-guards';
 
-function getParsedConfig(rawPath: string): ts.ParsedCommandLine {
+/* eslint-disable @typescript-eslint/unbound-method */
+
+const diagnosticHost = {
+  getCanonicalFileName: (filename: string): string => filename,
+  getCurrentDirectory: ts.sys.getCurrentDirectory,
+  getNewLine: (): string => ts.sys.newLine,
+};
+
+export function getParsedConfig(rawPath: string): ts.ParsedCommandLine {
   const tsconfigPath =
     rawPath.startsWith('file://') ? url.fileURLToPath(rawPath) : rawPath;
 
-  const tsConfigFile = ts.findConfigFile(
-    './',
-    // eslint-disable-next-line @typescript-eslint/unbound-method
-    ts.sys.fileExists,
-    tsconfigPath,
-  );
+  const tsConfigFile = ts.findConfigFile('./', ts.sys.fileExists, tsconfigPath);
 
   if (tsConfigFile == null) {
     throw new Error(`Failed to find tsconfig file at ${tsconfigPath}`);
   }
 
-  // eslint-disable-next-line @typescript-eslint/unbound-method
   const configFile = ts.readConfigFile(tsConfigFile, ts.sys.readFile);
 
-  return ts.parseJsonConfigFileContent(configFile.config, ts.sys, './');
+  if (isNotNil(configFile.error)) {
+    throw new Error(
+      `Failed to read config file at ${tsconfigPath}. \n${ts.formatDiagnostic(
+        configFile.error,
+        diagnosticHost,
+      )}`,
+    );
+  }
+
+  const result = ts.parseJsonConfigFileContent(configFile.config, ts.sys, './');
+
+  if (result.errors.length > 0) {
+    throw new Error(
+      `Failed to parse config file at "${tsconfigPath}". \n${ts.formatDiagnostics(result.errors, diagnosticHost)}`,
+    );
+  }
+
+  return result;
 }
 
-function extractTargetFromConfig(
+export function extractTargetFromConfig(
   tsconfig: ts.ParsedCommandLine,
 ): keyof typeof ts.ScriptTarget | undefined {
   const rawTarget = tsconfig.options.target;
@@ -39,7 +59,7 @@ function extractTargetFromConfig(
   return ts.ScriptTarget[rawTarget] as keyof typeof ts.ScriptTarget;
 }
 
-function makeGlobsByDirs(tsconfig: ts.ParsedCommandLine): string[] {
+export function makeGlobsByDirs(tsconfig: ts.ParsedCommandLine): string[] {
   const { wildcardDirectories } = tsconfig;
   if (wildcardDirectories == null) {
     return [];
@@ -56,7 +76,7 @@ function makeGlobsByDirs(tsconfig: ts.ParsedCommandLine): string[] {
   );
 }
 
-function getFilesList(tsconfig: ts.ParsedCommandLine): string[] {
+export function getFilesList(tsconfig: ts.ParsedCommandLine): string[] {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
   const include = tsconfig.raw?.include as readonly string[] | undefined;
 
@@ -68,10 +88,3 @@ function getFilesList(tsconfig: ts.ParsedCommandLine): string[] {
 
   return [];
 }
-
-export = {
-  getParsedConfig: getParsedConfig,
-  extractTargetFromConfig: extractTargetFromConfig,
-  makeGlobsByDirs: makeGlobsByDirs,
-  getFilesList: getFilesList,
-};
