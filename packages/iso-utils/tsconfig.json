@@ -1,5 +1,5 @@
 {
-  "include": [],
+  "extends": "@budsbox/tsconfigs/tsconfig.index.json",
   "references": [
     { "path": "tsconfig.tools.json" },
     { "path": "tsconfig.lib.json" }
