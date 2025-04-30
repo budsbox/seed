@@ -58,13 +58,17 @@ export function intersection<T>(
 }
 
 /**
- * Computes the difference between two arrays by returning elements that are present in the first array but not in the second array.
+ * Computes the difference between a source array and one or more arrays of exclusions.
+ * Returns a new array containing elements from the source array that are not present in any of the exclusion arrays.
  *
- * @param a - The first array to compare.
- * @param b - The second array to compare with the first array.
- * @return An array containing the elements that are in the first array but not in the second array.
+ * @param source The source array to compare against.
+ * @param excludes Arrays containing elements to be excluded from the source array.
+ * @return A new array containing elements from the source array that are not in the exclusion arrays.
  */
-export function diff<T>(a: readonly T[], b: readonly T[]): T[] {
-  const set = new Set(b);
-  return a.filter((v) => !set.has(v));
+export function diff<T>(
+  source: readonly T[],
+  ...excludes: ReadonlyArray<readonly T[]>
+): T[] {
+  const set = new Set(excludes.flatMap((v) => v));
+  return source.filter((v) => !set.has(v));
 }
