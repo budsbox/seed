@@ -1,13 +1,34 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import type { Importer } from 'sass-embedded';
 
-type Importer = (
-  url: string,
-  prev: string,
-) => {
-  file: string;
-  contents: string;
-} | null;
+import fs from 'node:fs';
+
+import {
+  isFunction,
+  isNotNil,
+  isObject,
+  isString,
+} from '@budsbox/lib-es/guards';
+import {} from '@budsbox/lib-es/guards';
+
+import {
+  generateSassModuleFromJson,
+  generateSassModuleFromObject,
+  toAbs,
+} from './utils';
+
+export function joinImporters(...importers: readonly Importer[]): Importer {
+  return (url, prev) => {
+    for (const importer of importers) {
+      const result = importer(url, prev);
+
+      if (isNotNil(result)) {
+        return result;
+      }
+    }
+
+    return null;
+  };
+}
 
 export function createJsonImporter(): Importer {
   return (url, prev) => {
@@ -35,18 +56,32 @@ export function createJsonImporter(): Importer {
   };
 }
 
-export function createVirtualImporter(name: string, data: object): Importer {
-  const fullName = `virtual:${name}`;
+export function createVirtualImporter(
+  url: string,
+  data: object | Importer | string,
+  schema: `${string}:` = 'virtual:',
+): Importer {
+  const fullName = `${schema}${url}`;
 
   try {
-    const contents = generateSassModuleFromObject(data);
-    return (url) =>
-      url === fullName ?
-        {
-          file: fullName,
-          contents,
-        }
+    const contents =
+      isString(data) ? data
+      : isObject(data) ? generateSassModuleFromObject(data)
       : null;
+
+    return (matchUrl, prev) => {
+      if (matchUrl !== fullName) {
+        return null;
+      }
+
+      if (isNotNil(contents)) {
+        return { url, contents };
+      }
+
+      if (isFunction(data)) {
+        return data(matchUrl, prev);
+      }
+    };
   } catch (err) {
     if (err instanceof Error) {
       throw new Error(
@@ -56,72 +91,4 @@ export function createVirtualImporter(name: string, data: object): Importer {
 
     throw err;
   }
-}
-
-export function generateSassModuleFromJson(json: string): string {
-  try {
-    return generateSassModuleFromObject(JSON.parse(json) as object);
-  } catch (err) {
-    if (err instanceof Error) {
-      throw new Error(
-        `failed to generate a SASS module out of the provided JSON: ${err.message}`,
-      );
-    }
-
-    throw err;
-  }
-}
-
-export function generateSassModuleFromObject(obj: object): string {
-  if (!isObject(obj)) {
-    throw new TypeError(
-      `expected a value of type "object", got "${typeof obj}"`,
-    );
-  }
-
-  return Object.entries(obj).reduce<string>(
-    (acc, [key, value]) => `${acc}$${key}: ${stringifyValue(value, '')};\n`,
-    '',
-  );
-}
-
-function toAbs(url: string, prev: string): string {
-  return path.posix.isAbsolute(url) ?
-      url
-    : path.posix.resolve(path.posix.dirname(prev), url);
-}
-
-function stringifyValue(value: unknown, tabs: string): string {
-  if (Array.isArray(value)) {
-    return `(\n${value
-      .map((v) => `${tab(tabs)}${stringifyValue(v, tab(tabs))}`)
-      .join(',\n')}\n${tabs})`;
-  }
-
-  if (isObject(value)) {
-    return stringifyDict(value, tabs);
-  }
-
-  return JSON.stringify(value);
-}
-
-function stringifyDict(object: object, tabs: string): string {
-  const map = Object.entries(object).reduce<string>((acc, [key, value]) => {
-    const newTabs = tab(tabs);
-    return `${acc}\n${newTabs}${JSON.stringify(key)}: ${stringifyValue(
-      value,
-      newTabs,
-    )},`;
-  }, '');
-
-  return `(${map}\n${tabs})`;
-}
-
-function tab(current: string, decrease = false): string {
-  const tabStr = '  ';
-  return decrease ? current.replace(tabStr, '') : `${tabStr}${current}`;
-}
-
-function isObject(value: unknown): value is object {
-  return typeof value === 'object' && value != null;
 }

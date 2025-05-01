@@ -8,7 +8,7 @@ const config = [
     tsconfig: import.meta.resolve('./tsconfig.tools.json'),
     packageJson,
   }),
-  ...presets.node({
+  ...presets.clientLib({
     tsconfig: import.meta.resolve('./tsconfig.lib.json'),
     packageJson,
   }),

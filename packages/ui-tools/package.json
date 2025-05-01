@@ -1,0 +1,82 @@
+{
+  "name": "@budsbox/ui-tools",
+  "version": "0.1.0",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "repository": "gitlab:budsbox/fe/seed",
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#package.json": "./package.json",
+    "#@": {
+      "require": {
+        "default": "./dist/sass-importer.cjs",
+        "types": "./dist/sass-importer.d.cts.map"
+      }
+    },
+    "#colors": {
+      "sass": "./src/colors/index.scss"
+    }
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "require": {
+        "default": "./dist/sass-importer.cjs",
+        "types": "./dist/sass-importer.d.cts.map"
+      }
+    },
+    "./colors": {
+      "sass": "./src/colors/index.scss"
+    }
+  },
+  "files": [
+    "dist/**/*.{js,cjs,ts,cts}",
+    "src/**/*.scss"
+  ],
+  "scripts": {
+    "name": "echo $npm_package_name"
+  },
+  "dependencies": {
+    "@budsbox/iso-utils": "workspace:^",
+    "@budsbox/sass-importers": "workspace:^"
+  },
+  "devDependencies": {
+    "@budsbox/lib-types": "workspace:^",
+    "@budsbox/linting": "workspace:^",
+    "@budsbox/tsconfigs": "workspace:^",
+    "@budsbox/types": "workspace:^",
+    "@eslint/js": "^9.25.1",
+    "@types/node": "^22.15.2",
+    "@typescript-eslint/parser": "^8.31.0",
+    "eslint": "^9.25.1",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-import-resolver-typescript": "^4.3.4",
+    "eslint-plugin-jsdoc": "^50.6.11",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.0.0",
+    "sass": "^1.77.6",
+    "sass-embedded": "^1.78.0",
+    "tslib": "^2.8.1",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0"
+  },
+  "peerDependencies": {
+    "sass": "^1.77.6",
+    "sass-embedded": "^1.78.0"
+  },
+  "peerDependenciesMeta": {
+    "sass": {
+      "optional": true
+    },
+    "sass-embedded": {
+      "optional": true
+    }
+  },
+  "packageManager": "yarn@4.8.1"
+}

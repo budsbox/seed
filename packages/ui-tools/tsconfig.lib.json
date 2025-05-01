@@ -1,0 +1,7 @@
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.browser.json",
+  "exclude": ["src/sass-importer.*"],
+  "compilerOptions": {
+    "outDir": "dist"
+  }
+}
