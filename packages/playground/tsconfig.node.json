@@ -1,4 +1,4 @@
 {
-  "extends": "@budsbox/tsconfigs/tsconfig.node.json",
+  "extends": "@budsbox/tsconfigs/tsconfig.node.lib.json",
   "include": ["vite.config.ts"]
 }

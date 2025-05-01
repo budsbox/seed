@@ -40,6 +40,7 @@
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.15.2",
     "@typescript-eslint/parser": "^8.31.0",
+    "@typescript-eslint/type-utils": "^8.31.0",
     "eslint": "^9.25.1",
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-import-x": "^4.11.0",

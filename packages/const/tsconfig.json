@@ -1,4 +1,0 @@
-{
-  "extends": "@budsbox/tsconfigs/tsconfig.app.json",
-  "include": ["src"]
-}
