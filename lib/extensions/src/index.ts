@@ -69,3 +69,6 @@ export const queryJsExtensions = ({
 
 export const dotMapper = <TExt extends string>(ext: TExt): `.${TExt}` =>
   `.${ext}`;
+
+export const globFromExtensions = (extensions: readonly string[]): string =>
+  `*.${extensions.length > 1 ? `{${extensions.join(',')}}` : extensions[0]!}`;

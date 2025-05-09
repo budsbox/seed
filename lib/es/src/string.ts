@@ -6,9 +6,11 @@ import type {
   SnakeCase,
 } from 'type-fest';
 
+import type { Nil } from '@budsbox/lib-types';
+
 import type { ParsedPackageName } from './types.js';
 
-import { isNotNil } from '#guards';
+import { isNil, isNotNil, isString } from '#guards';
 
 export type { ParsedPackageName };
 
@@ -22,12 +24,45 @@ export type { ParsedPackageName };
 export function parsePackageName(
   packageName: string,
   clean: boolean = false,
-): ParsedPackageName {
+): Required<ParsedPackageName> {
   const [scope, cleanScope] = /^@([^/]+)\//.exec(packageName) ?? [null, null];
   return {
     scope: clean ? cleanScope : scope,
     name: packageName.replace(scope ?? '', ''),
   };
+}
+
+/**
+ * Converts a ParsedPackageName object into its string representation.
+ *
+ * @param parsedPackageName - An object representing the parsed package name with fields such as `scope` and `name`.
+ * @returns The string representation of the package name, including the scope if it exists.
+ */
+export function stringifyPackageName(
+  parsedPackageName: Readonly<ParsedPackageName>,
+): string;
+/**
+ * Converts a parsed package name object or a Nil value into a string representation.
+ *
+ * @param parsedPackageName - A parsed package name object of type `ParsedPackageName` or a Nil value.
+ * @param allowNil - A boolean flag specifying whether Nil values are allowed for conversion.
+ * @return The string representation of the package name if valid, or an empty string if `allowNil` is true and the input is Nil.
+ */
+export function stringifyPackageName(
+  parsedPackageName: Readonly<ParsedPackageName> | Nil,
+  allowNil: true,
+): string;
+export function stringifyPackageName(
+  parsedPackageName: Readonly<ParsedPackageName> | Nil,
+  allowNil: boolean = false,
+): string {
+  if (!allowNil && isNil(parsedPackageName)) {
+    throw new TypeError('Expected a non-nil value');
+  }
+  const { scope, name } = parsedPackageName ?? { scope: null, name: '' };
+  return isString(scope) ?
+      [scope.replace(/^@?([^]+)\/?$/, '@$1'), name].join('/')
+    : name;
 }
 
 /**

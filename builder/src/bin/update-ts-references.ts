@@ -1,25 +1,15 @@
+import type { Workspace } from '@yarnpkg/core';
 import type { TsConfigJson } from 'type-fest';
 
 import { promises as fs } from 'node:fs';
 import { join, posix, relative } from 'node:path';
 
-import { getPluginConfiguration } from '@yarnpkg/cli';
-import { Configuration, Project, type Workspace } from '@yarnpkg/core';
-import { ppath } from '@yarnpkg/fslib';
-
 import { hasProp, isNil, isNotNil } from '@budsbox/lib-es/guards';
 import { getTsConfig } from '@budsbox/lib-node/ts';
 
-const configuration = await Configuration.find(
-  ppath.cwd(),
-  getPluginConfiguration(),
-);
-const { workspace: rootWorkspace } = await Project.find(
-  configuration,
-  ppath.cwd(),
-);
+import { getRootWorkspace, getWorkspaceByFilepath } from '@budsbox/lib-yarn';
 
-if (isNil(rootWorkspace)) throw new Error('No root workspace found');
+const rootWorkspace = getRootWorkspace();
 
 function getWsDirectDependencies(workspace: Workspace): Workspace[] {
   const { dependencies, peerDependencies } = workspace.manifest;
@@ -61,11 +51,9 @@ const getWsLocalTsconfigPaths = (() => {
         .filter(
           (path) =>
             // no external references
-            !relative(cwd, path).startsWith('..') &&
-            (!path.endsWith('tsconfig.tools.json') ||
-              // it's convenient to reference other projects from the root tsconfig.tools.json,
-              // but it's undesirable in other packages
-              workspace.manifest.name?.name === 'root'),
+            getWorkspaceByFilepath(path) === workspace &&
+            // ignore tools tsconfigs
+            !path.endsWith('tsconfig.tools.json'),
         ) ?? []
     );
   };

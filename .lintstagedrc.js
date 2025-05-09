@@ -1,0 +1,57 @@
+import { getSupportInfo } from 'prettier';
+
+import { queryJsExtensions } from '@budsbox/lib-extensions';
+import { dedupe, diff } from '@budsbox/lib-es/array';
+import { stringifyPackageName } from '@budsbox/lib-es/string';
+
+import { getWorkspaceByFilepath } from '@budsbox/lib-yarn';
+
+const prettierCmd = 'prettier --write';
+
+const jsExtensions = queryJsExtensions({ jsx: true });
+const prettierExts = diff(
+  dedupe(
+    (await getSupportInfo()).languages.flatMap(
+      ({ extensions }) => extensions ?? [],
+    ),
+  ).map((ext) => ext.replace('.', '')), // remove a leading dot
+  jsExtensions,
+  ['json'],
+);
+
+/**
+ *
+ * @param {readonly string[]} exts
+ * @return {string}
+ */
+const extsToBasenameGlob = (exts) =>
+  `*.${exts.length > 1 ? `{${exts.join(',')}}` : exts[0]}`;
+
+export default {
+  'package.json': [
+    () => 'yarn install --immutable --immutable-cache',
+    'sort-package-json',
+    prettierCmd,
+  ],
+
+  [extsToBasenameGlob(jsExtensions)]: [
+    /**
+     *
+     * @param {readonly string[]} filenames
+     * @return {string}
+     */
+    (filenames) => {
+      const wsGlob = dedupe(filenames.map(getWorkspaceByFilepath))
+        .map((ws) => stringifyPackageName(ws.manifest.name, true))
+        .filter(({ length }) => length > 0)
+        .join(',');
+      const wsForeachPrefix = `yarn workspaces foreach --recursive --topological --parallel --include '{${wsGlob}}'`;
+
+      return `${wsForeachPrefix} run p:ts:build`;
+    },
+    'yarn p:eslint:staged',
+    prettierCmd,
+  ],
+
+  [`{${extsToBasenameGlob(prettierExts)},!(package).json}`]: prettierCmd,
+};

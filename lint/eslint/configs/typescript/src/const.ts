@@ -1,9 +1,11 @@
-import { dedupe } from '@budsbox/lib-es/array';
-import {
-  TypeOrValueSpecifier,
+import type {
   PackageSpecifier,
+  TypeOrValueSpecifier,
 } from '@typescript-eslint/type-utils';
+
 import globals from 'globals';
+
+import { dedupe } from '@budsbox/lib-es/array';
 
 const libTypes = dedupe(
   (
@@ -14,7 +16,7 @@ const libTypes = dedupe(
       'browser',
       'worker',
       'serviceworker',
-    ] as const satisfies (keyof typeof globals)[]
+    ] as const satisfies Array<keyof typeof globals>
   ).flatMap((key) => Object.keys(globals[key]) as string[]),
 )
   .filter((key) => /^[A-Z]/.test(key))
@@ -23,6 +25,13 @@ const libTypes = dedupe(
 const packageSpecifiers = {
   'type-fest': ['PackageJson', 'TsConfigJson', 'EmptyObject'],
   'eslint': ['Linter', 'Linter.Config', 'Config'],
+  '@yarnpkg/core': [
+    'Configuration',
+    'Project',
+    'Workspace',
+    'Manifest',
+    'Locator',
+  ],
 } as const satisfies Record<string, string[]>;
 
 export const readonlyParamAllowSpecifiers: TypeOrValueSpecifier[] = [

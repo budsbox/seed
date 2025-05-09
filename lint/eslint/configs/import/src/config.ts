@@ -1,11 +1,13 @@
+import type { ESLint } from 'eslint';
+
 import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
-import type { ESLint } from 'eslint';
 
 import importX from 'eslint-plugin-import-x';
 
 import { sure } from '@budsbox/lib-es/logical';
 import { parsePackageName } from '@budsbox/lib-es/string';
+
 import { dotMapper, queryJsExtensions } from '@budsbox/lib-extensions';
 
 export const createImportConfigFactory: ConfigFactoryCreate =

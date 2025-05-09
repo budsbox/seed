@@ -1,9 +1,11 @@
 /// <reference types="@budsbox/eslint~configs-import/types" />
-import type { ConfigFactoryCreate } from '@budsbox/eslint';
-
 import type { ESLint, Linter } from 'eslint';
 
+import type { ConfigFactoryCreate } from '@budsbox/eslint';
+
+
 import * as eslintTs from 'typescript-eslint';
+
 import { readonlyParamAllowSpecifiers } from './const.js';
 
 export const createTypescriptConfigFactory: ConfigFactoryCreate =

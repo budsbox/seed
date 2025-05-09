@@ -6,6 +6,9 @@
     },
     {
       "path": "../lib/node/tsconfig.lib.json"
+    },
+    {
+      "path": "../lib/yarn/tsconfig.lib.json"
     }
   ]
 }

@@ -3,40 +3,5 @@
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true
-  },
-  "references": [
-    {
-      "path": "build/tsconfig.lib.json"
-    },
-    {
-      "path": "builder/tsconfig.lib.json"
-    },
-    {
-      "path": "constraints/tsconfig.lib.json"
-    },
-    {
-      "path": "lib/es/tsconfig.lib.json"
-    },
-    {
-      "path": "lib/extensions/tsconfig.lib.json"
-    },
-    {
-      "path": "lib/types/tsconfig.lib.json"
-    },
-    {
-      "path": "lib/yarn/tsconfig.lib.json"
-    },
-    {
-      "path": "lint/eslint/presets/tools/tsconfig.lib.json"
-    },
-    {
-      "path": "lint/eslint/tsconfig.lib.json"
-    },
-    {
-      "path": "linting/tsconfig.lib.json"
-    },
-    {
-      "path": "packages/sass-importers/tsconfig.lib.json"
-    }
-  ]
+  }
 }
