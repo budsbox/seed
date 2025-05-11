@@ -49,8 +49,8 @@
     "p:serve": "cd $INIT_CWD; vite",
     "p:ts:build": "cd $INIT_CWD; tsc --build",
     "p:ts:build-lib": "cd $INIT_CWD; tsc --build tsconfig.lib.json",
-    "p:ts:config": "cd $INIT_CWD; tsc --showConfig --project ${0:-'.'}",
     "p:ts:clean": "cd $INIT_CWD; tsc --build --clean;",
+    "p:ts:config": "cd $INIT_CWD; tsc --showConfig --project ${0:-'.'}",
     "p:ts:force": "cd $INIT_CWD; tsc --build --force",
     "p:ts:prepack": "cd $INIT_CWD; tsc --build --clean; tsc --build;",
     "p:ts:watch": "cd $INIT_CWD; run p:ts:build --watch --verbose",
@@ -63,12 +63,12 @@
     "preview": "vite preview",
     "relink": "budsbox-update-ts-references",
     "scss-types": "typed-scss-modules packages",
+    "setup": "run setup-builder & run setup-constraints & (run setup-eslint; run setup-eslint-worktree)",
     "setup-builder": "yarn workspace @budsbox/builder setup",
+    "setup-constraints": "yarn workspace @budsbox/constraints p:lib:setup",
     "setup-eslint": "yarn workspace @budsbox/eslint p:lib:setup",
     "setup-eslint-worktree": "yarn workspaces foreach --worktree --topological --parallel --from '@budsbox/eslint' run p:lib:setup",
-    "setup-constraints": "yarn workspace @budsbox/constraints p:lib:setup",
     "setup-root": "run p:ts:build; echo \"$(run name) was set up successfully\"",
-    "setup": "run setup-builder & run setup-constraints & (run setup-eslint; run setup-eslint-worktree)",
     "watch-scss-types": "run scss-types --watch",
     "ws": "yarn workspace"
   },
@@ -132,10 +132,5 @@
     "husky": "^9.1.7",
     "lint-staged": "^15.5.1"
   },
-  "packageManager": "yarn@4.8.1",
-  "dependenciesMeta": {
-    "lint-staged@15.5.1": {
-      "unplugged": true
-    }
-  }
+  "packageManager": "yarn@4.8.1"
 }

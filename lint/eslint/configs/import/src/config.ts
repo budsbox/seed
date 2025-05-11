@@ -2,16 +2,18 @@ import type { ESLint } from 'eslint';
 
 import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
+import type { ImportConfigFactoryOptions } from '#types';
 
 import importX from 'eslint-plugin-import-x';
 
 import { sure } from '@budsbox/lib-es/logical';
 import { parsePackageName } from '@budsbox/lib-es/string';
-
 import { dotMapper, queryJsExtensions } from '@budsbox/lib-extensions';
 
-export const createImportConfigFactory: ConfigFactoryCreate =
-  () =>
+export const createImportConfigFactory: ConfigFactoryCreate<
+  ImportConfigFactoryOptions
+> =
+  ({ scopeSubgroupsPrefixes = ['lib', 'eslint'] } = {}) =>
   ({ createConfig, matchIncludes, packageJson }) => {
     const extensions = queryJsExtensions({
       jsx: true,
@@ -42,9 +44,7 @@ export const createImportConfigFactory: ConfigFactoryCreate =
               'import-x/resolver': {
                 typescript: extensions,
               },
-              ...sure(scope, (s) => ({
-                'import-x/internal-regex': `^${s}`,
-              })),
+              'import-x/internal-regex': `^(?:#|${scope ?? '[]'})`,
             },
           },
         ],
@@ -111,18 +111,22 @@ export const createImportConfigFactory: ConfigFactoryCreate =
                     'external',
                     'internal',
                     'parent',
-                    'sibling',
-                    'index',
+                    ['sibling', 'index'],
                   ],
                   'pathGroups': [
                     ...sure(
                       scope,
                       (s) => [
-                        ...['lib', 'eslint', ''].map((subpath) => ({
-                          pattern: `${s}${subpath}*`,
+                        ...scopeSubgroupsPrefixes.toSorted().map((prefix) => ({
+                          pattern: `${s}{${prefix}*,${prefix}*/**}`,
                           group: 'internal',
-                          position: 'after',
+                          position: 'before',
                         })),
+                        {
+                          pattern: `${s}!{${scopeSubgroupsPrefixes.join(',')}}`,
+                          group: 'internal',
+                          position: 'before',
+                        },
                       ],
                       [],
                     ),
@@ -133,6 +137,7 @@ export const createImportConfigFactory: ConfigFactoryCreate =
                   'newlines-between-types': 'always',
                   'pathGroupsExcludedImportTypes': ['builtin'],
                   'sortTypesGroup': true,
+                  'warnOnUnassignedImports': true,
                 },
               ],
             },

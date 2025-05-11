@@ -5,6 +5,9 @@
       "path": "../../configs/import/tsconfig.lib.json"
     },
     {
+      "path": "../../configs/jsdoc/tsconfig.lib.json"
+    },
+    {
       "path": "../../configs/prettier/tsconfig.lib.json"
     },
     {

@@ -1,9 +1,8 @@
 import { getSupportInfo } from 'prettier';
 
-import { queryJsExtensions } from '@budsbox/lib-extensions';
+import { queryJsExtensions, globFromExtensions } from '@budsbox/lib-extensions';
 import { dedupe, diff } from '@budsbox/lib-es/array';
 import { stringifyPackageName } from '@budsbox/lib-es/string';
-
 import { getWorkspaceByFilepath } from '@budsbox/lib-yarn';
 
 const prettierCmd = 'prettier --write';
@@ -19,14 +18,6 @@ const prettierExts = diff(
   ['json'],
 );
 
-/**
- *
- * @param {readonly string[]} exts
- * @return {string}
- */
-const extsToBasenameGlob = (exts) =>
-  `*.${exts.length > 1 ? `{${exts.join(',')}}` : exts[0]}`;
-
 export default {
   'package.json': [
     () => 'yarn install --immutable --immutable-cache',
@@ -34,7 +25,7 @@ export default {
     prettierCmd,
   ],
 
-  [extsToBasenameGlob(jsExtensions)]: [
+  [globFromExtensions(jsExtensions)]: [
     /**
      *
      * @param {readonly string[]} filenames
@@ -53,5 +44,5 @@ export default {
     prettierCmd,
   ],
 
-  [`{${extsToBasenameGlob(prettierExts)},!(package).json}`]: prettierCmd,
+  [`{${globFromExtensions(prettierExts)},!(package).json}`]: prettierCmd,
 };

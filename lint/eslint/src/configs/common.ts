@@ -37,7 +37,6 @@ export const createCommonConfigFactory: ConfigFactoryCreate = () => (ctx) => {
         {
           files: matchIncludes({ jsx: true, sourceType: undefined }),
           rules: {
-            'curly': 'error',
             'eqeqeq': ['error', 'always', { null: 'ignore' }],
             'no-console': ['error', { allow: ['error'] }],
             'no-constant-binary-expression': 'error',

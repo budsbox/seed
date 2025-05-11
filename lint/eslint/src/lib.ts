@@ -10,14 +10,18 @@ import type {
 
 import { basename, posix } from 'node:path';
 
-import { configDefaults, eslintSymbol } from '#const';
 import { ensureArray } from '@budsbox/lib-es/array';
 import { hasProp, isArray, isNil } from '@budsbox/lib-es/guards';
 import { sure } from '@budsbox/lib-es/logical';
 import { parsePackageName } from '@budsbox/lib-es/string';
+import {
+  type FileExtension,
+  globFromExtensions,
+  queryJsExtensions,
+} from '@budsbox/lib-extensions';
 import { separateIncludes } from '@budsbox/lib-node/ts';
 
-import { type FileExtension, queryJsExtensions } from '@budsbox/lib-extensions';
+import { configDefaults, eslintSymbol } from '#const';
 
 export const createMatchIncludes = ({
   tsconfig,
@@ -40,7 +44,7 @@ export const createMatchIncludes = ({
     });
     if (!extensions.length) return [];
 
-    const extGlob = `*.${extensions.length > 1 ? `{${extensions.join(',')}}` : extensions[0]!}`;
+    const extGlob = globFromExtensions(extensions);
     const oneLevelGlobRegex = /\/\*$/;
     return [
       ...files.filter((file) =>

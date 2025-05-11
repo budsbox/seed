@@ -5,3 +5,7 @@ declare module '@budsbox/eslint' {
     import: ConfigLevel;
   }
 }
+
+export interface ImportConfigFactoryOptions {
+  readonly scopeSubgroupsPrefixes?: readonly string[];
+}
