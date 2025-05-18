@@ -5,7 +5,7 @@ export default createFlatConfig({
   importMeta: import.meta,
   entries: [
     {
-      tsconfigFile: 'tsconfig.json',
+      tsconfigFile: 'tsconfig.tools.json',
       presets: [eslintPresetTools()],
     },
   ],
