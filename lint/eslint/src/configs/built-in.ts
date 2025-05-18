@@ -2,27 +2,34 @@ import type { ConfigFactoryCreate } from '#types';
 
 import eslint from '@eslint/js';
 
-export const createCommonConfigFactory: ConfigFactoryCreate = () => (ctx) => {
+/**
+ * Creates a `ConfigFactory` function which provides configuration for built-in ESLint rules.
+ *
+ * @returns A `ConfigFactory` function.
+ */
+export const createBuiltInConfigFactory: ConfigFactoryCreate = () => (ctx) => {
   const { matchIncludes, createConfig } = ctx;
 
   return [
     createConfig({
-      name: 'common/recommended',
+      name: 'builtin/recommended',
       level: 'recommended',
+      modifies: ['core'],
       configs: [
         {
-          files: matchIncludes({ jsx: true, sourceType: undefined }),
+          files: matchIncludes({ jsx: true }),
           rules: eslint.configs.recommended.rules,
         },
       ],
     }),
 
     createConfig({
-      name: 'common/strict',
+      name: 'builtin/strict',
       level: 'strict',
+      modifies: ['builtin/recommended'],
       configs: [
         {
-          files: matchIncludes({ jsx: true, sourceType: undefined }),
+          files: matchIncludes({ jsx: true }),
           linterOptions: {
             reportUnusedDisableDirectives: 'error',
             reportUnusedInlineConfigs: 'error',
@@ -32,10 +39,11 @@ export const createCommonConfigFactory: ConfigFactoryCreate = () => (ctx) => {
     }),
 
     createConfig({
-      name: 'common/opinionated',
+      name: 'builtin/opinionated',
+      modifies: ['builtin/recommended', 'builtin/strict'],
       configs: [
         {
-          files: matchIncludes({ jsx: true, sourceType: undefined }),
+          files: matchIncludes({ jsx: true }),
           rules: {
             'eqeqeq': ['error', 'always', { null: 'ignore' }],
             'no-console': ['error', { allow: ['error'] }],
@@ -47,6 +55,12 @@ export const createCommonConfigFactory: ConfigFactoryCreate = () => (ctx) => {
               'error',
               'single',
               { allowTemplateLiterals: false, avoidEscape: true },
+            ],
+            // disabled by default but can be enabled if needed
+            'sort-keys': [
+              'off',
+              'asc',
+              { allowLineSeparatedGroups: true, natural: false },
             ],
           },
         },

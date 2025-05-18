@@ -8,19 +8,27 @@ import importX from 'eslint-plugin-import-x';
 
 import { sure } from '@budsbox/lib-es/logical';
 import { parsePackageName } from '@budsbox/lib-es/string';
-import { dotMapper, queryJsExtensions } from '@budsbox/lib-extensions';
+import { prependDot, queryJsExtensions } from '@budsbox/lib-extensions';
 
+/**
+ * Creates a `ConfigFactory` function which provides ESLint configuration for the plugin `eslint-plugin-import-x`,
+ * also other imports-related configurations.
+ *
+ * @param param - options to configure the resulted factory function.
+ * @returns A `ConfigFactory` function.
+ */
 export const createImportConfigFactory: ConfigFactoryCreate<
   ImportConfigFactoryOptions
 > =
   ({ scopeSubgroupsPrefixes = ['lib', 'eslint'] } = {}) =>
-  ({ createConfig, matchIncludes, packageJson }) => {
+  ({ createConfig, matchIncludes, packageJson, sourceType }) => {
     const extensions = queryJsExtensions({
       jsx: true,
       sourceType: 'module',
-    }).map(dotMapper);
+    }).map(prependDot);
     const files = matchIncludes({
       jsx: true,
+      sourceType,
       targetSourceType: 'module',
     });
     const { scope } = parsePackageName(packageJson.name ?? '');

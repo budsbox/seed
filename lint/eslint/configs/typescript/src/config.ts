@@ -3,14 +3,18 @@ import type { ESLint, Linter } from 'eslint';
 
 import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
-
 import * as eslintTs from 'typescript-eslint';
 
 import { readonlyParamAllowSpecifiers } from './const.js';
 
+/**
+ * Creates a `ConfigFactory` function which provides ESLint configuration for the plugin `typescript-eslint`.
+ *
+ * @returns A `ConfigFactory` function.
+ */
 export const createTypescriptConfigFactory: ConfigFactoryCreate =
   () =>
-  ({ createConfig, matchIncludes }) => {
+  ({ createConfig, matchIncludes, sourceType }) => {
     return [
       createConfig({
         name: 'typescript/basic',
@@ -20,7 +24,6 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
             files: matchIncludes({
               lang: 'ts',
               jsx: true,
-              sourceType: undefined,
             }),
             languageOptions: {
               parser: eslintTs.parser as Linter.Parser,
@@ -43,7 +46,6 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
             files: matchIncludes({
               lang: 'ts',
               jsx: true,
-              sourceType: undefined,
             }),
             rules:
               eslintTs.configs.recommendedTypeChecked.reduce<Linter.RulesRecord>(
@@ -66,7 +68,6 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
             files: matchIncludes({
               lang: 'ts',
               jsx: true,
-              sourceType: undefined,
             }),
             rules:
               eslintTs.configs.strictTypeChecked.reduce<Linter.RulesRecord>(
@@ -88,7 +89,6 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
             files: matchIncludes({
               lang: 'ts',
               jsx: true,
-              sourceType: undefined,
             }),
             rules: {
               '@typescript-eslint/array-type': [
@@ -155,6 +155,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
               '@typescript-eslint/no-unused-vars': 'off',
               '@typescript-eslint/non-nullable-type-assertion-style': 'error',
               '@typescript-eslint/prefer-nullish-coalescing': 'error',
+              '@typescript-eslint/prefer-function-type': 'error',
               '@typescript-eslint/prefer-optional-chain': 'error',
               '@typescript-eslint/prefer-regexp-exec': 'error',
               '@typescript-eslint/prefer-readonly-parameter-types': [
@@ -188,6 +189,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
           {
             files: matchIncludes({
               lang: 'ts',
+              sourceType,
               targetSourceType: 'commonjs',
             }),
             rules: {
@@ -203,10 +205,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
         modifies: ['import/recommended', 'import/opinionated'],
         configs: [
           {
-            files: matchIncludes({
-              jsx: true,
-              targetSourceType: 'module',
-            }),
+            files: matchIncludes({ jsx: true }),
             rules: {
               // https://typescript-eslint.io/troubleshooting/typed-linting/performance#eslint-plugin-import
               'import-x/default': 'off',

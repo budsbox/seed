@@ -16,6 +16,8 @@ export const defaultIgnores: Readonly<Def<Linter.Config['ignores']>> = [
 
 export const eslintSymbol = Symbol('@budsbox/eslint');
 
+export const wildcard = '*';
+
 export const configDefaults = {
   modifies: [],
   level: 'opinionated',

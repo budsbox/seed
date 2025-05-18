@@ -1,7 +1,7 @@
 import type { ConfigLevel } from '@budsbox/eslint';
 
 declare module '@budsbox/eslint' {
-  interface ConfigNamespaces {
+  interface ConfigNameSpace {
     jsdoc: ConfigLevel;
   }
 }

@@ -2,6 +2,11 @@ import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
 import eslintConfigPrettier from 'eslint-config-prettier';
 
+/**
+ * Creates a `ConfigFactory` function which provides ESLint configuration to disable all the rules which may conflict with Prettier.
+ *
+ * @returns A `ConfigFactory` function.
+ */
 export const createPrettierConfigFactory: ConfigFactoryCreate =
   () =>
   ({ createConfig, matchIncludes }) => {
@@ -12,7 +17,7 @@ export const createPrettierConfigFactory: ConfigFactoryCreate =
         modifies: ['*'],
         configs: [
           {
-            files: matchIncludes({ jsx: true, sourceType: undefined }),
+            files: matchIncludes({ jsx: true }),
             rules: {
               ...eslintConfigPrettier.rules,
             },
@@ -25,9 +30,9 @@ export const createPrettierConfigFactory: ConfigFactoryCreate =
         modifies: ['*', 'prettier/basic'],
         configs: [
           {
-            files: matchIncludes({ jsx: true, sourceType: undefined }),
+            files: matchIncludes({ jsx: true }),
             rules: {
-              // auto-replace ` with ' for string literals
+              // re-enable this to auto-replace ` with ' for string literals
               quotes: [
                 'error',
                 'single',

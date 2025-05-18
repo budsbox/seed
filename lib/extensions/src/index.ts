@@ -35,20 +35,25 @@ export const queryFileTypeExtensions = (
   union(...fileTypes.map((type) => fileTypeCodeToExtensions[type]));
 
 /**
- * Generates a list of JavaScript-related file extensions based on the provided language and source type parameters.
+ * Retrieves and filters a list of file extensions based on the provided JavaScript/TypeScript language options,
+ * source type, and JSX preferences.
  *
- * @param lang - Specifies the programming language(s) to query, which could be a single language or an array of languages.
- * @param sourceType - Defines the source type (e.g., ES Modules or CommonJS) being handled for JavaScript files.
- * @param targetSourceType - Defines the target source type for comparison. Defaults to the value of `sourceType`.
- * @param jsx - A boolean indicating whether JSX-related extensions should be included to the output. Defaults to `false`.
- * @returns An array of file extensions that match the specified query parameters, excluding or including JSX extensions as specified.
+ * @param params - The parameters used to query and filter file extensions.
+ * @param params.lang - Specifies the primary file extensions to filter based on the language.
+ * Defaults to ['js', 'ts'].
+ * @param params.sourceType - The initial source type used to determine the applicable file extensions.
+ * @param params.targetSourceType - Represents the target source type used for filtering extensions.
+ * Defaults to the value of `sourceType` if undefined.
+ * @param params.jsx - Determines if the query should include JSX-specific file extensions.
+ * Set to `false` by default.
+ * @returns A filtered list of file extensions matching the specified criteria.
  */
 export const queryJsExtensions = ({
   lang = ['js', 'ts'],
   sourceType,
   targetSourceType = sourceType,
   jsx = false,
-}: QueryJsExtensionsParams): FileExtension[] => {
+}: Readonly<QueryJsExtensionsParams>): FileExtension[] => {
   const langExts = queryFileTypeExtensions(...ensureArray(lang));
 
   return diff(
@@ -67,8 +72,44 @@ export const queryJsExtensions = ({
   );
 };
 
-export const dotMapper = <TExt extends string>(ext: TExt): `.${TExt}` =>
-  `.${ext}`;
+const leadingDotRegex = /^\.?/;
 
-export const globFromExtensions = (extensions: readonly string[]): string =>
-  `*.${extensions.length > 1 ? `{${extensions.join(',')}}` : extensions[0]!}`;
+/**
+ * Prepends a dot (.) to the given extension string if it does not already begin with one.
+ *
+ * @param extension - The extension string to process.
+ * @returns The processed extension string that is guaranteed to start with a dot. If the input already starts with a dot, it will be returned unchanged.
+ */
+export function prependDot<TExtension extends string>(
+  extension: TExtension,
+): TExtension extends `.${string}` ? TExtension : `.${TExtension}`;
+export function prependDot(extension: string): string {
+  return extension.replace(leadingDotRegex, '.');
+}
+
+/**
+ * Removes the leading dot from a string if it begins with one.
+ * If the string does not start with a dot, it returns the string unchanged.
+ *
+ * @param extension - The string input, which may or may not have a leading dot.
+ * @returns The input string without a leading dot, or the original string if no leading dot was present.
+ */
+export function removeDot<TExtension extends string>(
+  extension: TExtension,
+): TExtension extends `.${infer TWithoutDot}` ? TWithoutDot : TExtension;
+export function removeDot(extension: string): string {
+  return extension.replace(leadingDotRegex, '');
+}
+
+/**
+ * Generates a filename glob pattern string based on the provided file extensions.
+ * This function takes an array of file extensions and constructs a glob
+ * pattern that matches files with the specified extensions.
+ *
+ * @param extensions - A readonly array of file extensions (with or without a leading dot).
+ * @returns A glob pattern string matching the filenames with specified extensions.
+ */
+export const globFromExtensions = (extensions: readonly string[]): string => {
+  const extensionsWithoutDot = extensions.map(removeDot);
+  return `*.${extensionsWithoutDot.length > 1 ? `{${extensionsWithoutDot.join(',')}}` : extensionsWithoutDot[0]!}`;
+};
