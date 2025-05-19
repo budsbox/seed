@@ -7,7 +7,7 @@ export const contextsRequireDescription: readonly string[] = [
   ...[
     'TSEnumDeclaration',
     'TSDeclareFunction',
-    'TSFunctionType',
+    'TSFunctionType:not(TSFunctionType TSFunctionType)',
     'TSInterfaceDeclaration',
     'TSTypeAliasDeclaration',
     'TSInterfaceBody > TSPropertySignature',

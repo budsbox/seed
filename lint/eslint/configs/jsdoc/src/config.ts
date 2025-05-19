@@ -13,6 +13,7 @@ export const createJsdocConfigFactory: ConfigFactoryCreate =
   () =>
   ({ createConfig, matchIncludes }) => {
     const requireJsdocOptions = {
+      publicOnly: true,
       contexts: [...contextsRequireDescription],
       require: {
         ArrowFunctionExpression: true,

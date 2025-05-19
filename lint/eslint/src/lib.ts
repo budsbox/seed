@@ -18,14 +18,29 @@ import {
   type FileExtension,
   globFromExtensions,
   queryJsExtensions,
+  removeDot,
 } from '@budsbox/lib-extensions';
 import { separateIncludes } from '@budsbox/lib-node/ts';
 
 import { configDefaults, eslintSymbol } from '#const';
 
+/**
+ * Creates a `matchIncludes` function for filtering and constructing
+ * file patterns based on the provided TypeScript configuration and
+ * query parameters.
+ *
+ * @param context - The context object containing the TypeScript configuration
+ * @returns A function that takes extensions filter parameters and returns an array of globs.
+ * @remarks
+ * The returned function uses the following logic:
+ * - Determines extensions to match based on the given language and `allowJs` flag.
+ * - Converts these extensions into a glob pattern.
+ * - Filters explicitly specified files that match the extensions.
+ * - Constructs directory glob patterns using the given directories and extensions.
+ * @see {@link ConfigFactoryContext#matchIncludes}
+ */
 export const createMatchIncludes = ({
   tsconfig,
-  sourceType,
 }: Readonly<BaseContext>): ConfigFactoryContext['matchIncludes'] => {
   const { allowJs = false } = tsconfig.compilerOptions ?? {};
   const { dirs, files } = separateIncludes(tsconfig.include ?? []);
@@ -35,7 +50,6 @@ export const createMatchIncludes = ({
     ...query
   }) => {
     const extensions = queryJsExtensions({
-      sourceType,
       lang:
         allowJs ? lang : (
           ensureArray(lang ?? (['ts'] as const)).filter((l) => l !== 'js')
@@ -48,7 +62,7 @@ export const createMatchIncludes = ({
     const oneLevelGlobRegex = /\/\*$/;
     return [
       ...files.filter((file) =>
-        extensions.includes(posix.extname(file).slice(1) as FileExtension),
+        extensions.includes(removeDot(posix.extname(file)) as FileExtension),
       ),
       ...dirs.map((dir) =>
         posix.join(
@@ -64,6 +78,25 @@ export const createMatchIncludes = ({
   return matchIncludes;
 };
 
+/**
+ * Sorts an array of configuration objects based on their dependencies.
+ *
+ * Each configuration has a `modifies` property, which defines the configuration names
+ * it depends on. The function resolves these dependencies to determine the order
+ * in which the configurations should be returned. Configurations with circular
+ * dependencies will throw an error.
+ *
+ * - Configurations that have `'*'` in their `modifies` list are treated as modifying
+ *   all configurations that do not modify others (wildcard handling).
+ * - Configurations without dependencies or with dependencies already resolved
+ *   are added into the sorted list in a dependency-respecting order.
+ *
+ * @param configs - The input array of configuration objects. This array is immutable,
+ * as the function does not modify the original array but returns a new array
+ * representing the sorted order.
+ * @returns A new array of configurations sorted in an order based on dependency resolution.
+ * @throws If any circular dependencies are detected among configurations, an error is thrown.
+ */
 export const sortConfigs = (configs: readonly Config[]): Config[] => {
   const nameToConfig = new Map<ConfigName, Config>(
     configs.map((config) => [config.name, config]),
@@ -108,6 +141,16 @@ export const sortConfigs = (configs: readonly Config[]): Config[] => {
 
 const configMap = new WeakMap<Linter.Config, Config>();
 
+/**
+ * Generates and returns a fully constructed `Config` object with the provided options
+ * and context. The function processes configuration parameters, applies defaults,
+ * and transforms the input into a standardised configuration format.
+ *
+ * @param options - An object containing configuration {@link CreateConfigOptions options}.
+ * @param ctx - A readonly {@link BaseContext context object} containing metadata.
+ * @returns A {@link Config `Config` object} that includes the processed configuration data,
+ *   with frozen properties for immutability.
+ */
 export const createConfig = (
   { name: configName, configs, ...restOptions }: CreateConfigOptions,
   { packageJson, tsconfigPath }: Readonly<BaseContext>,
@@ -153,13 +196,38 @@ export const createConfig = (
   return Object.freeze(config);
 };
 
+/**
+ * Retrieves the corresponding configuration object from the configuration map
+ * based on the provided flat configuration.
+ *
+ * @param flatConfig - A {@link Linter#Config flat configuration object} used as a key
+ *                     to look up a matching configuration from the configuration map.
+ * @returns The corresponding {@link Config configuration object} if found, or `null` if not found.
+ */
 export const getConfigByFlatConfig = (
   flatConfig: Linter.Config,
 ): Config | null => configMap.get(flatConfig) ?? null;
 
+/**
+ * Checks if the provided value is a {@link Config `Config` object}.
+ *
+ * @param value - The value to be evaluated.
+ * @returns A boolean indicating whether the value is a valid {@link Config `Config` object}.
+ */
 export const isConfig = (value: unknown): value is Config =>
   hasProp(value, eslintSymbol, (v) => v === configDefaults[eslintSymbol]);
 
+/**
+ * Derives the appropriate {@link Linter#ParserOptions#ecmaVersion ESLint-compatible ECMAScript version} from the provided {@link BaseContext context}.
+ *
+ * Determines the ESLint-compatible ECMAScript version value based on the `target` field in the `compilerOptions` of `tsconfig`.
+ * If the `target` is `'esnext'`, it returns `'latest'`. If the `target` matches the form `'es{number}'`,
+ * it extracts the number and returns it as the ECMAScript version. Returns `undefined` if no compatible
+ * ECMAScript version can be determined.
+ *
+ * @param context - A {@link BaseContext context object}.
+ * @returns The {@link Linter#ParserOptions#ecmaVersion ECMAScript version} represented, or `undefined` if it cannot be determined.
+ */
 export const getEcmaVersionFromContext = ({
   tsconfig,
 }: Readonly<BaseContext>): Linter.ParserOptions['ecmaVersion'] | undefined => {
