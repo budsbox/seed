@@ -66,5 +66,5 @@
   "peerDependencies": {
     "@yarnpkg/core": "^4.3.1"
   },
-  "packageManager": "yarn@4.8.1"
+  "packageManager": "yarn@4.9.2"
 }

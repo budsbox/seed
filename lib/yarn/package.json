@@ -60,5 +60,5 @@
     "@yarnpkg/fslib": "^3.1.2",
     "@yarnpkg/types": "^4.0.1"
   },
-  "packageManager": "yarn@4.8.1"
+  "packageManager": "yarn@4.9.2"
 }
