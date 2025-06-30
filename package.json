@@ -33,7 +33,7 @@
     "cf": "yarn constraints --fix; yarn",
     "format": "run format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"**/package.json\"",
-    "postinstall": "run setup-builder; run relink",
+    "postinstall": "(run setup-builder; run relink) & run setup-constraints",
     "lint-staged": "lint-staged --config .lintstagedrc.js",
     "name": "echo $npm_package_name",
     "p:build": "cd $INIT_CWD; tsc && vite build",
