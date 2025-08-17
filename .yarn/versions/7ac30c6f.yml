@@ -1,0 +1,19 @@
+releases:
+  "@budsbox/eslint": major
+  "@budsbox/eslint~configs-import": major
+  "@budsbox/eslint~configs-jsdoc": major
+  "@budsbox/eslint~configs-prettier": major
+  "@budsbox/eslint~configs-promise": major
+  "@budsbox/eslint~configs-typescript": major
+  "@budsbox/eslint~presets-lib": major
+  "@budsbox/eslint~presets-node-lib": major
+  "@budsbox/eslint~presets-tools": major
+  "@budsbox/lib-es": major
+  "@budsbox/lib-extensions": major
+  "@budsbox/lib-node": major
+  "@budsbox/lib-types": major
+  "@budsbox/lib-yarn": major
+  "@budsbox/tsconfigs": major
+
+declined:
+  - "@budsbox/root"
