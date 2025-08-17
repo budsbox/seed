@@ -1,9 +1,0 @@
-releases:
-  "@budsbox/linting": minor
-
-undecided:
-  - "@budsbox/constraints"
-  - "@budsbox/iso-utils"
-  - "@budsbox/sass-importers"
-  - "@budsbox/ui-tools"
-  - "@budsbox/tsconfigs"
