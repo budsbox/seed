@@ -1,4 +1,4 @@
-/// <reference types="@budsbox/eslint~configs-import/types" />
+/// <reference types="@budsbox/eslint_configs-import/types" />
 import type { ESLint, Linter } from 'eslint';
 
 import type { ConfigFactoryCreate } from '@budsbox/eslint';

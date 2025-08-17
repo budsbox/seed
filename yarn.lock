@@ -476,8 +476,8 @@ __metadata:
   resolution: "@budsbox/builder@workspace:builder"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-node": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
@@ -524,8 +524,8 @@ __metadata:
   resolution: "@budsbox/constraints@workspace:constraints"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/iso-utils": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
@@ -553,8 +553,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/eslint@workspace:lint/eslint"
   dependencies:
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-node": "workspace:^"
@@ -578,13 +578,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint~configs-import@workspace:^, @budsbox/eslint~configs-import@workspace:lint/eslint/configs/import":
+"@budsbox/eslint_configs-import@workspace:^, @budsbox/eslint_configs-import@workspace:lint/eslint/configs/import":
   version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~configs-import@workspace:lint/eslint/configs/import"
+  resolution: "@budsbox/eslint_configs-import@workspace:lint/eslint/configs/import"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
@@ -615,13 +615,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint~configs-jsdoc@workspace:^, @budsbox/eslint~configs-jsdoc@workspace:lint/eslint/configs/jsdoc":
+"@budsbox/eslint_configs-jsdoc@workspace:^, @budsbox/eslint_configs-jsdoc@workspace:lint/eslint/configs/jsdoc":
   version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~configs-jsdoc@workspace:lint/eslint/configs/jsdoc"
+  resolution: "@budsbox/eslint_configs-jsdoc@workspace:lint/eslint/configs/jsdoc"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.26.0"
@@ -648,13 +648,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint~configs-prettier@workspace:^, @budsbox/eslint~configs-prettier@workspace:lint/eslint/configs/prettier":
+"@budsbox/eslint_configs-prettier@workspace:^, @budsbox/eslint_configs-prettier@workspace:lint/eslint/configs/prettier":
   version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~configs-prettier@workspace:lint/eslint/configs/prettier"
+  resolution: "@budsbox/eslint_configs-prettier@workspace:lint/eslint/configs/prettier"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
@@ -682,13 +682,13 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint~configs-promise@workspace:^, @budsbox/eslint~configs-promise@workspace:lint/eslint/configs/promise":
+"@budsbox/eslint_configs-promise@workspace:^, @budsbox/eslint_configs-promise@workspace:lint/eslint/configs/promise":
   version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~configs-promise@workspace:lint/eslint/configs/promise"
+  resolution: "@budsbox/eslint_configs-promise@workspace:lint/eslint/configs/promise"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.26.0"
@@ -715,14 +715,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint~configs-typescript@workspace:^, @budsbox/eslint~configs-typescript@workspace:lint/eslint/configs/typescript":
+"@budsbox/eslint_configs-typescript@workspace:^, @budsbox/eslint_configs-typescript@workspace:lint/eslint/configs/typescript":
   version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~configs-typescript@workspace:lint/eslint/configs/typescript"
+  resolution: "@budsbox/eslint_configs-typescript@workspace:lint/eslint/configs/typescript"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~configs-import": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_configs-import": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
@@ -744,7 +744,7 @@ __metadata:
     typescript-eslint: "npm:^8.32.1"
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~configs-import": "workspace:^"
+    "@budsbox/eslint_configs-import": "workspace:^"
     "@eslint/js": ^9.26.0
     "@types/eslint": ^9.6.1
     "@typescript-eslint/parser": ^8.32.1
@@ -754,23 +754,23 @@ __metadata:
     typescript: ^5.8.3
     typescript-eslint: ^8.32.1
   peerDependenciesMeta:
-    "@budsbox/eslint~configs-import":
+    "@budsbox/eslint_configs-import":
       optional: true
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint~presets-lib@workspace:^, @budsbox/eslint~presets-lib@workspace:lint/eslint/presets/lib":
+"@budsbox/eslint_presets-lib@workspace:^, @budsbox/eslint_presets-lib@workspace:lint/eslint/presets/lib":
   version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~presets-lib@workspace:lint/eslint/presets/lib"
+  resolution: "@budsbox/eslint_presets-lib@workspace:lint/eslint/presets/lib"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~configs-import": "workspace:^"
-    "@budsbox/eslint~configs-jsdoc": "workspace:^"
-    "@budsbox/eslint~configs-prettier": "workspace:^"
-    "@budsbox/eslint~configs-promise": "workspace:^"
-    "@budsbox/eslint~configs-typescript": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_configs-import": "workspace:^"
+    "@budsbox/eslint_configs-jsdoc": "workspace:^"
+    "@budsbox/eslint_configs-prettier": "workspace:^"
+    "@budsbox/eslint_configs-promise": "workspace:^"
+    "@budsbox/eslint_configs-typescript": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.26.0"
@@ -796,15 +796,15 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint~presets-node-lib@workspace:^, @budsbox/eslint~presets-node-lib@workspace:lint/eslint/presets/node-lib":
+"@budsbox/eslint_presets-node-lib@workspace:^, @budsbox/eslint_presets-node-lib@workspace:lint/eslint/presets/node-lib":
   version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~presets-node-lib@workspace:lint/eslint/presets/node-lib"
+  resolution: "@budsbox/eslint_presets-node-lib@workspace:lint/eslint/presets/node-lib"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~configs-import": "workspace:^"
-    "@budsbox/eslint~configs-typescript": "workspace:^"
-    "@budsbox/eslint~presets-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_configs-import": "workspace:^"
+    "@budsbox/eslint_configs-typescript": "workspace:^"
+    "@budsbox/eslint_presets-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.26.0"
@@ -827,17 +827,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/eslint~presets-tools@workspace:^, @budsbox/eslint~presets-tools@workspace:lint/eslint/presets/tools":
+"@budsbox/eslint_presets-tools@workspace:^, @budsbox/eslint_presets-tools@workspace:lint/eslint/presets/tools":
   version: 0.0.0-use.local
-  resolution: "@budsbox/eslint~presets-tools@workspace:lint/eslint/presets/tools"
+  resolution: "@budsbox/eslint_presets-tools@workspace:lint/eslint/presets/tools"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~configs-import": "workspace:^"
-    "@budsbox/eslint~configs-prettier": "workspace:^"
-    "@budsbox/eslint~configs-promise": "workspace:^"
-    "@budsbox/eslint~configs-typescript": "workspace:^"
-    "@budsbox/eslint~presets-lib": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
+    "@budsbox/eslint_configs-import": "workspace:^"
+    "@budsbox/eslint_configs-prettier": "workspace:^"
+    "@budsbox/eslint_configs-promise": "workspace:^"
+    "@budsbox/eslint_configs-typescript": "workspace:^"
+    "@budsbox/eslint_presets-lib": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.26.0"
@@ -892,8 +892,8 @@ __metadata:
   resolution: "@budsbox/lib-es@workspace:lib/es"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.26.0"
@@ -921,10 +921,10 @@ __metadata:
   resolution: "@budsbox/lib-extensions@workspace:lib/extensions"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~configs-import": "workspace:^"
-    "@budsbox/eslint~configs-typescript": "workspace:^"
-    "@budsbox/eslint~presets-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_configs-import": "workspace:^"
+    "@budsbox/eslint_configs-typescript": "workspace:^"
+    "@budsbox/eslint_presets-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
@@ -950,8 +950,8 @@ __metadata:
   resolution: "@budsbox/lib-node@workspace:lib/node"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
@@ -993,8 +993,8 @@ __metadata:
   resolution: "@budsbox/lib-yarn@workspace:lib/yarn"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
@@ -1147,7 +1147,7 @@ __metadata:
     "@budsbox/builder": "workspace:^"
     "@budsbox/constraints": "workspace:^"
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
@@ -1203,8 +1203,8 @@ __metadata:
   resolution: "@budsbox/sass-importers@workspace:packages/sass-importers"
   dependencies:
     "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint~presets-node-lib": "workspace:^"
-    "@budsbox/eslint~presets-tools": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"

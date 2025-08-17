@@ -1,5 +1,5 @@
 {
-  "name": "@budsbox/eslint~configs-promise",
+  "name": "@budsbox/eslint_configs-promise",
   "version": "1.0.0",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
@@ -33,8 +33,8 @@
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@budsbox/eslint~presets-node-lib": "workspace:^",
-    "@budsbox/eslint~presets-tools": "workspace:^",
+    "@budsbox/eslint_presets-node-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@eslint/js": "^9.26.0",

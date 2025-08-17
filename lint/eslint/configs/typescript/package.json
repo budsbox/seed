@@ -1,5 +1,5 @@
 {
-  "name": "@budsbox/eslint~configs-typescript",
+  "name": "@budsbox/eslint_configs-typescript",
   "version": "1.0.0",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
@@ -34,9 +34,9 @@
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@budsbox/eslint~configs-import": "workspace:^",
-    "@budsbox/eslint~presets-node-lib": "workspace:^",
-    "@budsbox/eslint~presets-tools": "workspace:^",
+    "@budsbox/eslint_configs-import": "workspace:^",
+    "@budsbox/eslint_presets-node-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@eslint/js": "^9.26.0",
@@ -57,7 +57,7 @@
   },
   "peerDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@budsbox/eslint~configs-import": "workspace:^",
+    "@budsbox/eslint_configs-import": "workspace:^",
     "@eslint/js": "^9.26.0",
     "@types/eslint": "^9.6.1",
     "@typescript-eslint/parser": "^8.32.1",
@@ -68,7 +68,7 @@
     "typescript-eslint": "^8.32.1"
   },
   "peerDependenciesMeta": {
-    "@budsbox/eslint~configs-import": {
+    "@budsbox/eslint_configs-import": {
       "optional": true
     }
   },

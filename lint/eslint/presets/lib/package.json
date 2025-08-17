@@ -1,5 +1,5 @@
 {
-  "name": "@budsbox/eslint~presets-lib",
+  "name": "@budsbox/eslint_presets-lib",
   "version": "1.0.0",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
@@ -25,11 +25,11 @@
     "name": "echo $npm_package_name"
   },
   "dependencies": {
-    "@budsbox/eslint~configs-import": "workspace:^",
-    "@budsbox/eslint~configs-jsdoc": "workspace:^",
-    "@budsbox/eslint~configs-prettier": "workspace:^",
-    "@budsbox/eslint~configs-promise": "workspace:^",
-    "@budsbox/eslint~configs-typescript": "workspace:^",
+    "@budsbox/eslint_configs-import": "workspace:^",
+    "@budsbox/eslint_configs-jsdoc": "workspace:^",
+    "@budsbox/eslint_configs-prettier": "workspace:^",
+    "@budsbox/eslint_configs-promise": "workspace:^",
+    "@budsbox/eslint_configs-typescript": "workspace:^",
     "@typescript-eslint/type-utils": "^8.32.1",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-jsdoc": "^50.6.17",
@@ -37,8 +37,8 @@
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@budsbox/eslint~presets-node-lib": "workspace:^",
-    "@budsbox/eslint~presets-tools": "workspace:^",
+    "@budsbox/eslint_presets-node-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@eslint/js": "^9.26.0",

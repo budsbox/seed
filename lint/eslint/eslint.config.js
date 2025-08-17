@@ -1,5 +1,5 @@
-import { eslintPresetNodeLib } from '@budsbox/eslint~presets-node-lib';
-import { eslintPresetTools } from '@budsbox/eslint~presets-tools';
+import { eslintPresetNodeLib } from '@budsbox/eslint_presets-node-lib';
+import { eslintPresetTools } from '@budsbox/eslint_presets-tools';
 
 import { createFlatConfig } from './dist/index.js';
 

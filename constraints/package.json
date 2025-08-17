@@ -36,8 +36,8 @@
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@budsbox/eslint~presets-node-lib": "workspace:^",
-    "@budsbox/eslint~presets-tools": "workspace:^",
+    "@budsbox/eslint_presets-node-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",

@@ -90,8 +90,8 @@
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@budsbox/eslint~presets-lib": "workspace:^",
-    "@budsbox/eslint~presets-tools": "workspace:^",
+    "@budsbox/eslint_presets-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@eslint/js": "^9.26.0",
     "@types/eslint": "^9.6.1",
