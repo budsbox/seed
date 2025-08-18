@@ -1,8 +1,13 @@
 {
   "extends": "@budsbox/tsconfigs/tsconfig.tools.json",
-  //  because of WEB-57508 webstorm can't figure out this flags from the extended config
+  //  because of WEB-57508 webstorm can't figure out those flags from the extended config
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true
-  }
+  },
+  "references": [
+    {
+      "path": "tsconfig.lib.json"
+    }
+  ]
 }

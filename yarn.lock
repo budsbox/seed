@@ -982,9 +982,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/lib-types@workspace:lib/types"
   dependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/eslint_presets-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
+    "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.15.2"
+    eslint: "npm:^9.26.0"
     tslib: "npm:^2.8.1"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 

@@ -57,7 +57,7 @@
     "p:ts:clean": "cd $INIT_CWD; tsc --build --clean;",
     "p:ts:config": "cd $INIT_CWD; tsc --showConfig --project ${0:-'.'}",
     "p:ts:force": "cd $INIT_CWD; tsc --build --force",
-    "p:ts:prepack": "cd $INIT_CWD; tsc --build --clean; tsc --build;",
+    "p:ts:prepack": "cd $INIT_CWD; tsc --build;",
     "p:ts:watch": "cd $INIT_CWD; run p:ts:build --watch --verbose",
     "p:version": "cd $INIT_CWD; node -e 'console.log(require(\"./package.json\").version)'",
     "p:wsa": "cd $INIT_CWD; yarn add $(run p:scope-prefix \"$@\")",
