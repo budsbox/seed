@@ -22,7 +22,8 @@
     }
   },
   "scripts": {
-    "name": "echo $npm_package_name"
+    "name": "echo $npm_package_name",
+    "prepack": "run p:ts:prepack"
   },
   "dependencies": {
     "@budsbox/eslint_presets-lib": "workspace:^",
