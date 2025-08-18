@@ -37,7 +37,7 @@
     "postinstall": "(run setup-builder; run relink) & run setup-constraints",
     "lint-staged": "lint-staged --config .lintstagedrc.js",
     "name": "echo $npm_package_name",
-    "p:autotag": "cd $INIT_CWD; git tag -a \\\"$(yarn name)-v$(yarn p:version)\\\" -m \\\"\\\"",
+    "p:autotag": "cd $INIT_CWD; git tag -a \"$(yarn name)-v$(yarn p:version)\" -m ''",
     "p:build": "cd $INIT_CWD; tsc && vite build",
     "p:eslint": "echo $INIT_CWD; cd $INIT_CWD; eslint --quiet ${@:-'.'}",
     "p:eslint:config": "cd $INIT_CWD; yarn node -e \"console.log(await import('./$(run p:eslint:config-filename)').then((c) => c.default));\" --experimental-default-type=module",
