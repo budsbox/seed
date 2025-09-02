@@ -9,6 +9,9 @@
     },
     {
       "path": "../../lib/node/tsconfig.lib.json"
+    },
+    {
+      "path": "../../lib/types/tsconfig.lib.json"
     }
   ]
 }
