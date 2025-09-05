@@ -1,11 +1,11 @@
 releases:
+  "@budsbox/builder": patch
+  "@budsbox/constraints": minor
+  "@budsbox/eslint": patch
+  "@budsbox/eslint_presets-lib": patch
+  "@budsbox/eslint_presets-node-lib": patch
+  "@budsbox/eslint_presets-tools": patch
   "@budsbox/lib-es": patch
 
-undecided:
+declined:
   - "@budsbox/root"
-  - "@budsbox/builder"
-  - "@budsbox/constraints"
-  - "@budsbox/eslint"
-  - "@budsbox/eslint_presets-lib"
-  - "@budsbox/eslint_presets-node-lib"
-  - "@budsbox/eslint_presets-tools"
