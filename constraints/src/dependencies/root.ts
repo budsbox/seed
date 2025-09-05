@@ -1,11 +1,17 @@
-import { isNil } from '@budsbox/iso-utils/type-guards';
+import { isNil } from '@budsbox/lib-es/guards';
 
 import { type Constraint, getRootWs } from '../utils';
 
 /**
- * This function ensures that packages that more than one workspace depends on are added to the root workspace dependencies.
+ * A constraint function that enforces the consistency of dependencies among Yarn workspaces.
+ * It ensures that if a dependency exists with multiple version ranges across different workspaces,
+ * the root workspace is informed about the discrepancy and either displays an error or synchronizes the dependency to the root level.
  *
- * @param Yarn
+ * This function processes all the dependencies of the workspaces except for the root.
+ * If it detects that the same dependency exists in different workspaces with differing version ranges, it raises an error.
+ * Otherwise, it synchronizes the dependency to the root workspace if it is missing from there.
+ *
+ * @param Yarn - A Yarn utility object that provides functions for managing dependencies and workspaces.
  */
 export const constraintRootDependencies: Constraint = ({ Yarn }) => {
   const root = getRootWs(Yarn);

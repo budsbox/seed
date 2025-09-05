@@ -33,7 +33,6 @@
     "@budsbox/eslint": "workspace:^",
     "@budsbox/eslint_configs-import": "workspace:^",
     "@budsbox/eslint_configs-typescript": "workspace:^",
-    "@budsbox/eslint_presets-lib": "workspace:^",
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",

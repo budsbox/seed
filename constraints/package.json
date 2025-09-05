@@ -28,11 +28,17 @@
   ],
   "scripts": {
     "name": "echo $npm_package_name",
-    "prepack": "yarn p:ts:prepack"
+    "prepack": "yarn p:ts:prepack",
+    "setup": "[ -f dist/dist.tsbuildinfo ] || run p:lib:setup"
   },
   "dependencies": {
-    "@budsbox/iso-utils": "workspace:^",
-    "@yarnpkg/types": "^4.0.1"
+    "@budsbox/lib-es": "workspace:^",
+    "@types/micromatch": "^4.0.9",
+    "@yarnpkg/types": "^4.0.1",
+    "micromatch": "^4.0.8",
+    "semver": "^7.7.2",
+    "semver-intersect": "^1.5.0",
+    "type-fest": "^4.32.0"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
@@ -44,6 +50,7 @@
     "@eslint/js": "^9.26.0",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.15.2",
+    "@types/semver": "^7",
     "@typescript-eslint/parser": "^8.32.1",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.5",

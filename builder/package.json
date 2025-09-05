@@ -60,8 +60,7 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "@yarnpkg/core": "^4.3.1",
-    "eslint": "^9.26.0",
-    "typescript": "^5.8.3"
+    "eslint": "^9.26.0"
   },
   "peerDependencies": {
     "@yarnpkg/core": "^4.3.1"

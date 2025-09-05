@@ -70,7 +70,7 @@
     "scss-types": "typed-scss-modules packages",
     "setup": "run setup-builder & run setup-constraints & (run setup-eslint; run setup-eslint-worktree)",
     "setup-builder": "yarn workspace @budsbox/builder setup",
-    "setup-constraints": "yarn workspace @budsbox/constraints p:lib:setup",
+    "setup-constraints": "yarn workspace @budsbox/constraints setup",
     "setup-eslint": "yarn workspace @budsbox/eslint p:lib:setup",
     "setup-eslint-worktree": "yarn workspaces foreach --worktree --topological --parallel --from '@budsbox/eslint' run p:lib:setup",
     "setup-root": "run p:ts:build; echo \"$(run name) was set up successfully\"",

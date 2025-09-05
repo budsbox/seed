@@ -1,5 +1,24 @@
-import { type ConstraintFactory, getRootWs } from '../utils';
+import { type ConstraintFactory, getRootWs, softUpdate } from '../utils';
+import { sure } from '@budsbox/lib-es/logical';
+import { isNotNil } from '@budsbox/lib-es/guards';
 
+/**
+ * A factory function to create a constraint that ensures specific dependency policies
+ * between Yarn workspaces within a monorepo. This includes managing dependency ranges,
+ * restricting dependencies, and enforcing workspace protocol usage.
+ *
+ * The `createWorkspaceDependenciesConstraint` allows configurations for restricting
+ * specific dependencies by marking them as banned and ensures that workspace dependencies
+ * use the proper workspace protocol.
+ *
+ * @param config - An optional configuration object.
+ * @param config.bannedDependencies - A list of dependencies that are banned across the workspaces.
+ *                                     These dependencies will be removed if present.
+ *                                     Defaults to an empty array if not provided.
+ * @returns A workspace dependencies constraint function that operates on a Yarn project
+ *          using provided configurations. The constraint function enforces prohibited
+ *          dependencies and ensures that workspace dependencies follow the workspace protocol.
+ */
 export const createWorkspaceDependenciesConstraint: ConstraintFactory<{
   readonly bannedDependencies?: readonly string[];
 }> = ({ bannedDependencies = [] } = {}) =>
@@ -9,7 +28,9 @@ export const createWorkspaceDependenciesConstraint: ConstraintFactory<{
     for (const workspace of workspaces) {
       if (workspace !== root) {
         for (const { ident, range } of Yarn.dependencies({ workspace: root })) {
-          Yarn.dependency({ workspace, ident })?.update(range);
+          sure(Yarn.dependency({ workspace, ident }), (dep) => {
+            softUpdate(Yarn, dep, range);
+          });
         }
       }
 
@@ -19,10 +40,20 @@ export const createWorkspaceDependenciesConstraint: ConstraintFactory<{
         ...bannedDependencies,
       ]);
       for (const dep of Yarn.dependencies({ workspace })) {
-        if (banned.has(dep.ident)) {
+        if (
+          banned.has(dep.ident) ||
+          (dep.type === 'devDependencies' &&
+            isNotNil(
+              Yarn.dependency({
+                workspace,
+                ident: dep.ident,
+                type: 'dependencies',
+              }),
+            ))
+        ) {
           dep.delete();
         } else if (Yarn.workspace({ ident: dep.ident }) != null) {
-          dep.update('workspace:^');
+          softUpdate(Yarn, dep, 'workspace:^');
         }
       }
     }
