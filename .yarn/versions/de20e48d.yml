@@ -1,0 +1,11 @@
+releases:
+  "@budsbox/lib-es": patch
+
+undecided:
+  - "@budsbox/root"
+  - "@budsbox/builder"
+  - "@budsbox/constraints"
+  - "@budsbox/eslint"
+  - "@budsbox/eslint_presets-lib"
+  - "@budsbox/eslint_presets-node-lib"
+  - "@budsbox/eslint_presets-tools"

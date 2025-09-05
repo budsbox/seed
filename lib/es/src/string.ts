@@ -10,7 +10,7 @@ import type { Nil } from '@budsbox/lib-types';
 
 import type { ParsedPackageName } from './types.js';
 
-import { isNil, isNotNil, isString } from '#guards';
+import { isNil, isNotNil } from '#guards';
 
 export type { ParsedPackageName };
 
@@ -19,7 +19,7 @@ export type { ParsedPackageName };
  *
  * @param packageName - The full name of the package, potentially including a scope.
  * @param clean - A flag indicating whether to return a cleaned version (i.e., without a leading `@` and trailing `/`) of the scope. Defaults to false.
- * @return An object containing the parsed scope and name of the package. The scope will be `null` if no scope is present.
+ * @returns An object containing the parsed scope and name of the package. The scope will be `null` if no scope is present.
  */
 export function parsePackageName(
   packageName: string,
@@ -46,7 +46,7 @@ export function stringifyPackageName(
  *
  * @param parsedPackageName - A parsed package name object of type `ParsedPackageName` or a Nil value.
  * @param allowNil - A boolean flag specifying whether Nil values are allowed for conversion.
- * @return The string representation of the package name if valid, or an empty string if `allowNil` is true and the input is Nil.
+ * @returns The string representation of the package name if valid, or an empty string if `allowNil` is true and the input is Nil.
  */
 export function stringifyPackageName(
   parsedPackageName: Readonly<ParsedPackageName> | Nil,
@@ -60,16 +60,15 @@ export function stringifyPackageName(
     throw new TypeError('Expected a non-nil value');
   }
   const { scope, name } = parsedPackageName ?? { scope: null, name: '' };
-  return isString(scope) ?
-      [scope.replace(/^@?([^]+)\/?$/, '@$1'), name].join('/')
-    : name;
+  return joinPath(scope?.replace(/^@?/, '@'), name);
 }
 
 /**
- * Returns the string representation of the given value.
- * Useful for debugging purposes.
+ * Converts the provided value to a string representation suitable for debugging purposes.
  *
- * @param value
+ * @param value - The value to be converted to its string representation. Can be of any type.
+ * @returns A string representation of the input value.
+ * If the value cannot be serialized using JSON.stringify, it falls back to using String conversion.
  */
 export function debugString(value: unknown): string {
   try {
@@ -95,7 +94,8 @@ export function clampWS(str: string): string {
  * It ensures that there are no duplicate slashes between the parts
  * and trims leading/trailing slashes where necessary.
  *
- * @param parts - An array of path parts to join. Each part can be a string, number, boolean, null, or undefined. Non-string values will be stringified, and null/undefined values are ignored.
+ * @param parts - An array of path parts to join. Each part can be a string, number, boolean, null, or undefined.
+ * Non-string values will be serialized, and null/undefined values are ignored.
  * @returns The combined path as a single string, with proper slash formatting.
  */
 export function joinPath(

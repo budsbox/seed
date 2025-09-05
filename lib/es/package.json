@@ -15,10 +15,18 @@
       "import": {
         "default": "./dist/array.js",
         "types": "./dist/array.d.ts"
+      },
+      "require": {
+        "default": "./dist/array.js",
+        "types": "./dist/array.d.ts"
       }
     },
     "#object": {
       "import": {
+        "default": "./dist/object.js",
+        "types": "./dist/object.d.ts"
+      },
+      "require": {
         "default": "./dist/object.js",
         "types": "./dist/object.d.ts"
       }
@@ -27,16 +35,28 @@
       "import": {
         "default": "./dist/string.js",
         "types": "./dist/string.d.ts"
+      },
+      "require": {
+        "default": "./dist/string.js",
+        "types": "./dist/string.d.ts"
       }
     },
     "#guards": {
       "import": {
         "default": "./dist/guards.js",
         "types": "./dist/guards.d.ts"
+      },
+      "require": {
+        "default": "./dist/guards.js",
+        "types": "./dist/guards.d.ts"
       }
     },
     "#logical": {
       "import": {
+        "default": "./dist/logical.js",
+        "types": "./dist/logical.d.ts"
+      },
+      "require": {
         "default": "./dist/logical.js",
         "types": "./dist/logical.d.ts"
       }
@@ -47,10 +67,18 @@
       "import": {
         "default": "./dist/array.js",
         "types": "./dist/array.d.ts"
+      },
+      "require": {
+        "default": "./dist/array.js",
+        "types": "./dist/array.d.ts"
       }
     },
     "./object": {
       "import": {
+        "default": "./dist/object.js",
+        "types": "./dist/object.d.ts"
+      },
+      "require": {
         "default": "./dist/object.js",
         "types": "./dist/object.d.ts"
       }
@@ -59,16 +87,28 @@
       "import": {
         "default": "./dist/string.js",
         "types": "./dist/string.d.ts"
+      },
+      "require": {
+        "default": "./dist/string.js",
+        "types": "./dist/string.d.ts"
       }
     },
     "./guards": {
       "import": {
         "default": "./dist/guards.js",
         "types": "./dist/guards.d.ts"
+      },
+      "require": {
+        "default": "./dist/guards.js",
+        "types": "./dist/guards.d.ts"
       }
     },
     "./logical": {
       "import": {
+        "default": "./dist/logical.js",
+        "types": "./dist/logical.d.ts"
+      },
+      "require": {
         "default": "./dist/logical.js",
         "types": "./dist/logical.d.ts"
       }
