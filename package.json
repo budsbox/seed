@@ -19,6 +19,10 @@
   "exports": {
     "./package.json": "./package.json"
   },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
   "workspaces": [
     "./build",
     "./builder",

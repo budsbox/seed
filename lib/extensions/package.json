@@ -19,6 +19,10 @@
     },
     "./package.json": "./package.json"
   },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
   "scripts": {
     "name": "echo $npm_package_name",
     "prepack": "yarn p:ts:prepack"

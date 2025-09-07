@@ -45,6 +45,10 @@
       }
     }
   },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts"
+  ],
   "workspaces": [
     "configs/*",
     "presets/*"
