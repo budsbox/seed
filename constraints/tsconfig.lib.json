@@ -6,7 +6,7 @@
   },
   "references": [
     {
-      "path": "../packages/iso-utils/tsconfig.lib.json"
+      "path": "../lib/es/tsconfig.lib.json"
     }
   ]
 }

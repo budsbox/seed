@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/builder",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
@@ -60,8 +60,7 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "@yarnpkg/core": "^4.3.1",
-    "eslint": "^9.26.0",
-    "typescript": "^5.8.3"
+    "eslint": "^9.26.0"
   },
   "peerDependencies": {
     "@yarnpkg/core": "^4.3.1"

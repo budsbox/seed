@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/eslint_presets-node-lib",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
@@ -33,7 +33,6 @@
     "@budsbox/eslint": "workspace:^",
     "@budsbox/eslint_configs-import": "workspace:^",
     "@budsbox/eslint_configs-typescript": "workspace:^",
-    "@budsbox/eslint_presets-lib": "workspace:^",
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",

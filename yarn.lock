@@ -526,13 +526,15 @@ __metadata:
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint_presets-node-lib": "workspace:^"
     "@budsbox/eslint_presets-tools": "workspace:^"
-    "@budsbox/iso-utils": "workspace:^"
+    "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.26.0"
     "@types/eslint": "npm:^9.6.1"
+    "@types/micromatch": "npm:^4.0.9"
     "@types/node": "npm:^22.15.2"
+    "@types/semver": "npm:^7"
     "@typescript-eslint/parser": "npm:^8.32.1"
     "@yarnpkg/types": "npm:^4.0.1"
     eslint: "npm:^9.26.0"
@@ -543,7 +545,11 @@ __metadata:
     eslint-plugin-react-hooks: "npm:^5.2.0"
     eslint-plugin-react-refresh: "npm:^0.4.20"
     globals: "npm:^16.1.0"
+    micromatch: "npm:^4.0.8"
+    semver: "npm:^7.7.2"
+    semver-intersect: "npm:^1.5.0"
     tslib: "npm:^2.8.1"
+    type-fest: "npm:^4.32.0"
     typescript: "npm:^5.8.3"
     typescript-eslint: "npm:^8.32.1"
   languageName: unknown
@@ -2153,6 +2159,13 @@ __metadata:
   dependencies:
     "@types/node": "npm:*"
   checksum: 10c0/a58ba341cb9e7d74f71810a88862da7b2a6fa42e2a1fc0ce40498f6ea1d44382f0640117057da779f74c47039f7166bf48fad02dc876f94e005c7afa50f5e129
+  languageName: node
+  linkType: hard
+
+"@types/semver@npm:^7":
+  version: 7.7.1
+  resolution: "@types/semver@npm:7.7.1"
+  checksum: 10c0/c938aef3bf79a73f0f3f6037c16e2e759ff40c54122ddf0b2583703393d8d3127130823facb880e694caa324eb6845628186aac1997ee8b31dc2d18fafe26268
   languageName: node
   linkType: hard
 
@@ -8682,7 +8695,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"semver@npm:^6.3.1":
+"semver-intersect@npm:^1.5.0":
+  version: 1.5.0
+  resolution: "semver-intersect@npm:1.5.0"
+  dependencies:
+    semver: "npm:^6.3.0"
+  checksum: 10c0/7cc8840207a19280bb831f104032e45ba676869e39c89675dd179df83cdfdb64516f7927f657dbb0e65a463c5918b1edad8f9fe613c1123a2d39b181e6d28ed8
+  languageName: node
+  linkType: hard
+
+"semver@npm:^6.3.0, semver@npm:^6.3.1":
   version: 6.3.1
   resolution: "semver@npm:6.3.1"
   bin:
@@ -8697,6 +8719,15 @@ __metadata:
   bin:
     semver: bin/semver.js
   checksum: 10c0/fd603a6fb9c399c6054015433051bdbe7b99a940a8fb44b85c2b524c4004b023d7928d47cb22154f8d054ea7ee8597f586605e05b52047f048278e4ac56ae958
+  languageName: node
+  linkType: hard
+
+"semver@npm:^7.7.2":
+  version: 7.7.2
+  resolution: "semver@npm:7.7.2"
+  bin:
+    semver: bin/semver.js
+  checksum: 10c0/aca305edfbf2383c22571cb7714f48cadc7ac95371b4b52362fb8eeffdfbc0de0669368b82b2b15978f8848f01d7114da65697e56cd8c37b0dab8c58e543f9ea
   languageName: node
   linkType: hard
 

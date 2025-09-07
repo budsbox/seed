@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/eslint",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
@@ -63,7 +63,8 @@
     "@types/node": "^22.15.2",
     "globals": "^16.1.0",
     "tslib": "^2.8.1",
-    "type-fest": "^4.32.0"
+    "type-fest": "^4.32.0",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@budsbox/eslint_presets-node-lib": "workspace:^",
@@ -76,7 +77,6 @@
     "eslint-plugin-jsdoc": "^50.6.17",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1"
   },
   "peerDependencies": {
