@@ -1,0 +1,6 @@
+releases:
+  "@budsbox/constraints": patch
+  "@budsbox/lib-es": major
+
+declined:
+  - "@budsbox/root"

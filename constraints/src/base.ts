@@ -1,4 +1,4 @@
-import { parsePackageName, stringifyPackageName } from '@budsbox/lib-es/string';
+import { parsePackageName, serializePackageName } from '@budsbox/lib-es/string';
 
 import {
   type Constraint,
@@ -47,7 +47,7 @@ export const constraintPackageName: Constraint = ({ Yarn }) => {
       } else {
         const parsedIdent = parsePackageName(ident);
         if (parsedIdent.scope == null) {
-          workspace.set('name', stringifyPackageName({ scope, name: ident }));
+          workspace.set('name', serializePackageName({ scope, name: ident }));
         }
       }
     }

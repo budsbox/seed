@@ -10,7 +10,7 @@ import type { Nil } from '@budsbox/lib-types';
 
 import type { ParsedPackageName } from './types.js';
 
-import { isNil, isNotNil } from '#guards';
+import { isNil, isNotNil } from './guards.js';
 
 export type { ParsedPackageName };
 
@@ -38,7 +38,7 @@ export function parsePackageName(
  * @param parsedPackageName - An object representing the parsed package name with fields such as `scope` and `name`.
  * @returns The string representation of the package name, including the scope if it exists.
  */
-export function stringifyPackageName(
+export function serializePackageName(
   parsedPackageName: Readonly<ParsedPackageName>,
 ): string;
 /**
@@ -48,11 +48,11 @@ export function stringifyPackageName(
  * @param allowNil - A boolean flag specifying whether Nil values are allowed for conversion.
  * @returns The string representation of the package name if valid, or an empty string if `allowNil` is true and the input is Nil.
  */
-export function stringifyPackageName(
+export function serializePackageName(
   parsedPackageName: Readonly<ParsedPackageName> | Nil,
   allowNil: true,
 ): string;
-export function stringifyPackageName(
+export function serializePackageName(
   parsedPackageName: Readonly<ParsedPackageName> | Nil,
   allowNil: boolean = false,
 ): string {

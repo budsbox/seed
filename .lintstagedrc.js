@@ -1,8 +1,8 @@
 import { getSupportInfo } from 'prettier';
 
-import { queryJsExtensions, globFromExtensions } from '@budsbox/lib-extensions';
 import { dedupe, diff } from '@budsbox/lib-es/array';
-import { stringifyPackageName } from '@budsbox/lib-es/string';
+import { serializePackageName as serializePackageName } from '@budsbox/lib-es/string';
+import { globFromExtensions, queryJsExtensions } from '@budsbox/lib-extensions';
 import { getWorkspaceByFilepath } from '@budsbox/lib-yarn';
 
 const prettierCmd = 'prettier --write';
@@ -33,7 +33,7 @@ export default {
      */
     (filenames) => {
       const wsGlob = dedupe(filenames.map(getWorkspaceByFilepath))
-        .map((ws) => stringifyPackageName(ws.manifest.name, true))
+        .map((ws) => serializePackageName(ws.manifest.name, true))
         .filter(({ length }) => length > 0)
         .join(',');
       const wsForeachPrefix = `yarn workspaces foreach --recursive --topological --parallel --include '{${wsGlob}}'`;
