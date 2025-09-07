@@ -107,7 +107,18 @@ export const createPeerDependenciesConstraint: ConstraintFactory<
             sure(resolution, (res) => res.peerDependencies.size > 0, false) &&
             autoImportMatchers.some((matcher) => matcher(ident)),
         )
-        .map((dep) => [dep, dep.resolution!.peerDependencies]),
+        .map((dep) => [
+          dep,
+          new Map(
+            dep
+              .resolution!.peerDependencies.entries()
+              .filter(
+                ([ident]) =>
+                  !getManifest(dep.workspace).peerDependenciesMeta?.[ident]
+                    ?.optional,
+              ),
+          ),
+        ]),
     );
 
     for (const workspace of Yarn.workspaces()) {
