@@ -30,6 +30,7 @@ import {
 
 /**
  * Creates and returns a flattened configuration for ESLint based on the given parameters.
+ *
  * @param params - An object containing the parameters required to construct the ESLint configuration.
  * @param params.importMeta - `import.meta` of `eslint.config.js` module.
  * @param params.entries - A list of configuration entry points used to construct the flattened configuration.
