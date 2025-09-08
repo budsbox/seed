@@ -723,6 +723,36 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@budsbox/eslint_configs-react@workspace:lint/eslint/configs/react":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/eslint_configs-react@workspace:lint/eslint/configs/react"
+  dependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@types/eslint": "npm:^9.6.1"
+    "@types/node": "npm:^22.15.2"
+    eslint: "npm:^9.26.0"
+    eslint-plugin-react: "npm:^7.37.5"
+    eslint-plugin-react-hooks: "npm:^5.2.0"
+    eslint-plugin-react-refresh: "npm:^0.4.20"
+    tslib: "npm:^2.8.1"
+    typescript: "npm:^5.8.3"
+  peerDependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@types/eslint": ^9.6.1
+    eslint: ^9.26.0
+    eslint-plugin-react: ^7.37.5
+    eslint-plugin-react-hooks: ^5.2.0
+    eslint-plugin-react-refresh: ^0.4.20
+  peerDependenciesMeta:
+    eslint-plugin-react-refresh:
+      optional: true
+  languageName: unknown
+  linkType: soft
+
 "@budsbox/eslint_configs-typescript@workspace:^, @budsbox/eslint_configs-typescript@workspace:lint/eslint/configs/typescript":
   version: 0.0.0-use.local
   resolution: "@budsbox/eslint_configs-typescript@workspace:lint/eslint/configs/typescript"
