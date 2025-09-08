@@ -40,7 +40,9 @@ module.exports = defineConfig({
       constraintExports,
       constraintImports,
       constraintRootDependencies,
-      createPeerDependenciesConstraint(),
+      createPeerDependenciesConstraint({
+        autoImportFrom: ['eslint-*'],
+      }),
       createWorkspaceDependenciesConstraint(),
     );
   },
