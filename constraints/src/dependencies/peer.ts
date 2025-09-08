@@ -99,26 +99,41 @@ export const createPeerDependenciesConstraint: ConstraintFactory<
       .filter(isTruly)
       .map((glob) => micromatch.matcher(glob));
 
-    const depsToAutoImportPeersFrom = new Map(
+    const depsToAutoImportPeersFrom = new Map<
+      YarnType.Constraints.Dependency,
+      Map<string, string>
+    >(
       Yarn.dependencies()
         .filter(
-          ({ ident, resolution, type }) =>
+          ({ ident, type }) =>
             type !== 'peerDependencies' &&
-            sure(resolution, (res) => res.peerDependencies.size > 0, false) &&
             autoImportMatchers.some((matcher) => matcher(ident)),
         )
-        .map((dep) => [
-          dep,
-          new Map(
-            dep
-              .resolution!.peerDependencies.entries()
-              .filter(
-                ([ident]) =>
-                  !getManifest(dep.workspace).peerDependenciesMeta?.[ident]
-                    ?.optional,
-              ),
-          ),
-        ]),
+        .map((dep): [YarnType.Constraints.Dependency, Map<string, string>] => {
+          return [
+            dep,
+            sure(
+              dep.resolution?.workspace,
+              (workspace) => {
+                const manifest = getManifest(workspace);
+
+                return sure(
+                  manifest.peerDependencies,
+                  (peerDeps) =>
+                    new Map(
+                      Object.entries(peerDeps as Record<string, string>).filter(
+                        ([ident]) =>
+                          !manifest.peerDependenciesMeta?.[ident]?.optional,
+                      ),
+                    ),
+                  new Map<string, string>(),
+                );
+              },
+              dep.resolution?.peerDependencies ?? new Map<string, string>(),
+            ),
+          ];
+        })
+        .filter(([, peerDependencies]) => peerDependencies.size > 0),
     );
 
     for (const workspace of Yarn.workspaces()) {

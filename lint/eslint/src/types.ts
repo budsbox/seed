@@ -80,6 +80,7 @@ export interface ConfigNameSpace {
   core: 'core';
   builtin: ConfigLevel;
   node: 'node';
+  browser: ConfigLevel;
   /* eslint-enable jsdoc/require-jsdoc */
 }
 
@@ -201,10 +202,8 @@ export type ConfigFactory = (
  */
 export type ConfigFactoryCreate<TOptions extends object = EmptyObject> =
   HasRequiredKeys<TOptions> extends true ?
-    // eslint-disable-next-line jsdoc/require-jsdoc
     (this: void, options: Readonly<TOptions>) => ConfigFactory
-  : // eslint-disable-next-line jsdoc/require-jsdoc
-    (this: void, options?: Readonly<TOptions>) => ConfigFactory;
+  : (this: void, options?: Readonly<TOptions>) => ConfigFactory;
 
 /**
  * The `PresetContext` interface extends the `BaseContext` interface.
@@ -246,10 +245,8 @@ export type PresetFactory = (
  */
 export type Preset<TOptions extends object = EmptyObject> =
   HasRequiredKeys<TOptions> extends true ?
-    // eslint-disable-next-line jsdoc/require-jsdoc
     (this: void, options: Readonly<TOptions>) => PresetFactory
-  : // eslint-disable-next-line jsdoc/require-jsdoc
-    (this: void, options?: Readonly<TOptions>) => PresetFactory;
+  : (this: void, options?: Readonly<TOptions>) => PresetFactory;
 
 /**
  * Represent a single entrypoint for creating a flat ESLint configuration.

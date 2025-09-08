@@ -11,7 +11,7 @@ import type {
 import { basename, posix } from 'node:path';
 
 import { ensureArray } from '@budsbox/lib-es/array';
-import { hasProp, isArray, isNil } from '@budsbox/lib-es/guards';
+import { hasProp, isArray, isNil, isString } from '@budsbox/lib-es/guards';
 import { sure } from '@budsbox/lib-es/logical';
 import { parsePackageName } from '@budsbox/lib-es/string';
 import {
@@ -42,11 +42,12 @@ import { configDefaults, eslintSymbol } from '#const';
 export const createMatchIncludes = ({
   tsconfig,
 }: Readonly<BaseContext>): ConfigFactoryContext['matchIncludes'] => {
-  const { allowJs = false } = tsconfig.compilerOptions ?? {};
+  const { allowJs = false, jsx: tscJsx } = tsconfig.compilerOptions ?? {};
   const { dirs, files } = separateIncludes(tsconfig.include ?? []);
 
   const matchIncludes: ConfigFactoryContext['matchIncludes'] = ({
     lang,
+    jsx = false,
     ...query
   }) => {
     const extensions = queryJsExtensions({
@@ -54,6 +55,7 @@ export const createMatchIncludes = ({
         allowJs ? lang : (
           ensureArray(lang ?? (['ts'] as const)).filter((l) => l !== 'js')
         ),
+      jsx: jsx && isString(tscJsx),
       ...query,
     });
     if (!extensions.length) return [];
