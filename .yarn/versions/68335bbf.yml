@@ -1,2 +1,9 @@
 releases:
-  "@budsbox/constraints": minor
+  "@budsbox/constraints": patch
+  "@budsbox/eslint": minor
+  "@budsbox/eslint_configs-react": major
+  "@budsbox/eslint_presets-browser-app": major
+  "@budsbox/eslint_presets-browser-lib": major
+
+declined:
+  - "@budsbox/root"
