@@ -97,7 +97,9 @@ export const createReactConfigFactory: ConfigFactoryCreate<
               {
                 files: matchIncludes({ jsx: true }),
                 languageOptions: {
-                  jsxPragma: null,
+                  parserOptions: {
+                    jsxPragma: null,
+                  },
                 },
                 rules: {
                   ...eslintPluginReact.configs['jsx-runtime'].rules,
