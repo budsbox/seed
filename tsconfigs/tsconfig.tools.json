@@ -5,9 +5,11 @@
     "${configDir}/.lintstagedrc.js",
     "${configDir}/eslint.config.js",
     "${configDir}/eslint.config.mjs",
+    "${configDir}/package.json",
     "${configDir}/typed-scss-modules.config.ts",
-    "${configDir}/yarn.config.cjs",
-    "${configDir}/package.json"
+    "${configDir}/vite.config.js",
+    "${configDir}/vite.config.ts",
+    "${configDir}/yarn.config.cjs"
   ],
   "compilerOptions": {
     "rootDir": "${configDir}",
