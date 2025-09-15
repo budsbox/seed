@@ -5,10 +5,10 @@ import { getPluginConfiguration } from '@yarnpkg/cli';
 import { Configuration, Project, Workspace } from '@yarnpkg/core';
 import { type Path, npath } from '@yarnpkg/fslib';
 
-import { isNil, isString } from '@budsbox/lib-es/guards';
+import { isNil } from '@budsbox/lib-es/guards';
 import {
   type ParsedPackageName,
-  parsePackageName,
+  resolvePackageName,
   serializePackageName,
 } from '@budsbox/lib-es/string';
 import { globFromExtensions } from '@budsbox/lib-extensions';
@@ -44,19 +44,14 @@ export const getRootProject = (): Project => rootProject;
 export const getAllWorkspaces = (): readonly Workspace[] =>
   rootProject.workspaces;
 
-const serializeIdent = (
+const resolveIdent = (
   ident: string | Readonly<ParsedPackageName>,
   autoScope = false,
 ): string => {
-  const parsed = isString(ident) ? parsePackageName(ident) : ident;
-  return serializePackageName(
-    autoScope && !isString(parsed.scope) ?
-      {
-        ...parsed,
-        scope: rootWorkspace.manifest.name?.scope ?? null,
-      }
-    : parsed,
-  );
+  return resolvePackageName(ident, {
+    baseScope:
+      autoScope ? rootWorkspace.manifest.name?.scope ?? undefined : undefined,
+  });
 };
 
 /**
@@ -83,7 +78,7 @@ export const tryWorkspace = (
     return identOrWs;
   }
 
-  const ident = serializeIdent(identOrWs, autoScope);
+  const ident = resolveIdent(identOrWs, autoScope);
 
   return (
     getAllWorkspaces().find(
@@ -112,7 +107,7 @@ export const getWorkspace = (
   if (isNil(ws)) {
     const ident = identOrWs as string | ParsedPackageName;
 
-    throw new Error(`Workspace "${serializeIdent(ident)}" not found`);
+    throw new Error(`Workspace "${resolveIdent(ident)}" not found`);
   }
 
   return ws;

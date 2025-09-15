@@ -1,0 +1,7 @@
+releases:
+  "@budsbox/lib-es": minor
+
+undecided:
+  - "@budsbox/root"
+  - "@budsbox/builder"
+  - "@budsbox/lib-yarn"

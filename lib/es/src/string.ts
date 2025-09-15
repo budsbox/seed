@@ -6,11 +6,11 @@ import type {
   SnakeCase,
 } from 'type-fest';
 
-import type { Nil } from '@budsbox/lib-types';
+import type { Nil, Undef } from '@budsbox/lib-types';
 
 import type { ParsedPackageName } from './types.js';
 
-import { isNil, isNotNil } from './guards.js';
+import { isNil, isNotNil, isString } from './guards.js';
 
 export type { ParsedPackageName };
 
@@ -61,6 +61,38 @@ export function serializePackageName(
   }
   const { scope, name } = parsedPackageName ?? { scope: null, name: '' };
   return joinPath(scope?.replace(/^@?/, '@'), name);
+}
+
+/**
+ * Resolves the package name based on the provided identifier and options.
+ * Can return either a string representing the package name or a parsed package name object.
+ *
+ * @param ident - The package identifier, either as a string or a parsed package name object.
+ * @param options - Optional settings to modify the resolution behavior.
+ *                  Includes an optional `baseScope` to use as a default scope and a `parsed` flag
+ *                  to indicate whether the result should be returned as a parsed package name object.
+ * @returns The resolved package name as a string if `parsed` is false or not specified,
+ *         or as a `ParsedPackageName` object if `parsed` is true.
+ */
+export function resolvePackageName<TParsed extends boolean = false>(
+  ident: string | Readonly<ParsedPackageName>,
+  options?: Readonly<{ baseScope?: Undef<string>; parsed?: TParsed }>,
+): TParsed extends true ? ParsedPackageName : string;
+export function resolvePackageName(
+  ident: string | Readonly<ParsedPackageName>,
+  {
+    baseScope,
+    parsed = false,
+  }: { baseScope?: Undef<string>; parsed?: boolean } = {},
+): string | ParsedPackageName {
+  const { scope, name } = isString(ident) ? parsePackageName(ident) : ident;
+
+  const parsedIdent: ParsedPackageName = {
+    scope: scope ?? baseScope ?? null,
+    name,
+  };
+
+  return parsed ? parsedIdent : serializePackageName(parsedIdent);
 }
 
 /**
