@@ -34,6 +34,7 @@ module.exports = defineConfig({
           // @ts-expect-error TS2322 — temporary workaround
           [['scripts', 'name'], 'echo $npm_package_name'],
           ['version', '0.0.0'],
+          ['type', 'module'],
           ['files', ['dist/**/*.js', 'dist/**/*.d.ts']],
         ],
       }),

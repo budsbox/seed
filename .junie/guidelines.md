@@ -41,6 +41,7 @@ This is a monorepo managed with Yarn workspaces. The main workspaces include:
 -   `lib/*`: Core library packages
 -   `lint/*`: Linting configurations and presets
 -   `packages/*`: Various utility packages and components
+-   `ui/*`: UI components, hooks, and other UI-related packages
 
 ### Deprecated Workspaces
 
