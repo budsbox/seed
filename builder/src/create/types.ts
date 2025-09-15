@@ -1,0 +1,240 @@
+import type { Options } from 'execa';
+import type { Arrayable, LiteralUnion, PackageJson } from 'type-fest';
+
+import type { Undef } from '@budsbox/lib-types';
+
+import type { archetypeExtendControlSymbol } from './const.js';
+
+/**
+ * Represents a type alias for defining specific archetype names.
+ */
+export type ArchetypeName =
+  | 'base'
+  | 'lib-iso'
+  | 'lib-node'
+  | 'lib-ui'
+  | 'ui-component';
+
+/**
+ * Represents a control symbol used for archetype extension.
+ */
+export type ArchetypeExtendControlSymbol = typeof archetypeExtendControlSymbol;
+
+type CommandOptions = Omit<Options, 'cwd' | 'stdio' | 'shell'>;
+
+/**
+ * Represents a command that can be executed. A command can be either a structured object meant for external commands
+ * specifying a workspace and the command to execute, or a simple string representing a command.
+ *
+ * In the case of an object, the `workspace` refers to the specific workspace context in which the command should run,
+ * and `exec` defines the actual command to execute.
+ *
+ * Types:
+ * - Object: Represents an external command with metadata, including the workspace.
+ * - String: Represents a raw command to run inside the created workspace.
+ */
+export type Command =
+  | {
+      /**
+       * A workspace name without an optional scope, specifying the context for execution.
+       *
+       * @default the new workspace ident
+       */
+      readonly workspace?: string;
+      /**
+       * The execution command to be run in the given workspace.
+       */
+      readonly exec: string;
+
+      /**
+       * Represents optional configuration settings that can be provided to customize behavior.
+       *
+       * @remarks
+       * The `options` property is optional and can include various settings based on the `Options` interface.
+       * @typeParam Options - An interface or type that defines the structure of the available options.
+       */
+      options?: CommandOptions;
+    }
+  | string; // for local commands
+
+/**
+ * Represents a fully resolved command including its execution details and workspace information.
+ */
+export interface ResolvedCommand {
+  /**
+   * Fully resolved workspace name, including scope if applicable.
+   */
+  readonly workspace: string;
+  /**
+   * The execution command to be run in the given workspace.
+   */
+  readonly exec: string;
+  /**
+   * The current working directory of the command — the root of the workspace.
+   */
+  readonly cwd: string;
+
+  /**
+   * Represents the configuration options for a command.
+   *
+   * This variable contains settings that define the behavior, parameters,
+   * and operational context of a specific command.
+   *
+   */
+  options?: Undef<CommandOptions>;
+}
+
+/**
+ * Represents a collection of archetype files where the key is the file name and the value is the file content.
+ */
+export type ArchetypeFiles = Readonly<Record<string, string>>;
+
+/**
+ * Represents the configuration settings for an archetype, which is a blueprint or template
+ * used to create or extend workspaces, manage dependencies, and define custom operations.
+ *
+ * @typeParam Id - Extends `ArchetypeName` and denotes the specific archetype identifiers
+ * used to extend or reference archetypes in the configuration.
+ */
+export interface Archetype<TName extends ArchetypeName = ArchetypeName> {
+  /**
+   * The parent directory path where all workspaces of this archetype will be created.
+   * This path is used as the base location for scaffolding new project instances
+   * and organizing workspace structures.
+   * Configurable with the `--at` flag.
+   */
+  readonly at?: string;
+  /**
+   * Set to `true` to prevent the creation of this archetype instances (marks it as "extend-only")
+   */
+  readonly internal?: boolean;
+  /**
+   * A list of archetypes to extend from.
+   */
+  readonly extends?: Readonly<Arrayable<Exclude<ArchetypeName, TName>>>;
+  /**
+   * A list of dependencies to install.
+   */
+  readonly dependencies?: ReadonlyArray<
+    LiteralUnion<string, ArchetypeExtendControlSymbol>
+  >;
+  /**
+   * A list of devDependencies to install.
+   */
+  readonly devDependencies?: ReadonlyArray<
+    LiteralUnion<string, ArchetypeExtendControlSymbol>
+  >;
+  /**
+   * A list of peerDependencies to install.
+   */
+  readonly peerDependencies?: ReadonlyArray<
+    LiteralUnion<string, ArchetypeExtendControlSymbol>
+  >;
+  /**
+   * A list of commands to run.
+   */
+  readonly commands?: Array<
+    LiteralUnion<Command, ArchetypeExtendControlSymbol>
+  >;
+
+  /**
+   * Map of files to create in the archetype workspace.
+   */
+  files?: ArchetypeFiles;
+
+  /**
+   * Represents a partial package manifest, excluding the dependencies,
+   * devDependencies, and peerDependencies properties from the standard
+   * PackageJson type.
+   *
+   * This property allows for specifying relevant fields of a package.json
+   * configuration, excluding dependency-related keys.
+   *
+   */
+  manifest?: Omit<
+    PackageJson,
+    'dependencies' | 'devDependencies' | 'peerDependencies'
+  >;
+}
+
+/**
+ * Represents a type of fully resolved configuration for a specific archetype.
+ */
+export type ArchetypeResolved<TName extends ArchetypeName> = Omit<
+  Required<Archetype<TName>>,
+  'extends'
+> & {};
+
+/**
+ * Represents a mapping of Archetype names to their corresponding Archetype objects.
+ *
+ * This type is used to define a collection where each key is an `ArchetypeName` and
+ * its value is an `Archetype` associated with that name. The `ArchetypeMap` allows
+ * for a structured organization of archetypes, enabling efficient retrieval and management.
+ */
+export type ArchetypeMap = {
+  readonly [TName in ArchetypeName]: Archetype<TName>;
+};
+
+/**
+ * Represents a file that will be created or overwritten during the creation of a workspace.
+ */
+export interface PlannedFile {
+  /**
+   * An absolute path to the file
+   */
+  readonly path: string;
+  /**
+   * A string representation of the file content
+   */
+  readonly content: string;
+  /**
+   * A flag indicating whether the file will be overwritten
+   */
+  readonly isOverwrite: boolean;
+}
+
+/**
+ * Represents a plan for creating a new workspace.
+ */
+export interface Plan {
+  /**
+   * Archetype name
+   */
+  readonly archetype: ArchetypeName;
+
+  /**
+   * A name of the new workspace
+   */
+  readonly name: string;
+
+  /**
+   * A fully resolved workspace name, including scope if applicable.
+   */
+  readonly ident: string;
+
+  /**
+   * A resolved value of the `at` option
+   */
+  readonly at: string;
+
+  /**
+   * A path to the new workspace
+   */
+  readonly cwd: string;
+
+  /**
+   * A flag indicating whether the directory for the new workspace will be created
+   */
+  readonly willCreateCwd: boolean;
+
+  /**
+   * A list of files that will be created or overwritten during the creation of the workspace.
+   */
+  readonly files: readonly PlannedFile[];
+
+  /**
+   * A list of commands to run.
+   */
+  commands: readonly ResolvedCommand[];
+}
