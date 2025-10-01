@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/ui-components-merge-2",
-  "version": "0.0.0",
+  "version": "0.0.1-0",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
@@ -126,5 +126,6 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.9.2",
+  "stableVersion": "0.0.0"
 }
