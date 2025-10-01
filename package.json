@@ -35,6 +35,7 @@
     "./ui/components/*"
   ],
   "scripts": {
+    "autotag-all-since": "YARN_CHANGESET_BASE_REFS=$0 yarn workspaces foreach --parallel --since --no-private run p:autotag",
     "c": "run setup-constraints; yarn constraints",
     "cf": "yarn constraints --fix; yarn",
     "format": "run format-manifests && prettier --write .",
@@ -73,6 +74,7 @@
     "p:wsr": "cd $INIT_CWD; yarn remove $(run p:scope-prefix \"$@\")",
     "playground": "yarn workspace @budsbox/playground p:serve",
     "prepare": "husky",
+    "publish-all-since": "YARN_CHANGESET_BASE_REFS=$0 yarn workspaces foreach --parallel --since --no-private npm publish",
     "relink": "budsbox-update-ts-references",
     "scss-types": "typed-scss-modules packages",
     "setup": "run setup-builder & run setup-constraints & (run setup-eslint; run setup-eslint-worktree)",
