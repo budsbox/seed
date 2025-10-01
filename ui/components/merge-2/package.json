@@ -19,26 +19,16 @@
     },
     "#ui": {
       "import": {
-        "development": {
-          "default": "./src/ui.ts"
-        },
-        "production": {
-          "types": "./dist/ui/index.d.ts",
-          "default": "./dist/ui/index.js"
-        },
-        "types": "./dist/ui/index.d.ts"
+        "development": "./src/ui/index.ts",
+        "types": "./dist/ui/index.d.ts",
+        "default": "./dist/index.mjs"
       }
     },
     "#model": {
       "import": {
-        "development": {
-          "default": "./src/model.ts"
-        },
-        "production": {
-          "types": "./dist/model.d.ts",
-          "default": "./dist/model.js"
-        },
-        "types": "./dist/model.d.ts"
+        "development": "./src/model.ts",
+        "types": "./dist/model.d.ts",
+        "default": "./dist/index.mjs"
       }
     },
     "#lib": {
@@ -59,16 +49,15 @@
   "exports": {
     ".": {
       "import": {
-        "production": {
-          "types": "./dist/index.d.ts",
-          "default": "./dist/index.mjs"
-        },
-        "development": {
-          "default": "./src/index.ts"
-        }
+        "development": "./src/index.ts",
+        "production": "./dist/index.mjs",
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.mjs"
       },
       "types": "./dist/index.d.ts",
       "require": {
+        "development": "./src/index.ts",
+        "production": "./dist/index.cjs",
         "types": "./dist/index.d.ts",
         "default": "./dist/index.cjs"
       }

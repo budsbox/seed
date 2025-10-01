@@ -6,6 +6,8 @@ import * as browser from './templates/browser.js';
 import * as isoLibTpl from './templates/iso-lib.js';
 import * as lib from './templates/lib.js';
 import * as nodeLib from './templates/node-lib.js';
+import * as reactComponentLarge from './templates/react-component-large.js';
+import * as reactComponent from './templates/react-component.js';
 import * as reactLib from './templates/react-lib.js';
 import * as react from './templates/react.js';
 
@@ -47,8 +49,11 @@ export const archetypes = {
       },
       exports: {
         '.': {
-          import: './dist/index.js',
-          types: './dist/index.d.ts',
+          import: {
+            development: './src/index.ts',
+            default: './dist/index.js',
+            types: './dist/index.d.ts',
+          },
         },
       },
       files: [
@@ -91,21 +96,19 @@ export const archetypes = {
     manifest: {
       files: ['dist/**/*.css'],
       scripts: {
-        prepack: 'yarn vite build; yarn p:ts:build',
-        serve: 'vite',
+        prepack: 'NODE_ENV=production yarn vite build; yarn p:ts:build',
       },
       exports: {
         '.': {
           import: {
-            production: {
-              types: './dist/index.d.ts',
-              default: './dist/index.mjs',
-            },
-            development: {
-              default: './src/index.ts',
-            },
+            development: './src/index.ts',
+            production: './dist/index.mjs',
+            types: './dist/index.d.ts',
+            default: './dist/index.mjs',
           },
           require: {
+            development: './src/index.ts',
+            production: './dist/index.cjs',
             types: './dist/index.d.ts',
             default: './dist/index.cjs',
           },
@@ -145,19 +148,51 @@ export const archetypes = {
     at: 'ui/components',
     manifest: {
       imports: {
+        '#lib': {
+          import: {
+            development: './src/lib.ts',
+            types: './dist/lib.d.ts',
+            default: './dist/index.mjs',
+          },
+        },
+        '#model': {
+          import: {
+            development: './src/model.ts',
+            types: './dist/model.d.ts',
+            default: './dist/index.mjs',
+          },
+        },
         '#ui': {
           import: {
+            development: './src/ui/index.ts',
+            types: './dist/ui/index.d.ts',
+            default: './dist/index.mjs',
+          },
+        },
+      },
+    },
+    files: reactComponent.files,
+  },
+  'react-component-large': {
+    extends: ['react-component'],
+    manifest: {
+      imports: {
+        '#ui': {
+          import: {
+            development: './src/ui/index.ts',
             types: './dist/ui/index.d.ts',
             default: './dist/ui/index.js',
           },
         },
         '#model': {
           import: {
-            types: './dist/model.d.ts',
-            default: './dist/model.js',
+            development: './src/model/index.ts',
+            types: './dist/model/index.d.ts',
+            default: './dist/index.mjs',
           },
         },
       },
     },
+    files: reactComponentLarge.files,
   },
 } as const satisfies ArchetypeMap;
