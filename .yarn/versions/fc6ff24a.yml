@@ -1,8 +1,0 @@
-releases:
-  "@budsbox/builder": minor
-  "@budsbox/lib-react": patch
-  "@budsbox/ui-components-merge-2": patch
-
-declined:
-  - "@budsbox/root"
-  - "@budsbox/lib-hooks"
