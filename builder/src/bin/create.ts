@@ -1,7 +1,10 @@
+import { cwd } from 'node:process';
+
 import chalk from 'chalk';
 import meow from 'meow';
 
 import { isString } from '@budsbox/lib-es/guards';
+import { joinPath, splitPath } from '@budsbox/lib-es/string';
 
 import {
   type ArchetypeName,
@@ -15,16 +18,17 @@ import {
 const cli = meow(
   `
   Usage
-    $ budsbox-create <archetype> <name> [--at dir] [--dry-run] [--force]
+    $ budsbox-create <archetype> <[sub/path/]name> [--at dir] [--dry-run] [--force]
 
   Options
-    --at       Directory under the repo root to place the workspace (defaults to archetype.at or ".")
+    --at       Directory relative to the current working directory to place the workspace (defaults to archetype.at or ".")
     --dry-run  Do not write files or run commands, only print the plan
     --force    Skip confirmation prompts
 
   Examples
-    $ budsbox-create base my-cool-lib
-    $ budsbox-create ui-component Button --at ui/components
+    $ budsbox-create iso-lib my-cool-lib
+    $ budsbox-create ui-component ui/components/button
+    $ budsbox-create ui-component button --at ui/components # equivalent to the previous example
 `,
   {
     importMeta: import.meta,
@@ -37,11 +41,11 @@ const cli = meow(
 );
 
 async function main(): Promise<void> {
-  const [archArg, name] = cli.input as [
+  const [archArg, pathname] = cli.input as [
     ArchetypeName | undefined,
     string | undefined,
   ];
-  if (!archArg || !isString(name)) {
+  if (!isString(archArg) || !isString(pathname)) {
     cli.showHelp(1);
     return;
   }
@@ -55,7 +59,11 @@ async function main(): Promise<void> {
   }
 
   const archetype = archArg;
-  const at = cli.flags.at;
+  const from = cwd();
+  const pathNameChunks = splitPath(pathname);
+  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+  const name = pathNameChunks.pop()!;
+  const at = joinPath(cli.flags.at, ...pathNameChunks);
   const force = !!cli.flags.force;
   const dryRun = !!cli.flags.dryRun;
 
@@ -66,7 +74,14 @@ async function main(): Promise<void> {
   if (dryRun) log.info(chalk.gray('  dry-run:   enabled'));
   if (force) log.info(chalk.gray('  force:     enabled'));
 
-  const plan = await makePlan({ archetypes, archetype, name, at, force });
+  const plan = await makePlan({
+    archetypes,
+    archetype,
+    name,
+    from,
+    at: at.length > 0 ? at : undefined,
+    force,
+  });
 
   const ok = await explainPlan(plan, { prompt: !force });
   if (!ok) {

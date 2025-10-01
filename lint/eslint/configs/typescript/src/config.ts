@@ -3,6 +3,9 @@ import type { ESLint, Linter } from 'eslint';
 
 import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
+import type { TypeScriptConfigFactoryOptions } from '#types';
+
+import perfectionist from 'eslint-plugin-perfectionist';
 import * as eslintTs from 'typescript-eslint';
 
 import { readonlyParamAllowSpecifiers } from './const.js';
@@ -10,10 +13,13 @@ import { readonlyParamAllowSpecifiers } from './const.js';
 /**
  * Creates a `ConfigFactory` function which provides ESLint configuration for the plugin `typescript-eslint`.
  *
+ * @param options - Optional configuration options.
  * @returns A `ConfigFactory` function.
  */
-export const createTypescriptConfigFactory: ConfigFactoryCreate =
-  () =>
+export const createTypescriptConfigFactory: ConfigFactoryCreate<
+  TypeScriptConfigFactoryOptions
+> =
+  (options = {}) =>
   ({ createConfig, matchIncludes, sourceType }) => {
     return [
       createConfig({
@@ -90,6 +96,9 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
               lang: 'ts',
               jsx: true,
             }),
+            plugins: {
+              perfectionist,
+            },
             rules: {
               '@typescript-eslint/array-type': [
                 'error',
@@ -154,17 +163,21 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
               '@typescript-eslint/no-shadow': 'error',
               '@typescript-eslint/no-unused-vars': 'off',
               '@typescript-eslint/non-nullable-type-assertion-style': 'error',
-              '@typescript-eslint/prefer-nullish-coalescing': 'error',
               '@typescript-eslint/prefer-function-type': 'error',
+              '@typescript-eslint/prefer-nullish-coalescing': 'error',
               '@typescript-eslint/prefer-optional-chain': 'error',
-              '@typescript-eslint/prefer-regexp-exec': 'error',
               '@typescript-eslint/prefer-readonly-parameter-types': [
                 'warn',
                 {
                   ignoreInferredTypes: true,
-                  allow: [...readonlyParamAllowSpecifiers],
+                  treatMethodsAsReadonly: true,
+                  allow: [
+                    ...readonlyParamAllowSpecifiers,
+                    ...(options['prefer-readonly-parameter-types.allow'] ?? []),
+                  ],
                 },
               ],
+              '@typescript-eslint/prefer-regexp-exec': 'error',
               '@typescript-eslint/require-array-sort-compare': 'error',
               '@typescript-eslint/return-await': ['error', 'always'],
               '@typescript-eslint/strict-boolean-expressions': 'error',
@@ -175,6 +188,53 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate =
               '@typescript-eslint/unified-signatures': [
                 'error',
                 { ignoreDifferentlyNamedParameters: true },
+              ],
+
+              'perfectionist/sort-enums': [
+                'error',
+                {
+                  type: 'natural',
+
+                  fallbackSort: { type: 'line-length', order: 'asc' },
+                  forceNumericSort: true,
+                  ignoreCase: false,
+                  partitionByComment: true,
+                  partitionByNewLine: true,
+                },
+              ],
+              'perfectionist/sort-heritage-clauses': [
+                'error',
+                {
+                  type: 'natural',
+
+                  fallbackSort: { type: 'line-length', order: 'asc' },
+                  ignoreCase: false,
+                },
+              ],
+              'perfectionist/sort-union-types': [
+                'error',
+                {
+                  type: 'natural',
+
+                  fallbackSort: { type: 'line-length', order: 'asc' },
+                  groups: [
+                    'conditional',
+                    'literal',
+                    'keyword',
+                    'operator',
+                    ['named', 'import'],
+                    'tuple',
+                    'intersection',
+                    'union',
+                    'object',
+                    'function',
+                    'unknown',
+                    'nullish',
+                  ],
+                  ignoreCase: false,
+                  partitionByComment: true,
+                  partitionByNewLine: true,
+                },
               ],
             },
           },

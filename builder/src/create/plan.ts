@@ -9,13 +9,20 @@ import type {
   ResolvedCommand,
 } from './types.js';
 
-import { join, relative } from 'node:path';
+import { promises as fs } from 'node:fs';
+import { join, matchesGlob, relative } from 'node:path';
 
 import * as prompts from '@clack/prompts';
 import chalk from 'chalk';
 
-import { isFalse, isTrue } from '@budsbox/lib-es/guards';
-import { resolvePackageName } from '@budsbox/lib-es/string';
+import { isFalse, isString, isTrue } from '@budsbox/lib-es/guards';
+import { sure } from '@budsbox/lib-es/logical';
+import {
+  clampWS,
+  formatPackageName,
+  joinPath,
+  resolvePackageName,
+} from '@budsbox/lib-es/string';
 import { getRootWorkspace, tryWorkspaceByFilepath } from '@budsbox/lib-yarn';
 
 import {
@@ -45,45 +52,64 @@ export async function makePlan({
   archetypes,
   archetype,
   name,
+  from,
   at,
   force = false,
 }: Readonly<{
   archetypes: ArchetypeMap;
   archetype: ArchetypeName;
   name: string;
+  from: string;
   at?: Undef<string>;
   force?: boolean;
 }>): Promise<Plan> {
   const resolvedArchetype = resolveArchetype(archetypes, archetype);
-
   const root = getRootWorkspace();
+  const rootIdent = resolvePackageName(root.manifest.name ?? '');
   const rootCwd = root.cwd;
-  const targetBase = join(rootCwd, at ?? resolvedArchetype.at);
+  const targetBase = join(from, at ?? resolvedArchetype.at);
   const cwd = join(targetBase, name);
-  const ident = resolvePackageName(name, {
-    baseScope: root.manifest.name?.scope ?? undefined,
-  });
 
-  const existingWs = tryWorkspaceByFilepath(join(cwd, 'package.json'));
-  if (existingWs?.cwd === cwd && !force) {
+  const wsOwnsCwd = tryWorkspaceByFilepath(join(cwd, 'package.json')) ?? root;
+  const alreadyExists = wsOwnsCwd.cwd === cwd;
+  if (alreadyExists && !force) {
     const cont = await prompts.confirm({
-      message: `Workspace already exists at ${relative(rootCwd, existingWs.cwd)}. Create another one here anyway?`,
+      message: `Workspace already exists at ${relative(from, cwd)}. Create another one here anyway?`,
       initialValue: false,
     });
     if (!isTrue(cont))
       throw new Error('Aborted: workspace exists at target location.');
   }
 
+  const parentWs =
+    alreadyExists ? tryWorkspaceByFilepath(join(cwd, '..')) ?? root : wsOwnsCwd;
+  const parentIdent = resolvePackageName(parentWs.manifest.name ?? '');
+
+  const ident = formatPackageName(name, {
+    root: rootIdent,
+    parent: parentIdent,
+    relCwd: relative(parentWs.cwd, cwd),
+  });
+
   const willCreateDir = isFalse(await pathExists(cwd));
 
-  // Compose package.json without deps per new flow
+  // Compose package.json
   const pkgManifest = mergeManifests(
     {
       name: ident,
+      license: root.manifest.license,
     },
     resolvedArchetype.manifest,
   );
   const pkgJsonContent = `${JSON.stringify(pkgManifest, null, 2)}\n`;
+
+  let licenseContent: string | null = null;
+
+  try {
+    licenseContent = await fs.readFile(join(rootCwd, 'LICENSE'), 'utf-8');
+  } catch {
+    // no license lol
+  }
 
   // Files to write: package.json first, then templates
   const files: PlannedFile[] = await Promise.all(
@@ -92,6 +118,15 @@ export async function makePlan({
         path: join(cwd, 'package.json'),
         content: pkgJsonContent,
       } as const,
+      {
+        path: join(cwd, 'README.md'),
+        content: `# ${ident}\n`,
+      },
+      ...sure(
+        licenseContent,
+        (content) => [{ path: join(cwd, 'LICENSE'), content } as const],
+        [],
+      ),
       ...Object.entries(resolvedArchetype.files).map(
         ([path, content]) => ({ path: join(cwd, path), content }) as const,
       ),
@@ -104,20 +139,63 @@ export async function makePlan({
     ),
   );
 
-  const resolveCmd = (cmd: Command): ResolvedCommand =>
+  const resolveCmd = (cmd: Readonly<Command>): ResolvedCommand =>
     resolveCommand(cmd, {
       workspace: ident,
       cwd: cwd,
     });
 
-  // Commands for the new flow
+  const installEnv = {
+    YARN_ENABLE_CONSTRAINTS_CHECKS: 'false',
+    YARN_PREFER_INTERACTIVE: 'false',
+  };
+
   const commands: ResolvedCommand[] = [];
+
+  const parentWorkspacesGlobs = parentWs.manifest.workspaceDefinitions.map(
+    ({ pattern }) => pattern,
+  );
+  if (
+    !parentWorkspacesGlobs.some((glob) =>
+      matchesGlob(cwd, join(parentWs.cwd, glob)),
+    )
+  ) {
+    const newGlob = await prompts.select<string | false>({
+      message: clampWS(
+        `The new workspace path doesn't match any glob pattern in ${parentIdent}'s "workspaces" field.
+        Which glob pattern should be added?`,
+      ),
+      options: [
+        ...['*', name]
+          .map((base) =>
+            joinPath('.', relative(parentWs.cwd, targetBase), base),
+          )
+          // .map((base) => `./${join(relative(parentWs.cwd, targetBase), base)}`)
+          .map((pattern) => ({
+            value: pattern,
+            label: JSON.stringify(pattern),
+          })),
+        {
+          value: false,
+          label: '<abort>',
+        },
+      ],
+    });
+    if (!isString(newGlob)) throw new Error('Aborted: no glob selected.');
+
+    commands.push(
+      resolveCmd({
+        workspace: parentIdent,
+        exec: `npm pkg set 'workspaces[]=${newGlob}'`,
+      }),
+    );
+  }
   // yarn install in root
   commands.push(
     resolveCmd({
       workspace: 'root',
       exec: 'yarn install',
-      options: { env: { YARN_ENABLE_CONSTRAINTS_CHECKS: 'false' } },
+      options: { env: installEnv },
     }),
   );
   // install deps in the new workspace
@@ -125,7 +203,7 @@ export async function makePlan({
     commands.push(
       resolveCmd({
         exec: `yarn add ${resolvedArchetype.dependencies.join(' ')}`,
-        options: { env: { YARN_ENABLE_CONSTRAINTS_CHECKS: 'false' } },
+        options: { env: installEnv },
       }),
     );
   }
@@ -133,15 +211,20 @@ export async function makePlan({
     commands.push(
       resolveCmd({
         exec: `yarn add -D ${resolvedArchetype.devDependencies.join(' ')}`,
-        options: { env: { YARN_ENABLE_CONSTRAINTS_CHECKS: 'false' } },
+        options: { env: installEnv },
       }),
     );
   }
   if (resolvedArchetype.peerDependencies.length > 0) {
+    const peers = resolvedArchetype.peerDependencies.join(' ');
     commands.push(
       resolveCmd({
+        exec: `yarn remove ${peers} || exit 0`,
+        options: { env: installEnv },
+      }),
+      resolveCmd({
         exec: `yarn add -P ${resolvedArchetype.peerDependencies.join(' ')}`,
-        options: { env: { YARN_ENABLE_CONSTRAINTS_CHECKS: 'false' } },
+        options: { env: installEnv },
       }),
     );
   }
@@ -149,7 +232,13 @@ export async function makePlan({
   commands.push(
     resolveCmd({ exec: 'yarn constraints --fix', workspace: 'root' }),
   );
-  commands.push(resolveCmd({ exec: 'yarn install', workspace: 'root' }));
+  commands.push(
+    resolveCmd({
+      exec: 'yarn install',
+      workspace: 'root',
+      options: { env: installEnv },
+    }),
+  );
 
   commands.push(...resolvedArchetype.commands.map(resolveCmd));
 

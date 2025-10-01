@@ -30,20 +30,18 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
+    "@types/node": "^22.15.2",
     "tslib": "^2.8.1",
     "type-fest": "^4.32.0"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
-    "@budsbox/eslint_configs-import": "workspace:^",
-    "@budsbox/eslint_configs-typescript": "workspace:^",
     "@budsbox/eslint_presets-lib": "workspace:^",
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
     "@eslint/js": "^9.26.0",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.15.2",
     "@typescript-eslint/parser": "^8.32.1",
     "@typescript-eslint/type-utils": "^8.32.1",
     "eslint": "^9.26.0",

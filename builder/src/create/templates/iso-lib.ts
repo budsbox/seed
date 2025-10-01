@@ -1,15 +1,6 @@
 import type { ArchetypeFiles } from '../types.js';
 
 export const files = {
-  'tsconfig.json': `
-{
-  "extends": "@budsbox/tsconfigs/tsconfig.index.json",
-  "references": [
-    { "path": "tsconfig.tools.json" },
-    { "path": "tsconfig.lib.json" }
-  ]
-}
-  `,
   'tsconfig.lib.json': `
 {
   "extends": "@budsbox/tsconfigs/tsconfig.iso.lib.json"

@@ -36,12 +36,14 @@
     "@budsbox/eslint_configs-promise": "workspace:^",
     "@budsbox/eslint_configs-typescript": "workspace:^",
     "@eslint/js": "^9.26.0",
+    "@types/node": "^22.15.2",
     "@typescript-eslint/parser": "^8.32.1",
     "@typescript-eslint/type-utils": "^8.32.1",
     "eslint-config-prettier": "^10.1.5",
     "eslint-import-resolver-typescript": "^4.3.4",
     "eslint-plugin-import-x": "^4.11.1",
     "eslint-plugin-jsdoc": "^50.6.17",
+    "eslint-plugin-perfectionist": "*",
     "eslint-plugin-promise": "^7.2.1",
     "globals": "^16.1.0",
     "typescript-eslint": "^8.32.1"
@@ -53,9 +55,9 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.15.2",
     "eslint": "^9.26.0",
     "tslib": "^2.8.1",
+    "type-fest": "^4.32.0",
     "typescript": "^5.8.3"
   },
   "peerDependencies": {

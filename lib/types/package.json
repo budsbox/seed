@@ -45,7 +45,6 @@
     "prepack": "run p:ts:prepack"
   },
   "dependencies": {
-    "@types/node": "^22.15.2",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -54,8 +53,14 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
+    "@types/node": "^22.15.2",
     "eslint": "^9.26.0",
+    "type-fest": "^4.32.0",
     "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "@types/node": "^22.15.2",
+    "type-fest": "^4.32.0"
   },
   "packageManager": "yarn@4.9.2"
 }

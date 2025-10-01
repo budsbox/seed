@@ -34,7 +34,8 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
     "@types/node": "^22.15.2",
-    "tslib": "^2.8.1"
+    "tslib": "^2.8.1",
+    "type-fest": "^4.32.0"
   },
   "packageManager": "yarn@4.9.2"
 }

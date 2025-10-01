@@ -1,0 +1,11 @@
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.browser.lib.json",
+  "references": [
+    {
+      "path": "../es/tsconfig.lib.json"
+    },
+    {
+      "path": "../types/tsconfig.lib.json"
+    }
+  ]
+}

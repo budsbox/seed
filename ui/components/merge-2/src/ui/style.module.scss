@@ -1,0 +1,41 @@
+$boardRowsProp: --board-rows;
+$boardColsProp: --board-cols;
+$tileDeltaX: --delta-x;
+$tileDeltaY: --delta-y;
+
+@value boardRowsProp: #{$boardRowsProp};
+@value boardColsProp: #{$boardColsProp};
+@value tileDeltaX: #{$tileDeltaX};
+@value tileDeltaY: #{$tileDeltaY};
+
+:where(.board) {
+  display: grid;
+  grid-template: repeat(var($boardRowsProp), 1fr) / repeat(
+      var($boardColsProp),
+      1fr
+    );
+}
+
+:where(.cell) {
+  aspect-ratio: 1;
+  contain: layout;
+  z-index: auto;
+
+  &.tile-dragging {
+    z-index: 1;
+  }
+}
+
+:where(.tile) {
+  --delta-x: 0;
+  --delta-y: 0;
+
+  width: 100%;
+  height: 100%;
+  touch-action: manipulation;
+  transform: translate3d(
+    calc(var(#{$tileDeltaX}) * 1px),
+    calc(var(#{$tileDeltaY}) * 1px),
+    0
+  );
+}

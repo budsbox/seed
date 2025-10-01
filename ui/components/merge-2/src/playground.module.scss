@@ -1,0 +1,47 @@
+.board {
+  margin: 10px;
+  grid-gap: 5px;
+  background-color: #e3e3e3;
+}
+
+.cell {
+  background-color: lightgray;
+
+  &.can-accept {
+    background-color: lightgreen;
+  }
+}
+
+.tile {
+  opacity: 0.8;
+  border-radius: 9999px;
+  box-shadow: 1px 1px 6px 1px rgba(0, 0, 0, 0.59);
+  padding: 5px;
+
+  &.color {
+    &.rank0 {
+      background-color: yellow;
+    }
+
+    &.rank1 {
+      background-color: green;
+    }
+
+    &.rank2 {
+      background-color: orange;
+    }
+  }
+
+  &.number {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @for $i from 0 through 3 {
+      &.rank#{$i}::after {
+        content: '#{$i}';
+      }
+    }
+  }
+}

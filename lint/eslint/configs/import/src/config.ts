@@ -5,6 +5,7 @@ import type { ConfigFactoryCreate } from '@budsbox/eslint';
 import type { ImportConfigFactoryOptions } from '#types';
 
 import importX from 'eslint-plugin-import-x';
+import perfectionist from 'eslint-plugin-perfectionist';
 
 import { sure } from '@budsbox/lib-es/logical';
 import { parsePackageName } from '@budsbox/lib-es/string';
@@ -46,13 +47,13 @@ export const createImportConfigFactory: ConfigFactoryCreate<
             settings: {
               'import-x/extensions': extensions,
               'import-x/external-module-folders': ['.yarn', 'node_modules'],
+              'import-x/internal-regex': `^(?:#|${scope ?? '[]'})`,
               'import-x/parsers': {
                 '@typescript-eslint/parser': extensions,
               },
               'import-x/resolver': {
                 typescript: extensions,
               },
-              'import-x/internal-regex': `^(?:#|${scope ?? '[]'})`,
             },
           },
         ],
@@ -77,6 +78,9 @@ export const createImportConfigFactory: ConfigFactoryCreate<
         modifies: ['import/recommended'],
         configs: [
           {
+            plugins: {
+              perfectionist,
+            },
             files,
             rules: {
               'sort-imports': ['error', { ignoreDeclarationSort: true }],
@@ -113,6 +117,8 @@ export const createImportConfigFactory: ConfigFactoryCreate<
               'import-x/order': [
                 'error',
                 {
+                  'alphabetize': { order: 'asc' },
+                  'distinctGroup': true,
                   'groups': [
                     'type',
                     'builtin',
@@ -121,6 +127,8 @@ export const createImportConfigFactory: ConfigFactoryCreate<
                     'parent',
                     ['sibling', 'index'],
                   ],
+                  'newlines-between': 'always',
+                  'newlines-between-types': 'always',
                   'pathGroups': [
                     ...sure(
                       scope,
@@ -139,13 +147,28 @@ export const createImportConfigFactory: ConfigFactoryCreate<
                       [],
                     ),
                   ],
-                  'alphabetize': { order: 'asc' },
-                  'distinctGroup': true,
-                  'newlines-between': 'always',
-                  'newlines-between-types': 'always',
                   'pathGroupsExcludedImportTypes': ['builtin'],
                   'sortTypesGroup': true,
                   'warnOnUnassignedImports': true,
+                },
+              ],
+
+              'perfectionist/sort-exports': [
+                'error',
+                {
+                  newlinesBetween: 1,
+                  groups: [
+                    { commentAbove: 'Type exports' },
+                    'type-export',
+                    { commentAbove: 'Value exports' },
+                    'value-export',
+                  ],
+                },
+              ],
+              'perfectionist/sort-named-exports': [
+                'error',
+                {
+                  groups: ['type-export', 'value-export'],
                 },
               ],
             },
