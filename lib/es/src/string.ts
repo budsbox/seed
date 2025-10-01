@@ -6,7 +6,7 @@ import type {
   SnakeCase,
 } from 'type-fest';
 
-import type { Nil, Undef } from '@budsbox/lib-types';
+import type { Maybe, Nil, Undef } from '@budsbox/lib-types';
 
 import type { ParsedPackageName } from './types.js';
 
@@ -96,6 +96,77 @@ export function resolvePackageName(
 }
 
 /**
+ * Options for formatting the package name
+ */
+export interface PackageNameFormatOptions {
+  /**
+   * The root identifier for the package.
+   */
+  root?: Maybe<string>;
+  /**
+   * The parent package name.
+   */
+  parent?: Maybe<string>;
+  /**
+   * The path to the package, relative to its parent.
+   */
+  relCwd?: Undef<string>;
+  /**
+   * The delimiter used to separate path chunks.
+   */
+  pathDelimiter?: Undef<string>;
+  /**
+   * The delimiter used to separate parents name from the base name of the package.
+   */
+  nameDelimiter?: Undef<string>;
+  /**
+   * Array of path chunks to be excluded when constructing the path.
+   */
+  excludePathChunks?: Undef<readonly string[]>;
+}
+
+/**
+ * Formats a package name by combining the base name with processed parent and directory path details.
+ *
+ * @param base - The base name of the package, without the scope or any prefixes.
+ * @param options - An object providing configuration options for formatting the package name.
+ * @param options.root - The root identifier for the package. Defaults to `null`.
+ * @param options.parent - The parent package name. Defaults to the value of `root`.
+ * @param options.relCwd - The path to the package, relative to its parent. Defaults to an empty string.
+ * @param options.pathDelimiter - The delimiter used to separate path chunks. Defaults to `'-'`.
+ * @param options.nameDelimiter - The delimiter used to separate parents name from the base name of the package. Defaults to `'_'`.
+ * @param options.excludePathChunks - Array of path chunks to be excluded when constructing the path. Defaults to `['packages']`.
+ * @returns The formatted package name as a string.
+ */
+export function formatPackageName(
+  base: string,
+  {
+    root = null,
+    parent = root,
+    relCwd = '',
+    pathDelimiter = '-',
+    nameDelimiter = '_',
+    excludePathChunks = ['packages'],
+  }: Readonly<PackageNameFormatOptions> = {},
+): string {
+  const topLevel = parent === root;
+  const exclude = new Set(excludePathChunks);
+  const pathChunks = splitPath(relCwd).filter((chunk) => !exclude.has(chunk));
+  if (pathChunks.at(-1) === base) {
+    pathChunks.pop();
+  }
+  const { scope, name: parentName } = parsePackageName(parent ?? '');
+
+  return serializePackageName({
+    scope,
+    name: [
+      ...(topLevel ? [] : [parentName]),
+      [...pathChunks, base].join(pathDelimiter),
+    ].join(nameDelimiter),
+  });
+}
+
+/**
  * Converts the provided value to a string representation suitable for debugging purposes.
  *
  * @param value - The value to be converted to its string representation. Can be of any type.
@@ -141,6 +212,22 @@ export function joinPath(
           String(part)
         : `${acc.replace(/\/+$/, '')}/${String(part).replace(/^\/+/, '')}`,
       '',
+    );
+}
+
+/**
+ * Splits a given Unix-like path into an array of its components based on the "/" delimiter.
+ * Optionally keeps empty chunks in the result.
+ *
+ * @param path - The file path to be split into an array of components.
+ * @param keepEmptyChunks - A boolean indicating whether empty strings (resulting from consecutive delimiters)
+ * should be preserved in the output array. Defaults to `false`.
+ * @returns An array of strings representing the components of the path.
+ */
+export function splitPath(path: string, keepEmptyChunks = false): string[] {
+  const splitted = path.split(/\/+/);
+  return keepEmptyChunks ? splitted : (
+      splitted.filter((chunk) => chunk.length > 0)
     );
 }
 

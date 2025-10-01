@@ -1,26 +1,21 @@
-import type {
-  OnFalseParam,
-  OnTrueParam,
-  TestParam,
-  TestResultType,
-} from './types.js';
+import type { FValueFalse, FValueTrue, TestFn, TestFnResult } from './types.js';
 
 import { isFunction, isNotNil, isTrue } from '#guards';
 
 /**
  * Functional If
  *
- * Evaluates a value with a given test and returns a value (or executes a function and returns it's result) based on the result.
+ * Evaluates a value with a given test and returns a value (or executes a function and returns its result) based on the result.
  *
- * @typeParam TrueType - The type of the value or the return type of the function if the test's result is true.
- * @typeParam FalseType - The type of the value or the return type of the function if the test's result is true, defaults to undefined.
- *
+ * @typeParam TValue - The type of the value to be tested.
+ * @typeParam TTestFn - The type of the test function that takes the value as a parameter and returns a boolean.
+ * @typeParam TTrue - The type of the value or the return type of the function if the test's result is true.
+ * @typeParam TFalse - The type of the value or the return type of the function if the test's result is true.
  * @param value - The value to test against the provided test function.
  * @param test - A function to evaluate the provided value.
  * @param onTrue - A function or value to execute or return if the test evaluates to true.
  * @param onFalse - A function or value to execute or return if the test evaluates to false.
- * @return The value or the result of the function based on the test result
- *
+ * @returns The value or the result of the function based on the test result
  * @example
  * ```ts
  * const result1 = fif(10, (n) => n > 5, 'Greater', 'Smaller');
@@ -31,24 +26,24 @@ import { isFunction, isNotNil, isTrue } from '#guards';
  * ```
  */
 export function fif<
-  ValueType,
-  TestParamType extends TestParam<ValueType>,
-  TrueType,
-  FalseType = undefined,
+  TValue,
+  TTestFn extends TestFn<TValue>,
+  TTrue,
+  TFalse = undefined,
 >(
-  value: ValueType,
-  test: TestParamType,
-  onTrue: OnTrueParam<ValueType, TestParamType, TrueType>,
-  onFalse?: OnFalseParam<ValueType, TestParamType, FalseType>,
-): TrueType | FalseType {
+  value: TValue,
+  test: TTestFn,
+  onTrue: FValueTrue<TValue, TTestFn, TTrue>,
+  onFalse?: FValueFalse<TValue, TTestFn, TFalse>,
+): TTrue | TFalse {
   if (test(value)) {
     return isFunction(onTrue) ?
-        onTrue(value as TestResultType<ValueType, TestParamType, true>)
+        onTrue(value as TestFnResult<TValue, TTestFn, true>)
       : onTrue;
   }
 
   if (isFunction(onFalse)) {
-    return onFalse(value as TestResultType<ValueType, TestParamType, false>);
+    return onFalse(value as TestFnResult<TValue, TTestFn, false>);
   }
 
   return onFalse!;
@@ -59,35 +54,37 @@ export function fif<
  *
  * Evaluates a condition and returns a value or executes a function based on the result.
  *
- * @typeParam TrueType - The type of the value or the return type of the function if the condition is true.
- * @typeParam FalseType - The type of the value or the return type of the function if the condition is false, defaults to null.
- *
+ * @typeParam TTrue - The type of the value or the return type of the function if the condition is true.
+ * @typeParam TFalse - The type of the value or the return type of the function if condition is true.
  * @param condition - The condition to evaluate.
  * @param onTrue - The value or function to return/execute if the condition is true. If it's a function, it receives `true` as an argument.
  * @param onFalse - The value or function to return/execute if the condition is false. If it's a function, it receives `false` as an argument.
- * @return The value or the result of the function based on the evaluated condition.
+ * @returns The value or the result of the function based on the evaluated condition.
  */
-export function fifs<TrueType, FalseType = undefined>(
+export function fifs<TTrue, TFalse = undefined>(
   condition: boolean,
-  onTrue: OnTrueParam<boolean, typeof isTrue, TrueType>,
-  onFalse?: OnFalseParam<boolean, typeof isTrue, FalseType>,
-): TrueType | FalseType {
+  onTrue: FValueTrue<boolean, typeof isTrue, TTrue>,
+  onFalse?: FValueFalse<boolean, typeof isTrue, TFalse>,
+): TTrue | TFalse {
   return fif(condition, isTrue, onTrue, onFalse);
 }
 
 /**
- * Ensures that the provided value is not null or undefined,
+ * Ensures that the provided value is not null or undefined
  * and returns a value (or executes a function and returns it's result) based on the result.
  *
+ * @typeParam TValue - The type of the value to be checked.
+ * @typeParam TTrue - The type of the value or the return type of the function if the value is not null or undefined.
+ * @typeParam TFalse - The type of the value or the return type of the function if the value is null or undefined.
  * @param value - The value to be checked.
  * @param onTrue - Callback function to be executed if the value is not null or undefined.
  * @param onFalse - (Optional) Callback function to be executed if the value is null or undefined.
- * @return The result of the appropriate callback function based on the evaluation of the value.
+ * @returns The result of the appropriate callback function based on the evaluation of the value.
  */
-export function sure<ValueType, TrueType, FalseType = undefined>(
-  value: ValueType,
-  onTrue: OnTrueParam<ValueType, typeof isNotNil, TrueType>,
-  onFalse?: OnFalseParam<ValueType, typeof isNotNil, FalseType>,
-): TrueType | FalseType {
+export function sure<TValue, TTrue, TFalse = undefined>(
+  value: TValue,
+  onTrue: FValueTrue<TValue, typeof isNotNil, TTrue>,
+  onFalse?: FValueFalse<TValue, typeof isNotNil, TFalse>,
+): TTrue | TFalse {
   return fif(value, isNotNil, onTrue, onFalse);
 }

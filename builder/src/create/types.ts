@@ -10,10 +10,17 @@ import type { archetypeExtendControlSymbol } from './const.js';
  */
 export type ArchetypeName =
   | 'base'
-  | 'lib-iso'
-  | 'lib-node'
-  | 'lib-ui'
-  | 'ui-component';
+  | 'lib'
+  | 'app'
+  | 'node'
+  | 'browser'
+  | 'react'
+  | 'iso-lib'
+  | 'node-lib'
+  | 'browser-lib'
+  | 'react-lib'
+  | 'react-app'
+  | 'react-component';
 
 /**
  * Represents a control symbol used for archetype extension.

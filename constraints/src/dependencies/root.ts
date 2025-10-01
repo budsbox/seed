@@ -1,6 +1,7 @@
 import { isNil } from '@budsbox/lib-es/guards';
 
 import { type Constraint, getRootWs } from '../utils';
+import { isNotNil } from '@budsbox/lib-es/guards';
 
 /**
  * A constraint function that enforces the consistency of dependencies among Yarn workspaces.
@@ -15,6 +16,12 @@ import { type Constraint, getRootWs } from '../utils';
  */
 export const constraintRootDependencies: Constraint = ({ Yarn }) => {
   const root = getRootWs(Yarn);
+
+  for (const ws of Yarn.workspaces()) {
+    if (ws !== root && isNotNil(ws.ident)) {
+      root.set(['dependencies', ws.ident], 'workspace:^');
+    }
+  }
 
   type DepRanges = Record<string, string[]>;
   const dependencyRecords = Yarn.workspaces()

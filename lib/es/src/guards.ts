@@ -1,10 +1,12 @@
 import type { Def, Nil, NonNil, Undef } from '@budsbox/lib-types';
 
+import type { Predicate, TypeGuard } from './types.js';
+
 /**
  * Checks if the provided value is `undefined`.
  *
  * @param value - The value to check for `undefined`.
- * @return `true` if the value is `undefined`, otherwise `false`.
+ * @returns `true` if the value is `undefined`, otherwise `false`.
  */
 export function isUndef(value: unknown): value is Undef {
   return value === undefined;
@@ -14,14 +16,14 @@ export function isUndef(value: unknown): value is Undef {
  * Checks if a given value is defined (not `undefined`).
  *
  * @param value - The value to check.
- * @return Whether the value is defined.
+ * @returns Whether the value is defined.
  */
 export function isDef<U>(value: U): value is Def<U>;
 /**
  * Checks if a given value is defined (not `undefined`).
  *
  * @param value - The value to be checked.
- * @return Returns true if the value is defined, otherwise false.
+ * @returns Returns true if the value is defined, otherwise false.
  */
 export function isDef(value: unknown): boolean {
   return value !== undefined;
@@ -31,7 +33,7 @@ export function isDef(value: unknown): boolean {
  * Checks if the provided value is `null` or `undefined`.
  *
  * @param value - The value to be checked.
- * @return Returns `true` if the value is `null` or `undefined`, otherwise `false`.
+ * @returns Returns `true` if the value is `null` or `undefined`, otherwise `false`.
  */
 export function isNil(value: unknown): value is Nil {
   return value == null;
@@ -41,9 +43,15 @@ export function isNil(value: unknown): value is Nil {
  * Checks if the provided value is not null or undefined.
  *
  * @param value - The value to be checked.
- * @return Returns true if the value is not null or undefined; otherwise, false.
+ * @returns Returns true if the value is not null or undefined; otherwise, false.
  */
 export function isNotNil<T>(value: T): value is NonNil<T>;
+/**
+ * Checks if the provided value is not null or undefined.
+ *
+ * @param value - The value to be checked.
+ * @returns Returns true if the value is not null or undefined; otherwise, false.
+ */
 export function isNotNil(value: unknown): value is NonNil;
 export function isNotNil(value: unknown): boolean {
   return !isNil(value);
@@ -53,7 +61,7 @@ export function isNotNil(value: unknown): boolean {
  * Checks if the provided value is strictly equal to true.
  *
  * @param value - The value to check.
- * @return Returns true if the value is strictly true, otherwise false.
+ * @returns Returns true if the value is strictly true, otherwise false.
  */
 export function isTrue(value: unknown): value is true {
   return value === true;
@@ -63,7 +71,7 @@ export function isTrue(value: unknown): value is true {
  * Determines if the provided value is strictly `false`.
  *
  * @param value - The value to be checked.
- * @return Returns `true` if the value is `false`, otherwise returns `false`.
+ * @returns Returns `true` if the value is `false`, otherwise returns `false`.
  */
 export function isFalse(value: unknown): value is false {
   return value === false;
@@ -73,7 +81,7 @@ export function isFalse(value: unknown): value is false {
  * Determines if the given value is truly, i.e., converts to true when used in a boolean context.
  *
  * @param value - The value to be tested for truthiness.
- * @return Returns true if the value is truthy, false otherwise.
+ * @returns Returns true if the value is truthy, false otherwise.
  */
 export function isTruly(value: unknown): boolean {
   return Boolean(value);
@@ -83,8 +91,8 @@ export function isTruly(value: unknown): boolean {
  * Determines if a given value is falsy.
  * A value is considered falsy if it evaluates to false when coerced to a boolean.
  *
- * @param value The value to be tested.
- * @return True if the value is falsy, otherwise false.
+ * @param value - The value to be tested.
+ * @returns True if the value is falsy, otherwise false.
  */
 export function isFalsy(value: unknown): boolean {
   return !isTruly(value);
@@ -94,7 +102,7 @@ export function isFalsy(value: unknown): boolean {
  * Checks if the given value is an object.
  *
  * @param value - The value to check.
- * @return True if the value is an object, false otherwise.
+ * @returns True if the value is an object, false otherwise.
  */
 export function isObject(value: unknown): value is object {
   return value != null && typeof value === 'object';
@@ -109,7 +117,7 @@ export function isObject(value: unknown): value is object {
  *
  * @param value - The value to check.
  * @param allowEmpty - Determines whether empty records are allowed.
- * @return A boolean indicating whether the value is a record.
+ * @returns A boolean indicating whether the value is a record.
  */
 export function isRecord(
   value: unknown,
@@ -121,24 +129,24 @@ export function isRecord(
 /**
  * Checks if the given value is an array.
  *
- * @template T - Type of the value to be checked.
+ * @typeParam T - Type of the value to be checked.
  * @param value - The value to check.
- * @return True if the value is an array, otherwise false.
+ * @returns True if the value is an array, otherwise false.
  */
 export function isArray<T>(value: T | readonly T[]): value is readonly T[];
 /**
  * Checks if the provided value is an array.
  *
- * @template T - type of the value to be checked.
+ * @typeParam T - type of the value to be checked.
  * @param value - The value to be checked.
- * @return True if the value is an array, otherwise false.
+ * @returns True if the value is an array, otherwise false.
  */
 export function isArray<T>(value: T | T[]): value is T[];
 /**
  * Checks if the given value is an array.
  *
  * @param value - The value to be checked.
- * @return Returns true if the value is an array, otherwise false.
+ * @returns Returns true if the value is an array, otherwise false.
  */
 export function isArray(value: unknown): value is unknown[];
 export function isArray(value: unknown): value is unknown[] {
@@ -148,9 +156,12 @@ export function isArray(value: unknown): value is unknown[] {
  * Determines if the provided value is of type Function.
  *
  * @param value - The value to be checked.
- * @return True if the value is a function; otherwise, false.
+ * @returns True if the value is a function; otherwise, false.
  */
-export function isFunction(value: unknown): value is CallableFunction {
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
+export function isFunction<TFn extends CallableFunction = CallableFunction>(
+  value: unknown,
+): value is TFn {
   return typeof value === 'function';
 }
 
@@ -158,7 +169,7 @@ export function isFunction(value: unknown): value is CallableFunction {
  * Determines if the provided value is a string.
  *
  * @param value - The value to check.
- * @return True if the value is a string, otherwise false.
+ * @returns True if the value is a string, otherwise false.
  */
 export function isString(value: unknown): value is string {
   return typeof value === 'string';
@@ -168,7 +179,7 @@ export function isString(value: unknown): value is string {
  * Checks if the provided value is a number and not NaN.
  *
  * @param value - The value to be checked.
- * @return Returns true if the value is a number and not NaN, otherwise false.
+ * @returns Returns true if the value is a number and not NaN, otherwise false.
  */
 export function isNumber(value: unknown): value is number {
   return typeof value === 'number' && !Number.isNaN(value);
@@ -178,51 +189,101 @@ export function isNumber(value: unknown): value is number {
  * Checks if the given value is of type boolean.
  *
  * @param value - The value to check.
- * @return A boolean indicating whether the value is a boolean or not.
+ * @returns A boolean indicating whether the value is a boolean or not.
  */
 export function isBoolean(value: unknown): value is boolean {
   return typeof value === 'boolean';
 }
 
+/**
+ * Determines if a given property exists on a source object and optionally
+ * evaluates it with a provided predicate function.
+ *
+ * @param source - The object to check for the property existence. Can be `null` or `undefined`.
+ * @param prop - The property key to check on the source.
+ * @param test - Optional predicate function used to evaluate the property's value.
+ * @returns Returns `false` since the source is `null` or `undefined` in this function signature.
+ */
 export function hasProp(
   source: Nil,
   prop: PropertyKey,
-  test?: (propValue: unknown) => boolean,
+  test?: Predicate<unknown>,
 ): false;
 /**
- * Checks if the given source has the specified property.
+ * Checks if a given property exists on the provided object.
  *
- * @param source - The source to check for the property.
- * @param prop - The property to check for existence.
- * @return True if the source is an object and contains the property.
+ * @param source - The object to check for the property.
+ * @param prop - The property key to check for existence on the object.
+ * @returns A boolean indicating whether the property exists on the object.
  */
-export function hasProp<T, Key extends PropertyKey>(
-  source: Record<PropertyKey, T>,
-  prop: Key,
-): source is Record<Key, T>;
-export function hasProp<Key extends PropertyKey>(
+export function hasProp<TKey extends PropertyKey>(
+  source: NonNil,
+  prop: TKey,
+): source is Record<TKey, unknown>;
+/**
+ * Checks if the given object has a specific property that meets the criteria
+ * defined by a type guard function.
+ *
+ * @param source - The object to check for the property.
+ * @param prop - The key of the property to check for in the object.
+ * @param test - A type guard function that tests the property value against a type.
+ * @returns Returns `true` if the object has the specified property and the value passes
+ * the type guard, otherwise returns `false`.
+ */
+export function hasProp<
+  TValue extends NonNil,
+  TKey extends keyof TValue,
+  TNarrowed extends TValue[TKey],
+>(
+  source: TValue,
+  prop: TKey,
+  test: TypeGuard<Required<TValue>[TKey], TNarrowed>,
+): source is TValue & Record<TKey, TNarrowed>;
+/**
+ * Checks if the given `source` object has a property specified by `prop` and verifies
+ * that the value of the property satisfies the condition defined by the `test` function.
+ *
+ * @param source - The object to be checked for the specified property.
+ * @param prop - The key of the property to check for existence in the `source`.
+ * @param test - A type guard function used to validate the type of the property's value.
+ * @returns A boolean indicating whether the `source` has the specified property and the value
+ * satisfies the type guard test.
+ */
+export function hasProp<TKey extends PropertyKey, TNarrowed>(
   source: unknown,
-  prop: Key,
-): source is Record<Key, unknown>;
-export function hasProp<T, Narrowed extends T, Key extends PropertyKey>(
-  source: Record<PropertyKey, T>,
-  prop: Key,
-  test: (propValue: T) => propValue is Narrowed,
-): source is Record<Key, Narrowed>;
-export function hasProp<T, Narrowed, Key extends PropertyKey>(
-  source: Record<PropertyKey, T>,
-  prop: Key,
-  test: (propValue: unknown) => propValue is Narrowed,
-): source is Record<Key, T & Narrowed>;
-export function hasProp<Key extends PropertyKey, T>(
-  source: unknown,
-  prop: Key,
-  test: (propValue: unknown) => propValue is T,
-): source is { [K in Key]: T };
+  prop: TKey,
+  test: TypeGuard<unknown, TNarrowed>,
+): source is Record<TKey, TNarrowed>;
+/**
+ * Checks if a given property exists on a source object and satisfies a specified test condition.
+ *
+ * @param source - The source object to check for the property.
+ * @param prop - The property key to check in the source object.
+ * @param test - A predicate function to test the value of the specified property.
+ * @returns True if the property exists on the source object and the test predicate returns true; otherwise, false.
+ */
+export function hasProp<TValue extends NonNil, TKey extends keyof TValue>(
+  source: TValue,
+  prop: TKey,
+  test: Predicate<Required<TValue>[TKey]>,
+): boolean;
+/**
+ * Checks if a given property exists on the specified source object and optionally validates it using a predicate function.
+ *
+ * @param source - The object on which the property check is performed.
+ * @param prop - The property key to check for existence in the source object.
+ * @param test - An optional predicate function to validate the property value.
+ * @returns Returns true if the property exists on the source object and the predicate (if provided) evaluates to true; otherwise, false.
+ */
 export function hasProp(
   source: unknown,
   prop: PropertyKey,
-  test?: (propValue: unknown) => boolean,
+  test?: Predicate<unknown>,
+): boolean;
+export function hasProp(
+  source: unknown,
+  prop: PropertyKey,
+  test?: Predicate<unknown>,
 ): boolean {
   return (
     isNotNil(source) &&

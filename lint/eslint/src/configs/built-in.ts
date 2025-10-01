@@ -58,9 +58,9 @@ export const createBuiltInConfigFactory: ConfigFactoryCreate = () => (ctx) => {
             ],
             // disabled by default but can be enabled if needed
             'sort-keys': [
-              'off',
+              'error',
               'asc',
-              { allowLineSeparatedGroups: true, natural: false },
+              { allowLineSeparatedGroups: true, natural: false, minKeys: 5 },
             ],
           },
         },

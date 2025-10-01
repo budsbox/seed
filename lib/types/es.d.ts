@@ -46,3 +46,14 @@ interface ReadonlyArray<T> {
     initialValue: Partial<U>, // that's why
   ): U;
 }
+
+interface Crypto {
+  // it's the only method of `Crypto` available in a non-secure context
+  getRandomValues<T extends ArrayBufferView | null>(array: T): T;
+}
+
+declare var crypto: Crypto;
+
+declare global {
+  var crypto: Crypto;
+}

@@ -1,0 +1,22 @@
+{
+  "search.exclude": {
+    "**/.yarn": true,
+    "**/.pnp.*": true
+  },
+  "editor.codeActionsOnSave": ["source.fixAll.eslint", "source.formatDocument"],
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.nodePath": ".yarn/sdks",
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "javascript.suggest.autoImports": true,
+  "prettier.prettierPath": ".yarn/sdks/prettier/index.cjs",
+  "typescript.tsdk": ".yarn/sdks/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.implementationsCodeLens.enabled": true,
+  "typescript.preferGoToSourceDefinition": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.suggest.completeFunctionCalls": true,
+  "typescript.suggest.enabled": true,
+  "typescript.suggest.includeCompletionsForImportStatements": true
+}

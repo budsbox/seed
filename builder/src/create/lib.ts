@@ -158,8 +158,10 @@ export function resolveArchetype<TName extends ArchetypeName>(
   archetypes: ArchetypeMap,
   name: TName,
 ): ArchetypeResolved<TName> {
-  const seen = new Set<string>();
-  const _resolve = (n: ArchetypeName): ArchetypeResolved<ArchetypeName> => {
+  const _resolve = (
+    n: ArchetypeName,
+    seen: Set<ArchetypeName>,
+  ): ArchetypeResolved<ArchetypeName> => {
     if (seen.has(n))
       throw new Error(
         `Archetype cycle detected at "${[...seen].join(' -> ')}" -> "${n}"`,
@@ -171,7 +173,7 @@ export function resolveArchetype<TName extends ArchetypeName>(
 
     const joinedParent = ext.reduce<ArchetypeResolved<ArchetypeName>>(
       (acc, currentName) => {
-        const current = _resolve(currentName);
+        const current = _resolve(currentName, new Set([...seen, n]));
 
         return {
           at: current.at === '.' ? acc.at : current.at,
@@ -230,7 +232,7 @@ export function resolveArchetype<TName extends ArchetypeName>(
 
     return _resolved;
   };
-  return _resolve(name);
+  return _resolve(name, new Set());
 }
 
 /**
