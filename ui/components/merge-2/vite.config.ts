@@ -13,5 +13,8 @@ export default useReactConfig(() => ({
       fileName: formatFileName,
       cssFileName: 'index',
     },
+    rollupOptions: {
+      external: ['react', 'react-dom'],
+    },
   },
 }));
