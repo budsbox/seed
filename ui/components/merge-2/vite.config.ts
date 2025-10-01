@@ -15,9 +15,11 @@ export default useReactConfig(() => ({
     },
     rollupOptions: {
       external: ['react', 'react-dom'],
-      globals: {
-        'react': 'React',
-        'react-dom': 'ReactDOM',
+      output: {
+        globals: {
+          'react': 'React',
+          'react-dom': 'ReactDOM',
+        },
       },
     },
   },
