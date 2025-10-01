@@ -15,7 +15,7 @@ import { join, matchesGlob, relative } from 'node:path';
 import * as prompts from '@clack/prompts';
 import chalk from 'chalk';
 
-import { isFalse, isString, isTrue } from '@budsbox/lib-es/guards';
+import { isFalse, isNotNil, isString, isTrue } from '@budsbox/lib-es/guards';
 import { sure } from '@budsbox/lib-es/logical';
 import {
   clampWS,
@@ -127,9 +127,12 @@ export async function makePlan({
         (content) => [{ path: join(cwd, 'LICENSE'), content } as const],
         [],
       ),
-      ...Object.entries(resolvedArchetype.files).map(
-        ([path, content]) => ({ path: join(cwd, path), content }) as const,
-      ),
+      ...Object.entries(resolvedArchetype.files)
+        .filter(([, content]) => isNotNil(content))
+        .map(
+          ([path, content]) =>
+            ({ path: join(cwd, path), content: content! }) as const,
+        ),
     ].map(
       async ({ path, content }): Promise<PlannedFile> => ({
         path,
@@ -160,7 +163,7 @@ export async function makePlan({
       matchesGlob(cwd, join(parentWs.cwd, glob)),
     )
   ) {
-    const newGlob = await prompts.select<string | false>({
+    const newGlob = await prompts.select<false | string>({
       message: clampWS(
         `The new workspace path doesn't match any glob pattern in ${parentIdent}'s "workspaces" field.
         Which glob pattern should be added?`,
@@ -244,13 +247,13 @@ export async function makePlan({
 
   return {
     archetype,
-    name,
-    ident,
     at: targetBase,
-    cwd,
-    willCreateCwd: willCreateDir,
-    files,
     commands,
+    cwd,
+    files,
+    ident,
+    name,
+    willCreateCwd: willCreateDir,
   };
 }
 

@@ -1,7 +1,7 @@
 import type { Options } from 'execa';
 import type { Arrayable, LiteralUnion, PackageJson } from 'type-fest';
 
-import type { Undef } from '@budsbox/lib-types';
+import type { Maybe, Undef } from '@budsbox/lib-types';
 
 import type { archetypeExtendControlSymbol } from './const.js';
 
@@ -9,25 +9,26 @@ import type { archetypeExtendControlSymbol } from './const.js';
  * Represents a type alias for defining specific archetype names.
  */
 export type ArchetypeName =
-  | 'base'
-  | 'lib'
   | 'app'
-  | 'node'
+  | 'base'
   | 'browser'
-  | 'react'
-  | 'iso-lib'
-  | 'node-lib'
   | 'browser-lib'
-  | 'react-lib'
+  | 'iso-lib'
+  | 'lib'
+  | 'node'
+  | 'node-lib'
+  | 'react'
   | 'react-app'
-  | 'react-component';
+  | 'react-component'
+  | 'react-component-large'
+  | 'react-lib';
 
 /**
  * Represents a control symbol used for archetype extension.
  */
 export type ArchetypeExtendControlSymbol = typeof archetypeExtendControlSymbol;
 
-type CommandOptions = Omit<Options, 'cwd' | 'stdio' | 'shell'>;
+type CommandOptions = Omit<Options, 'cwd' | 'shell' | 'stdio'>;
 
 /**
  * Represents a command that can be executed. A command can be either a structured object meant for external commands
@@ -41,6 +42,7 @@ type CommandOptions = Omit<Options, 'cwd' | 'stdio' | 'shell'>;
  * - String: Represents a raw command to run inside the created workspace.
  */
 export type Command =
+  | string // for local commands
   | {
       /**
        * A workspace name without an optional scope, specifying the context for execution.
@@ -61,8 +63,7 @@ export type Command =
        * @typeParam Options - An interface or type that defines the structure of the available options.
        */
       options?: CommandOptions;
-    }
-  | string; // for local commands
+    };
 
 /**
  * Represents a fully resolved command including its execution details and workspace information.
@@ -94,7 +95,7 @@ export interface ResolvedCommand {
 /**
  * Represents a collection of archetype files where the key is the file name and the value is the file content.
  */
-export type ArchetypeFiles = Readonly<Record<string, string>>;
+export type ArchetypeFiles = Readonly<Record<string, Maybe<string>>>;
 
 /**
  * Represents the configuration settings for an archetype, which is a blueprint or template
