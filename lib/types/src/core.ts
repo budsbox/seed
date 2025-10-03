@@ -1,4 +1,3 @@
-// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 /**
  * Represents a type that excludes `undefined` and `void` from the given type `T`.
  *
@@ -6,14 +5,15 @@
  * undefined or void values, effectively creating a "defined value only" type
  * from the provided type parameter.
  *
- * @template T - The original type from which `undefined` and `void` will be excluded.
+ * @typeParam T - The original type from which `undefined` and `void` will be excluded.
  */
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Def<T> = Exclude<T, undefined | void>;
 
 /**
  * A utility type that represents a value of the specified type `T` or `undefined`.
  *
- * @template T - The type of the value. Defaults to `never` if not specified.
+ * @typeParam T - The type of the value. Defaults to `never` if not specified.
  */
 export type Undef<T = never> = T | undefined;
 
@@ -26,9 +26,9 @@ export type Nil = null | undefined;
  * Represents an optional value that can either contain a value of type `T`
  * or a `Nil` type, where `Nil` typically represents `null` or `undefined`.
  *
- * @template T - The type of the value that might be present.
+ * @typeParam T - The type of the value that might be present.
  */
-export type Maybe<T = never> = T | Nil;
+export type Maybe<T = never> = Nil | T;
 
 /**
  * A utility type that ensures the given type `T` excludes `null` and `undefined`.
@@ -47,9 +47,9 @@ export type NonNil<T = unknown> = NonNullable<T>;
  * but are not guaranteed to be so. It simplifies handling values that can be either synchronous or asynchronous,
  * allowing the caller to process them uniformly.
  *
- * @template T - The type of the value, whether synchronous or asynchronous.
+ * @typeParam T - The type of the value, whether synchronous or asynchronous.
  */
-export type Awaitable<T> = T | Promise<T>;
+export type Awaitable<T> = Promise<T> | T;
 
 /**
  * A type alias representing falsy values in JavaScript.
@@ -64,7 +64,7 @@ export type Awaitable<T> = T | Promise<T>;
  * This type is useful for cases where you need to explicitly represent or handle values
  * that JavaScript considers as falsy during logical operations.
  */
-export type Falsy = false | 0 | '' | Nil;
+export type Falsy = 0 | '' | false | Nil;
 
 /**
  * A utility type that filters out `Falsy` values from the given type `T`.
@@ -75,8 +75,23 @@ export type Falsy = false | 0 | '' | Nil;
  *
  * Note that the utility has limitations, e.g. `Truthy<string>` would still be `string`, so it works with literals only.
  *
- * @template T - The type from which falsy values are filtered out.
+ * @typeParam T - The type from which falsy values are filtered out.
  * @typeParam T - The input type that will be evaluated to exclude falsy members.
  * @returns A type that excludes all falsy values from the provided type `T`.
  */
 export type Truthy<T = unknown> = T extends Falsy ? never : T;
+
+/**
+ * Represents a function that accepts any number of arguments and returns a value of any type.
+ *
+ * @param args - The arguments passed to the function.
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyFunction = (...args: readonly any[]) => any;
+
+/**
+ * Represents a function that accepts any number of arguments and returns a value of unknown type.
+ *
+ * @param args - The arguments passed to the function.
+ */
+export type UnknownFunction = (...args: readonly unknown[]) => unknown;

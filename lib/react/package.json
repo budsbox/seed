@@ -23,15 +23,11 @@
   "exports": {
     ".": {
       "import": {
-        "development": "./src/index.ts",
-        "production": "./dist/index.mjs",
+        "budsbox": "./src/index.ts",
         "types": "./dist/index.d.ts",
         "default": "./dist/index.mjs"
       },
-      "types": "./dist/index.d.ts",
       "require": {
-        "development": "./src/index.ts",
-        "production": "./dist/index.cjs",
         "types": "./dist/index.d.ts",
         "default": "./dist/index.cjs"
       }
@@ -48,7 +44,7 @@
   ],
   "scripts": {
     "name": "echo $npm_package_name",
-    "prepack": "yarn vite build; yarn p:ts:build",
+    "prepack": "yarn p:ts:build; yarn vite build",
     "serve": "vite"
   },
   "dependencies": {

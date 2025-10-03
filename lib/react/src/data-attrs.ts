@@ -8,13 +8,13 @@ import type {
 
 import type { Infer, Nil } from '@budsbox/lib-types';
 
-import { isFalse } from '@budsbox/lib-es/guards';
+import { isFalse, isTrue } from '@budsbox/lib-es/guards';
 import { sure } from '@budsbox/lib-es/logical';
 import { kebabCase } from '@budsbox/lib-es/string';
 
-type DataAttrsInput = Record<string, string | number | boolean | Nil>;
+type DataAttrsInput = Record<string, boolean | number | string | Nil>;
 
-type DataAttrsKeepValue = Exclude<ValueOf<DataAttrsInput>, Nil | false>;
+type DataAttrsKeepValue = Exclude<ValueOf<DataAttrsInput>, false | Nil>;
 
 type DataAttrsRename<TInput extends Record<string, unknown>> = {
   [K in keyof TInput as `data-${KebabCase<K & string>}`]: TInput[K];
@@ -48,7 +48,8 @@ export type DataAttrsResolved<TInput extends DataAttrsInput> =
               TInput[K] & DataAttrsKeepValue
             > extends true ?
               never
-            : K]: TInput[K] & DataAttrsKeepValue;
+            : K]: TInput[K] & DataAttrsKeepValue extends true ? ''
+            : TInput[K] & DataAttrsKeepValue;
           }>,
           ConditionalKeys<TInput, DataAttrsKeepValue>
         >
@@ -66,17 +67,18 @@ export function dataAttrs<TInput extends DataAttrsInput>(
 ): DataAttrsResolved<TInput>;
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function dataAttrs(
-  input: Readonly<Record<string, boolean | string | number | undefined | null>>,
+  input: Readonly<Record<string, boolean | number | string | null | undefined>>,
 ): DataAttrsResolved<DataAttrsInput>;
 export function dataAttrs(
-  input: Readonly<Record<string, boolean | string | number | undefined | null>>,
+  input: Readonly<Record<string, boolean | number | string | null | undefined>>,
 ): DataAttrsResolved<DataAttrsInput> {
   return Object.fromEntries(
     Object.entries(input)
       .filter(([, value]) => !sure(value, isFalse, true))
       .map(([key, value]) => [
         `data-${kebabCase(key)}`,
-        value as DataAttrsKeepValue,
+        // true replaced with empty string to make a data-attr present but empty
+        isTrue(value) ? '' : (value as DataAttrsKeepValue),
       ]),
   );
 }

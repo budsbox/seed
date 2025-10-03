@@ -60,6 +60,16 @@
         "default": "./dist/logical.js",
         "types": "./dist/logical.d.ts"
       }
+    },
+    "#function": {
+      "import": {
+        "default": "./dist/function.js",
+        "types": "./dist/function.d.ts"
+      },
+      "require": {
+        "default": "./dist/function.js",
+        "types": "./dist/function.d.ts"
+      }
     }
   },
   "exports": {
@@ -111,6 +121,16 @@
       "require": {
         "default": "./dist/logical.js",
         "types": "./dist/logical.d.ts"
+      }
+    },
+    "./function": {
+      "import": {
+        "default": "./dist/function.js",
+        "types": "./dist/function.d.ts"
+      },
+      "require": {
+        "default": "./dist/function.js",
+        "types": "./dist/function.d.ts"
       }
     },
     "./package.json": "./package.json"

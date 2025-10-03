@@ -3,6 +3,7 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
+    "isolatedModules": false,
     "target": "ES2022",
     "lib": ["ESNext"],
     "types": ["@budsbox/lib-types/es.d.ts", "@types/node"]

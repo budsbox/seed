@@ -897,9 +897,11 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint_presets-node-lib", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lint/eslint/presets/node-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-node", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lib/node"],\
           ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
           ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
           ["@types/babel-plugin-react-compiler", null],\
+          ["@types/cssesc", "npm:3.0.2"],\
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:22.15.2"],\
           ["@types/sass-embedded", null],\
@@ -907,6 +909,7 @@ const RAW_RUNTIME_STATE =
           ["@types/vitejs__plugin-react", null],\
           ["@vitejs/plugin-react", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#npm:5.0.3"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
+          ["cssesc", "npm:3.0.0"],\
           ["eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:9.26.0"],\
           ["sass-embedded", "npm:1.92.1"],\
           ["tslib", "npm:2.8.1"],\
@@ -934,9 +937,11 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint_presets-node-lib", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lint/eslint/presets/node-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-node", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lib/node"],\
           ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
           ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
           ["@types/babel-plugin-react-compiler", null],\
+          ["@types/cssesc", "npm:3.0.2"],\
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:22.15.2"],\
           ["@types/sass-embedded", null],\
@@ -944,6 +949,7 @@ const RAW_RUNTIME_STATE =
           ["@types/vitejs__plugin-react", null],\
           ["@vitejs/plugin-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:5.0.3"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
+          ["cssesc", "npm:3.0.0"],\
           ["eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:9.26.0"],\
           ["sass-embedded", "npm:1.92.1"],\
           ["tslib", "npm:2.8.1"],\
@@ -971,12 +977,15 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint_presets-node-lib", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lint/eslint/presets/node-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-node", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lib/node"],\
           ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
           ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@types/cssesc", "npm:3.0.2"],\
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:22.15.2"],\
           ["@vitejs/plugin-react", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#npm:5.0.3"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
+          ["cssesc", "npm:3.0.0"],\
           ["eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:9.26.0"],\
           ["sass-embedded", "npm:1.92.1"],\
           ["tslib", "npm:2.8.1"],\
@@ -7247,6 +7256,15 @@ const RAW_RUNTIME_STATE =
           ["@types/keyv", "npm:3.1.4"],\
           ["@types/node", "npm:22.13.10"],\
           ["@types/responselike", "npm:1.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/cssesc", [\
+      ["npm:3.0.2", {\
+        "packageLocation": "./.yarn/cache/@types-cssesc-npm-3.0.2-f6b2ec0518-b86c8abccb.zip/node_modules/@types/cssesc/",\
+        "packageDependencies": [\
+          ["@types/cssesc", "npm:3.0.2"]\
         ],\
         "linkType": "HARD"\
       }]\
