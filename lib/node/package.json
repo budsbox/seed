@@ -22,6 +22,9 @@
     "#pckg": {
       "import": "./dist/pckg.js",
       "types": "./dist/pckg.d.ts"
+    },
+    "#types": {
+      "types": "./dist/types.d.ts"
     }
   },
   "exports": {
@@ -77,6 +80,11 @@
   "peerDependencies": {
     "@types/node": "^22.15.2",
     "typescript": "^5.8.3"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
   },
   "packageManager": "yarn@4.9.2"
 }

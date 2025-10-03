@@ -1,5 +1,9 @@
 import type { ArchetypeMap } from './types.js';
 
+import { isString } from '@budsbox/lib-es/guards';
+import { parsePackageName } from '@budsbox/lib-es/string';
+import { findCurrentPackageJson } from '@budsbox/lib-node/pckg';
+
 import * as baseTpl from './templates/base.js';
 import * as browserLib from './templates/browser-lib.js';
 import * as browser from './templates/browser.js';
@@ -10,6 +14,16 @@ import * as reactComponentLarge from './templates/react-component-large.js';
 import * as reactComponent from './templates/react-component.js';
 import * as reactLib from './templates/react-lib.js';
 import * as react from './templates/react.js';
+
+const cwdPckg = await findCurrentPackageJson();
+const { scope } = parsePackageName(cwdPckg.json.name ?? '');
+
+const scopedExports =
+  isString(scope) ?
+    (subpath: string) => ({
+      [scope]: subpath,
+    })
+  : () => undefined;
 
 export const archetypes = {
   'base': {
@@ -50,7 +64,7 @@ export const archetypes = {
       exports: {
         '.': {
           import: {
-            development: './src/index.ts',
+            ...scopedExports('./src/index.ts'),
             default: './dist/index.js',
             types: './dist/index.d.ts',
           },
@@ -101,14 +115,12 @@ export const archetypes = {
       exports: {
         '.': {
           import: {
-            development: './src/index.ts',
-            production: './dist/index.mjs',
+            ...scopedExports('./src/index.ts'),
             types: './dist/index.d.ts',
             default: './dist/index.mjs',
           },
           require: {
-            development: './src/index.ts',
-            production: './dist/index.cjs',
+            ...scopedExports('./src/index.ts'),
             types: './dist/index.d.ts',
             default: './dist/index.cjs',
           },
@@ -150,21 +162,21 @@ export const archetypes = {
       imports: {
         '#lib': {
           import: {
-            development: './src/lib.ts',
+            ...scopedExports('./src/lib.ts'),
             types: './dist/lib.d.ts',
             default: './dist/index.mjs',
           },
         },
         '#model': {
           import: {
-            development: './src/model.ts',
+            ...scopedExports('./src/model.ts'),
             types: './dist/model.d.ts',
             default: './dist/index.mjs',
           },
         },
         '#ui': {
           import: {
-            development: './src/ui/index.ts',
+            ...scopedExports('./src/ui/index.ts'),
             types: './dist/ui/index.d.ts',
             default: './dist/index.mjs',
           },
@@ -179,14 +191,14 @@ export const archetypes = {
       imports: {
         '#ui': {
           import: {
-            development: './src/ui/index.ts',
+            ...scopedExports('./src/ui/index.ts'),
             types: './dist/ui/index.d.ts',
             default: './dist/ui/index.js',
           },
         },
         '#model': {
           import: {
-            development: './src/model/index.ts',
+            ...scopedExports('./src/model/index.ts'),
             types: './dist/model/index.d.ts',
             default: './dist/index.mjs',
           },

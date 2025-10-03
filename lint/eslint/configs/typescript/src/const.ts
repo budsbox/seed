@@ -26,8 +26,6 @@ const libTypes = diff(
 );
 
 const packageSpecifiers = {
-  'type-fest': ['PackageJson', 'TsConfigJson', 'EmptyObject', 'Tag', 'Tagged'],
-  'eslint': ['Linter', 'Linter.Config', 'Config'],
   '@yarnpkg/core': [
     'Configuration',
     'Project',
@@ -35,6 +33,7 @@ const packageSpecifiers = {
     'Manifest',
     'Locator',
   ],
+  'eslint': ['Linter', 'Linter.Config', 'Config'],
   'react': [
     'ComponentClass',
     'ComponentRef',
@@ -58,6 +57,8 @@ const packageSpecifiers = {
     'RefCallback',
     'Ref',
   ],
+  'type-fest': ['PackageJson', 'TsConfigJson', 'EmptyObject', 'Tag', 'Tagged'],
+  'vite': ['UserConfig'],
 } as const satisfies Record<string, string[]>;
 
 export const readonlyParamAllowSpecifiers: TypeOrValueSpecifier[] = [

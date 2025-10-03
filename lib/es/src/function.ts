@@ -1,0 +1,73 @@
+import type { UnknownArray } from 'type-fest';
+
+import type { AnyFunction, UnknownFunction } from '@budsbox/lib-types';
+
+/**
+ * A function that does nothing.
+ */
+export const noop = (): void => {};
+
+/**
+ * A function that returns its argument.
+ *
+ * @param value - The value to return.
+ * @returns The input value.
+ */
+export const pass = <T>(value: T): T => value;
+
+type CacheableFn<TFn extends AnyFunction> =
+  Parameters<TFn> extends [unknown, ...UnknownArray] ? TFn : never;
+
+type DefaultCacheKey<TFn extends AnyFunction> =
+  Parameters<TFn> extends [infer TArg0, ...UnknownArray] ? TArg0 : never;
+
+type CachedFn<TFn extends AnyFunction, TKey = DefaultCacheKey<TFn>> =
+  TFn extends (...args: infer TArgs) => infer TReturn ?
+    (cacheMap: Map<TKey, TReturn>, ...args: TArgs) => TReturn
+  : never;
+
+/**
+ * Creates a cached version of a given function.
+ * The returned function stores the results of previous calls in a provided cache map
+ * and returns the cached result when called with the same arguments,
+ * reducing redundant calculations or operations.
+ *
+ * @remarks A provided function has to accept at least one argument, or it fails typechecking.
+ * @param fn - The function to be cached. It must conform to the `CacheableFn` type.
+ * @returns A new function that accepts the cache map as the first argument and the original function's arguments as the rest.
+ */
+export function createCachedFn<TFn extends AnyFunction>(
+  fn: CacheableFn<TFn>,
+): CachedFn<TFn>;
+/**
+ * Creates a cached version of a given function.
+ * The returned function stores the results of previous calls in a provided cache map
+ * and returns the cached result when called with the same arguments,
+ * reducing redundant calculations or operations. The caching behavior is
+ * determined by a key generation function (`keyFn`) which computes a unique
+ * key for each set of arguments. If the same key is generated for later
+ * calls, the cached result is returned instead of invoking the original function.
+ *
+ * @remarks A provided function has to accept at least one argument, or it fails typechecking.
+ * @param fn - The function to be cached. It must conform to the `CacheableFn` type.
+ * @param keyFn - A function that generates a unique key based on the arguments passed to `fn`.
+ * @returns A new function that accepts the cache map as the first argument and the original function's arguments as the rest.
+ */
+export function createCachedFn<TFn extends AnyFunction, TKey>(
+  fn: CacheableFn<TFn>,
+  keyFn: (...args: Parameters<TFn>) => TKey,
+): CachedFn<TFn, TKey>;
+export function createCachedFn(
+  fn: UnknownFunction,
+  keyFn: UnknownFunction = pass,
+): AnyFunction {
+  return (map: Map<unknown, unknown>, ...args: UnknownArray) => {
+    const key = keyFn(...args);
+    if (map.has(key)) return map.get(key);
+
+    const result = fn(...args);
+    map.set(key, result);
+
+    return result;
+  };
+}

@@ -1,5 +1,9 @@
+import type { Awaitable, Undef } from '@budsbox/lib-types';
+
 import {
+  type ConfigEnv,
   type LibraryOptions,
+  type UserConfig,
   type UserConfigExport,
   type UserConfigFnPromise,
   mergeConfig,
@@ -10,24 +14,67 @@ import { fif } from '@budsbox/lib-es/logical';
 import { camelCase, parsePackageName } from '@budsbox/lib-es/string';
 
 /**
- * Creates a base configuration function that merges a provided base configuration
- * with a custom configuration. The result is a function that resolves and merges
- * both configurations based on the given environment.
+ * Represents a custom user configuration function used to generate Vite configuration.
  *
- * @param base - The base configuration, which can either be a `UserConfigExport` object
- * or a function that resolves to a `UserConfigExport` object based on the provided environment.
- * @returns A function that accepts a custom configuration of type `UserConfigExport`
- * and returns a promise-based configuration function (`UserConfigFnPromise`) that resolves
- * to a merged configuration.
+ * @typeParam TOptions - The type of the custom options object, with a default to `object`.
+ * @param viteEnv - A readonly object representing the Vite configuration environment.
+ * @param options - An optional readonly object representing additional custom configuration options.
+ * @returns A promise or value containing the generated Vite user configuration.
  */
-export function createBaseConfig(
+export type CustomUserConfigFn<TOptions extends object = object> = (
+  viteEnv: Readonly<ConfigEnv>,
+  options?: Undef<Readonly<TOptions>>,
+) => Awaitable<UserConfig>;
+
+/**
+ * A `ConfigFactory` is a function type that generates an asynchronous Vite's configuration object generator function.
+ *
+ * @param custom - An optional custom configuration of type `UserConfigExport`. It can be used
+ * to override or extend default configurations.
+ * @returns A function to be invoked by Vite to generate the final configuration object.
+ */
+export type ConfigFactory = (custom?: UserConfigExport) => UserConfigFnPromise;
+
+/**
+ * A `ConfigFactory` is a function type that generates an asynchronous Vite's configuration object generator function.
+ *
+ * @param custom - An optional custom configuration of type `UserConfigExport`. It can be used
+ * to override or extend default configurations.
+ * @param options - An optional object containing additional configuration options, specific to the factory.
+ * @returns A function to be invoked by Vite to generate the final configuration object.
+ */
+export type ConfigFactoryWithOptions<TOptions extends object> = (
+  custom?: UserConfigExport,
+  options?: Readonly<Partial<TOptions>>,
+) => UserConfigFnPromise;
+
+/**
+ * Creates a configuration factory that extends or modifies a base configuration.
+ *
+ * @param base - A custom user configuration function that defines the base options.
+ * @returns A configuration factory function that accepts a custom config and an options object to customize or extend the base configuration.
+ */
+export function createConfigFactory<TOptions extends object>(
+  base: CustomUserConfigFn<TOptions>,
+): ConfigFactoryWithOptions<TOptions>;
+/**
+ * Creates a configuration factory function that merges a base configuration with a custom configuration.
+ *
+ * @param base - The base configuration to be used as the default.
+ * @returns A function that accepts an optional custom configuration and returns a promise resolving to the merged configuration function.
+ */
+export function createConfigFactory(
   base: UserConfigExport,
-): (custom?: UserConfigExport) => UserConfigFnPromise {
-  return (custom) => async (env) => {
+): (custom?: UserConfigExport) => UserConfigFnPromise;
+export function createConfigFactory(
+  base: CustomUserConfigFn | UserConfigExport,
+  // eslint-disable-next-line jsdoc/require-jsdoc
+): (custom?: UserConfigExport, options?: object) => UserConfigFnPromise {
+  return (custom, options) => async (env) => {
     const resolvedBase = await fif(
       await base,
       isFunction,
-      (baseFn) => baseFn(env),
+      (baseFn) => baseFn(env, options),
       (baseObj) => baseObj,
     );
     const resolvedCustom = await fif(
