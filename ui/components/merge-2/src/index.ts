@@ -2,8 +2,11 @@
 export type * from '#types';
 
 // Value exports
+export * from './context';
+export { useCellState, useTileState } from './hooks';
 export {
-  endGameHappened,
+  cellDataAttrs,
+  gameIsOver,
   isCellEmpty,
   isCellOccupied,
   isIdenticalCells,
@@ -13,6 +16,6 @@ export {
   samePosition,
   sameRank,
   tileCanMove,
+  tileDataAttrs,
 } from './lib';
 export { useMerge2 } from './model';
-export * from './ui';

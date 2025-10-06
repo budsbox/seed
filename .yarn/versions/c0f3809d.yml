@@ -1,0 +1,38 @@
+releases:
+  "@budsbox/lib-react": minor
+  "@budsbox/lib-types": minor
+  "@budsbox/ui-components-merge-2": minor
+
+declined:
+  - "@budsbox/root"
+  - "@budsbox/build"
+  - "@budsbox/builder"
+  - "@budsbox/builder_vite"
+  - "@budsbox/constraints"
+  - "@budsbox/lib-class-name"
+  - "@budsbox/lib-es"
+  - "@budsbox/lib-extensions"
+  - "@budsbox/lib-hooks"
+  - "@budsbox/lib-node"
+  - "@budsbox/lib-random"
+  - "@budsbox/lib-yarn"
+  - "@budsbox/eslint"
+  - "@budsbox/eslint_configs-import"
+  - "@budsbox/eslint_configs-jsdoc"
+  - "@budsbox/eslint_configs-prettier"
+  - "@budsbox/eslint_configs-promise"
+  - "@budsbox/eslint_configs-react"
+  - "@budsbox/eslint_configs-typescript"
+  - "@budsbox/eslint_presets-browser-app"
+  - "@budsbox/eslint_presets-browser-lib"
+  - "@budsbox/eslint_presets-lib"
+  - "@budsbox/eslint_presets-node-lib"
+  - "@budsbox/eslint_presets-tools"
+  - "@budsbox/linting"
+  - "@budsbox/const"
+  - "@budsbox/iso-utils"
+  - "@budsbox/node-utils"
+  - "@budsbox/playground"
+  - "@budsbox/sass-importers"
+  - "@budsbox/types"
+  - "@budsbox/ui-tools"

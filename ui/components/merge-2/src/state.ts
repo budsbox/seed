@@ -1,18 +1,17 @@
 import type {
   Board,
-  InitContext,
-  Merge2Action,
-  Merge2State,
-  TileKindMap,
-} from '#types';
-
-import type {
   BoardEvent,
   EmptyCell,
-  EventList,
+  InterState,
+  Merge2Action,
+  Merge2State,
   MergeRuleInput,
-  RNGContext,
-} from './types';
+  StateInitContext,
+  StateTransformer,
+  StateTransformerContext,
+  Tile,
+  TileKindMap,
+} from '#types';
 
 import { type Reducer, useMemo, useReducer } from 'react';
 
@@ -26,18 +25,18 @@ import {
   castKindId,
   castModifierId,
   createTile,
-  endGameHappened,
   genCellId,
   same,
   sameKind,
   sameRank,
   updateBoardCells,
   updateCell,
-} from './lib';
+} from '#lib';
+
 import { defaultSpawnRule } from './rules';
 
 export const useMerge2State = (
-  initContext: InitContext,
+  initContext: StateInitContext,
 ): [Merge2State, (action: Readonly<Merge2Action>) => Merge2State] => {
   const [state, dispatch] = useReducer(
     merge2reducer,
@@ -64,38 +63,39 @@ const merge2reducer: Reducer<Merge2State, Merge2Action> = (
 ): Merge2State => {
   const { rng: sRng, board, events } = prevState;
 
-  const [newState, newRng] = sRng.withState((rng): Omit<Merge2State, 'rng'> => {
-    if (action.type === 'merge') {
-      const { rules = {} } = action;
-      const endGameChecker = (cb: Board, ce: EventList): [Board, EventList] =>
-        applyEndOfGameCheck({ board: cb, events: ce, rules, rng });
+  const [newState, newRng] = sRng.withState((rng): InterState => {
+    const transformerCtx: StateTransformerContext = {
+      rng,
+      rules: action.rules ?? {},
+    };
 
-      const steps: Array<
-        (currentBoard: Board, currentEvents: EventList) => [Board, EventList]
-      > = [
-        (cb, ce) => applyMerge(action, { board: cb, events: ce, rng, rules }),
-        endGameChecker,
-        (cb, ce) => applySpawn({ board: cb, events: ce, rng, rules }),
-        endGameChecker,
+    if (action.type === 'merge') {
+      const steps: StateTransformer[] = [
+        (...args) => applyMerge(...args, action),
+        applyDrop,
+        applyEndOfGameCheck,
+        applySpawn,
+        applyEndOfGameCheck,
       ];
 
-      const [newBoard, newEvents] = steps.reduce(
-        (current, step) => {
-          const [cb, ce] = current;
-          if (endGameHappened({ events: ce })) return current;
-          const updates = step(cb, ce);
-          return updates[1].length > ce.length ? updates : current;
-        },
-        [board, events],
-      );
+      const interState = steps.reduce<InterState>((current, step) => {
+        if (current.gameOver) return current;
+        const newInterState = step(current, transformerCtx);
+        return newInterState.events.length > current.events.length ?
+            newInterState
+          : current;
+      }, prevState);
 
-      return {
-        board: newBoard,
-        events: newEvents,
-      };
+      return interState;
+    } else if (action.type === 'pick') {
+      const { tile } = action;
+      return applyPick(prevState, transformerCtx, tile);
+      // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+    } else if (action.type === 'drop') {
+      return applyDrop(prevState, transformerCtx);
     }
 
-    return { board, events };
+    return prevState;
   });
 
   if (newState.board === board && newState.events === events) {
@@ -117,7 +117,7 @@ const createInitialState = ({
     seed,
   },
   rules = {},
-}: InitContext): Merge2State => {
+}: StateInitContext): Merge2State => {
   const initialRng = createRng({ seed });
 
   const [state, nextRng] = initialRng.withState(
@@ -172,17 +172,21 @@ const createInitialState = ({
         removedTiles: new Set(),
       };
 
-      const afterSpawn = applySpawn({
-        rng: rng,
-        board: emptyBoard,
-        rules,
-        events: [initEvent],
-      });
+      const stateAfterSpawn = applySpawn(
+        {
+          board: emptyBoard,
+          events: [initEvent],
+          gameOver: false,
+          gameOverReason: null,
+          pickedTile: null,
+        },
+        {
+          rng: rng,
+          rules,
+        },
+      );
 
-      return {
-        board: afterSpawn[0],
-        events: afterSpawn[1],
-      };
+      return stateAfterSpawn;
     },
   );
 
@@ -192,28 +196,37 @@ const createInitialState = ({
   };
 };
 
-const applySpawn = (ctx: RNGContext): [Board, EventList] => {
-  const { board, rules, events } = ctx;
+const applySpawn: StateTransformer = (interState, ctx) => {
+  const { board, events } = interState;
+  const { rules } = ctx;
+  const fullContext = { ...ctx, board, events };
+
   const newCells =
     isFunction(rules.spawn) ?
-      rules.spawn(ctx)
-    : defaultSpawnRule(ctx, rules.spawn);
+      rules.spawn(fullContext)
+    : defaultSpawnRule(fullContext, rules.spawn);
 
-  if (newCells.length === 0) return [board, events];
+  if (newCells.length === 0) return interState;
 
   const newBoard = updateBoardCells(board, newCells);
 
   const diff = boardsDiff(board, newBoard);
 
-  return [newBoard, [...events, { ...diff, type: 'board', reason: 'spawn' }]];
+  return {
+    ...interState,
+    board: newBoard,
+    events: [...events, { ...diff, type: 'board', reason: 'spawn' }],
+  };
 };
 
-const applyMerge = (
-  input: Readonly<MergeRuleInput>,
-  ctx: Readonly<RNGContext>,
-): [Board, EventList] => {
+const applyMerge: StateTransformer<[input: MergeRuleInput]> = (
+  interState,
+  ctx,
+  input,
+) => {
   const { tile, target, targetCell } = input;
-  const { board, rules, events } = ctx;
+  const { board, events } = interState;
+  const { rules } = ctx;
   const tileCell = board.tileToCell.get(tile)!;
 
   if (
@@ -221,35 +234,65 @@ const applyMerge = (
     sameKind(tile, target) &&
     sameRank(tile, target) &&
     tile.rank < tile.kind.maxRank &&
-    fif(rules.merge, isFunction, (merge) => merge(input, ctx), true)
+    fif(
+      rules.merge,
+      isFunction,
+      (merge) => merge(input, { ...ctx, board, events }),
+      true,
+    )
   ) {
-    const newTile = createTile(ctx, {
-      kind: tile.kind.id,
-      rank: tile.rank + 1,
-      modifiers: [],
-    });
+    const newTile = createTile(
+      { ...ctx, board, events },
+      {
+        kind: tile.kind.id,
+        rank: tile.rank + 1,
+        modifiers: [],
+      },
+    );
     const newBoard = updateBoardCells(board, [
       updateCell(targetCell, newTile),
       updateCell(tileCell, null),
     ]);
 
-    return [
-      newBoard,
-      [
+    return {
+      ...interState,
+      board: newBoard,
+      events: [
         ...events,
         { ...boardsDiff(board, newBoard), type: 'board', reason: 'merge' },
       ],
-    ];
+    };
   }
 
-  return [board, events];
+  return interState;
 };
 
-const applyEndOfGameCheck = (ctx: RNGContext): [Board, EventList] => {
-  const { board, rules, events } = ctx;
-  if (fif(rules.win, isFunction, (win) => win(ctx), false)) {
-    return [board, [...events, { type: 'end', reason: 'victory' }]];
+const applyPick: StateTransformer<[tile: Tile]> = (interState, _ctx, tile) => ({
+  ...interState,
+  pickedTile: tile,
+  events: [...interState.events, { type: 'pick', tile, reason: 'pick' }],
+});
+
+const applyDrop: StateTransformer = (interState, _ctx) => ({
+  ...interState,
+  pickedTile: null,
+  events: [...interState.events, { type: 'pick', tile: null, reason: 'drop' }],
+});
+
+const applyEndOfGameCheck: StateTransformer = (interState, ctx) => {
+  const { board, events } = interState;
+  const { rules } = ctx;
+  if (
+    fif(rules.win, isFunction, (win) => win({ ...ctx, board, events }), false)
+  ) {
+    const reason = 'victory';
+    return {
+      ...interState,
+      events: [...events, { type: 'end', reason }],
+      gameOver: true,
+      gameOverReason: reason,
+    };
   }
 
-  return [board, events];
+  return interState;
 };

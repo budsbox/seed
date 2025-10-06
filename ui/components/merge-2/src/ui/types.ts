@@ -7,9 +7,10 @@ import type { UnTag } from '@budsbox/lib-types';
 import type {
   Board,
   Cell,
-  Merge2Model,
+  CellComputedState,
   Merge2ModelOptions,
   Tile,
+  TileComputedState,
   TileKindId,
   TileModifierId,
 } from '#types';
@@ -33,7 +34,7 @@ export interface Merge2ClassNames<
       'cell',
       [
         cell: Cell<TKindId, TModId>,
-        state: Readonly<Merge2CellState>,
+        state: Readonly<CellComputedState>,
         ctx: Merge2UiContext<TKindId, TModId>,
       ]
     >,
@@ -42,7 +43,7 @@ export interface Merge2ClassNames<
       [
         tile: Tile<TKindId, TModId>,
         cell: Cell<TKindId, TModId>,
-        state: Readonly<Merge2TileState>,
+        state: Readonly<TileComputedState>,
         ctx: Merge2UiContext<TKindId, TModId>,
       ]
     > {}
@@ -50,25 +51,7 @@ export interface Merge2ClassNames<
 export interface Merge2UiContext<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> extends Merge2ClassNames<TKindId, TModId> {
-  model: Merge2Model<TKindId, TModId>;
-  activeTile: Tile<TKindId, TModId> | null;
-  setActiveTile: (tile: Tile<TKindId, TModId> | null) => void;
-  hasActiveTile: boolean;
-}
-
-export interface Merge2CellState {
-  occupied: boolean;
-  empty: boolean;
-  canAccept: boolean;
-  tileMoving: boolean;
-  tileCanMove: boolean;
-}
-
-export interface Merge2TileState {
-  canMove: boolean;
-  moving: boolean;
-}
+> extends Merge2ClassNames<TKindId, TModId> {}
 
 export interface CellProps {
   readonly cell: Cell;
@@ -84,7 +67,6 @@ export interface TileProps
   readonly tile: Tile;
   readonly cell: Cell;
   readonly ref?: (element: HTMLElement | null) => void;
-  readonly state: Readonly<Merge2TileState>;
 }
 
 export interface BoardProps extends PropsWithChildren {}

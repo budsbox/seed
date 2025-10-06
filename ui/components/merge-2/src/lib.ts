@@ -3,13 +3,13 @@ import type { UnwrapTagged } from 'type-fest';
 import type { RNGStatefulMethods } from '@budsbox/lib-random';
 import type { UnTag } from '@budsbox/lib-types';
 
-import type { Board, Tile, TileKindId, TileModifierId } from '#types';
-
 import type {
   BaseContext,
+  Board,
   BoardGrid,
   BoardsDiff,
   Cell,
+  CellComputedState,
   CellId,
   EmptyCell,
   MergeRuleInput,
@@ -17,16 +17,21 @@ import type {
   OccupiedCell,
   Position,
   RNGContext,
+  Tile,
+  TileComputedState,
   TileId,
   TileInput,
   TileKind,
+  TileKindId,
   TileModifier,
-  TileModifierMap,
-} from './types';
+  TileModifierId,
+  TileModifiers,
+} from '#types';
 
 import { diff, intersection } from '@budsbox/lib-es/array';
 import { isFalse, isFunction, isNil } from '@budsbox/lib-es/guards';
 import { fif, sure } from '@budsbox/lib-es/logical';
+import { type DataAttrsResolved, dataAttrs } from '@budsbox/lib-react';
 
 export const same = <T extends Cell | Tile | TileKind | TileModifier>(
   a: T,
@@ -83,14 +88,14 @@ export const createTile = (ctx: RNGContext, input: TileInput): Tile => {
     throw new TypeError(`Unknown kind: ${input.kind}`);
   }
 
-  const modifiers: TileModifierMap = new Map(
+  const modifiers: TileModifiers = new Set(
     input.modifiers?.map((mUnId) => {
       const mId = castModifierId(mUnId);
       const modifier = modifierMap.get(mId);
       if (isNil(modifier)) {
         throw new TypeError(`Unknown modifier: ${mId}`);
       }
-      return [mId, modifier];
+      return modifier;
     }) ?? [],
   );
 
@@ -237,7 +242,7 @@ export const isMergeAllowed = (
   const { tile, target } = input;
   const { rules } = ctx;
   return (
-    !endGameHappened(ctx) &&
+    !gameIsOver(ctx) &&
     !same(tile, target) &&
     sameKind(tile, target) &&
     sameRank(tile, target) &&
@@ -252,13 +257,56 @@ export const tileCanMove = (
 ): boolean => {
   const { tile } = input;
   return (
-    !endGameHappened(ctx) &&
+    !gameIsOver(ctx) &&
     tile.rank < tile.kind.maxRank &&
     fif(ctx.rules.move, isFunction, (move) => move(input, ctx), true)
   );
 };
 
-export const endGameHappened = ({
-  events,
-}: Pick<BaseContext, 'events'>): boolean =>
+export const gameIsOver = ({ events }: Pick<BaseContext, 'events'>): boolean =>
   events.some(({ type }) => type === 'end');
+
+type TileDataAttrsInput = Readonly<{
+  kind: string;
+  modifiers: string[];
+  rank: number;
+  canMove: boolean;
+  picked: boolean;
+}>;
+
+const tileDataAttrsInput = (
+  { rank, modifiers, kind }: Tile,
+  { canMove, picked }: TileComputedState,
+): TileDataAttrsInput => {
+  return {
+    canMove,
+    kind: kind.id,
+    modifiers: [...modifiers].map(({ id }) => id),
+    picked,
+    rank,
+  };
+};
+
+type CellDataAttrsInput = Readonly<
+  Omit<CellComputedState, 'tile'> & {
+    tile?: TileDataAttrsInput;
+  }
+>;
+
+export const tileDataAttrs = (
+  tile: Tile,
+  state: TileComputedState,
+): DataAttrsResolved<TileDataAttrsInput> => {
+  return dataAttrs(tileDataAttrsInput(tile, state));
+};
+
+export const cellDataAttrs = (
+  cell: Cell,
+  state: CellComputedState,
+): DataAttrsResolved<CellDataAttrsInput> => {
+  return dataAttrs({
+    ...state,
+    tile:
+      isCellOccupied(cell) ? tileDataAttrsInput(cell.tile, state.tile) : null,
+  });
+};

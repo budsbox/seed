@@ -1,3 +1,5 @@
+import type { IsNever, IsNumericLiteral, NonNegativeInteger } from 'type-fest';
+
 /**
  * Represents a type that excludes `undefined` and `void` from the given type `T`.
  *
@@ -95,3 +97,37 @@ export type AnyFunction = (...args: readonly any[]) => any;
  * @param args - The arguments passed to the function.
  */
 export type UnknownFunction = (...args: readonly unknown[]) => unknown;
+
+/**
+ * A utility type that evaluates whether a given type is `Nil`, i.e. `null | undefined`.
+ * This type resolves to `true` if the provided type extends `Nil`,
+ * otherwise it resolves to `false`.
+ *
+ * @typeParam TValue - The type to be checked against `Nil`.
+ */
+export type IsNil<TValue> = [TValue] extends [Nil] ? true : false;
+
+/**
+ * Represents a type for a tuple with a specific length `N` and elements of type `T`.
+ * This is a recursive type that generates a tuple type of exactly `N` elements.
+ *
+ * @typeParam N - The desired length of the tuple. If `N` is a `number`, it defines the fixed size.
+ * @typeParam T - The type of the elements in the tuple. Defaults to `unknown` if not specified.
+ * @remarks
+ * - If `N` is of type `number`, it determines the length of the tuple.
+ * - If `N` is not a fixed finite number, the type resolves to an array of `T[]`.
+ * @example
+ * You can use `TupleN` to define a tuple of a fixed size with elements of a specific type.
+ */
+export type TupleN<N extends number, T = unknown> =
+  // this is to distribute a numbers union, so `TupleN<2 | 3 | 4>` will become `TupleN<2> | TupleN<3> | TupleN<4>``
+  N extends N ?
+    IsNumericLiteral<N> extends true ?
+      IsNever<NonNegativeInteger<N>> extends true ?
+        never
+      : _TupleN<T, N, []>
+    : T[]
+  : never;
+
+type _TupleN<T, N extends number, R extends unknown[]> =
+  R['length'] extends N ? R : _TupleN<T, N, [T, ...R]>;

@@ -1,27 +1,29 @@
-import type { Merge2TileState, TileProps } from './types';
+import type { TileProps } from './types';
 
 import { useDraggable } from '@dnd-kit/core';
 import { type ComponentPropsWithoutRef, type FC, useMemo } from 'react';
 
 import { cnFactory } from '@budsbox/lib-class-name';
-import { dataAttrs, styleFactory } from '@budsbox/lib-react';
+import { styleFactory } from '@budsbox/lib-react';
 
-import { tileCanMove } from '#lib';
+import { useTileState } from '#hooks';
+import { tileDataAttrs } from '#lib';
 
 import { useMerge2UiContext } from './context';
 import classes from './style.module.scss';
 
 export const Tile: FC<
   TileProps & Omit<ComponentPropsWithoutRef<'div'>, 'style'>
-> = ({ tile, cell, style, state, ...rest }) => {
+> = ({ tile, cell, style, ...rest }) => {
   const ctx = useMerge2UiContext();
+  const state = useTileState(tile);
   const { classNameTile } = ctx;
 
   return (
     <div
       className={cnFactory(classes.tile, classNameTile)(tile, cell, state, ctx)}
       style={styleFactory(style)(tile, cell)}
-      {...dataAttrs({ id: tile.id, rank: tile.rank, kind: tile.kind.id })}
+      {...tileDataAttrs(tile, state)}
       {...rest}
     />
   );
@@ -32,21 +34,11 @@ export const TileDraggable: FC<Omit<TileProps, 'ref' | 'state'>> = ({
   cell,
   style: propStyle,
 }) => {
-  const { model } = useMerge2UiContext();
-  const canMove = tileCanMove({ tile, cell }, model);
-  const { listeners, attributes, setNodeRef, transform, isDragging } =
-    useDraggable({
-      id: tile.id,
-      disabled: !canMove,
-    });
-
-  const state: Merge2TileState = useMemo(
-    () => ({
-      canMove,
-      moving: isDragging,
-    }),
-    [canMove, isDragging],
-  );
+  const state = useTileState(tile);
+  const { listeners, attributes, setNodeRef, transform } = useDraggable({
+    id: tile.id,
+    disabled: !state.canMove,
+  });
 
   const { x, y } = transform ?? { x: 0, y: 0 };
   const style = useMemo(
@@ -66,7 +58,6 @@ export const TileDraggable: FC<Omit<TileProps, 'ref' | 'state'>> = ({
       {...listeners}
       {...attributes}
       style={style}
-      state={state}
     />
   );
 };

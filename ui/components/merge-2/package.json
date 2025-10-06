@@ -14,33 +14,53 @@
   ],
   "type": "module",
   "imports": {
-    "#types": {
-      "types": "./dist/types.d.ts"
-    },
-    "#ui": {
+    "#context": {
       "import": {
-        "development": "./src/ui/index.ts",
-        "types": "./dist/ui/index.d.ts",
-        "default": "./dist/index.mjs"
+        "budsbox": "./src/context.ts",
+        "types": "./dist/context.d.ts"
+      },
+      "require": {
+        "types": "./dist/context.d.ts"
       }
     },
-    "#model": {
+    "#hooks": {
       "import": {
-        "development": "./src/model.ts",
-        "types": "./dist/model.d.ts",
-        "default": "./dist/index.mjs"
+        "budsbox": "./src/hooks.ts",
+        "types": "./dist/hooks.d.ts"
+      },
+      "require": {
+        "types": "./dist/hooks.d.ts"
       }
     },
     "#lib": {
       "import": {
-        "development": {
-          "default": "./src/lib.ts"
-        },
-        "production": {
-          "types": "./dist/lib.d.ts",
-          "default": "./dist/lib.js"
-        },
+        "budsbox": "./src/lib.ts",
         "types": "./dist/lib.d.ts"
+      },
+      "require": {
+        "types": "./dist/lib.d.ts"
+      }
+    },
+    "#model": {
+      "import": {
+        "budsbox": "./src/model.ts",
+        "types": "./dist/model.d.ts"
+      },
+      "require": {
+        "types": "./dist/model.d.ts"
+      }
+    },
+    "#types": {
+      "budsbox": "./src/types.ts",
+      "types": "./dist/types.d.ts"
+    },
+    "#ui": {
+      "import": {
+        "budsbox": "./src/ui/index.ts",
+        "types": "./dist/ui/index.d.ts"
+      },
+      "require": {
+        "types": "./dist/ui/index.d.ts"
       }
     },
     "#*.css": "./dist/*.css",

@@ -2,7 +2,7 @@ import type { Cell, DefaultSpawnRuleOptions } from '#types';
 
 import type { RNGContext, TileModifierId } from './types';
 
-import { fif, sure } from '@budsbox/lib-es/logical';
+import { sure } from '@budsbox/lib-es/logical';
 
 import { createTile, isCellEmpty, updateCell } from '#lib';
 
@@ -38,7 +38,7 @@ export const defaultSpawnRule = (
         createTile(ctx, {
           kind: rng.nextInRange(...kindIds)!,
           modifiers: modifierIds.reduce<TileModifierId[]>(
-            (acc, id) => fif(0.3, rng.nextBool, () => [...acc, id], []),
+            (acc, id) => (rng.nextBool(0.2) ? [...acc, id] : acc),
             [],
           ),
         }),
