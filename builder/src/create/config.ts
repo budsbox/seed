@@ -58,6 +58,7 @@ export const archetypes = {
     manifest: {
       imports: {
         '#types': {
+          ...scopedExports('./src/types.d.ts'),
           types: './dist/types.d.ts',
         },
       },
@@ -77,7 +78,6 @@ export const archetypes = {
         'dist/**/*.d.ts',
       ],
       scripts: {
-        prepack: 'yarn p:ts:prepack',
         watch: 'yarn p:ts:watch',
       },
     },
@@ -110,7 +110,7 @@ export const archetypes = {
     manifest: {
       files: ['dist/**/*.css'],
       scripts: {
-        prepack: 'NODE_ENV=production yarn vite build; yarn p:ts:build',
+        prepack: 'yarn p:lib:browser:prepack',
       },
       exports: {
         '.': {
@@ -133,11 +133,21 @@ export const archetypes = {
   'iso-lib': {
     extends: ['base', 'lib'],
     devDependencies: ['...', '@budsbox/eslint_presets-lib'],
+    manifest: {
+      scripts: {
+        prepack: 'yarn p:lib:iso:prepack',
+      },
+    },
     files: isoLibTpl.files,
   },
   'node-lib': {
     extends: ['base', 'lib'],
     devDependencies: ['...', '@budsbox/eslint_presets-node-lib'],
+    manifest: {
+      scripts: {
+        prepack: 'yarn p:lib:node:prepack',
+      },
+    },
     files: nodeLib.files,
   },
   'react-lib': {

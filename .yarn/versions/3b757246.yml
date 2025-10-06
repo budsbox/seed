@@ -1,0 +1,7 @@
+releases:
+  "@budsbox/builder": patch
+  "@budsbox/lib-react": patch
+  "@budsbox/ui-components-merge-2": patch
+
+declined:
+  - "@budsbox/root"
