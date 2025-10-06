@@ -44,7 +44,7 @@
   ],
   "scripts": {
     "name": "echo $npm_package_name",
-    "prepack": "yarn p:ts:build; yarn vite build",
+    "prepack": "run p:lib:browser:prepack",
     "serve": "vite"
   },
   "dependencies": {
