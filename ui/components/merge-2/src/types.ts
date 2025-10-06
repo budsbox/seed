@@ -1,7 +1,37 @@
-import type { OverrideProperties, SetOptional, Tagged } from 'type-fest';
+import type {
+  OverrideProperties,
+  SetOptional,
+  Tagged,
+  UnknownArray,
+} from 'type-fest';
 
 import type { RNG, RNGOptions, RNGStatefulMethods } from '@budsbox/lib-random';
 import type { UnTag, UnTagProperties } from '@budsbox/lib-types';
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BOARD ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+export interface Board<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> {
+  readonly rows: number;
+  readonly cols: number;
+  readonly moves: number;
+  readonly cells: CellsMap;
+  readonly grid: BoardGrid<TKindId, TModId>;
+  readonly tiles: TileMap<TKindId, TModId>;
+  readonly tileToCell: ReadonlyMap<
+    Tile<TKindId, TModId>,
+    Cell<TKindId, TModId>
+  >;
+  readonly kinds: TileKindMap<TKindId>;
+  readonly modifiers: TileModifierMap<TModId>;
+}
+
+export type BoardGrid<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> = ReadonlyArray<ReadonlyArray<Cell<TKindId, TModId>>>;
 
 export interface Tile<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
@@ -13,7 +43,7 @@ export interface Tile<
 
   readonly rank: number;
 
-  readonly modifiers: TileModifierMap<TModId>;
+  readonly modifiers: TileModifiers<TModId>;
 }
 
 export type TileMap<
@@ -54,6 +84,10 @@ export type TileModifierMap<
   TId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
 > = ReadonlyMap<TileModifierId<TId>, TileModifier<TId>>;
 
+export type TileModifiers<
+  TId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> = ReadonlySet<TileModifier<TId>>;
+
 export interface EmptyCell {
   readonly id: CellId;
   readonly pos: Position;
@@ -76,28 +110,23 @@ export type Cell<
 
 export type CellsMap = ReadonlyMap<CellId, Cell>;
 
-export interface Board<
-  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
-  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> {
-  readonly rows: number;
-  readonly cols: number;
-  readonly moves: number;
-  readonly cells: CellsMap;
-  readonly grid: BoardGrid<TKindId, TModId>;
-  readonly tiles: TileMap<TKindId, TModId>;
-  readonly tileToCell: ReadonlyMap<
-    Tile<TKindId, TModId>,
-    Cell<TKindId, TModId>
-  >;
-  readonly kinds: TileKindMap<TKindId>;
-  readonly modifiers: TileModifierMap<TModId>;
-}
+export type Position = readonly [row: number, col: number];
 
-export type BoardGrid<
-  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
-  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> = ReadonlyArray<ReadonlyArray<Cell<TKindId, TModId>>>;
+export type TileId = Tagged<string, 'tile-id'>;
+
+export type TileKindId<TId extends string = string> = Tagged<
+  TId,
+  'tile-kind-id'
+>;
+
+export type TileModifierId<TId extends string = string> = Tagged<
+  TId,
+  'tile-modifier-id'
+>;
+
+export type CellId = Tagged<string, 'cell-id'>;
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CONTEXTS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 export interface BaseContext<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
@@ -115,26 +144,24 @@ export interface RNGContext<
   readonly rng: RNGStatefulMethods;
 }
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ RULES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+export interface Rules<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> {
+  readonly spawn?:
+    | DefaultSpawnRuleOptions<TKindId, TModId>
+    | SpawnRule<TKindId, TModId>;
+  readonly merge?: MergeRule<TKindId, TModId>;
+  readonly move?: MoveRule<TKindId, TModId>;
+  readonly win?: WinRule<TKindId, TModId>;
+}
+
 export type SpawnRule<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
 > = (ctx: RNGContext) => Array<Cell<TKindId, TModId>>;
-
-export interface DefaultSpawnRuleOptions<
-  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
-  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> {
-  readonly initialTiles?: ReadonlyArray<TileInput<TKindId, TModId>>;
-}
-
-export interface MergeRuleInput<
-  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
-  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> {
-  tile: Tile<TKindId, TModId>;
-  target: Tile<TKindId, TModId>;
-  targetCell: Cell<TKindId, TModId>;
-}
 
 export type MergeRule<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
@@ -143,14 +170,6 @@ export type MergeRule<
   input: Readonly<MergeRuleInput<TKindId, TModId>>,
   ctx: BaseContext<TKindId, TModId>,
 ) => boolean;
-
-export interface MoveRuleInput<
-  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
-  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> {
-  tile: Tile<TKindId, TModId>;
-  cell: Cell<TKindId, TModId>;
-}
 
 export type MoveRule<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
@@ -165,26 +184,56 @@ export type WinRule<
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
 > = (ctx: BaseContext<TKindId, TModId>) => boolean;
 
-export interface Rules<
+export interface MergeRuleInput<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
 > {
-  readonly spawn?:
-    | DefaultSpawnRuleOptions<TKindId, TModId>
-    | SpawnRule<TKindId, TModId>;
-  readonly merge?: MergeRule<TKindId, TModId>;
-  readonly move?: MoveRule<TKindId, TModId>;
-  readonly win?: WinRule<TKindId, TModId>;
+  tile: Tile<TKindId, TModId>;
+  target: Tile<TKindId, TModId>;
+  targetCell: Cell<TKindId, TModId>;
 }
+
+export interface MoveRuleInput<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> {
+  tile: Tile<TKindId, TModId>;
+  cell: Cell<TKindId, TModId>;
+}
+
+export interface DefaultSpawnRuleOptions<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> {
+  readonly initialTiles?: ReadonlyArray<TileInput<TKindId, TModId>>;
+}
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ MODEL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 export interface Merge2Model<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> {
+> extends Omit<Merge2State, 'rng'> {
   readonly board: Readonly<Board<TKindId, TModId>>;
-  readonly rules: Rules<TKindId, TModId>;
-  readonly onTilePlaced: (data: Readonly<MergeRuleInput>) => void;
   readonly events: ReadonlyArray<Merge2Event<TKindId, TModId>>;
+  readonly rules: Rules<TKindId, TModId>;
+  readonly pickedTile: Tile<TKindId, TModId> | null;
+  readonly onTilePick: (this: void, tile: Tile<TKindId, TModId>) => void;
+  readonly onTileDrop: (this: void) => void;
+  readonly onTilePlace: (this: void, cell: Cell) => void;
+}
+
+export interface Merge2ModelOptions<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> extends Pick<RNGOptions, 'seed'> {
+  readonly initSettings: InitSettings<TKindId, TModId>;
+  readonly rules: Rules<TKindId, TModId>;
+  readonly onGameEnded?: (
+    this: void,
+    reason: GameOverReason,
+    ctx: BaseContext<TKindId, TModId>,
+  ) => void;
 }
 
 export interface InitSettings<
@@ -198,23 +247,63 @@ export interface InitSettings<
   readonly modifiers?: ReadonlyArray<UnTagProperties<TileModifier<TModId>>>;
 }
 
-export interface Merge2ModelOptions<
-  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
-  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> extends Pick<RNGOptions, 'seed'> {
-  readonly initSettings: InitSettings<TKindId, TModId>;
-  readonly rules?: Rules<TKindId, TModId>;
-  readonly onGameEnded?: (ctx: BaseContext<TKindId, TModId>) => void;
-}
-
-export interface InitContext
-  extends Pick<Merge2ModelOptions, 'initSettings' | 'rules'> {}
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ STATE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 export interface Merge2State {
   readonly board: Board;
   readonly rng: RNG;
   readonly events: readonly Merge2Event[];
+  readonly pickedTile: Tile | null;
+  readonly gameOver: boolean;
+  readonly gameOverReason: GameOverReason | null;
 }
+
+export interface StateInitContext
+  extends Pick<Merge2ModelOptions, 'initSettings' | 'rules'> {}
+
+export type StateTransformer<TARgs extends UnknownArray = []> = (
+  interState: InterState,
+  ctx: StateTransformerContext,
+  ...args: TARgs
+) => InterState;
+
+export type StateTransformerContext = Omit<RNGContext, 'board' | 'events'>;
+
+export type InterState = Omit<Merge2State, 'rng'>;
+
+export type GameOverReason = 'draw' | 'fail' | 'victory';
+
+/* ──────────────────────────────── Actions ───────────────────────────────── */
+
+export interface MergeAction extends MergeRuleInput {
+  readonly type: 'merge';
+  readonly rules?: Rules;
+}
+
+export interface PickAction {
+  readonly type: 'pick';
+  readonly rules?: Rules;
+  readonly tile: Tile;
+}
+
+export interface DropAction {
+  readonly type: 'drop';
+  readonly rules?: Rules;
+}
+
+export type Merge2Action = DropAction | MergeAction | PickAction;
+
+/* ───────────────────────────────── Events ───────────────────────────────── */
+
+export type Merge2Event<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> = BoardEvent<TKindId, TModId> | EndGameEvent | PickTileEvent<TKindId, TModId>;
+
+export type EventList<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> = ReadonlyArray<Merge2Event<TKindId, TModId>>;
 
 interface BaseEvent {
   readonly type: string;
@@ -227,6 +316,20 @@ export interface BoardEvent<
     BoardsDiff<TKindId, TModId> {
   readonly type: 'board';
   readonly reason: 'init' | 'merge' | 'spawn';
+}
+
+export interface EndGameEvent extends BaseEvent {
+  readonly type: 'end';
+  readonly reason: GameOverReason;
+}
+
+export interface PickTileEvent<
+  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
+  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
+> extends BaseEvent {
+  readonly type: 'pick';
+  readonly tile: Tile<TKindId, TModId> | null;
+  readonly reason: 'drop' | 'pick';
 }
 
 export interface BoardsDiff<
@@ -249,45 +352,16 @@ export interface BoardsDiff<
   readonly removedCells: ReadonlySet<Cell<TKindId, TModId>>;
 }
 
-export interface EndGameEvent extends BaseEvent {
-  readonly type: 'end';
-  readonly reason: 'draw' | 'fail' | 'victory';
+/* ──────────────────────────── Computed States ───────────────────────────── */
+
+export interface CellComputedState {
+  readonly occupied: boolean;
+  readonly empty: boolean;
+  readonly canAccept: boolean;
+  readonly tile: TileComputedState;
 }
 
-export type Merge2Event<
-  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
-  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> = BoardEvent<TKindId, TModId> | EndGameEvent;
-
-export type EventList<
-  TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
-  TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> = ReadonlyArray<Merge2Event<TKindId, TModId>>;
-
-export interface MergeAction extends MergeRuleInput {
-  readonly type: 'merge';
-  readonly rules?: Rules;
+export interface TileComputedState {
+  readonly picked: boolean;
+  readonly canMove: boolean;
 }
-
-export interface TestAction {
-  readonly type: 'test';
-  readonly rules?: Rules;
-}
-
-export type Merge2Action = MergeAction | TestAction;
-
-export type Position = readonly [row: number, col: number];
-
-export type TileId = Tagged<string, 'tile-id'>;
-
-export type TileKindId<TId extends string = string> = Tagged<
-  TId,
-  'tile-kind-id'
->;
-
-export type TileModifierId<TId extends string = string> = Tagged<
-  TId,
-  'tile-modifier-id'
->;
-
-export type CellId = Tagged<string, 'cell-id'>;

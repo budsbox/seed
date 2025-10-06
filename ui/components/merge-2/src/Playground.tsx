@@ -15,9 +15,9 @@ export const Playground: FC = () => {
     <div>
       <Merge2
         classNameBoard={classes.board}
-        classNameCell={(_cell, state, ctx) => [
+        classNameCell={(_cell, state) => [
           classes.cell,
-          ctx.hasActiveTile && state.canAccept && classes.canAccept,
+          state.canAccept && classes.canAccept,
         ]}
         classNameTile={(tile) => [
           classes.tile,
@@ -29,13 +29,15 @@ export const Playground: FC = () => {
           classes[`rank${tile.rank as 0}`],
         ]}
         initSettings={{
-          seed: 145,
-          rows: 6,
           cols: 6,
+          rows: 6,
+
           kinds: [
             { id: 'color', maxRank: 2 },
             { id: 'number', maxRank: 2 },
           ],
+          modifiers: [{ id: 'locked' }, { id: 'hidden' }],
+          seed: 145,
         }}
         rules={{
           win: ({ board }) =>

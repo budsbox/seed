@@ -44,7 +44,7 @@
     "lint-staged": "lint-staged --config .lintstagedrc.js",
     "name": "echo $npm_package_name",
     "p:autotag": "cd $INIT_CWD; git tag -a \"$(yarn name)-v$(yarn p:version)\" -m ''",
-    "p:build": "cd $INIT_CWD; tsc && vite build",
+    "p:build": "cd $INIT_CWD; p:ts:build && vite build",
     "p:create": "cd $INIT_CWD; budsbox-create",
     "p:eslint": "echo $INIT_CWD; cd $INIT_CWD; eslint --quiet ${@:-'.'}",
     "p:eslint:config": "cd $INIT_CWD; yarn node -e \"import c from './$(run p:eslint:config-filename)'; console.log(await c);\" --experimental-default-type=module",

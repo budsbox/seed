@@ -9,6 +9,7 @@ import { type JSX, useMemo, useState } from 'react';
 import { cnFactory } from '@budsbox/lib-class-name';
 import { isNotNil } from '@budsbox/lib-es/guards';
 
+import { Merge2Provider } from '#context';
 import { useMerge2 } from '#model';
 
 import { Board } from './Board';
@@ -59,9 +60,11 @@ export function Merge2({
         [classes.boardColsProp!]: model.board.cols.toFixed(0),
       }}
     >
-      <Merge2UiProvider value={ctx}>
-        <Board />
-      </Merge2UiProvider>
+      <Merge2Provider value={model}>
+        <Merge2UiProvider value={ctx}>
+          <Board />
+        </Merge2UiProvider>
+      </Merge2Provider>
     </div>
   );
 }
