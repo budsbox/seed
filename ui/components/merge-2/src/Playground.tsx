@@ -1,4 +1,4 @@
-/// <reference types="vite/client" />
+/// <reference types="@budsbox/builder_vite/client" />
 
 import type { FC } from 'react';
 

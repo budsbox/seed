@@ -1,0 +1,11 @@
+releases:
+  "@budsbox/builder_vite": minor
+  "@budsbox/lib-node": patch
+  "@budsbox/ui-components-merge-2": patch
+
+declined:
+  - "@budsbox/root"
+  - "@budsbox/builder"
+  - "@budsbox/lib-hooks"
+  - "@budsbox/lib-react"
+  - "@budsbox/eslint"

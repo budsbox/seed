@@ -8,6 +8,12 @@ import { isCellOccupied } from '#lib';
 
 import { useMerge2State } from './state';
 
+/**
+ * This function creates a Merge-2 game model based on the provided options.
+ *
+ * @param options - A readonly object containing the configuration options for the game.
+ * @returns An instance of `Merge2Model` configured with the provided options.
+ */
 export function useMerge2<TKindId extends string, TModId extends string>(
   options: Readonly<Merge2ModelOptions<TKindId, TModId>>,
 ): Merge2Model<TKindId, TModId>;
@@ -44,6 +50,8 @@ export function useMerge2({
           targetCell: cell,
           tile: pickedTile,
         });
+      } else {
+        dispatch({ type: 'drop' });
       }
     },
     [dispatch, pickedTile, rules],
