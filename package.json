@@ -69,7 +69,8 @@
     "p:ts:prepack": "cd $INIT_CWD; tsc --build --verbose",
     "p:ts:watch": "cd $INIT_CWD; run p:ts:build --watch --verbose --pretty",
     "p:version": "cd $INIT_CWD; node -e 'console.log(require(\"./package.json\").version)'",
-    "p:vite:prepack": "cd $INIT_CWD; NODE_ENV=production yarn vite build;",
+    "p:vite:build": "cd $INIT_CWD; NODE_ENV=production yarn vite build;",
+    "p:vite:prepack": "cd $INIT_CWD; run p:vite:build;",
     "p:wsa": "cd $INIT_CWD; YARN_PREFER_INTERACTIVE=false yarn add $(run p:scope-prefix \"$@\")",
     "p:wsad": "cd $INIT_CWD; YARN_PREFER_INTERACTIVE=false yarn add -D $(run p:scope-prefix \"$@\")",
     "p:wsap": "cd $INIT_CWD; YARN_PREFER_INTERACTIVE=false yarn add -P $(run p:scope-prefix \"$@\")",
@@ -166,12 +167,14 @@
     "sass-embedded": "^1.92.1",
     "semver": "^7.7.2",
     "sort-package-json": "^2.10.1",
+    "ts-deepmerge": "^7.0.3",
     "tslib": "^2.8.1",
     "type-fest": "^4.32.0",
     "typed-scss-modules": "^8.0.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.1",
-    "vite": "^7.1.5"
+    "vite": "^7.1.5",
+    "vite-plugin-react-rich-svg": "1.x"
   },
   "devDependencies": {
     "husky": "^9.1.7",

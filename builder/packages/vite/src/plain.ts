@@ -1,28 +1,42 @@
 import type { PackageJson } from 'type-fest';
 
-import { readFileSync } from 'node:fs';
-import { basename, dirname, relative } from 'node:path';
+import { env } from 'node:process';
 
-import cssesc from 'cssesc';
 import { NodePackageImporter } from 'sass-embedded';
 import { defaultClientConditions } from 'vite';
+import richSvg, { type PluginOptions } from 'vite-plugin-react-rich-svg';
 
-import { createCachedFn } from '@budsbox/lib-es/function';
-import { isNil, isNotNil, isString } from '@budsbox/lib-es/guards';
+import { isNotNil } from '@budsbox/lib-es/guards';
 import { fifs } from '@budsbox/lib-es/logical';
-import { parsePackageName, splitPath } from '@budsbox/lib-es/string';
-import { lookupFileSync } from '@budsbox/lib-node/fs';
+import { parsePackageName } from '@budsbox/lib-es/string';
 import { findCurrentPackageJson } from '@budsbox/lib-node/pckg';
 
 import packageJson from '#package.json' with { type: 'json' };
 
-import { createConfigFactory, formatFileName, formatVarName } from './lib.js';
+import {
+  createConfigFactory,
+  formatFileName,
+  formatVarName,
+  generateScopedNameFactory,
+} from './lib.js';
 
-const readPackageJson = createCachedFn((path: string): PackageJson => {
-  if (!path.endsWith('package.json'))
-    throw new Error(`Not a package.json path: ${path}`);
-  return JSON.parse(readFileSync(path, 'utf-8')) as PackageJson;
-});
+/**
+ * Extended configuration options for the `vite-plugin-react-rich-svg` plugin.
+ *
+ * @see https://github.com/iGoodie/vite-plugin-react-rich-svg?tab=readme-ov-file#plugin-configurations
+ */
+export interface CustomReactRichSvgOptions extends PluginOptions {
+  /**
+   * Enables/disables SVGO optimization for the whole plugin.
+   * Defaults to `true` when `NODE_ENV` is `production`. May be overridden by sub-options (like `rawLoaderOptions.svgoEnabled`).
+   */
+  svgoEnabled?: boolean;
+
+  /**
+   * Default SVGO configuration for the whole plugin.
+   */
+  svgoConfig?: NonNullable<PluginOptions['rawLoaderOptions']>['svgoConfig'];
+}
 
 /**
  * Represents configuration options for plain configurations.
@@ -40,8 +54,6 @@ export interface PlainConfigOptions {
 
   /**
    * An array of strings representing the chunks to exclude from the path part when generating scoped names for CSS modules.
-   *
-   * @default ['src']
    */
   generateScopedNameExcludedPathChunks?: readonly string[];
 
@@ -49,6 +61,11 @@ export interface PlainConfigOptions {
    * Whether to add the scope of the package to the conditions for module `exports` resolution.
    */
   addScopeToConditions?: boolean;
+
+  /**
+   * Options for the `vite-plugin-react-rich-svg` plugin.
+   */
+  reactRichSvgOptions?: CustomReactRichSvgOptions;
 }
 
 export const usePlainConfig = createConfigFactory<PlainConfigOptions>(
@@ -57,85 +74,66 @@ export const usePlainConfig = createConfigFactory<PlainConfigOptions>(
     {
       importMeta,
       lib = false,
-      generateScopedNameExcludedPathChunks = ['src'],
+      generateScopedNameExcludedPathChunks,
       addScopeToConditions = false,
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+      reactRichSvgOptions = {} as CustomReactRichSvgOptions,
     } = {},
   ) => {
-    const runnerPackage = await findCurrentPackageJson(importMeta);
-    const { scope: runnerScope } = parsePackageName(
-      runnerPackage.json.name ?? 'anon',
+    const basePackage = await findCurrentPackageJson(importMeta);
+    const { scope: baseScope } = parsePackageName(
+      basePackage.json.name ?? 'anon',
       true,
     );
-    const lookupCache = new Map<string, string>();
-    const packageCache = new Map<string, PackageJson>();
-    const excludeChunks = new Set(generateScopedNameExcludedPathChunks);
 
     const clientConditions =
       (
         (addScopeToConditions ||
           // enabled by default in this monorepo
-          sameScope(packageJson, runnerPackage.json)) &&
-        isNotNil(runnerScope)
+          sameScope(packageJson, basePackage.json)) &&
+        isNotNil(baseScope)
       ) ?
-        [runnerScope, ...defaultClientConditions]
+        [baseScope, ...defaultClientConditions]
       : [...defaultClientConditions];
 
-    const generateScopedName = createCachedFn(
-      (localName: string, filepath: string) => {
-        const foundPath = lookupFileSync({
-          startDir: dirname(filepath),
-          filename: 'package.json',
-          cache: lookupCache,
-        });
-
-        let pckgPrefix = '';
-        if (isString(foundPath)) {
-          if (foundPath !== runnerPackage.path) {
-            const pckg = readPackageJson(packageCache, foundPath);
-            const { scope, name } = parsePackageName(pckg.name ?? '', true);
-            pckgPrefix =
-              scope === runnerScope || isNil(scope) ?
-                name
-              : `${scope}_-_${name}`;
-          }
-        } else {
-          pckgPrefix = '-standalone-';
-        }
-
-        const subPath = relative(
-          dirname(foundPath ?? runnerPackage.path),
-          filepath,
-        );
-        const pathPart = splitPath(dirname(subPath))
-          .map((chunk) => (chunk === '..' ? '_--_' : chunk))
-          .filter((chunk) => !excludeChunks.has(chunk))
-          .join('-');
-
-        const nameChunks = basename(filepath).split('.').slice(0, -1);
-        if (nameChunks.at(-1) === 'module') {
-          nameChunks.pop();
-        }
-        if (nameChunks.at(-1) === 'style') {
-          nameChunks.pop();
-        }
-
-        return cssesc(
-          [
-            pckgPrefix,
-            [pathPart, nameChunks.join('-')].filter(Boolean).join('_'),
-            localName,
-          ]
-            .filter(Boolean)
-            .join('__'),
-        );
-      },
-      (...args) => args.join(':'),
-    );
-
-    const scopedNameCache = new Map<string, string>();
+    const svgoEnabled =
+      reactRichSvgOptions.svgoEnabled ?? env.NODE_ENV === 'production';
+    const svgoConfig = reactRichSvgOptions.svgoConfig ?? {};
 
     return {
+      plugins: [
+        richSvg({
+          ...reactRichSvgOptions,
+          base64LoaderOptions: {
+            svgoEnabled,
+            svgoConfig,
+            ...reactRichSvgOptions.base64LoaderOptions,
+          },
+          componentLoaderOptions: {
+            ...reactRichSvgOptions.componentLoaderOptions,
+            svgrConfig: {
+              svgo: svgoEnabled,
+              svgoConfig,
+              ...reactRichSvgOptions.componentLoaderOptions?.svgrConfig,
+            },
+          },
+          rawLoaderOptions: {
+            svgoEnabled,
+            svgoConfig,
+            ...reactRichSvgOptions.rawLoaderOptions,
+          },
+          urlLoaderOptions: {
+            svgoEnabled,
+            svgoConfig,
+            ...reactRichSvgOptions.urlLoaderOptions,
+          },
+        }),
+      ],
+      resolve: {
+        conditions: clientConditions,
+      },
       root: 'src',
+
       build: {
         outDir: '../dist',
         emptyOutDir: true,
@@ -143,22 +141,21 @@ export const usePlainConfig = createConfigFactory<PlainConfigOptions>(
         ...fifs(lib, {
           lib: {
             entry: 'index.ts',
-            name: formatVarName(runnerPackage.json.name ?? '_anon_'),
+            name: formatVarName(basePackage.json.name ?? '_anon_'),
             fileName: formatFileName,
             cssFileName: 'index',
           },
         }),
-      },
-      resolve: {
-        conditions: clientConditions,
       },
       css: {
         modules: {
           localsConvention: 'camelCaseOnly',
           generateScopedName:
             mode === 'production' ? '[hash:hex]' : (
-              (localName, filepath) =>
-                generateScopedName(scopedNameCache, localName, filepath)
+              generateScopedNameFactory(
+                basePackage,
+                generateScopedNameExcludedPathChunks,
+              )
             ),
         } as const,
         preprocessorOptions: {

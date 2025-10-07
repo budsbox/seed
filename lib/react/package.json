@@ -71,7 +71,8 @@
     "react-dom": "^19.1.1",
     "sass-embedded": "^1.92.1",
     "typescript": "^5.8.3",
-    "vite": "^7.1.5"
+    "vite": "^7.1.5",
+    "vite-plugin-react-rich-svg": "1.x"
   },
   "peerDependencies": {
     "@types/react": "^19.1.13",

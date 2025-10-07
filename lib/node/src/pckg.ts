@@ -12,14 +12,19 @@ import { hasProp, isNil, isNotNil, isString } from '@budsbox/lib-es/guards';
 
 import { lookupFile } from '#fs';
 
+// Type exports
+export type { ResolvedJson } from '#types';
+
 /**
  * Finds the `package.json` file of the current package and returns its path along with the parsed JSON content.
+ * This function attempts to locate the `package.json` file using the `importMeta` object if provided,
+ * falling back to a lookup logic if the `resolve` method fails.
  *
  * @param importMeta - An optional `ImportMeta` object, used to resolve the location of `package.json` if supported.
  * @returns A promise that resolves to an object containing:
  *         - `path`: The file path to the located `package.json`.
  *         - `json`: The parsed JSON content of the located `package.json`.
- * @throws If the `package.json` file of the current package cannot be found.
+ * @throws Error if the `package.json` file cannot be found.
  */
 export async function findCurrentPackageJson(
   importMeta?: ImportMeta,
@@ -28,9 +33,14 @@ export async function findCurrentPackageJson(
 
   if (isNotNil(importMeta)) {
     try {
+      // type of the imports specific to this monorepo :)
       path = fileURLToPath(importMeta.resolve('#package.json'));
     } catch {
-      /* ignore */
+      try {
+        path = fileURLToPath(importMeta.resolve('./package.json'));
+      } catch {
+        /* ignore */
+      }
     }
   }
 

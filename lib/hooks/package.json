@@ -66,7 +66,8 @@
     "sass-embedded": "^1.92.1",
     "type-fest": "^4.32.0",
     "typescript": "^5.8.3",
-    "vite": "^7.1.5"
+    "vite": "^7.1.5",
+    "vite-plugin-react-rich-svg": "1.x"
   },
   "peerDependencies": {
     "react": "^19.1.1",
