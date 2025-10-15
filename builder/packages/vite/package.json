@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/builder_vite",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
@@ -11,14 +11,18 @@
   "type": "module",
   "imports": {
     "#package.json": "./package.json",
-    "#client": "./client.d.ts"
+    "#client": {
+      "types": "./client.d.ts"
+    }
   },
   "exports": {
     ".": {
       "import": "./dist/index.js",
       "types": "./dist/index.d.ts"
     },
-    "./client": "./client.d.ts",
+    "./client": {
+      "types": "./client.d.ts"
+    },
     "./package.json": "./package.json"
   },
   "files": [
