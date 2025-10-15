@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/builder_vite",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
     "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
@@ -27,7 +27,8 @@
   },
   "files": [
     "dist/**/*.js",
-    "dist/**/*.d.ts"
+    "dist/**/*.d.ts",
+    "client.d.ts"
   ],
   "scripts": {
     "name": "echo $npm_package_name",
