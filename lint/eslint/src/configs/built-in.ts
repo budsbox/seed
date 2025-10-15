@@ -46,7 +46,7 @@ export const createBuiltInConfigFactory: ConfigFactoryCreate = () => (ctx) => {
           files: matchIncludes({ jsx: true }),
           rules: {
             'eqeqeq': ['error', 'always', { null: 'ignore' }],
-            'no-console': ['error', { allow: ['error'] }],
+            'no-console': ['error', { allow: ['error', 'info'] }],
             'no-constant-binary-expression': 'error',
             'no-debugger': 'error',
             'no-extra-boolean-cast': 'off',

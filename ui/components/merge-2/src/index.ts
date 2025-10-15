@@ -5,7 +5,11 @@ export type * from '#types';
 export * from './context';
 export { useCellState, useTileState } from './hooks';
 export {
+  boardsDiff,
+  castKindId,
+  castModifierId,
   cellDataAttrs,
+  createTile,
   gameIsOver,
   isCellEmpty,
   isCellOccupied,
@@ -17,5 +21,7 @@ export {
   sameRank,
   tileCanMove,
   tileDataAttrs,
+  updateCell,
 } from './lib';
 export { useMerge2 } from './model';
+export { defaultSpawnRule } from './rules';
