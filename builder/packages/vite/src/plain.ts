@@ -1,5 +1,6 @@
 import type { PackageJson } from 'type-fest';
 
+import { availableParallelism } from 'node:os';
 import { env } from 'node:process';
 
 import { NodePackageImporter } from 'sass-embedded';
@@ -158,6 +159,7 @@ export const usePlainConfig = createConfigFactory<PlainConfigOptions>(
               )
             ),
         } as const,
+        preprocessorMaxWorkers: Math.ceil(availableParallelism() / 2),
         preprocessorOptions: {
           scss: {
             importers: [new NodePackageImporter()],
