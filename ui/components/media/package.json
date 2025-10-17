@@ -1,0 +1,108 @@
+{
+  "name": "@budsbox/ui-components-media",
+  "version": "0.0.0",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "repository": "gitlab:budsbox/fe/seed",
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "sideEffects": [
+    "./**/*.scss",
+    "./**/*.css"
+  ],
+  "type": "module",
+  "imports": {
+    "#types": {
+      "@budsbox/": "./src/types.d.ts",
+      "types": "./dist/types.d.ts"
+    },
+    "#lib": {
+      "import": {
+        "@budsbox/": "./src/lib.ts",
+        "types": "./dist/lib.d.ts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "#model": {
+      "import": {
+        "@budsbox/": "./src/model/index.ts",
+        "types": "./dist/model/index.d.ts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "#ui": {
+      "import": {
+        "@budsbox/": "./src/ui/index.ts",
+        "types": "./dist/ui/index.d.ts",
+        "default": "./dist/ui/index.js"
+      }
+    },
+    "#*.css": "./dist/*.css",
+    "#package.json": "./package.json"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "@budsbox/": "./src/index.ts",
+        "default": "./dist/index.mjs",
+        "types": "./dist/index.d.ts"
+      },
+      "require": {
+        "@budsbox/": "./src/index.ts",
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./*.css": "./dist/*.css",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.cjs",
+    "dist/**/*.d.ts",
+    "dist/**/*.css"
+  ],
+  "scripts": {
+    "name": "echo $npm_package_name",
+    "prepack": "yarn p:lib:browser:prepack",
+    "serve": "vite",
+    "watch": "yarn p:ts:watch"
+  },
+  "dependencies": {
+    "@budsbox/lib-es": "workspace:^",
+    "@budsbox/lib-types": "workspace:^",
+    "@types/node": "^22.15.2",
+    "tslib": "^2.8.1",
+    "type-fest": "^4.32.0"
+  },
+  "devDependencies": {
+    "@budsbox/builder_vite": "workspace:^",
+    "@budsbox/eslint": "workspace:^",
+    "@budsbox/eslint_presets-browser-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
+    "@budsbox/tsconfigs": "workspace:^",
+    "@types/eslint": "^9.6.1",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.3",
+    "babel-plugin-react-compiler": "^19.1.0-rc.3",
+    "clsx": "^2.1.1",
+    "eslint": "^9.26.0",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "sass-embedded": "^1.92.1",
+    "typescript": "^5.8.3",
+    "vite": "^7.1.5",
+    "vite-plugin-react-rich-svg": "1.x"
+  },
+  "peerDependencies": {
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "packageManager": "yarn@4.9.2"
+}

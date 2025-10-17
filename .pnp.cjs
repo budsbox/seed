@@ -151,6 +151,10 @@ const RAW_RUNTIME_STATE =
       "reference": "workspace:tsconfigs"\
     },\
     {\
+      "name": "@budsbox/ui-components-media",\
+      "reference": "workspace:ui/components/media"\
+    },\
+    {\
       "name": "@budsbox/ui-components-merge-2",\
       "reference": "workspace:ui/components/merge-2"\
     }\
@@ -193,6 +197,7 @@ const RAW_RUNTIME_STATE =
     ["@budsbox/sass-importers", ["workspace:packages/sass-importers"]],\
     ["@budsbox/tsconfigs", ["virtual:2124a3c153e594d15c846ecc0c9889c8176441816422daf8fcc61775abe7be69ab8be3e66c11eee238b4f541dfecf1404b8c0ddbf2f1dead45e96aa469921953#workspace:tsconfigs", "virtual:3ae0a14be1e86b898ada39a04b51f663ec68f34698b8faacd4f0f46322eb08aa7325a1a4e6c61f6050cba7dec8f3c93513cfca1013d15c31152bc09a1d3ed471#workspace:tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs", "virtual:d07ef6c855b287d69f10a9d5185f77fdc959bdf9a40a94c1d5a6d5316491dd95e1bf912d70e8ec54c6dff4f55c10de1a65b0f12eef98642a3c82d82460bcee31#workspace:tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs", "workspace:tsconfigs"]],\
     ["@budsbox/types", ["workspace:packages/types"]],\
+    ["@budsbox/ui-components-media", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media", "workspace:ui/components/media"]],\
     ["@budsbox/ui-components-merge-2", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/merge-2", "workspace:ui/components/merge-2"]],\
     ["@budsbox/ui-tools", ["virtual:cf5782f3ccf4ada38fd1f2dd4a8bf8ab763b53aa287b0e8841477e646de9e30867726755ce30f92727384ea0347c842595bab38b73af539d982f0653766d16bc#workspace:packages/ui-tools", "workspace:packages/ui-tools"]]\
   ],\
@@ -237,6 +242,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/sass-importers", "workspace:packages/sass-importers"],\
           ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
+          ["@budsbox/ui-components-media", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media"],\
           ["@budsbox/ui-components-merge-2", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/merge-2"],\
           ["@budsbox/ui-tools", "virtual:cf5782f3ccf4ada38fd1f2dd4a8bf8ab763b53aa287b0e8841477e646de9e30867726755ce30f92727384ea0347c842595bab38b73af539d982f0653766d16bc#workspace:packages/ui-tools"],\
           ["@eslint/js", "npm:9.26.0"],\
@@ -5606,6 +5612,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/sass-importers", "workspace:packages/sass-importers"],\
           ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
           ["@budsbox/types", "workspace:packages/types"],\
+          ["@budsbox/ui-components-media", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media"],\
           ["@budsbox/ui-components-merge-2", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/merge-2"],\
           ["@budsbox/ui-tools", "virtual:cf5782f3ccf4ada38fd1f2dd4a8bf8ab763b53aa287b0e8841477e646de9e30867726755ce30f92727384ea0347c842595bab38b73af539d982f0653766d16bc#workspace:packages/ui-tools"],\
           ["@eslint/js", "npm:9.26.0"],\
@@ -5825,6 +5832,74 @@ const RAW_RUNTIME_STATE =
           ["type-fest", "npm:4.32.0"],\
           ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
           ["typescript-eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:8.32.1"]\
+        ],\
+        "linkType": "SOFT"\
+      }]\
+    ]],\
+    ["@budsbox/ui-components-media", [\
+      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media", {\
+        "packageLocation": "./.yarn/__virtual__/@budsbox-ui-components-media-virtual-f3424ba7b9/1/ui/components/media/",\
+        "packageDependencies": [\
+          ["@budsbox/builder_vite", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#workspace:builder/packages/vite"],\
+          ["@budsbox/eslint", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
+          ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
+          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/ui-components-media", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media"],\
+          ["@types/eslint", "npm:9.6.1"],\
+          ["@types/node", "npm:22.15.2"],\
+          ["@types/react", "npm:19.1.13"],\
+          ["@types/react-dom", "virtual:03603eebf7b4627e87ccba4105a648a2b6ae2e00169b564381353473971d248dd6198d1a6967e673f4ca4398ff8b368b7cec387ab075d471845831444aece39d#npm:19.1.9"],\
+          ["@vitejs/plugin-react", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#npm:5.0.3"],\
+          ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
+          ["clsx", "npm:2.1.1"],\
+          ["eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:9.26.0"],\
+          ["react", "npm:19.1.1"],\
+          ["react-dom", "virtual:03603eebf7b4627e87ccba4105a648a2b6ae2e00169b564381353473971d248dd6198d1a6967e673f4ca4398ff8b368b7cec387ab075d471845831444aece39d#npm:19.1.1"],\
+          ["sass-embedded", "npm:1.92.1"],\
+          ["tslib", "npm:2.8.1"],\
+          ["type-fest", "npm:4.32.0"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["vite", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#npm:7.1.5"],\
+          ["vite-plugin-react-rich-svg", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#npm:1.3.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/react-dom",\
+          "@types/react",\
+          "react-dom",\
+          "react"\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["workspace:ui/components/media", {\
+        "packageLocation": "./ui/components/media/",\
+        "packageDependencies": [\
+          ["@budsbox/builder_vite", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#workspace:builder/packages/vite"],\
+          ["@budsbox/eslint", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
+          ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
+          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@budsbox/ui-components-media", "workspace:ui/components/media"],\
+          ["@types/eslint", "npm:9.6.1"],\
+          ["@types/node", "npm:22.15.2"],\
+          ["@types/react", "npm:19.1.13"],\
+          ["@types/react-dom", "virtual:03603eebf7b4627e87ccba4105a648a2b6ae2e00169b564381353473971d248dd6198d1a6967e673f4ca4398ff8b368b7cec387ab075d471845831444aece39d#npm:19.1.9"],\
+          ["@vitejs/plugin-react", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#npm:5.0.3"],\
+          ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
+          ["clsx", "npm:2.1.1"],\
+          ["eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:9.26.0"],\
+          ["react", "npm:19.1.1"],\
+          ["react-dom", "virtual:03603eebf7b4627e87ccba4105a648a2b6ae2e00169b564381353473971d248dd6198d1a6967e673f4ca4398ff8b368b7cec387ab075d471845831444aece39d#npm:19.1.1"],\
+          ["sass-embedded", "npm:1.92.1"],\
+          ["tslib", "npm:2.8.1"],\
+          ["type-fest", "npm:4.32.0"],\
+          ["typescript", "patch:typescript@npm%3A5.8.3#optional!builtin<compat/typescript>::version=5.8.3&hash=5786d5"],\
+          ["vite", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#npm:7.1.5"],\
+          ["vite-plugin-react-rich-svg", "virtual:a36255147e9eafac7ee579d41c298a461a8051f56628f0433e60df21681fb4a6340884b2934974193bc87d00841763ffed7a954ffa66ef985f9b228ebb4e074b#npm:1.3.0"]\
         ],\
         "linkType": "SOFT"\
       }]\

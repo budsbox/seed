@@ -1456,6 +1456,7 @@ __metadata:
     "@budsbox/sass-importers": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
+    "@budsbox/ui-components-media": "workspace:^"
     "@budsbox/ui-components-merge-2": "workspace:^"
     "@budsbox/ui-tools": "workspace:^"
     "@eslint/js": "npm:^9.26.0"
@@ -1578,6 +1579,41 @@ __metadata:
     type-fest: "npm:^4.32.0"
     typescript: "npm:^5.8.3"
     typescript-eslint: "npm:^8.32.1"
+  languageName: unknown
+  linkType: soft
+
+"@budsbox/ui-components-media@workspace:^, @budsbox/ui-components-media@workspace:ui/components/media":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/ui-components-media@workspace:ui/components/media"
+  dependencies:
+    "@budsbox/builder_vite": "workspace:^"
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/eslint_presets-browser-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
+    "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@types/eslint": "npm:^9.6.1"
+    "@types/node": "npm:^22.15.2"
+    "@types/react": "npm:^19.1.13"
+    "@types/react-dom": "npm:^19.1.9"
+    "@vitejs/plugin-react": "npm:^5.0.3"
+    babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
+    clsx: "npm:^2.1.1"
+    eslint: "npm:^9.26.0"
+    react: "npm:^19.1.1"
+    react-dom: "npm:^19.1.1"
+    sass-embedded: "npm:^1.92.1"
+    tslib: "npm:^2.8.1"
+    type-fest: "npm:^4.32.0"
+    typescript: "npm:^5.8.3"
+    vite: "npm:^7.1.5"
+    vite-plugin-react-rich-svg: "npm:1.x"
+  peerDependencies:
+    "@types/react": ^19.1.13
+    "@types/react-dom": ^19.1.9
+    react: ^19.1.1
+    react-dom: ^19.1.1
   languageName: unknown
   linkType: soft
 
