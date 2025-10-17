@@ -138,6 +138,7 @@ export const usePlainConfig = createConfigFactory<PlainConfigOptions>(
       build: {
         outDir: '../dist',
         emptyOutDir: true,
+        cssMinify: 'lightningcss',
 
         ...fifs(lib, {
           lib: {
