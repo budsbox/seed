@@ -32,8 +32,8 @@
   ],
   "scripts": {
     "name": "echo $npm_package_name",
-    "prepack": "yarn p:ts:prepack",
-    "watch": "yarn p:ts:watch"
+    "prepack": "run p:ts:prepack",
+    "watch": "run p:ts:watch"
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
