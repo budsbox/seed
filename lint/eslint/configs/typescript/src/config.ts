@@ -211,6 +211,40 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
                   ignoreCase: false,
                 },
               ],
+              'perfectionist/sort-interfaces': [
+                'error',
+                {
+                  ignoreCase: false,
+                  newlinesBetween: 0,
+                  partitionByComment: true,
+                  type: 'natural',
+
+                  customGroups: [
+                    ...['required', 'optional'].map((modifier) => ({
+                      groupName: 'callbacks',
+                      type: 'natural',
+                      newlinesInside: 0,
+                      anyOf: ['method', 'member', 'property'].map(
+                        (selector) => ({
+                          selector,
+                          modifiers: [modifier],
+                          elementNamePattern: 'on[A-Z0-9]',
+                        }),
+                      ),
+                    })),
+                  ],
+                  groups: [
+                    ['required-index-signature', 'optional-index-signature'],
+                    ['required-property', 'required-member'],
+                    ['required-method'],
+                    { newlinesBetween: 1 },
+                    ['optional-property', 'optional-member'],
+                    ['optional-method'],
+                    { newlinesBetween: 1 },
+                    ['callbacks'],
+                  ],
+                },
+              ],
               'perfectionist/sort-union-types': [
                 'error',
                 {
