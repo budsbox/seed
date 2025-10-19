@@ -117,6 +117,7 @@
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-extensions": "workspace:^",
     "@budsbox/lib-hooks": "workspace:^",
+    "@budsbox/lib-mime": "workspace:^",
     "@budsbox/lib-node": "workspace:^",
     "@budsbox/lib-random": "workspace:^",
     "@budsbox/lib-react": "workspace:^",

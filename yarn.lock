@@ -1174,6 +1174,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@budsbox/lib-mime@workspace:^, @budsbox/lib-mime@workspace:lib/mime":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/lib-mime@workspace:lib/mime"
+  dependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/eslint_presets-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
+    "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@types/eslint": "npm:^9.6.1"
+    "@types/node": "npm:^22.15.2"
+    eslint: "npm:^9.26.0"
+    tslib: "npm:^2.8.1"
+    type-fest: "npm:^4.32.0"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@budsbox/lib-node@workspace:^, @budsbox/lib-node@workspace:lib/node":
   version: 0.0.0-use.local
   resolution: "@budsbox/lib-node@workspace:lib/node"
@@ -1465,6 +1484,7 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-hooks": "workspace:^"
+    "@budsbox/lib-mime": "workspace:^"
     "@budsbox/lib-node": "workspace:^"
     "@budsbox/lib-random": "workspace:^"
     "@budsbox/lib-react": "workspace:^"
