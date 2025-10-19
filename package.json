@@ -113,6 +113,7 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/iso-utils": "workspace:^",
     "@budsbox/lib-class-name": "workspace:^",
+    "@budsbox/lib-data-uri": "workspace:^",
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-extensions": "workspace:^",
     "@budsbox/lib-hooks": "workspace:^",

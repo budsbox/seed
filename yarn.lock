@@ -1066,6 +1066,25 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@budsbox/lib-data-uri@workspace:^, @budsbox/lib-data-uri@workspace:lib/data-uri":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/lib-data-uri@workspace:lib/data-uri"
+  dependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/eslint_presets-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
+    "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@types/eslint": "npm:^9.6.1"
+    "@types/node": "npm:^22.15.2"
+    eslint: "npm:^9.26.0"
+    tslib: "npm:^2.8.1"
+    type-fest: "npm:^4.32.0"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@budsbox/lib-es@workspace:^, @budsbox/lib-es@workspace:lib/es":
   version: 0.0.0-use.local
   resolution: "@budsbox/lib-es@workspace:lib/es"
@@ -1442,6 +1461,7 @@ __metadata:
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/iso-utils": "workspace:^"
     "@budsbox/lib-class-name": "workspace:^"
+    "@budsbox/lib-data-uri": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-hooks": "workspace:^"
@@ -1599,6 +1619,7 @@ __metadata:
     "@types/react-dom": "npm:^19.1.9"
     "@vitejs/plugin-react": "npm:^5.0.3"
     babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
+    browser-detection: "npm:^0.3.3"
     clsx: "npm:^2.1.1"
     eslint: "npm:^9.26.0"
     react: "npm:^19.1.1"
@@ -4504,6 +4525,13 @@ __metadata:
   dependencies:
     fill-range: "npm:^7.1.1"
   checksum: 10c0/7c6dfd30c338d2997ba77500539227b9d1f85e388a5f43220865201e407e076783d0881f2d297b9f80951b4c957fcf0b51c1d2d24227631643c3f7c284b0aa04
+  languageName: node
+  linkType: hard
+
+"browser-detection@npm:^0.3.3":
+  version: 0.3.3
+  resolution: "browser-detection@npm:0.3.3"
+  checksum: 10c0/3996f5cd46c7f67588cef8ee320d284389721de3d52ba9a3a552c9ac73bea3085b301860bc8e1fe916e925c159ad1891870567f1e648f7605d9bfb263ed9ab1d
   languageName: node
   linkType: hard
 

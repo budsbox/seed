@@ -1,0 +1,57 @@
+{
+  "name": "@budsbox/lib-data-uri",
+  "version": "0.0.0",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "repository": "gitlab:budsbox/fe/seed",
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#types": {
+      "@budsbox/": "./src/types.d.ts",
+      "types": "./dist/types.d.ts"
+    },
+    "#package.json": "./package.json"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "@budsbox/": "./src/index.ts",
+        "default": "./dist/index.js",
+        "types": "./dist/index.d.ts"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.cjs",
+    "dist/**/*.d.ts"
+  ],
+  "scripts": {
+    "name": "echo $npm_package_name",
+    "prepack": "yarn p:lib:iso:prepack",
+    "watch": "yarn p:ts:watch"
+  },
+  "dependencies": {
+    "@budsbox/lib-es": "workspace:^",
+    "@budsbox/lib-types": "workspace:^",
+    "@types/node": "^22.15.2",
+    "tslib": "^2.8.1",
+    "type-fest": "^4.32.0"
+  },
+  "devDependencies": {
+    "@budsbox/eslint": "workspace:^",
+    "@budsbox/eslint_presets-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
+    "@budsbox/tsconfigs": "workspace:^",
+    "@types/eslint": "^9.6.1",
+    "eslint": "^9.26.0",
+    "typescript": "^5.8.3"
+  },
+  "packageManager": "yarn@4.9.2"
+}
