@@ -56,18 +56,15 @@ export default await createFlatConfig({
   `,
   'peggy.config.js': `
 export default {
-  input: 'src/parser.peggy',
-  output: 'dist/parser.js',
-  format: 'es',
   allowedStartRules: ['main'],
-  test: true,
-  testFile: 'src/.test.txt',
-  returnTypes: {
-    additive: 'number',
-    main: 'number',
-  },
   dependencies: {},
   dts: true,
+  format: 'es',
+  input: 'src/parser.peggy',
+  output: 'dist/parser.js',
+  returnTypes: {},
+  test: true,
+  testFile: 'src/.test.txt',
 };
   `,
   'tsconfig.lib.json': `
