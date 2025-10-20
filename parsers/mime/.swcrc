@@ -1,0 +1,32 @@
+{
+  "$schema": "https://swc.rs/schema.json",
+  "jsc": {
+    "loose": true,
+    "externalHelpers": false,
+    "keepClassNames": false,
+    "minify": {
+      "compress": {
+        "ecma": 2021,
+        "keep_infinity": true,
+        "module": true,
+        "passes": 2,
+        "toplevel": true,
+        "unsafe_arrows": true,
+        "unsafe": true,
+        "unsafe_comps": true
+      },
+      "mangle": {
+        "toplevel": true
+      },
+      "format": {
+        "ecma": 2021,
+        "indent_level": 0
+      }
+    }
+  },
+  "env": {
+    "targets": "defaults, maintained node versions, not op_mini all"
+  },
+  "minify": true,
+  "isModule": true
+}
