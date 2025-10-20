@@ -20,3 +20,6 @@ tab_width = 4
 [{*.markdown,*.md}]
 indent_size = 4
 tab_width = 4
+
+[.test.txt]
+insert_final_newline = false

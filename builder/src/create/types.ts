@@ -17,6 +17,7 @@ export type ArchetypeName =
   | 'lib'
   | 'node'
   | 'node-lib'
+  | 'peggy'
   | 'react'
   | 'react-app'
   | 'react-component'

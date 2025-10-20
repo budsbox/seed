@@ -10,6 +10,7 @@ import * as browser from './templates/browser.js';
 import * as isoLibTpl from './templates/iso-lib.js';
 import * as lib from './templates/lib.js';
 import * as nodeLib from './templates/node-lib.js';
+import * as peggy from './templates/peggy.js';
 import * as reactComponentLarge from './templates/react-component-large.js';
 import * as reactComponent from './templates/react-component.js';
 import * as reactLib from './templates/react-lib.js';
@@ -149,6 +150,41 @@ export const archetypes = {
       },
     },
     files: nodeLib.files,
+  },
+  'peggy': {
+    extends: 'iso-lib',
+
+    at: 'parsers',
+    devDependencies: ['...', 'peggy'],
+    files: peggy.files,
+    manifest: {
+      scripts: {
+        prepack: 'yarn p:peggy:prepack',
+        watch: 'yarn p:peggy:watch',
+      },
+      imports: {
+        '#types': null,
+      },
+      exports: {
+        '.': {
+          import: {
+            production: './dist/parser.min.js',
+            types: './dist/parser.d.ts',
+            default: './dist/parser.js',
+          },
+          require: {
+            production: './dist/parser.min.cjs',
+            types: './dist/parser.d.ts',
+            default: './dist/parser.cjs',
+          },
+          umd: {
+            production: './dist/parser.min.umd.js',
+            types: './dist/parser.umd.min.js',
+            default: './dist/parser.umd.js',
+          },
+        },
+      },
+    },
   },
   'react-lib': {
     extends: ['base', 'react', 'browser-lib'],

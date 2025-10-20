@@ -6,6 +6,7 @@
     "esbenp.prettier-vscode",
     "rohit-gohri.format-code-action",
     "bradlc.vscode-tailwindcss",
-    "mrmlnc.vscode-scss"
+    "mrmlnc.vscode-scss",
+    "peggyjs.peggy-language"
   ]
 }
