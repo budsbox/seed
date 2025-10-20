@@ -3,9 +3,12 @@
   "include": [
     "${configDir}/.lintstagedrc.mjs",
     "${configDir}/.lintstagedrc.js",
+    "${configDir}/.swcrc",
     "${configDir}/eslint.config.js",
     "${configDir}/eslint.config.mjs",
     "${configDir}/package.json",
+    "${configDir}/peggy.config.js",
+    "${configDir}/peggy.config.js",
     "${configDir}/typed-scss-modules.config.ts",
     "${configDir}/vite.config.js",
     "${configDir}/vite.config.ts",
