@@ -2,81 +2,65 @@ main
   = $httpWhitespace* str:mimeTypeString $httpWhitespace* {return str}
 
 mimeTypeString
-  = essence:essence httpWhitespace* parameters:parameters {return [essence, parameters]}
+  = essence:essence httpWhitespace* parameters:parameters {return {...essence, parameters}}
 
 essence
-  = type:type essenceDelimiter subtype:subtype { return [type, subtype] }
+  = type:type '/' subtype:subtype { return {essence: text().toLowerCase(), type, ...subtype} }
 
 type
-  = $httpTokenChar+
+  = $httpTokenChar+ { return text().toLowerCase() }
 
 subtype
-  = (tree:tree subtypePrefixDelimiter {return tree})? subtypeName (subtypeSuffixDelimiter suffix:subtypeSuffix {return suffix})?
+  = tree:(token:tree '.' {return token.toLowerCase()})?
+  name:(token:subtypeName { return token.toLowerCase() })
+  suffix:('+' token:subtypeSuffix {return token})?
+  {return {subtype: text().toLowerCase(), subtypeTokens: {tree, name, suffix}}}
 
 tree
-  = $(httpTokenChar!plusSign!period)+
-
-subtypePrefixDelimiter
-  = period
+  = (![.+] httpTokenChar)+ {return text().toLowerCase()}
 
 subtypeName
-  = $(!plusSign httpTokenChar)+
-
-subtypeSuffixDelimiter
-  = plusSign
+  = (!'+' httpTokenChar)+ {return text().toLowerCase()}
 
 subtypeSuffix
-  = $(httpTokenChar!plusSign)+
-
-essenceDelimiter
-  = forwardSlash
+  = (!'+' httpTokenChar)+ {return text().toLowerCase()}
 
 parameters
-  = parameter*
+  = list:parameter* {
+    return list.filter(([name, value]) => value !== '').reduce((map, [key, value]) => {
+      if (!map.has(key)) {
+        map.set(key, value);
+      }
+      return map;
+    }, new Map())
+  }
 
 parameter
   = parameterPrefix
     name:parameterName
-    value:((equalSign strippedValue:parameterValue {return strippedValue}) / $[^;]* { return null })
+    value:(('=' strippedValue:parameterValue {return strippedValue}) / $[^;]* { return '' })
     {return [name, value]}
 
 parameterPrefix
-  = semicolon httpWhitespace*
+  = ';' httpWhitespace*
 
 parameterName
-  = $[^=;]+
+  = name:$[^=;]+ { return name.toLowerCase() }
 
 parameterValue
-  = (@value:httpQuotedString [^;]*) / (@value:$parameterUnquotedValue+ $httpWhitespace*)
+  = (@httpQuotedString [^;]*) / (@$parameterUnquotedValue+ $httpWhitespace*)
 
 parameterUnquotedValue
   = (!httpWhitespace [^;])+ (httpWhitespace+ parameterUnquotedValue)?
 
 httpQuotedString
-  = quote value:($httpQuotedStringChar*) quote {return value}
+  = '"' @($httpQuotedStringChar*) '"'
 
 httpQuotedStringChar
-  = ('\\' char:'"' { return char }) / [^"]
+  = ('\\' @'"') / (!'"' @.)
 
 httpTokenChar
-  = httpTokenNonControlChar / period / plusSign
-
-httpTokenNonControlChar
-  = alphanum / [!#$%&'*+-.^_`|~]
-
-alphanum = [a-z0-9]i
-
-period = '.'
-
-forwardSlash = '/'
-
-plusSign = '+'
-
-semicolon = ';'
-
-quote = '"'
-
-equalSign = '='
+  = [a-z0-9!#$%&'*+\-.^_`|~]i
 
 httpWhitespace
   = [ \t\r\n]
