@@ -32,8 +32,8 @@ subtypeSuffix
   = (!'+' httpTokenChar)+ {return text().toLowerCase()}
 
 parameters
-  = list:parameterPrefixed* {
-    return list.filter(([name, value]) => value !== '').reduce((map, [key, value]) => {
+  = first:parameterFirst? list:parameterNext* {
+    return [...(Boolean(first) ? [first] : []), ...list].filter(([name, value]) => value !== '').reduce((map, [key, value]) => {
       if (!map.has(key)) {
         map.set(key, value);
       }
@@ -41,7 +41,10 @@ parameters
     }, new Map())
   }
 
-parameterPrefixed
+parameterFirst
+  = @parameter
+
+parameterNext
   = parameterPrefix @parameter
 
 parameter
