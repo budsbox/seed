@@ -10,24 +10,30 @@
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
-    "#package.json": "./package.json"
+    "#package.json": "./package.json",
+    "#parser": {
+      "import": {
+        "types": "./dist/parser.d.ts",
+        "default": "./dist/parser.js"
+      }
+    }
   },
   "exports": {
     ".": {
+      "umd": {
+        "production": "./dist/parser.min.umd.js",
+        "types": "./dist/parser.umd.min.js",
+        "default": "./dist/parser.umd.js"
+      },
       "import": {
-        "default": "./dist/parser.js",
         "types": "./dist/parser.d.ts",
-        "production": "./dist/parser.min.js"
+        "production": "./dist/parser.min.js",
+        "default": "./dist/parser.js"
       },
       "require": {
         "production": "./dist/parser.min.cjs",
         "types": "./dist/parser.d.ts",
         "default": "./dist/parser.cjs"
-      },
-      "umd": {
-        "production": "./dist/parser.min.umd.js",
-        "types": "./dist/parser.umd.min.js",
-        "default": "./dist/parser.umd.js"
       }
     },
     "./package.json": "./package.json"
@@ -39,6 +45,7 @@
     "dist/**/*.d.ts"
   ],
   "scripts": {
+    "build": "yarn p:peggy:es",
     "name": "echo $npm_package_name",
     "prepack": "yarn p:peggy:prepack",
     "watch": "yarn p:peggy:watch"
@@ -47,6 +54,7 @@
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@types/node": "^22.15.2",
+    "@types/whatwg-mimetype": "^3.0.2",
     "tslib": "^2.8.1",
     "type-fest": "^4.32.0"
   },
@@ -58,7 +66,9 @@
     "@types/eslint": "^9.6.1",
     "eslint": "^9.26.0",
     "peggy": "^5.0.6",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.1",
+    "whatwg-mimetype": "^4.0.0"
   },
   "packageManager": "yarn@4.9.2"
 }

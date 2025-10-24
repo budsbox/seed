@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.iso.json",
+  "include": ["${configDir}/test"],
+  "compilerOptions": {
+    "target": "ESNext",
+    "noEmit": true,
+    "rootDir": "${configDir}/test",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": ["@budsbox/lib-types/es.d.ts", "vitest/globals"]
+  }
+}

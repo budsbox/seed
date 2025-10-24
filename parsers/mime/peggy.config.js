@@ -1,5 +1,13 @@
 export default {
-  allowedStartRules: ['main'],
+  allowedStartRules: [
+    'looseMimeType',
+    'validMimeType',
+    'essence',
+    'type',
+    'subtype',
+    'subtypeName',
+    'subtypeSuffix',
+  ],
   dependencies: {},
   dts: true,
   format: 'es',

@@ -12,6 +12,8 @@
     "${configDir}/typed-scss-modules.config.ts",
     "${configDir}/vite.config.js",
     "${configDir}/vite.config.ts",
+    "${configDir}/vitest.config.js",
+    "${configDir}/vitest.config.ts",
     "${configDir}/yarn.config.cjs"
   ],
   "compilerOptions": {
