@@ -34,10 +34,11 @@ test('should parse the most basic MIME-type', () => {
   });
 });
 
-test('should parse overcomplicated MIME-type', () => {
+test('should loosely parse overcomplicated MIME-type', () => {
   expect(
     parseFormatted(
       '  apPlIcaTion/emergencycAlldata.deviceiNfo+xMl;  chaRset=utf-8   ;foo=bAr "  azAz ; kEk  =foo ;  ror ="lol fof \\"  ";bruh=""; oraoraora  = ; foo=   ; fufufu =1     ',
+      { loose: true },
     ),
   ).toEqual({
     essence: 'application/emergencycalldata.deviceinfo+xml',
@@ -82,8 +83,8 @@ test('should parse tree, dotted name and suffix; everything lowercased', () => {
   });
 });
 
-test('should accept leading/trailing whitespace and trailing semicolon', () => {
-  expect(parseFormatted('  text/html  ;   ')).toEqual({
+test('should loosely accept leading/trailing whitespace and trailing semicolon', () => {
+  expect(parseFormatted('  text/html  ;   ', { loose: true })).toEqual({
     essence: 'text/html',
     type: 'text',
     subtype: 'html',

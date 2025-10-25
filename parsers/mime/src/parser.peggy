@@ -19,7 +19,6 @@ subtype
   suffix:subtypeSuffixWithDelimiter?
   {return {subtype: text().toLowerCase(), subtypeTokens: {tree, name, suffix}}}
 
-
 treeWithDelimiter
   = @tree '.'
 
