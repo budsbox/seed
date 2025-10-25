@@ -1,6 +1,6 @@
 import type * as Parser from '#parser';
 
-import { SyntaxError, parse as parseRaw } from '#parser';
+import { SyntaxError } from '#parser';
 
 export { Parser, SyntaxError };
 
@@ -50,7 +50,7 @@ export interface MimeTypeParsed extends EssenceParsed {
 
 export interface RuleResult<TMultiValue extends boolean = false> {
   essence: EssenceParsed;
-  looseMimeType: MimeTypeParsed;
+  mimeType: MimeTypeParsed;
   parameter: readonly [ParameterName, ParameterValue<TMultiValue>];
   parameters: ParametersParsed<TMultiValue>;
   subtype: SubtypeParsed;
@@ -58,7 +58,6 @@ export interface RuleResult<TMultiValue extends boolean = false> {
   subtypeSuffix: string;
   tree: string;
   type: string;
-  validMimeType: MimeTypeParsed;
 }
 
 export type ParseFunction<
@@ -69,4 +68,9 @@ export type ParseFunction<
   options?: ParseOptions<TRule>,
 ) => RuleResult<TMultiValue>[TRule];
 
-export const parse: ParseFunction = parseRaw;
+declare function parse<
+  TRule extends StartRuleNames = DefaultStartRule,
+  TMultiValue extends boolean = false,
+>(input: string, options?: ParseOptions<TRule>): RuleResult<TMultiValue>[TRule];
+
+export { parse };

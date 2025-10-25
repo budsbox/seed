@@ -20,20 +20,12 @@
   },
   "exports": {
     ".": {
-      "umd": {
-        "types": "./dist/index.d.ts",
-        "production": "./dist/parser.min.umd.js",
-        "default": "./dist/parser.umd.js"
-      },
+      "types": "./dist/index.d.ts",
+      "umd": "./dist/parser.min.umd.js",
+      "require": "./dist/parser.min.cjs",
       "import": {
-        "types": "./dist/index.d.ts",
         "production": "./dist/parser.min.js",
         "default": "./dist/parser.js"
-      },
-      "require": {
-        "types": "./dist/index.d.ts",
-        "production": "./dist/parser.min.cjs",
-        "default": "./dist/parser.cjs"
       }
     },
     "./package.json": "./package.json"
@@ -49,7 +41,7 @@
     "name": "echo $npm_package_name",
     "prepack": "yarn p:peggy:prepack; run p:ts:prepack",
     "test": "yarn vitest",
-    "watch": "yarn p:peggy:watch & yarn p:ts:watch"
+    "watch": "yarn p:peggy:watch"
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",

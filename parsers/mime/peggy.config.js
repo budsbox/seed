@@ -1,7 +1,6 @@
 export default {
   allowedStartRules: [
-    'looseMimeType',
-    'validMimeType',
+    'mimeType',
     'essence',
     'type',
     'subtype',
@@ -14,7 +13,4 @@ export default {
   format: 'es',
   input: 'src/parser.peggy',
   output: 'dist/parser.js',
-  returnTypes: {},
-  test: true,
-  testFile: 'src/.test.txt',
 };

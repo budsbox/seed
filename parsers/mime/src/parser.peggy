@@ -1,8 +1,11 @@
-looseMimeType
-  = httpWhitespace* str:validMimeType httpWhitespace* ';'? {return str}
+{
+  const loose = Boolean(options.loose);
+}
+
 // todo: доопределить на этом объекте метод toString
-validMimeType
-  = essence:essence httpWhitespace* parameters:parameters {return {...essence, parameters}}
+mimeType
+  = (&{ return loose} httpWhitespace*)? essence:essence httpWhitespace* parameters:parameters (&{ return loose} httpWhitespace* ';'? httpWhitespace*)?
+  {return {...essence, parameters}}
 
 essence
   = type:type '/' subtype:subtype { return {essence: text().toLowerCase(), type, ...subtype} }
