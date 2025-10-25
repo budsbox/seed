@@ -1,5 +1,5 @@
 looseMimeType
-  = $httpWhitespace* str:validMimeType $httpWhitespace* ';'? {return str}
+  = httpWhitespace* str:validMimeType httpWhitespace* ';'? {return str}
 // todo: доопределить на этом объекте метод toString
 validMimeType
   = essence:essence httpWhitespace* parameters:parameters {return {...essence, parameters}}
@@ -15,6 +15,7 @@ subtype
   name:subtypeName
   suffix:subtypeSuffixWithDelimiter?
   {return {subtype: text().toLowerCase(), subtypeTokens: {tree, name, suffix}}}
+
 
 treeWithDelimiter
   = @tree '.'

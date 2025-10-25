@@ -21,18 +21,18 @@
   "exports": {
     ".": {
       "umd": {
+        "types": "./dist/index.d.ts",
         "production": "./dist/parser.min.umd.js",
-        "types": "./dist/parser.umd.min.js",
         "default": "./dist/parser.umd.js"
       },
       "import": {
-        "types": "./dist/parser.d.ts",
+        "types": "./dist/index.d.ts",
         "production": "./dist/parser.min.js",
         "default": "./dist/parser.js"
       },
       "require": {
+        "types": "./dist/index.d.ts",
         "production": "./dist/parser.min.cjs",
-        "types": "./dist/parser.d.ts",
         "default": "./dist/parser.cjs"
       }
     },
@@ -45,10 +45,11 @@
     "dist/**/*.d.ts"
   ],
   "scripts": {
-    "build": "yarn p:peggy:es",
+    "build": "run p:peggy:es; run p:ts:build",
     "name": "echo $npm_package_name",
-    "prepack": "yarn p:peggy:prepack",
-    "watch": "yarn p:peggy:watch"
+    "prepack": "yarn p:peggy:prepack; run p:ts:prepack",
+    "test": "yarn vitest",
+    "watch": "yarn p:peggy:watch & yarn p:ts:watch"
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",

@@ -5,6 +5,7 @@ export default {
     'essence',
     'type',
     'subtype',
+    'tree',
     'subtypeName',
     'subtypeSuffix',
   ],
