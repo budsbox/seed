@@ -13,7 +13,11 @@ export interface ParseOptions<TRule extends StartRuleNames = DefaultStartRule>
     Parser.ParseOptions<TRule>,
     'grammarSource' | 'startRule' | 'tracer'
   > {
-  readonly loose?: boolean;
+  readonly restrictNames?: boolean;
+  readonly sniff?: boolean;
+  readonly trim?: boolean;
+
+  // it's overloaded to be readonly
   readonly tracer?: Readonly<Parser.ParserTracer>;
 }
 

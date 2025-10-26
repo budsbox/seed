@@ -1,10 +1,16 @@
 {
-  const loose = Boolean(options.loose);
+  const isSniffing = options.sniff ?? false;
+  const isTrim = options.trim ?? isSniffing;
+  const isRestricted = options.restrictNames ?? !isSniffing;
 }
 
 // todo: доопределить на этом объекте метод toString
 mimeType
-  = (&{ return loose} httpWhitespace*)? essence:essence httpWhitespace* parameters:parameters (&{ return loose} httpWhitespace* ';'? httpWhitespace*)?
+  = (&{ return isTrim} httpWhitespace*)?
+  essence:essence httpWhitespace*
+  parameters:parameters
+  (&{ return isSniffing } httpWhitespace* ';')?
+  (&{ return isTrim } httpWhitespace*)?
   {return {...essence, parameters}}
 
 essence
@@ -13,26 +19,41 @@ essence
 type
   = httpTokenChar+ { return text().toLowerCase() }
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
+ */
 subtype
-  = tree:treeWithDelimiter ?
-  name:subtypeName
-  suffix:subtypeSuffixWithDelimiter?
-  {return {subtype: text().toLowerCase(), subtypeTokens: {tree, name, suffix}}}
+  = tree:tree ?
+  trail:subtypeTrail
+  {
+    let name, suffix = null;
+    if (trail.length > 1) {
+      suffix = trail.pop();
+      name = trail.join('');
+    } else {
+      [name] = trail;
+    }
 
-treeWithDelimiter
-  = @tree '.'
+    return {subtype: text().toLowerCase(), subtypeTokens: {tree, name, suffix}}
+  }
+
+subtypeTrail
+  = first:subtypeTrailPart rest:(part:('+' subtypeTrailPart) { return part.join('') })* { return [first, ...rest]}
+
+subtypeTrailPart
+  = (
+      (&{ return isRestricted } restrictedNameFirstChar (restrictedNameChar / '.')*) /
+        (!{ return isRestricted } (!'+' httpTokenChar)+)
+    )
+    { return text().toLowerCase() }
 
 tree
-  = (![.+] httpTokenChar)+ {return text().toLowerCase()}
-
-subtypeName
-  = (!'+' httpTokenChar)+ {return text().toLowerCase()}
-
-subtypeSuffixWithDelimiter
-  = '+' @subtypeSuffix
-
-subtypeSuffix
-  = (!'+' httpTokenChar)+ {return text().toLowerCase()}
+  = (
+    (&{ return isRestricted } restrictedNameFirstChar restrictedNameChar*) /
+      (!{ return isRestricted } (![.+] httpTokenChar)+)
+  )
+  '.'
+  { return text().toLowerCase() }
 
 parameters
   = first:parameterFirst? list:parameterNext* {
@@ -53,13 +74,17 @@ parameterNext
 parameter
   = name:parameterName
     value:(('=' strippedValue:parameterValue {return strippedValue}) / $[^;]* { return '' })
-    {return [name, value]}
+    {return [name, name === 'charset' ? value.toLowerCase() : value]}
 
 parameterPrefix
   = ';' httpWhitespace*
 
 parameterName
-  = name:$[^=;]+ { return name.toLowerCase() }
+  = name:$(
+      (&{ return isRestricted } restrictedNameFirstChar restrictedNameChar*) /
+        (!{return isRestricted} [^=;]+)
+    )
+    { return name.toLowerCase() }
 
 parameterValue
   = (@httpQuotedString [^;]*) / (@$parameterUnquotedValue+ $httpWhitespace*)
@@ -75,6 +100,18 @@ httpQuotedStringChar
 
 httpTokenChar
   = [a-z0-9!#$%&'*+\-.^_`|~]i
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
+ */
+restrictedNameFirstChar
+  = [a-z0-9]i
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
+ */
+restrictedNameChar
+  = [a-z0-9"!#$&\-^_"]i
 
 httpWhitespace
   = [ \t\r\n]

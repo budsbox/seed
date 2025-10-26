@@ -65,7 +65,7 @@
     "p:peggy:minify": "cd $INIT_CWD; NODE_ENV=production swc dist/parser.js --config module.type=$0 --out-file dist/$1",
     "p:peggy:prepack": "cd $INIT_CWD; run p:peggy:es & run p:peggy:cjs & run p:peggy:umd",
     "p:peggy:umd": "cd $INIT_CWD; run p:peggy --format umd --output dist/parser.umd.js; run p:peggy:minify umd parser.umd.min.js",
-    "p:peggy:watch": "cd $INIT_CWD; run p:peggy --watch --source-map",
+    "p:peggy:watch": "cd $INIT_CWD; run p:ts:watch --preserveWatchOutput & run p:peggy --watch --source-map",
     "p:prettier": "prettier --write $INIT_CWD/**",
     "p:scope-prefix": "$SHELL -c 'echo ${@/#/@budsbox/}' sh",
     "p:serve": "cd $INIT_CWD; run p:ts:watch --preserveWatchOutput & vite",

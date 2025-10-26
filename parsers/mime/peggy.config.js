@@ -1,13 +1,5 @@
 export default {
-  allowedStartRules: [
-    'mimeType',
-    'essence',
-    'type',
-    'subtype',
-    'tree',
-    'subtypeName',
-    'subtypeSuffix',
-  ],
+  allowedStartRules: ['mimeType', 'essence', 'type', 'subtype'],
   dependencies: {},
   dts: true,
   format: 'es',
