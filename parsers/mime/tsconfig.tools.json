@@ -1,3 +1,10 @@
 {
-  "extends": "@budsbox/tsconfigs/tsconfig.tools.json"
+  "extends": "@budsbox/tsconfigs/tsconfig.tools.json",
+  "include": [
+    "eslint.config.js",
+    "execDependencyMimesniffTests.js",
+    "package.json",
+    "peggy.config.js",
+    "vitest.config.ts"
+  ]
 }

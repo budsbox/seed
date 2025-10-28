@@ -1,21 +1,49 @@
 {
-  const isSniffing = options.sniff ?? false;
+  const isSniffing = options.sniff ?? true;
+  const isSemantic = !isSniffing
   const isTrim = options.trim ?? isSniffing;
-  const isRestricted = options.restrictNames ?? !isSniffing;
+  const isRestricted = options.restrictNames ?? isSemantic;
+  const isSemanticQuoted = options.quotedSemantics ?? isSemantic;
+
+  const isHttpToken = (str) => /^[a-z0-9!#$%&'*+\-.^_`|~]+$/i.test(str);
 }
 
-// todo: доопределить на этом объекте метод toString
+// mediaRange
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
+ * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
+ */
 mimeType
   = (&{ return isTrim} httpWhitespace*)?
-  essence:essence httpWhitespace*
+  essence:essence
   parameters:parameters
-  (&{ return isSniffing } httpWhitespace* ';')?
   (&{ return isTrim } httpWhitespace*)?
-  {return {...essence, parameters}}
+  {
+    const result = {
+      ...essence,
+      parameters,
+    };
+    const toString = () =>
+      `${result.essence}${[...parameters]
+        .map(([name, value]) => [
+          name,
+          isHttpToken(value) ? value : `"${value.replace(/"/g, '\\"')}"`,
+        ])
+        .map(([name, value]) => `;${name}=${value}`)
+        .join('')}`;
+    Object.defineProperty(result, 'toString', {
+      value: toString
+    })
+    return result;
+  }
 
 essence
   = type:type '/' subtype:subtype { return {essence: text().toLowerCase(), type, ...subtype} }
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
+ */
 type
   = httpTokenChar+ { return text().toLowerCase() }
 
@@ -37,6 +65,20 @@ subtype
     return {subtype: text().toLowerCase(), subtypeTokens: {tree, name, suffix}}
   }
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
+ */
+tree
+  = (
+    (&{ return isRestricted } restrictedNameFirstChar restrictedNameChar*) /
+      (!{ return isRestricted } (![.+] httpTokenChar)+)
+  )
+  '.'
+  { return text().toLowerCase() }
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2.8
+ */
 subtypeTrail
   = first:subtypeTrailPart rest:(part:('+' subtypeTrailPart) { return part.join('') })* { return [first, ...rest]}
 
@@ -47,17 +89,16 @@ subtypeTrailPart
     )
     { return text().toLowerCase() }
 
-tree
-  = (
-    (&{ return isRestricted } restrictedNameFirstChar restrictedNameChar*) /
-      (!{ return isRestricted } (![.+] httpTokenChar)+)
-  )
-  '.'
-  { return text().toLowerCase() }
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-collected-abnf
+ * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
+ */
 parameters
-  = first:parameterFirst? list:parameterNext* {
-    return [...(Boolean(first) ? [first] : []), ...list].filter(([name, value]) => value !== '').reduce((map, [key, value]) => {
+  = list:parameterNext* {
+    return list.filter(Boolean).filter(([name, value]) => value !== '').reduce((map, [key, value]) => {
       if (!map.has(key)) {
         map.set(key, value);
       }
@@ -65,20 +106,29 @@ parameters
     }, new Map())
   }
 
-parameterFirst
-  = @parameter
-
 parameterNext
-  = parameterPrefix @parameter
+  = parameterPrefix @parameter?
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-tokens
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-collected-abnf
+ * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
+ */
 parameter
   = name:parameterName
     value:(('=' strippedValue:parameterValue {return strippedValue}) / $[^;]* { return '' })
     {return [name, name === 'charset' ? value.toLowerCase() : value]}
 
 parameterPrefix
-  = ';' httpWhitespace*
+  = skipWhitespace ';' skipWhitespace
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.3
+ * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
+ */
 parameterName
   = name:$(
       (&{ return isRestricted } restrictedNameFirstChar restrictedNameChar*) /
@@ -86,18 +136,86 @@ parameterName
     )
     { return name.toLowerCase() }
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
+ * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
+ */
 parameterValue
-  = (@httpQuotedString [^;]*) / (@$parameterUnquotedValue+ $httpWhitespace*)
+  = parameterQuotedValue / parameterUnquotedValue
 
+/**
+ * @see https://fetch.spec.whatwg.org/#collect-an-http-quoted-string
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
+ */
 parameterUnquotedValue
-  = (!httpWhitespace [^;])+ (httpWhitespace+ parameterUnquotedValue)?
+  = (&{ return isSemantic } @semanticUnquotedValue) / (&{ return isSniffing } @whatwgUnquotedValue)
 
-httpQuotedString
-  = '"' content:(httpQuotedStringChar*) '"' {return content.join('')}
+/**
+ * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
+ */
+whatwgUnquotedValue
+  = value:[^;]+ { return value.join('').trimEnd() }
 
-httpQuotedStringChar
-  = ('\\' @'"') / (!'"' @.)
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-tokens
+ */
+semanticUnquotedValue
+  = httpToken
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
+ */
+parameterQuotedValue
+  = (&{ return isSemantic } @semanticQuotedString) / (&{ return isSniffing } @whatwgQuotedString [^;]*)
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
+ * @see https://fetch.spec.whatwg.org/#collect-an-http-quoted-string
+ */
+semanticQuotedString
+  = DQUOTE content:(semanticQuotedChar / semanticQuotedPair)* DQUOTE { return content.join('') }
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
+ */
+semanticQuotedChar
+  = HTAB / SP / [!#-[\]-~] / obsText
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
+ */
+semanticQuotedPair
+  = '\\' @(HTAB / SP / VCHAR / obsText)
+
+/**
+ * @see https://fetch.spec.whatwg.org/#collect-an-http-quoted-string
+ */
+whatwgQuotedString
+  = DQUOTE content:(whatwgQuotedPair / whatwgQuotedChar)* DQUOTE { return content.join('') }
+
+/**
+ * @see https://fetch.spec.whatwg.org/#collect-an-http-quoted-string
+ */
+whatwgQuotedPair
+  = (@'\\' &(!.)) / ('\\' @.)
+
+/**
+ * @see https://fetch.spec.whatwg.org/#collect-an-http-quoted-string
+ */
+whatwgQuotedChar
+  = [^"\\]
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-tokens
+ */
+httpToken
+  = token:httpTokenChar+ { return token.join('')}
+
+/**
+ * @see https://mimesniff.spec.whatwg.org/#http-token-code-point
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#section-5.6.2
+ */
 httpTokenChar
   = [a-z0-9!#$%&'*+\-.^_`|~]i
 
@@ -112,6 +230,45 @@ restrictedNameFirstChar
  */
 restrictedNameChar
   = [a-z0-9"!#$&\-^_"]i
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-field-values
+ */
+obsText
+  = [\u0080-\u00FF]
 
+/**
+ * Any visible ASCII char
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-syntax-notation
+ */
+VCHAR
+  = [\u0020-\u007e]
+
+skipWhitespace
+  = (!{ return isSniffing} OWS) / (&{ return isSniffing } httpWhitespace*)
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-whitespace
+ */
+OWS
+  = (HTAB / SP)*
+
+/**
+ * @see https://fetch.spec.whatwg.org/#http-whitespace
+ */
 httpWhitespace
-  = [ \t\r\n]
+  = CR / LF / HTAB / SP
+
+CR
+  ='\r'
+
+LF
+  ='\n'
+
+HTAB
+  = '\t'
+
+SP
+  = ' '
+
+DQUOTE
+  = '"'

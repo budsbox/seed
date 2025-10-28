@@ -1,9 +1,10 @@
-import { describe, expect, test } from 'vitest';
+import { describe, expect, test, expectTypeOf } from 'vitest';
 import {
   parse,
   ParseFunction,
   SyntaxError as ParserSyntaxError,
 } from '@budsbox/parsers-mime';
+// import mimesniffTest from 'mimesniff-tests';
 
 const grammarSource = '<test-string>';
 
@@ -41,6 +42,18 @@ describe.concurrent('RFC compliance, common cases', () => {
         subtypeTokens: { tree: null, name: 'html', suffix: null },
         parameters: new Map(),
       });
+    });
+
+    test('should have toString method', () => {
+      const type = parseFormatted('text/html');
+      expect(Object.hasOwn(type, 'toString')).toEqual(true);
+      expectTypeOf(type.toString).toBeFunction();
+    });
+
+    test('should parse "text/html" and serialize it back', () => {
+      expectTypeOf(overloadedParse('text/html').toString).toBeFunction();
+      expect(typeof overloadedParse('text/html').toString).toBe('function');
+      expect(overloadedParse('text/html').toString()).toEqual('text/html');
     });
 
     test('should lowercase essence', () => {
