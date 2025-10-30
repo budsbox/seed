@@ -4,7 +4,7 @@ import {
   ParseFunction,
   SyntaxError as ParserSyntaxError,
 } from '@budsbox/parsers-mime';
-// import mimesniffTest from 'mimesniff-tests';
+import mimesniffTest from 'mimesniff-tests';
 
 const grammarSource = '<test-string>';
 
@@ -97,8 +97,14 @@ describe.concurrent('RFC compliance, common cases', () => {
 });
 
 describe.concurrent('Sniffing mode', () => {
+  const overloadedParse: ParseFunction = (input, options) =>
+    parseFormatted(input, {
+      ...options,
+      sniff: true,
+    });
+
   test('should accept leading/trailing whitespace and trailing semicolon in sniffing mode', () => {
-    expect(parse('  text/html  ;   ', { sniff: true })).toEqual({
+    expect(overloadedParse('  text/html  ;   ')).toEqual({
       essence: 'text/html',
       type: 'text',
       subtype: 'html',
@@ -108,15 +114,14 @@ describe.concurrent('Sniffing mode', () => {
   });
 
   test('should parse unquoted values with internal spaces and trim trailing spaces', () => {
-    const res = parseFormatted('text/plain; note=foo   bar  baz   ');
+    const res = overloadedParse('text/plain; note=foo   bar  baz   ');
     expect(res.parameters).toEqual(new Map([['note', 'foo   bar  baz']]));
   });
 
   test('should parse overcomplicated non-restricted MIME-type in sniffing mode', () => {
     expect(
-      parseFormatted(
-        '  apP.lIcaTion/emergencycAlldata.deviceiNfo+xMl;  chaRset=utf-8   ;foo=bAr "  azAz ; kEk  =foo ;  ror ="lol fof \\"  ";bruh=""; oraoraora  = ; foo=   ; fufufu =1     ',
-        { sniff: true },
+      overloadedParse(
+        '  apP.lIcaTion/emergencycAlldata.deviceiNfo+xMl;  chaRset=utf-8   ;foo=bAr "  azAz ; kEk=foo ;  ror="lol fof \\"  ";bruh=""; oraoraora= ; foo=   ; fufufu=1     ',
       ),
     ).toEqual({
       essence: 'app.lication/emergencycalldata.deviceinfo+xml',
@@ -130,10 +135,21 @@ describe.concurrent('Sniffing mode', () => {
       parameters: new Map([
         ['charset', 'utf-8'],
         ['foo', 'bAr "  azAz'],
-        ['kek  ', 'foo'],
-        ['ror ', 'lol fof "  '],
-        ['fufufu ', '1'],
+        ['kek', 'foo'],
+        ['ror', 'lol fof "  '],
+        ['fufufu', '1'],
       ]),
     });
   });
+
+  test.for(mimesniffTest)(
+    'should pass test: $input -> $output',
+    ({ input, output }) => {
+      if (output === null) {
+        expect(() => overloadedParse(input)).toThrowError('Expected');
+      } else {
+        expect(overloadedParse(input).toString()).toEqual(output);
+      }
+    },
+  );
 });

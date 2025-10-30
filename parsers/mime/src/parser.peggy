@@ -6,6 +6,7 @@
   const isSemanticQuoted = options.quotedSemantics ?? isSemantic;
 
   const isHttpToken = (str) => /^[a-z0-9!#$%&'*+\-.^_`|~]+$/i.test(str);
+  const isHttpQuotedStringCompatible = (str) => /^[\t\u0020-\u007e\u0080-\u00FF]+$/i.test(str);
 }
 
 // mediaRange
@@ -98,12 +99,15 @@ subtypeTrailPart
  */
 parameters
   = list:parameterNext* {
-    return list.filter(Boolean).filter(([name, value]) => value !== '').reduce((map, [key, value]) => {
-      if (!map.has(key)) {
-        map.set(key, value);
-      }
-      return map;
-    }, new Map())
+    return list
+      .filter(Boolean)
+      .filter(([name, value]) => (isSemantic || isHttpToken(name) && isHttpQuotedStringCompatible(value)) && value !== '')
+      .reduce((map, [key, value]) => {
+        if (!map.has(key)) {
+          map.set(key, value);
+        }
+        return map;
+      }, new Map())
   }
 
 parameterNext
@@ -132,7 +136,7 @@ parameterPrefix
 parameterName
   = name:$(
       (&{ return isRestricted } restrictedNameFirstChar restrictedNameChar*) /
-        (!{return isRestricted} [^=;]+)
+        (!{return isRestricted} [^=;]*)
     )
     { return name.toLowerCase() }
 
@@ -154,7 +158,7 @@ parameterUnquotedValue
  * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
  */
 whatwgUnquotedValue
-  = value:[^;]+ { return value.join('').trimEnd() }
+  = value:[^;]+ { return value.join('').replace(/[ \t\r\n]+$/, '') }
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
