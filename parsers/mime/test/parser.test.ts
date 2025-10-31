@@ -142,8 +142,11 @@ describe.concurrent('Sniffing mode', () => {
     });
   });
 
+  /**
+   * @see https://github.com/web-platform-tests/wpt/blob/4388a16a0229329e0e4bd770fc88bcf423d2b7bb/mimesniff/mime-types/resources/generated-mime-types.json
+   */
   test.for(mimesniffTest)(
-    'should pass test: $input -> $output',
+    'should pass standard test: $input -> $output',
     ({ input, output }) => {
       if (output === null) {
         expect(() => overloadedParse(input)).toThrowError('Expected');
