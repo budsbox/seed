@@ -1,8 +1,5 @@
 {
   "extends": "@budsbox/tsconfigs/tsconfig.iso.lib.json",
-  "compilerOptions": {
-    "emitDeclarationOnly": true
-  },
   "references": [
     {
       "path": "../../lib/es/tsconfig.lib.json"

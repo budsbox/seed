@@ -1,8 +1,9 @@
-import { describe, expect, test, expectTypeOf } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import {
   parse,
   ParseFunction,
   SyntaxError as ParserSyntaxError,
+  serializeMimeType,
 } from '@budsbox/parsers-mime';
 import mimesniffTest from 'mimesniff-tests';
 
@@ -44,16 +45,10 @@ describe.concurrent('RFC compliance, common cases', () => {
       });
     });
 
-    test('should have toString method', () => {
-      const type = parseFormatted('text/html');
-      expect(Object.hasOwn(type, 'toString')).toEqual(true);
-      expectTypeOf(type.toString).toBeFunction();
-    });
-
     test('should parse "text/html" and serialize it back', () => {
-      expectTypeOf(overloadedParse('text/html').toString).toBeFunction();
-      expect(typeof overloadedParse('text/html').toString).toBe('function');
-      expect(overloadedParse('text/html').toString()).toEqual('text/html');
+      expect(serializeMimeType(overloadedParse('text/html'))).toEqual(
+        'text/html',
+      );
     });
 
     test('should lowercase essence', () => {
@@ -151,7 +146,7 @@ describe.concurrent('Sniffing mode', () => {
       if (output === null) {
         expect(() => overloadedParse(input)).toThrowError('Expected');
       } else {
-        expect(overloadedParse(input).toString()).toEqual(output);
+        expect(serializeMimeType(overloadedParse(input))).toEqual(output);
       }
     },
   );

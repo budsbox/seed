@@ -21,12 +21,11 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "umd": "./dist/parser.min.umd.js",
-      "require": "./dist/parser.min.cjs",
       "import": {
-        "production": "./dist/parser.min.js",
-        "default": "./dist/parser.js"
-      }
+        "production": "./dist/index.min.js",
+        "default": "./dist/index.js"
+      },
+      "require": "./dist/index.min.cjs"
     },
     "./package.json": "./package.json"
   },
