@@ -27,10 +27,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
         level: 'basic',
         configs: [
           {
-            files: matchIncludes({
-              lang: 'ts',
-              jsx: true,
-            }),
+            files: matchIncludes({ jsx: true }),
             languageOptions: {
               parser: eslintTs.parser as Linter.Parser,
               parserOptions: {
@@ -47,12 +44,10 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
       createConfig({
         name: 'typescript/recommended',
         level: 'recommended',
+        modifies: ['typescript/basic'],
         configs: [
           {
-            files: matchIncludes({
-              lang: 'ts',
-              jsx: true,
-            }),
+            files: matchIncludes({ jsx: true }),
             rules:
               eslintTs.configs.recommendedTypeChecked.reduce<Linter.RulesRecord>(
                 (acc, { rules }) => ({
@@ -71,10 +66,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
         modifies: ['typescript/recommended'],
         configs: [
           {
-            files: matchIncludes({
-              lang: 'ts',
-              jsx: true,
-            }),
+            files: matchIncludes({ jsx: true }),
             rules:
               eslintTs.configs.strictTypeChecked.reduce<Linter.RulesRecord>(
                 (acc, { rules }) => ({
@@ -89,17 +81,22 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
 
       createConfig({
         name: 'typescript/opinionated',
-        modifies: ['typescript/strict'],
+        modifies: [
+          'typescript/strict',
+          'builtin/basic',
+          'builtin/strict',
+          'builtin/recommended',
+          'builtin/opinionated',
+        ],
         configs: [
           {
-            files: matchIncludes({
-              lang: 'ts',
-              jsx: true,
-            }),
+            files: matchIncludes({ jsx: true }),
             plugins: {
               perfectionist,
             },
             rules: {
+              'no-undef': ['off'],
+
               '@typescript-eslint/array-type': [
                 'error',
                 { default: 'array-simple' },
