@@ -5,7 +5,6 @@
   const isRestricted = options.restrictNames ?? isSemantic;
   const isSemanticQuoted = options.quotedSemantics ?? isSemantic;
 
-  const isHttpQuotedStringCompatible = (str) => /^[\t\u0020-\u007e\u0080-\u00FF]+$/i.test(str);
 }
 
 // mediaRange
@@ -59,7 +58,7 @@ subtype
  */
 tree
   = (
-    (&{ return isRestricted } restrictedNameFirstChar restrictedNameChar*) /
+    (&{ return isRestricted } restrictedName) /
       (!{ return isRestricted } (![.+] httpTokenChar)+)
   )
   '.'
@@ -125,11 +124,11 @@ parameterPrefix
 parameterName
   = name:(
       (&{ return isRestricted } rName:restrictedName { return rName }) /
-        (!{return isRestricted} wName:whatwgParameterName { return wName })
+        (!{return isRestricted} wName:sniffParameterName { return wName })
     )
     { return name == null ? null : name.toLowerCase() }
 
-whatwgParameterName
+sniffParameterName
   = (token:httpToken &[;=] { return token; }) / ([^=;]* { return null })
 
 /**
@@ -145,15 +144,15 @@ parameterValue
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-tokens
  */
 parameterUnquotedValue
-  = (&{ return isSemantic } @httpToken) / (&{ return isSniffing } @whatwgUnquotedValue)
+  = (&{ return isSniffing } @sniffUnquotedValue) / @httpToken
 
 /**
  * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
  */
-whatwgUnquotedValue
-  = !DQUOTE @(@$(whatwgUnquotedValuePart (RWS whatwgUnquotedValuePart)*) OWS) / @skipParameterValue
+sniffUnquotedValue
+  = !'"' @(@$(sniffUnquotedValuePart (RWS sniffUnquotedValuePart)*) OWS) / @skipParameterValue
 
-whatwgUnquotedValuePart
+sniffUnquotedValuePart
   = $(!(fetchHttpWhitespace / ';') httpQuotedTokenChar)+
 
 /**
@@ -161,7 +160,7 @@ whatwgUnquotedValuePart
  * @see https://fetch.spec.whatwg.org/#collect-an-http-quoted-string
  */
 semanticQuotedString 'semantic quoted-string'
-  = DQUOTE content:(httpQuotedPair / httpQuotedStringChar)* DQUOTE { return content.length === 0 ? null : content.join('') }
+  = '"' content:(httpQuotedPair / httpQuotedStringChar)* '"' { return content.length === 0 ? null : content.join('') }
 
 skipParameterValue
   = [^;]+ { return null }
@@ -170,32 +169,32 @@ skipParameterValue
  * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
  */
 httpQuotedPair
-  = '\\' @(HTAB / SP / VCHAR / obsText)
+  = '\\' @([ \t] / VCHAR / obsText)
 
 /**
  * @see https://mimesniff.spec.whatwg.org/#http-quoted-string-token-code-point
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-quoted-strings
  */
-httpQuotedStringChar
+httpQuotedStringChar 'HTTP quoted string char'
   = !'"' @httpQuotedTokenChar
 
 /**
  * @see https://mimesniff.spec.whatwg.org/#http-quoted-string-token-code-point
  */
-httpQuotedTokenChar
+httpQuotedTokenChar 'HTTP quoted string token char ([\\t\\u0020-\\u007e\\u0080-\\u00FF])'
   = [\t\u0020-\u007e\u0080-\u00FF]
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-tokens
  */
-httpToken
+httpToken 'HTTP token'
   = token:httpTokenChar+ { return token.join('')}
 
 /**
  * @see https://mimesniff.spec.whatwg.org/#http-token-code-point
  * @see https://datatracker.ietf.org/doc/html/rfc9110#section-5.6.2
  */
-httpTokenChar
+httpTokenChar 'HTTP Token char'
   = [a-z0-9!#$%&'*+\-.^_`|~]i
 
 restrictedName 'restricted-name'
@@ -204,57 +203,42 @@ restrictedName 'restricted-name'
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
  */
-restrictedNameFirstChar
+restrictedNameFirstChar 'restricted-name first char ([a-z0-9]i)'
   = [a-z0-9]i
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
  */
-restrictedNameChar
+restrictedNameChar 'restricted-name char ([a-z0-9"!#$&\-^_"]i)'
   = [a-z0-9"!#$&\-^_"]i
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-field-values
  */
-obsText
+obsText 'obs-text ([\u0080-\u00FF])'
   = [\u0080-\u00FF]
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-syntax-notation
  */
-VCHAR 'any visible ASCII char'
+VCHAR 'visible ASCII char ([\\u0020-\\u007e])'
   = [\u0020-\u007e]
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-whitespace
+ */
 RWS 'required whitespaces'
-  = $(&{ return isSemantic} semanticWhitespace+) /
+  = $(&{ return isSemantic} [ \t]+) /
     $(&{ return isSniffing } fetchHttpWhitespace+)
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc9110#name-whitespace
+ */
 OWS 'optional whitespaces'
-  = $(&{ return isSemantic} semanticWhitespace*) /
+  = $(&{ return isSemantic} [ \t]*) /
     $(&{ return isSniffing } fetchHttpWhitespace*)
 
 /**
  * @see https://fetch.spec.whatwg.org/#http-whitespace
  */
-fetchHttpWhitespace 'whitespaces of Fetch spec'
-  = CR / LF / HTAB / SP
-
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc9110#name-whitespace
- */
-semanticWhitespace 'HTTP Semantic whitespace'
-  = HTAB / SP
-
-CR 'caret return'
-  ='\r'
-
-LF 'line feeding'
-  ='\n'
-
-HTAB 'horizontal tab'
-  = '\t'
-
-SP 'space'
-  = ' '
-
-DQUOTE 'double quote'
-  = '"'
+fetchHttpWhitespace 'Fetch HTTP whitespace ([ \\t\\r\\n])'
+  = [ \t\r\n]
