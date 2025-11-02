@@ -36,11 +36,12 @@
     "dist/**/*.d.ts"
   ],
   "scripts": {
-    "build": "run p:peggy:es; run p:ts:build",
+    "build": "run p:peggy:build; run p:ts:build",
     "name": "echo $npm_package_name",
-    "prepack": "yarn p:peggy:prepack; run p:ts:prepack",
-    "test": "yarn vitest",
-    "watch": "yarn p:peggy:watch"
+    "prepack": "run p:peggy:prepack; run p:ts:prepack",
+    "test": "vitest",
+    "trace": "run p:ts:watch:no-clear & run p:peggy:trace",
+    "watch": "run p:ts:watch:no-clear & run p:peggy:watch"
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
