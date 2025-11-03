@@ -21,6 +21,6 @@ tab_width = 4
 indent_size = 4
 tab_width = 4
 
-[.test.txt]
+[.peggy-test.txt]
 insert_final_newline = false
 trim_trailing_whitespace = false
