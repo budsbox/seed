@@ -74,6 +74,15 @@ export const parse = Parser.parse as <
   options?: ParseOptions<TRule>,
 ) => RuleResult<TMultiParameter>[TRule];
 
+export const sniff = <
+  TRule extends StartRuleNames = DefaultStartRule,
+  TMultiParameter extends MultiParameterOption = 'first',
+>(
+  input: string,
+  options?: Omit<ParseOptions<TRule>, 'sniff'> & {},
+): RuleResult<TMultiParameter>[TRule] =>
+  parse(input, { ...options, sniff: true });
+
 export type ParseFunction = typeof parse;
 
 const isHttpToken = (value: string): boolean => {

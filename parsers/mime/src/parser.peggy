@@ -1,6 +1,6 @@
 {
-  const isSniffing = options.sniff ?? true;
-  const isSemantic = !isSniffing
+  const isSniffing = options.sniff ?? false;
+  const isSemantic = !isSniffing;
   const isTrim = options.trim ?? isSniffing;
   const isRestricted = options.restrictNames ?? isSemantic;
   const isSemanticQuoted = options.quotedSemantics ?? isSemantic;
@@ -27,13 +27,15 @@ mimeType
   }
 
 essence
-  = type:type '/' subtype:subtype { return {essence: text().toLowerCase(), type, ...subtype} }
+  = type:type '/' subtype:subtype
+  { return {essence: text().toLowerCase(), type, ...subtype} }
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
  */
 type
-  = httpTokenChar+ { return text().toLowerCase() }
+  = (isRestrictedName / (!{ return isRestricted } httpToken))
+  { return text().toLowerCase() }
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
@@ -57,10 +59,7 @@ subtype
  * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
  */
 tree
-  = (
-    (&{ return isRestricted } restrictedName) /
-      (!{ return isRestricted } (![.+] httpTokenChar)+)
-  )
+  = (isRestrictedName / (!{ return isRestricted } (![.+] httpTokenChar)+))
   '.'
   { return text().toLowerCase() }
 
@@ -111,7 +110,7 @@ parameter
   = name:parameterName
     value:(('=' strippedValue:parameterValue {return strippedValue}) / $[^;]* { return null })
     {
-      return (name == null) || (value == null) ? null : [name, name === 'charset' ? value.toLowerCase() : value]
+      return (name == null) || (value == null) ? null : [name, name === 'charset' ? value.toLowerCase() : value];
     }
 
 parameterPrefix
@@ -123,7 +122,7 @@ parameterPrefix
  */
 parameterName
   = name:(
-      (&{ return isRestricted } rName:restrictedName { return rName }) /
+      isRestrictedName /
         (!{return isRestricted} wName:sniffParameterName { return wName })
     )
     { return name == null ? null : name.toLowerCase() }
@@ -183,6 +182,9 @@ httpQuotedStringChar 'HTTP quoted string char'
  */
 httpQuotedTokenChar 'HTTP quoted string token char ([\\t\\u0020-\\u007e\\u0080-\\u00FF])'
   = [\t\u0020-\u007e\u0080-\u00FF]
+
+isRestrictedName
+  = &{ return isRestricted } @restrictedName
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-tokens
