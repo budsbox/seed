@@ -19,6 +19,9 @@
     },
     "#es.d.ts": {
       "types": "./es.d.ts"
+    },
+    "#exec-dependency": {
+      "types": "./exec-dependency.d.ts"
     }
   },
   "exports": {
@@ -31,6 +34,9 @@
     },
     "./es.d.ts": {
       "types": "./es.d.ts"
+    },
+    "./exec-dependency": {
+      "types": "./exec-dependency.d.ts"
     },
     ".": {
       "types": "./dist/index.d.ts"

@@ -1,4 +1,4 @@
-/// <reference types="./exec-dependency.d.ts" />
+/// <reference types="@budsbox/lib-types/exec-dependency" />
 async function main() {
   const testsUrl =
     'https://raw.githubusercontent.com/web-platform-tests/wpt/2fefbd3faf1023649a94875b1b98c792d6836c9e/mimesniff/mime-types/resources/generated-mime-types.json';

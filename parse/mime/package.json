@@ -1,5 +1,5 @@
 {
-  "name": "@budsbox/parsers-mime",
+  "name": "@budsbox/parse-mime",
   "version": "0.0.0",
   "homepage": "https://gitlab.com/budsbox/fe/seed",
   "bugs": {
@@ -10,21 +10,27 @@
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
-    "#package.json": "./package.json",
     "#parser": {
       "import": {
         "types": "./dist/parser.d.ts",
         "default": "./dist/parser.js"
       }
-    }
+    },
+    "#types": {
+      "types": "./dist/types.d.ts",
+      "budsbox": "./src/types.ts"
+    },
+    "#package.json": "./package.json"
   },
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
       "import": {
-        "production": "./dist/index.min.js",
-        "default": "./dist/index.js"
+        "@budsbox/": "./src/index.ts",
+        "default": "./dist/index.js",
+        "types": "./dist/index.d.ts",
+        "production": "./dist/index.min.js"
       },
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.min.cjs"
     },
     "./package.json": "./package.json"
@@ -47,7 +53,6 @@
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@types/node": "^22.15.2",
-    "@types/whatwg-mimetype": "^3.0.2",
     "tslib": "^2.8.1",
     "type-fest": "^4.32.0"
   },
@@ -58,11 +63,10 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "eslint": "^9.26.0",
-    "mimesniff-tests": "exec:./execDependencyMimesniffTests.cjs",
+    "mime-sniff-test-data": "exec:./exec-dependencies/mime-sniff-test-data.cjs",
     "peggy": "^5.0.6",
     "typescript": "^5.8.3",
-    "vitest": "^4.0.4",
-    "whatwg-mimetype": "^4.0.0"
+    "vitest": "^4.0.4"
   },
   "packageManager": "yarn@4.9.2"
 }

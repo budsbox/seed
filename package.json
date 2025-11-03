@@ -33,7 +33,7 @@
     "./tsconfigs",
     "./packages/*",
     "./ui/components/*",
-    "./parsers/*"
+    "./parse/*"
   ],
   "scripts": {
     "autotag-all-since": "YARN_CHANGESET_BASE_REFS=$0 yarn workspaces foreach --parallel --since --no-private run p:autotag",
@@ -133,7 +133,7 @@
     "@budsbox/lib-yarn": "workspace:^",
     "@budsbox/linting": "workspace:^",
     "@budsbox/node-utils": "workspace:^",
-    "@budsbox/parsers-mime": "workspace:^",
+    "@budsbox/parse-mime": "workspace:^",
     "@budsbox/playground": "workspace:^",
     "@budsbox/sass-importers": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",

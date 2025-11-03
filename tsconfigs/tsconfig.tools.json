@@ -14,7 +14,8 @@
     "${configDir}/vite.config.ts",
     "${configDir}/vitest.config.js",
     "${configDir}/vitest.config.ts",
-    "${configDir}/yarn.config.cjs"
+    "${configDir}/yarn.config.cjs",
+    "exec-dependencies"
   ],
   "compilerOptions": {
     "rootDir": "${configDir}",

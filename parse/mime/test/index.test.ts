@@ -5,8 +5,8 @@ import {
   ParseFunction,
   SyntaxError as ParserSyntaxError,
   serializeMimeType,
-} from '@budsbox/parsers-mime';
-import mimesniffTest from 'mimesniff-tests';
+} from '@budsbox/parse-mime';
+import mimesniffTest from 'mime-sniff-test-data';
 
 const grammarSource = '<test-string>';
 
