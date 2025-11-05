@@ -17,7 +17,7 @@ import * as reactLib from './templates/react-lib.js';
 import * as react from './templates/react.js';
 
 const cwdPckg = await findCurrentPackageJson();
-const { scope } = parsePackageName(cwdPckg.json.name ?? '');
+const { scope } = parsePackageName(cwdPckg.json.name ?? '', true);
 
 const scopedExports =
   isString(scope) ?
@@ -29,6 +29,12 @@ const scopedExports =
 export const archetypes = {
   'base': {
     internal: true,
+
+    manifest: {
+      scripts: {
+        test: 'vitest',
+      },
+    },
 
     commands: ['yarn p:format'],
     dependencies: [
@@ -42,6 +48,7 @@ export const archetypes = {
       '@budsbox/tsconfigs',
       '@budsbox/eslint',
       '@budsbox/eslint_presets-tools',
+      'vitest',
     ],
     files: baseTpl.files,
   },
@@ -59,17 +66,15 @@ export const archetypes = {
     manifest: {
       imports: {
         '#types': {
-          ...scopedExports('./src/types.d.ts'),
+          ...scopedExports('./src/types.ts'),
           types: './dist/types.d.ts',
         },
       },
       exports: {
         '.': {
-          import: {
-            ...scopedExports('./src/index.ts'),
-            default: './dist/index.js',
-            types: './dist/index.d.ts',
-          },
+          ...scopedExports('./src/index.ts'),
+          types: './dist/index.d.ts',
+          default: './dist/index.js',
         },
       },
       files: [
@@ -83,6 +88,10 @@ export const archetypes = {
       },
     },
     files: lib.files,
+  },
+  'parser': {
+    internal: true,
+    at: 'parse',
   },
 
   'browser': {
@@ -115,16 +124,9 @@ export const archetypes = {
       },
       exports: {
         '.': {
-          import: {
-            ...scopedExports('./src/index.ts'),
-            types: './dist/index.d.ts',
-            default: './dist/index.mjs',
-          },
-          require: {
-            ...scopedExports('./src/index.ts'),
-            types: './dist/index.d.ts',
-            default: './dist/index.cjs',
-          },
+          ...scopedExports('./src/index.ts'),
+          types: './dist/index.d.ts',
+          default: './dist/index.js',
         },
         './*.css': './dist/*.css',
       },
@@ -152,36 +154,33 @@ export const archetypes = {
     files: nodeLib.files,
   },
   'peggy': {
-    extends: 'iso-lib',
+    extends: ['iso-lib', 'parser'],
 
-    at: 'parsers',
     devDependencies: ['...', 'peggy'],
     files: peggy.files,
     manifest: {
       scripts: {
-        prepack: 'yarn p:peggy:prepack',
-        watch: 'yarn p:peggy:watch',
+        build: 'run p:peggy:build; run p:ts:build',
+        prepack: 'run p:peggy:prepack; run p:ts:prepack',
+        test: 'vitest',
+        trace: 'run p:ts:watch:no-clear & run p:peggy:trace',
+        watch: 'run p:ts:watch:no-clear & run p:peggy:watch',
       },
       imports: {
-        '#types': null,
+        '#parser': {
+          types: './dist/parser.d.ts',
+          default: './dist/parser.js',
+        },
       },
       exports: {
         '.': {
+          types: './dist/index.d.ts',
           import: {
-            production: './dist/parser.min.js',
-            types: './dist/parser.d.ts',
-            default: './dist/parser.js',
+            production: './dist/index.min.js',
+            default: './dist/index.js',
           },
-          require: {
-            production: './dist/parser.min.cjs',
-            types: './dist/parser.d.ts',
-            default: './dist/parser.cjs',
-          },
-          umd: {
-            production: './dist/parser.min.umd.js',
-            types: './dist/parser.umd.min.js',
-            default: './dist/parser.umd.js',
-          },
+          require: './dist/index.min.cjs',
+          default: './dist/index.js',
         },
       },
     },
@@ -207,25 +206,19 @@ export const archetypes = {
     manifest: {
       imports: {
         '#lib': {
-          import: {
-            ...scopedExports('./src/lib.ts'),
-            types: './dist/lib.d.ts',
-            default: './dist/index.mjs',
-          },
+          ...scopedExports('./src/lib.ts'),
+          types: './dist/lib.d.ts',
+          default: './dist/index.mjs',
         },
         '#model': {
-          import: {
-            ...scopedExports('./src/model.ts'),
-            types: './dist/model.d.ts',
-            default: './dist/index.mjs',
-          },
+          ...scopedExports('./src/model.ts'),
+          types: './dist/model.d.ts',
+          default: './dist/index.mjs',
         },
         '#ui': {
-          import: {
-            ...scopedExports('./src/ui/index.ts'),
-            types: './dist/ui/index.d.ts',
-            default: './dist/index.mjs',
-          },
+          ...scopedExports('./src/ui/index.ts'),
+          types: './dist/ui/index.d.ts',
+          default: './dist/index.mjs',
         },
       },
     },
@@ -236,18 +229,14 @@ export const archetypes = {
     manifest: {
       imports: {
         '#ui': {
-          import: {
-            ...scopedExports('./src/ui/index.ts'),
-            types: './dist/ui/index.d.ts',
-            default: './dist/ui/index.js',
-          },
+          ...scopedExports('./src/ui/index.ts'),
+          types: './dist/ui/index.d.ts',
+          default: './dist/ui/index.js',
         },
         '#model': {
-          import: {
-            ...scopedExports('./src/model/index.ts'),
-            types: './dist/model/index.d.ts',
-            default: './dist/index.mjs',
-          },
+          ...scopedExports('./src/model/index.ts'),
+          types: './dist/model/index.d.ts',
+          default: './dist/index.mjs',
         },
       },
     },

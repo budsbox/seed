@@ -12,6 +12,10 @@ export const files = {
 {
   "extends": "@budsbox/tsconfigs/tsconfig.tools.json"
 }
-
+  `,
+  'tsconfig.test.json': `
+{
+  "extends": "@budsbox/tsconfigs/tsconfig.iso.test.json"
+}
   `,
 } as const;

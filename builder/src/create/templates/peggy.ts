@@ -56,25 +56,14 @@ export default await createFlatConfig({
   `,
   'peggy.config.js': `
 export default {
-  allowedStartRules: ['main'],
-  dependencies: {},
+  allowedStartRules: [],
   dts: true,
   format: 'es',
   input: 'src/parser.peggy',
   output: 'dist/parser.js',
-  returnTypes: {},
-  test: true,
-  testFile: 'src/.test.txt',
 };
   `,
-  'tsconfig.lib.json': `
-{
-  "extends": "@budsbox/tsconfigs/tsconfig.iso.lib.json"
-}
-  `,
 
-  'src/.test.txt': '',
-  'src/index.ts': null,
+  'src/.peggy-test.txt': '',
   'src/parser.peggy': '',
-  'src/types.ts': null,
 } as const satisfies ArchetypeFiles;

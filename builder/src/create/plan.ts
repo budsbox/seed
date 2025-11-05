@@ -97,7 +97,7 @@ export async function makePlan({
   const pkgManifest = mergeManifests(
     {
       name: ident,
-      license: root.manifest.license,
+      ...sure(root.manifest.license, (license) => ({ license })),
     },
     resolvedArchetype.manifest,
   );
@@ -173,7 +173,6 @@ export async function makePlan({
           .map((base) =>
             joinPath('.', relative(parentWs.cwd, targetBase), base),
           )
-          // .map((base) => `./${join(relative(parentWs.cwd, targetBase), base)}`)
           .map((pattern) => ({
             value: pattern,
             label: JSON.stringify(pattern),
@@ -221,6 +220,7 @@ export async function makePlan({
   if (resolvedArchetype.peerDependencies.length > 0) {
     const peers = resolvedArchetype.peerDependencies.join(' ');
     commands.push(
+      // yarn will fail if the peer is already installed as dependency, so we remove it first
       resolveCmd({
         exec: `yarn remove ${peers} || exit 0`,
         options: { env: installEnv },
@@ -279,6 +279,13 @@ export async function explainPlan(
   log.info(
     `  cwd: ${rel(plan.cwd)} ${chalk.gray(`(base "${rel(plan.at)}")`)} (${plan.willCreateCwd ? chalk.green('will be created') : chalk.yellow('already exists')}) `,
   );
+
+  const packageJson = plan.files.find((file) =>
+    file.path.endsWith('package.json'),
+  )!;
+
+  log.info(`  with package.json contains: \n${packageJson.content}`);
+
   const toOverwrite = plan.files.filter((f) => f.isOverwrite).length;
   if (plan.files.length) {
     log.info(
@@ -292,6 +299,7 @@ export async function explainPlan(
   } else {
     log.info('  write files: none');
   }
+
   log.info('  run commands:');
   for (const cmd of plan.commands)
     log.info(
