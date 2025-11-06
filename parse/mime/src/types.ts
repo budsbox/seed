@@ -6,7 +6,7 @@ export type StartRuleNames = Parser.StartRuleNames;
 
 export type DefaultStartRule = NonNullable<Parser.ParseOptions['startRule']>;
 
-export type MultiParameterOption = 'first' | 'last' | 'multi';
+export type MultiParameterOption = 'keep-first' | 'keep-last' | 'list';
 export interface ParseOptions<
   TRule extends StartRuleNames = DefaultStartRule,
   TMultiParameter extends MultiParameterOption = MultiParameterOption,

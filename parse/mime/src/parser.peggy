@@ -4,7 +4,7 @@
   const isTrim = options.trim ?? isSniffing;
   const isRestricted = options.restrictNames ?? isSemantic;
   const isSemanticQuoted = options.quotedSemantics ?? isSemantic;
-
+  const multiParameter = options.multiParameter ?? 'keep-first';
 }
 
 // mediaRange
@@ -88,9 +88,10 @@ parameters
     return list
       .filter(Boolean)
       .reduce((map, [key, value]) => {
-        if (!map.has(key)) {
-          map.set(key, value);
+        if (!map.has(key) || multiParameter !== 'keep-first') {
+          map.set(key, multiParameter === 'list' ? [...(map.get(key) ?? []), value] : value);
         }
+
         return map;
       }, new Map())
   }

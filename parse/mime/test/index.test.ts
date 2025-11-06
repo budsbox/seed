@@ -321,6 +321,106 @@ describe.concurrent('Options', () => {
       );
     });
   });
+
+  describe.concurrent('multiParameter option', () => {
+    test('should keep first occurrence of duplicate parameter by default (keep-first)', () => {
+      const res = parseFormatted('text/plain; foo=bar; foo=baz; foo=qux');
+      expect(res.parameters).toStrictEqual(new Map([['foo', 'bar']]));
+    });
+
+    test('should keep first occurrence of duplicate parameter when multiParameter is "keep-first"', () => {
+      const res = parseFormatted('text/plain; foo=bar; foo=baz; foo=qux', {
+        multiParameter: 'keep-first',
+      });
+      expect(res.parameters).toStrictEqual(new Map([['foo', 'bar']]));
+
+      const resSniff = sniffFormatted('text/plain; foo=bar; foo=baz; foo=qux', {
+        multiParameter: 'keep-first',
+      });
+      expect(resSniff.parameters).toStrictEqual(new Map([['foo', 'bar']]));
+    });
+
+    test('should keep last occurrence of duplicate parameter when multiParameter is "keep-last"', () => {
+      const res = parseFormatted('text/plain; foo=bar; foo=baz; foo=qux', {
+        multiParameter: 'keep-last',
+      });
+      expect(res.parameters).toStrictEqual(new Map([['foo', 'qux']]));
+
+      const resSniff = sniffFormatted('text/plain; foo=bar; foo=baz; foo=qux', {
+        multiParameter: 'keep-last',
+      });
+      expect(resSniff.parameters).toStrictEqual(new Map([['foo', 'qux']]));
+    });
+
+    test('should keep all occurrences as array when multiParameter is "list"', () => {
+      const res = parseFormatted('text/plain; foo=bar; foo=baz; foo=qux', {
+        multiParameter: 'list',
+      });
+      expect(res.parameters).toStrictEqual(
+        new Map([['foo', ['bar', 'baz', 'qux']]]),
+      );
+
+      const resSniff = sniffFormatted('text/plain; foo=bar; foo=baz; foo=qux', {
+        multiParameter: 'list',
+      });
+      expect(resSniff.parameters).toStrictEqual(
+        new Map([['foo', ['bar', 'baz', 'qux']]]),
+      );
+    });
+
+    test('should handle mix of duplicate and unique parameters with multiParameter "keep-first"', () => {
+      const res = parseFormatted(
+        'text/plain; charset=utf-8; foo=bar; charset=iso-8859-1; foo=baz; boundary=test',
+        { multiParameter: 'keep-first' },
+      );
+      expect(res.parameters).toEqual(
+        new Map([
+          ['charset', 'utf-8'],
+          ['foo', 'bar'],
+          ['boundary', 'test'],
+        ]),
+      );
+    });
+
+    test('should handle mix of duplicate and unique parameters with multiParameter "keep-last"', () => {
+      const res = parseFormatted(
+        'text/plain; charset=utf-8; foo=bar; charset=iso-8859-1; foo=baz; boundary=test',
+        { multiParameter: 'keep-last' },
+      );
+      expect(res.parameters).toEqual(
+        new Map([
+          ['charset', 'iso-8859-1'],
+          ['foo', 'baz'],
+          ['boundary', 'test'],
+        ]),
+      );
+    });
+
+    test('should handle mix of duplicate and unique parameters with multiParameter "list"', () => {
+      const res = parseFormatted(
+        'text/plain; charset=utf-8; foo=bar; charset=iso-8859-1; foo=baz; boundary=test',
+        { multiParameter: 'list' },
+      );
+      expect(res.parameters).toEqual(
+        new Map([
+          ['charset', ['utf-8', 'iso-8859-1']],
+          ['foo', ['bar', 'baz']],
+          ['boundary', ['test']],
+        ]),
+      );
+      expect(res.parameters.get('charset')).toHaveLength(2);
+      expect(res.parameters.get('foo')).toHaveLength(2);
+      expect(res.parameters.get('boundary')).toHaveLength(1);
+    });
+
+    test('should handle single occurrence with multiParameter "list"', () => {
+      const res = parseFormatted('text/plain; foo=bar', {
+        multiParameter: 'list',
+      });
+      expect(res.parameters).toEqual(new Map([['foo', ['bar']]]));
+      expect(res.parameters.get('foo')).toHaveLength(1);
+    });
+  });
 });
 
 describe.concurrent('Sniff mode', () => {

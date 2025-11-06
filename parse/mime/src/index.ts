@@ -19,7 +19,7 @@ export { SyntaxError } from '#parser';
 
 export const parse = Parser.parse as <
   TRule extends StartRuleNames = DefaultStartRule,
-  TMultiParameter extends MultiParameterOption = 'first',
+  TMultiParameter extends MultiParameterOption = 'keep-first',
 >(
   input: string,
   options?: ParseOptions<TRule>,
@@ -27,7 +27,7 @@ export const parse = Parser.parse as <
 
 export const sniff = <
   TRule extends StartRuleNames = DefaultStartRule,
-  TMultiParameter extends MultiParameterOption = 'first',
+  TMultiParameter extends MultiParameterOption = 'keep-first',
 >(
   input: string,
   options?: Readonly<Omit<ParseOptions<TRule>, 'sniff'> & {}>,
