@@ -47,7 +47,7 @@
     "p:autotag": "cd $INIT_CWD; git tag -a \"$(yarn name)-v$(yarn p:version)\" -m ''",
     "p:create": "cd $INIT_CWD; budsbox-create",
     "p:eslint": "echo $INIT_CWD; cd $INIT_CWD; eslint --quiet ${@:-'.'}",
-    "p:eslint:config": "cd $INIT_CWD; yarn node -e \"import c from './$(run p:eslint:config-filename)'; console.log(await c);\" --experimental-default-type=module",
+    "p:eslint:config": "cd $INIT_CWD; yarn node -e \"import c from './$(run p:eslint:config-filename)'; console.log(await c);\" --input-type=module",
     "p:eslint:config-filename": "cd $INIT_CWD; echo eslint.config.*",
     "p:eslint:fix": "echo $INIT_CWD; cd $INIT_CWD; eslint --quiet --fix ${@:-'.'}",
     "p:eslint:per-file-config": "echo $INIT_CWD; cd $INIT_CWD; eslint --print-config",
