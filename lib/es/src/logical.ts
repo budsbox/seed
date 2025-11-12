@@ -21,8 +21,8 @@ import { isFunction, isNotNil, isTrue } from '#guards';
  * const result1 = fif(10, (n) => n > 5, 'Greater', 'Smaller');
  * // result1 is 'Greater'
  *
- * const result2 = fif(3, (n) => n > 5, (n) => `Above ${n}`, (n) => `Below ${n}`);
- * // result2 is 'Below 3'
+ * const result2 = fif(3, (n) => n > 5, (n) => `${n} greater than 5`, (n) => `${n} below 5`);
+ * // result2 is '3 below 5'
  * ```
  */
 export function fif<
@@ -35,7 +35,7 @@ export function fif<
   test: TTestFn,
   onTrue: FValueTrue<TValue, TTestFn, TTrue>,
   onFalse?: FValueFalse<TValue, TTestFn, TFalse>,
-): TTrue | TFalse {
+): TFalse | TTrue {
   if (test(value)) {
     return isFunction(onTrue) ?
         onTrue(value as TestFnResult<TValue, TTestFn, true>)
@@ -65,7 +65,7 @@ export function fifs<TTrue, TFalse = undefined>(
   condition: boolean,
   onTrue: FValueTrue<boolean, typeof isTrue, TTrue>,
   onFalse?: FValueFalse<boolean, typeof isTrue, TFalse>,
-): TTrue | TFalse {
+): TFalse | TTrue {
   return fif(condition, isTrue, onTrue, onFalse);
 }
 
@@ -85,6 +85,6 @@ export function sure<TValue, TTrue, TFalse = undefined>(
   value: TValue,
   onTrue: FValueTrue<TValue, typeof isNotNil, TTrue>,
   onFalse?: FValueFalse<TValue, typeof isNotNil, TFalse>,
-): TTrue | TFalse {
+): TFalse | TTrue {
   return fif(value, isNotNil, onTrue, onFalse);
 }

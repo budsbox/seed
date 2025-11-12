@@ -12,126 +12,54 @@
   "imports": {
     "#package.json": "./package.json",
     "#array": {
-      "import": {
-        "default": "./dist/array.js",
-        "types": "./dist/array.d.ts"
-      },
-      "require": {
-        "default": "./dist/array.js",
-        "types": "./dist/array.d.ts"
-      }
+      "types": "./dist/array.d.ts",
+      "default": "./dist/array.js"
     },
     "#object": {
-      "import": {
-        "default": "./dist/object.js",
-        "types": "./dist/object.d.ts"
-      },
-      "require": {
-        "default": "./dist/object.js",
-        "types": "./dist/object.d.ts"
-      }
+      "types": "./dist/object.d.ts",
+      "default": "./dist/object.js"
     },
     "#string": {
-      "import": {
-        "default": "./dist/string.js",
-        "types": "./dist/string.d.ts"
-      },
-      "require": {
-        "default": "./dist/string.js",
-        "types": "./dist/string.d.ts"
-      }
+      "types": "./dist/string.d.ts",
+      "default": "./dist/string.js"
     },
     "#guards": {
-      "import": {
-        "default": "./dist/guards.js",
-        "types": "./dist/guards.d.ts"
-      },
-      "require": {
-        "default": "./dist/guards.js",
-        "types": "./dist/guards.d.ts"
-      }
+      "types": "./dist/guards.d.ts",
+      "default": "./dist/guards.js"
     },
     "#logical": {
-      "import": {
-        "default": "./dist/logical.js",
-        "types": "./dist/logical.d.ts"
-      },
-      "require": {
-        "default": "./dist/logical.js",
-        "types": "./dist/logical.d.ts"
-      }
+      "types": "./dist/logical.d.ts",
+      "default": "./dist/logical.js"
     },
     "#function": {
-      "import": {
-        "default": "./dist/function.js",
-        "types": "./dist/function.d.ts"
-      },
-      "require": {
-        "default": "./dist/function.js",
-        "types": "./dist/function.d.ts"
-      }
+      "types": "./dist/function.d.ts",
+      "default": "./dist/function.js"
     }
   },
   "exports": {
     "./array": {
-      "import": {
-        "default": "./dist/array.js",
-        "types": "./dist/array.d.ts"
-      },
-      "require": {
-        "default": "./dist/array.js",
-        "types": "./dist/array.d.ts"
-      }
+      "types": "./dist/array.d.ts",
+      "default": "./dist/array.js"
     },
     "./object": {
-      "import": {
-        "default": "./dist/object.js",
-        "types": "./dist/object.d.ts"
-      },
-      "require": {
-        "default": "./dist/object.js",
-        "types": "./dist/object.d.ts"
-      }
+      "types": "./dist/object.d.ts",
+      "default": "./dist/object.js"
     },
     "./string": {
-      "import": {
-        "default": "./dist/string.js",
-        "types": "./dist/string.d.ts"
-      },
-      "require": {
-        "default": "./dist/string.js",
-        "types": "./dist/string.d.ts"
-      }
+      "types": "./dist/string.d.ts",
+      "default": "./dist/string.js"
     },
     "./guards": {
-      "import": {
-        "default": "./dist/guards.js",
-        "types": "./dist/guards.d.ts"
-      },
-      "require": {
-        "default": "./dist/guards.js",
-        "types": "./dist/guards.d.ts"
-      }
+      "types": "./dist/guards.d.ts",
+      "default": "./dist/guards.js"
     },
     "./logical": {
-      "import": {
-        "default": "./dist/logical.js",
-        "types": "./dist/logical.d.ts"
-      },
-      "require": {
-        "default": "./dist/logical.js",
-        "types": "./dist/logical.d.ts"
-      }
+      "types": "./dist/logical.d.ts",
+      "default": "./dist/logical.js"
     },
     "./function": {
-      "import": {
-        "default": "./dist/function.js",
-        "types": "./dist/function.d.ts"
-      },
-      "require": {
-        "default": "./dist/function.js",
-        "types": "./dist/function.d.ts"
-      }
+      "types": "./dist/function.d.ts",
+      "default": "./dist/function.js"
     },
     "./package.json": "./package.json"
   },

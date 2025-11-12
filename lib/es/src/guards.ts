@@ -133,7 +133,7 @@ export function isRecord(
  * @param value - The value to check.
  * @returns True if the value is an array, otherwise false.
  */
-export function isArray<T>(value: T | readonly T[]): value is readonly T[];
+export function isArray<T>(value: readonly T[] | T): value is readonly T[];
 /**
  * Checks if the provided value is an array.
  *
@@ -141,6 +141,7 @@ export function isArray<T>(value: T | readonly T[]): value is readonly T[];
  * @param value - The value to be checked.
  * @returns True if the value is an array, otherwise false.
  */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export function isArray<T>(value: T | T[]): value is T[];
 /**
  * Checks if the given value is an array.
@@ -196,98 +197,121 @@ export function isBoolean(value: unknown): value is boolean {
 }
 
 /**
- * Determines if a given property exists on a source object and optionally
- * evaluates it with a provided predicate function.
+ * Determines whether the provided value is an iterable.
  *
- * @param source - The object to check for the property existence. Can be `null` or `undefined`.
- * @param prop - The property key to check on the source.
- * @param test - Optional predicate function used to evaluate the property's value.
- * @returns Returns `false` since the source is `null` or `undefined` in this function signature.
+ * @param value - The value to be checked.
+ * @returns `true` if the value is iterable, otherwise `false`.
  */
+export function isIterable(value: unknown): value is Iterable<unknown> {
+  return hasProp(value, Symbol.iterator, isFunction, true);
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function hasProp(
   source: Nil,
   prop: PropertyKey,
+  checkProto?: boolean,
+): false;
+// eslint-disable-next-line jsdoc/require-jsdoc
+export function hasProp(
+  source: Nil,
+  key: PropertyKey,
   test?: Predicate<unknown>,
+  checkProto?: boolean,
 ): false;
 /**
- * Checks if a given property exists on the provided object.
+ * Checks if a property exists on the provided source object.
  *
- * @param source - The object to check for the property.
- * @param prop - The property key to check for existence on the object.
- * @returns A boolean indicating whether the property exists on the object.
- */
-export function hasProp<TKey extends PropertyKey>(
-  source: NonNil,
-  prop: TKey,
-): source is Record<TKey, unknown>;
-/**
- * Checks if the given object has a specific property that meets the criteria
- * defined by a type guard function.
+ * Narrows the source type to include the specified property key with an unknown value.
  *
- * @param source - The object to check for the property.
- * @param prop - The key of the property to check for in the object.
- * @param test - A type guard function that tests the property value against a type.
- * @returns Returns `true` if the object has the specified property and the value passes
- * the type guard, otherwise returns `false`.
+ * @param source - The object to check.
+ * @param key - The property key to verify.
+ * @param checkProto - Whether to check the prototype chain.
+ * @returns Type guard indicating whether the property exists.
  */
+export function hasProp<TSource, TKey extends PropertyKey>(
+  source: TSource,
+  key: TKey,
+  checkProto?: boolean,
+): source is TSource & Record<TKey, unknown>;
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function hasProp<
-  TValue extends NonNil,
-  TKey extends keyof TValue,
-  TNarrowed extends TValue[TKey],
+  TSource extends NonNil,
+  TKey extends keyof TSource,
+  TNarrowed extends TSource[TKey],
 >(
-  source: TValue,
-  prop: TKey,
-  test: TypeGuard<Required<TValue>[TKey], TNarrowed>,
-): source is TValue & Record<TKey, TNarrowed>;
+  source: TSource,
+  key: TKey,
+  test: TypeGuard<TSource[TKey], TNarrowed>,
+  checkProto?: boolean,
+): source is TSource & Record<TKey, TNarrowed>;
 /**
- * Checks if the given `source` object has a property specified by `prop` and verifies
- * that the value of the property satisfies the condition defined by the `test` function.
+ * Checks if a property exists on a non-null source and passes a type guard test.
  *
- * @param source - The object to be checked for the specified property.
- * @param prop - The key of the property to check for existence in the `source`.
- * @param test - A type guard function used to validate the type of the property's value.
- * @returns A boolean indicating whether the `source` has the specified property and the value
- * satisfies the type guard test.
+ * Narrows both the source type and the property value type based on the provided type guard.
+ *
+ * @param source - The object to check.
+ * @param key - The property key to verify.
+ * @param test - A type guard to narrow the property value type.
+ * @param checkProto - Whether to check the prototype chain.
+ * @returns Type guard indicating whether the property exists and satisfies the test.
  */
-export function hasProp<TKey extends PropertyKey, TNarrowed>(
-  source: unknown,
-  prop: TKey,
+export function hasProp<TSource, TKey extends PropertyKey, TNarrowed>(
+  source: TSource,
+  key: TKey,
   test: TypeGuard<unknown, TNarrowed>,
-): source is Record<TKey, TNarrowed>;
+  checkProto?: true,
+): source is TSource & Record<TKey, TNarrowed>;
+// eslint-disable-next-line jsdoc/require-jsdoc
+export function hasProp<TSource extends NonNil, TKey extends keyof TSource>(
+  source: TSource,
+  key: TKey,
+  test: Predicate<TSource[TKey]>,
+  checkProto?: boolean,
+): source is TSource & Record<TKey, unknown>;
 /**
- * Checks if a given property exists on a source object and satisfies a specified test condition.
+ * Checks if a property exists on the provided source and optionally passes a test.
  *
- * @param source - The source object to check for the property.
- * @param prop - The property key to check in the source object.
- * @param test - A predicate function to test the value of the specified property.
- * @returns True if the property exists on the source object and the test predicate returns true; otherwise, false.
- */
-export function hasProp<TValue extends NonNil, TKey extends keyof TValue>(
-  source: TValue,
-  prop: TKey,
-  test: Predicate<Required<TValue>[TKey]>,
-): boolean;
-/**
- * Checks if a given property exists on the specified source object and optionally validates it using a predicate function.
+ * Narrows the source type to include the specified property key with an unknown value.
  *
- * @param source - The object on which the property check is performed.
- * @param prop - The property key to check for existence in the source object.
- * @param test - An optional predicate function to validate the property value.
- * @returns Returns true if the property exists on the source object and the predicate (if provided) evaluates to true; otherwise, false.
+ * @param source - The object to check.
+ * @param key - The property key to verify.
+ * @param test - An optional predicate or type guard to test the property value.
+ * @param checkProto - Whether to check the prototype chain.
+ * @returns Type guard indicating whether the property exists and passes the test.
  */
+export function hasProp<TSource, TKey extends PropertyKey>(
+  source: TSource,
+  key: TKey,
+  test?: Predicate<unknown>,
+  checkProto?: boolean,
+): source is TSource & Record<TKey, unknown>;
 export function hasProp(
   source: unknown,
-  prop: PropertyKey,
-  test?: Predicate<unknown>,
-): boolean;
-export function hasProp(
-  source: unknown,
-  prop: PropertyKey,
-  test?: Predicate<unknown>,
+  key: PropertyKey,
+  option1?: boolean | Nil | Predicate<unknown>,
+  option2?: boolean | Nil,
 ): boolean {
+  // Guard against prototype pollution
+  if (key === '__proto__' || key === 'constructor') {
+    return false;
+  }
+
+  let test: Predicate<unknown> | undefined,
+    checkProto: boolean = false;
+  if (isFunction(option1)) {
+    test = option1;
+
+    if (isBoolean(option2)) {
+      checkProto = option2;
+    }
+  } else if (isBoolean(option1)) {
+    checkProto = option1;
+  }
+
   return (
     isNotNil(source) &&
-    Object.hasOwn(source, prop) &&
-    (!isFunction(test) || test(source[prop as never]))
+    (checkProto ? key in source : Object.hasOwn(source, key)) &&
+    (!isFunction(test) || test(source[key as never]))
   );
 }
