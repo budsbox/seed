@@ -44,14 +44,7 @@ subtype
   = tree:tree ?
   trail:subtypeTrail
   {
-    let name, suffix = null;
-    if (trail.length > 1) {
-      suffix = trail.pop();
-      name = trail.join('');
-    } else {
-      [name] = trail;
-    }
-
+    const [suffix, name] = [trail.length > 1 ? trail.pop() : null, trail.join('')];
     return {subtype: text().toLowerCase(), subtypeTokens: {tree, name, suffix}}
   }
 
@@ -67,7 +60,16 @@ tree
  * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2.8
  */
 subtypeTrail
-  = first:subtypeTrailPart rest:(part:('+' subtypeTrailPart) { return part.join('') })* { return [first, ...rest]}
+  = first:subtypeName rest:subtypeSuffix* { return [first, ...rest]}
+
+subtypeName
+  = subtypeTrailPart
+
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2.8
+ */
+subtypeSuffix
+  = sign:'+' name:subtypeTrailPart { return sign + name }
 
 subtypeTrailPart
   = (
