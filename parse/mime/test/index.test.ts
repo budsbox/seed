@@ -217,6 +217,244 @@ describe.concurrent('RFC strict compliance, edge cases', () => {
 });
 
 describe.concurrent('Options', () => {
+  describe.concurrent('startRule option', () => {
+    describe('mimeType rule (default)', () => {
+      test('should parse complete MIME type with mimeType startRule', () => {
+        const res = parseFormatted(
+          'application/vnd.company.product+json; charset=utf-8',
+          {
+            startRule: 'mimeType',
+          },
+        );
+        expect(res).toStrictEqual({
+          essence: 'application/vnd.company.product+json',
+          type: 'application',
+          subtype: 'vnd.company.product+json',
+          subtypeTokens: {
+            tree: 'vnd.',
+            name: 'company.product',
+            suffix: '+json',
+          },
+          parameters: new Map([['charset', 'utf-8']]),
+        });
+      });
+
+      test('should throw when mimeType rule receives only type without subtype', () => {
+        expect(() =>
+          parseFormatted('text', { startRule: 'mimeType' }),
+        ).toThrowError('Expected');
+      });
+    });
+
+    describe('essence rule', () => {
+      test('should parse essence (type/subtype) with essence startRule', () => {
+        const res = parseFormatted('application/json', {
+          startRule: 'essence',
+        });
+        expect(res).toEqual({
+          essence: 'application/json',
+          type: 'application',
+          subtype: 'json',
+          subtypeTokens: { tree: null, name: 'json', suffix: null },
+        });
+      });
+
+      test('should throw when essence rule receives MIME type with parameters', () => {
+        expect(() =>
+          parseFormatted('text/plain; charset=utf-8', { startRule: 'essence' }),
+        ).toThrowError('Expected');
+      });
+    });
+
+    describe('type rule', () => {
+      test('should parse only type with type startRule', () => {
+        const res = parseFormatted('text', { startRule: 'type' });
+        expect(res).toBe('text');
+      });
+
+      test('should parse type and lowercase it', () => {
+        const res = parseFormatted('TEXT', { startRule: 'type' });
+        expect(res).toBe('text');
+      });
+
+      test('should throw when type rule receives type/subtype', () => {
+        expect(() =>
+          parseFormatted('text/html', { startRule: 'type' }),
+        ).toThrowError('Expected');
+      });
+    });
+
+    describe('subtype rule', () => {
+      test('should parse subtype with subtype startRule', () => {
+        const res = parseFormatted('html', { startRule: 'subtype' });
+        expect(res).toEqual({
+          subtype: 'html',
+          subtypeTokens: { tree: null, name: 'html', suffix: null },
+        });
+      });
+
+      test('should parse subtype with tree and suffix', () => {
+        const res = parseFormatted('vnd.company.product+xml', {
+          startRule: 'subtype',
+        });
+        expect(res).toStrictEqual({
+          subtype: 'vnd.company.product+xml',
+          subtypeTokens: {
+            tree: 'vnd.',
+            name: 'company.product',
+            suffix: '+xml',
+          },
+        });
+      });
+
+      test('should throw when subtype rule receives type/subtype', () => {
+        expect(() =>
+          parseFormatted('text/html', { startRule: 'subtype' }),
+        ).toThrowError('Expected');
+      });
+    });
+
+    describe('tree rule', () => {
+      test('should parse tree prefix with tree startRule', () => {
+        const res = parseFormatted('vnd.', { startRule: 'tree' });
+        expect(res).toBe('vnd.');
+      });
+
+      test('should parse and lowercase tree', () => {
+        const res = parseFormatted('VND.', { startRule: 'tree' });
+        expect(res).toBe('vnd.');
+      });
+
+      test('should throw when tree rule receives subtype without trailing dot', () => {
+        expect(() => parseFormatted('vnd', { startRule: 'tree' })).toThrowError(
+          'Expected',
+        );
+      });
+    });
+
+    describe('subtypeName rule', () => {
+      test('should parse subtype name with subtypeName startRule', () => {
+        const res = parseFormatted('html', { startRule: 'subtypeName' });
+        expect(res).toBe('html');
+      });
+
+      test('should parse and lowercase subtype name', () => {
+        const res = parseFormatted('HTML', { startRule: 'subtypeName' });
+        expect(res).toBe('html');
+      });
+
+      test('should throw when subtypeName rule receives subtype with suffix', () => {
+        expect(() =>
+          parseFormatted('html+xml', { startRule: 'subtypeName' }),
+        ).toThrowError('Expected');
+      });
+    });
+
+    describe('subtypeSuffix rule', () => {
+      test('should parse subtype suffix with subtypeSuffix startRule', () => {
+        const res = parseFormatted('+xml', { startRule: 'subtypeSuffix' });
+        expect(res).toBe('+xml');
+      });
+
+      test('should parse and lowercase subtype suffix', () => {
+        const res = parseFormatted('+JSON', { startRule: 'subtypeSuffix' });
+        expect(res).toBe('+json');
+      });
+
+      test('should throw when subtypeSuffix rule receives suffix without plus sign', () => {
+        expect(() =>
+          parseFormatted('xml', { startRule: 'subtypeSuffix' }),
+        ).toThrowError('Expected');
+      });
+    });
+
+    describe('parameters rule', () => {
+      test('should parse parameters with parameters startRule', () => {
+        const res = parseFormatted('; charset=utf-8; boundary=test', {
+          startRule: 'parameters',
+        });
+        expect(res).toStrictEqual(
+          new Map([
+            ['charset', 'utf-8'],
+            ['boundary', 'test'],
+          ]),
+        );
+      });
+
+      test('should parse empty parameters', () => {
+        const res = parseFormatted('', { startRule: 'parameters' });
+        expect(res).toEqual(new Map());
+      });
+
+      test('should throw when parameters rule receives non-parameter content', () => {
+        expect(() =>
+          parseFormatted('text/html', { startRule: 'parameters' }),
+        ).toThrowError('Expected');
+      });
+
+      test('should throw when parameters rule receives parameters string without leading semicolon', () => {
+        expect(() =>
+          parseFormatted('charset=utf-8; boundary=test', {
+            startRule: 'parameters',
+          }),
+        ).toThrowError('Expected');
+      });
+    });
+
+    describe('parameter rule', () => {
+      test('should parse single parameter with parameter startRule', () => {
+        const res = parseFormatted('charset=utf-8', { startRule: 'parameter' });
+        expect(res).toStrictEqual(['charset', 'utf-8']);
+      });
+
+      test('should parse parameter with quoted value', () => {
+        const res = parseFormatted('filename="test.txt"', {
+          startRule: 'parameter',
+        });
+        expect(res).toStrictEqual(['filename', 'test.txt']);
+      });
+
+      test('should throw when parameter rule receives multiple parameters', () => {
+        expect(() =>
+          parseFormatted('charset=utf-8; boundary=test', {
+            startRule: 'parameter',
+          }),
+        ).toThrowError('Expected');
+      });
+    });
+
+    describe('httpToken rule', () => {
+      test('should parse valid HTTP token with httpToken startRule', () => {
+        const res = parseFormatted('application', { startRule: 'httpToken' });
+        expect(res).toBe('application');
+      });
+
+      test('should parse HTTP token with special allowed chars', () => {
+        const res = parseFormatted('user-agent', { startRule: 'httpToken' });
+        expect(res).toBe('user-agent');
+      });
+
+      test('should parse HTTP token with underscores and dots', () => {
+        const res = parseFormatted('content_type.v1', {
+          startRule: 'httpToken',
+        });
+        expect(res).toBe('content_type.v1');
+      });
+
+      test('should throw when httpToken rule receives invalid token chars (space)', () => {
+        expect(() =>
+          parseFormatted('invalid token', { startRule: 'httpToken' }),
+        ).toThrowError('Expected');
+      });
+
+      test('should throw when httpToken rule receives invalid token chars (slash)', () => {
+        expect(() =>
+          parseFormatted('text/html', { startRule: 'httpToken' }),
+        ).toThrowError('Expected');
+      });
+    });
+  });
+
   describe.concurrent('trim option', () => {
     test('should throw on whitespace around type when trim is disabled (default mode)', () => {
       expect(() => parseFormatted(' x/x ')).toThrowError('Expected');
@@ -466,13 +704,15 @@ describe.concurrent('Sniff mode', () => {
   /**
    * @see https://github.com/web-platform-tests/wpt/blob/4388a16a0229329e0e4bd770fc88bcf423d2b7bb/mimesniff/mime-types/resources/generated-mime-types.json
    */
-  test('should pass all standard tests', () => {
+  test('should pass all MIME Sniffing Standard tests', () => {
     for (const { input, output } of mimesniffTest) {
       if (output === null) {
-        expect(() => sniffFormatted(input)).toThrowError('Expected');
+        expect.soft(() => sniffFormatted(input)).toThrowError('Expected');
       } else {
-        expect(serializeMimeType(sniffFormatted(input))).toEqual(output);
-        expect(sniffFormatted(input)).toStrictEqual(sniffFormatted(output));
+        expect.soft(serializeMimeType(sniffFormatted(input))).toEqual(output);
+        expect
+          .soft(sniffFormatted(input))
+          .toStrictEqual(sniffFormatted(output));
       }
     }
   });
