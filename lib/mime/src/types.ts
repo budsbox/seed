@@ -12,9 +12,17 @@ import type {
 
 type MimeDb = typeof mimeDb;
 
-type WellKnownMimeType = keyof MimeDb;
+export type WellKnownMimeType = keyof MimeDb;
 
-type MimeTypeString = LiteralUnion<string, WellKnownMimeType>;
+export type WellKnownTopLevelType =
+  WellKnownMimeType extends `${infer TTopLevelType}/${string}` ? TTopLevelType
+  : never;
+
+export type MimeTypeString = LiteralUnion<string, WellKnownMimeType>;
+
+export type TopLevelTypeString = LiteralUnion<string, WellKnownTopLevelType>;
+
+export type EssenceString = LiteralUnion<string, WellKnownMimeType>;
 
 export interface MimeTypeRecord
   extends Readonly<Omit<MimeTypeParsed, 'parameters' | 'subtypeTokens'>> {

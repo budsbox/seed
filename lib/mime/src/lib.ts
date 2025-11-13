@@ -1,9 +1,11 @@
 import type { Nil } from '@budsbox/lib-types';
 
 import type {
+  EssenceString,
   MimeTypeInput,
   MimeTypeRecord,
   ParametersUpdateInput,
+  TopLevelTypeString,
   UpdatableKey,
 } from './types.js';
 
@@ -35,7 +37,17 @@ export const create = (input: MimeTypeInput): MimeTypeRecord => {
 
 export function update(
   mimeType: MimeTypeInput,
-  essence: string,
+  essence: EssenceString,
+): MimeTypeRecord;
+export function update(
+  mimeType: MimeTypeInput,
+  key: 'essence',
+  value: EssenceString,
+): MimeTypeRecord;
+export function update(
+  mimeType: MimeTypeInput,
+  key: 'type',
+  value: TopLevelTypeString,
 ): MimeTypeRecord;
 export function update(
   mimeType: MimeTypeInput,
