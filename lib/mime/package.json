@@ -11,8 +11,13 @@
   "type": "module",
   "imports": {
     "#types": {
-      "@budsbox/": "./src/types.d.ts",
+      "budsbox": "./src/types.d.ts",
       "types": "./dist/types.d.ts"
+    },
+    "#lib": {
+      "budsbox": "./src/lib.ts",
+      "types": "./dist/lib.d.ts",
+      "default": "./dist/lib.js"
     },
     "#package.json": "./package.json"
   },
@@ -34,13 +39,16 @@
   ],
   "scripts": {
     "name": "echo $npm_package_name",
-    "prepack": "yarn p:lib:iso:prepack",
-    "watch": "yarn p:ts:watch"
+    "prepack": "run p:lib:iso:prepack",
+    "test": "vitest",
+    "watch": "run p:ts:watch"
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
+    "@budsbox/parse-mime": "workspace:^",
     "@types/node": "^22.15.2",
+    "mime-db": "^1.54.0",
     "tslib": "^2.8.1",
     "type-fest": "^4.32.0"
   },
@@ -51,7 +59,8 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "eslint": "^9.26.0",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.4"
   },
   "packageManager": "yarn@4.9.2"
 }

@@ -1,5 +1,5 @@
 {
-  "extends": "@budsbox/tsconfigs/tsconfig.iso.lib.json",
+  "extends": "@budsbox/tsconfigs/tsconfig.iso.test.json",
   "references": [
     {
       "path": "../es/tsconfig.lib.json"
