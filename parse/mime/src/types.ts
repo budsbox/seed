@@ -282,6 +282,8 @@ export interface EssenceParsed extends SubtypeParsed {
  * A complete parsed MIME type including the essence and all parameters.
  * This is the primary result type returned when parsing a full MIME type string.
  *
+ * @typeParam TMultiParameter - Strategy for handling duplicate parameters
+ * @see {@link MultiParameterOption } — for more details on the different strategies.
  * @see {@link https://datatracker.ietf.org/doc/html/rfc9110#name-media-type RFC 9110: Media Type}
  * — for the syntax of media types as defined by IETF standards.
  * @see {@link https://datatracker.ietf.org/doc/html/rfc6838#section-4.2 RFC 6838: Naming Requirements}
@@ -289,13 +291,15 @@ export interface EssenceParsed extends SubtypeParsed {
  * @see {@link https://mimesniff.spec.whatwg.org/#parsing-a-mime-type MIME Sniffing Standard: Parsing a MIME type}
  * — for the description of the full MIME type parsing algorithm used in WHATWG MIME Sniffing Standard.
  */
-export interface MimeTypeParsed extends EssenceParsed {
+export interface MimeTypeParsed<
+  TMultiParameter extends MultiParameterOption = MultiParameterOption,
+> extends EssenceParsed {
   /**
    * Map of all parameters associated with this MIME type.
    * For example, in `text/html; charset=utf-8; boundary=----boundary`,
    * this would contain entries for "charset" and "boundary".
    */
-  parameters: ParametersParsed;
+  parameters: ParametersParsed<TMultiParameter>;
 }
 
 /**
@@ -334,7 +338,7 @@ export interface RuleResult<
    *
    * @see {@link MimeTypeParsed}
    */
-  mimeType: MimeTypeParsed;
+  mimeType: MimeTypeParsed<TMultiParameter>;
 
   /**
    * Result when parsing with the `parameter` start rule.

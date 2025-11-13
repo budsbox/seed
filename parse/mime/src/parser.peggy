@@ -111,7 +111,7 @@ parameterNext
  */
 parameter
   = name:parameterName
-    value:(('=' strippedValue:parameterValue {return strippedValue}) / $[^;]* { return null })
+    value:(('=' strippedValue:parameterValue {return strippedValue}) / (&{ return isSniffing } $[^;]* { return null }))
     {
       return (name == null) || (value == null) ? null : [name, name === 'charset' ? value.toLowerCase() : value];
     }
@@ -126,7 +126,7 @@ parameterPrefix
 parameterName
   = name:(
       isRestrictedName /
-        (!{return isRestricted} wName:sniffParameterName { return wName })
+        (!{return isRestricted} sName:sniffParameterName { return sName })
     )
     { return name == null ? null : name.toLowerCase() }
 
@@ -138,7 +138,7 @@ sniffParameterName
  * @see https://mimesniff.spec.whatwg.org/#parsing-a-mime-type
  */
 parameterValue
-  = semanticQuotedString / parameterUnquotedValue / @skipParameterValue
+  = semanticQuotedString / parameterUnquotedValue
 
 /**
  * @see https://fetch.spec.whatwg.org/#collect-an-http-quoted-string
@@ -165,7 +165,7 @@ semanticQuotedString 'semantic quoted-string'
   = '"' content:(httpQuotedPair / httpQuotedStringChar)* '"' { return content.length === 0 ? null : content.join('') }
 
 skipParameterValue
-  = [^;]+ { return null }
+  = &{ return isSniffing } [^;]+ { return null }
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings

@@ -36,7 +36,7 @@ const sniffFormatted: ParseFunction = (input, options) => {
   }
 };
 
-describe.concurrent('RFC compliance, common cases', () => {
+describe.concurrent('IETF standards compliance, common cases', () => {
   describe.for(['semantic', 'sniffing'])('%s mode', (mode) => {
     const modeOptions = { sniff: mode === 'sniffing' };
     const overloadedParse: ParseFunction = (input, options) =>
@@ -185,12 +185,10 @@ describe.concurrent('RFC compliance, common cases', () => {
       );
     });
 
-    test('should ignore parameters without value or with explicitly empty quoted value', () => {
-      const res = overloadedParse('text/plain; a; b=""; c=   ; d=1');
+    test('should ignore parameters explicitly empty quoted value', () => {
+      const res = overloadedParse('text/plain; b=""; d=1');
       // a (no =) -> filtered, b (empty quotes) -> filtered, c (= with only spaces) -> filtered
-      expect(res.parameters).toEqual(new Map([['d', '1']]));
-      // also ensure only one entry exists
-      expect([...res.parameters.entries()]).toEqual([['d', '1']]);
+      expect(res.parameters).toStrictEqual(new Map([['d', '1']]));
     });
 
     test('should accept leading/trailing whitespace and trailing semicolon in sniffing mode', () => {
@@ -205,7 +203,7 @@ describe.concurrent('RFC compliance, common cases', () => {
   });
 });
 
-describe.concurrent('RFC strict compliance, edge cases', () => {
+describe.concurrent('IETF standards strict compliance, edge cases', () => {
   test('should parse semantic whitespace (space and tab) and throw on non-semantic', () => {
     expect(parseFormatted('text/html ; ').essence).toEqual('text/html');
     expect(() => parseFormatted('text/html ;\n')).toThrowError('Expected');
@@ -213,6 +211,10 @@ describe.concurrent('RFC strict compliance, edge cases', () => {
 
   test('should throw if an unquoted parameter value is not a valid HTTP token', () => {
     expect(() => parseFormatted('x/x; foo=bar baz;')).toThrowError('Expected');
+  });
+
+  test('should throw if an unquoted parameter is empty', () => {
+    expect(() => parseFormatted('x/x; foo=; bar=baz')).toThrowError('Expected');
   });
 });
 
@@ -390,6 +392,18 @@ describe.concurrent('Options', () => {
         expect(() =>
           parseFormatted('text/html', { startRule: 'parameters' }),
         ).toThrowError('Expected');
+      });
+
+      test('should throw when parameters rule receives non-parameter content (with leading semicolon)', () => {
+        expect(() =>
+          parseFormatted(';invalid@@@', { startRule: 'parameters' }),
+        ).toThrowError('Expected');
+      });
+
+      test('should throw if an unquoted parameter is empty', () => {
+        expect(() => parseFormatted('; foo=; bar=baz')).toThrowError(
+          'Expected',
+        );
       });
 
       test('should throw when parameters rule receives parameters string without leading semicolon', () => {

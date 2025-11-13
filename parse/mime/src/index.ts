@@ -80,7 +80,7 @@ export const parse = Parser.parse as <
   TMultiParameter extends MultiParameterOption = 'keep-first',
 >(
   input: string,
-  options?: ParseOptions<TRule>,
+  options?: ParseOptions<TRule, TMultiParameter>,
 ) => RuleResult<TMultiParameter>[TRule];
 
 /**
@@ -110,7 +110,7 @@ export const sniff = <
   TMultiParameter extends MultiParameterOption = 'keep-first',
 >(
   input: string,
-  options?: Readonly<Omit<ParseOptions<TRule>, 'sniff'> & {}>,
+  options?: Readonly<Omit<ParseOptions<TRule, TMultiParameter>, 'sniff'> & {}>,
 ): RuleResult<TMultiParameter>[TRule] =>
   parse(input, { ...options, sniff: true });
 
