@@ -38,7 +38,7 @@ const sniffFormatted: ParseFunction = (input, options) => {
 };
 
 describe.sequential('MIME Parser test suite', () => {
-  describe('IETF standards compliance, common cases', () => {
+  describe.concurrent('IETF standards compliance, common cases', () => {
     describe.for(['semantic', 'sniffing'])('%s mode', (mode) => {
       const overloadedParse: ParseFunction =
         mode === 'sniffing' ? sniffFormatted : parseFormatted;
@@ -190,7 +190,7 @@ describe.sequential('MIME Parser test suite', () => {
     });
   });
 
-  describe('IETF standards strict compliance, edge cases', () => {
+  describe.concurrent('IETF standards strict compliance, edge cases', () => {
     test('should parse semantic whitespace (space and tab) and throw on non-semantic', () => {
       expect(parseFormatted('text/html ; ').essence).toEqual('text/html');
       expect(() => parseFormatted('text/html ;\n')).toThrowError('Expected');
@@ -233,8 +233,8 @@ describe.sequential('MIME Parser test suite', () => {
     });
   });
 
-  describe('Options', () => {
-    describe.concurrent('startRule option', () => {
+  describe.concurrent('Options', () => {
+    describe('startRule option', () => {
       describe('mimeType rule (default)', () => {
         test('should parse complete MIME type with mimeType startRule', () => {
           const res = parseFormatted(
@@ -488,7 +488,7 @@ describe.sequential('MIME Parser test suite', () => {
       });
     });
 
-    describe.concurrent('trim option', () => {
+    describe('trim option', () => {
       test('should throw on whitespace around type when trim is disabled (default mode)', () => {
         expect(() => parseFormatted(' x/x ')).toThrowError('Expected');
         expect(() => parseFormatted(' text/html')).toThrowError('Expected');
@@ -532,7 +532,7 @@ describe.sequential('MIME Parser test suite', () => {
       });
     });
 
-    describe.concurrent('restrictNames option', () => {
+    describe('restrictNames option', () => {
       test('should throw on non-restricted names by default in default mode', () => {
         expect(() => parseFormatted('$app.lication/json')).toThrowError(
           'Expected',
@@ -596,7 +596,7 @@ describe.sequential('MIME Parser test suite', () => {
       });
     });
 
-    describe.concurrent('multiParameter option', () => {
+    describe('multiParameter option', () => {
       test('should keep first occurrence of duplicate parameter by default (keep-first)', () => {
         const res = parseFormatted('text/plain; foo=bar; foo=baz; foo=qux');
         expect(res.parameters).toStrictEqual(new Map([['foo', 'bar']]));
@@ -702,6 +702,44 @@ describe.sequential('MIME Parser test suite', () => {
         });
         expect(res.parameters).toEqual(new Map([['foo', ['bar']]]));
         expect(res.parameters.get('foo')).toHaveLength(1);
+      });
+    });
+
+    describe('keepCharsetCase option', () => {
+      test('should lowercase charset by default in semantic mode', () => {
+        const parsed = parseFormatted('text/plain; charset=Utf-8');
+        expect(parsed.parameters.get('charset')).toBe('utf-8');
+
+        const serialized = serializeMimeType(parsed);
+        expect(serialized).toBe('text/plain;charset=utf-8');
+      });
+
+      test('should preserve charset case when keepCharsetCase is true in semantic mode', () => {
+        const parsed = parseFormatted('text/plain; charset=Utf-8', {
+          keepCharsetCase: true,
+        });
+        expect(parsed.parameters.get('charset')).toBe('Utf-8');
+
+        const serialized = serializeMimeType(parsed);
+        expect(serialized).toBe('text/plain;charset=Utf-8');
+      });
+
+      test('should keep charset case by default in sniff mode', () => {
+        const parsed = sniffFormatted('text/plain; charset=UTF-8');
+        expect(parsed.parameters.get('charset')).toBe('UTF-8');
+
+        const serialized = serializeMimeType(parsed);
+        expect(serialized).toBe('text/plain;charset=UTF-8');
+      });
+
+      test('should lowercase charset when keepCharsetCase is false in sniff mode', () => {
+        const parsed = sniffFormatted('text/plain; charset=UTF-8', {
+          keepCharsetCase: false,
+        });
+        expect(parsed.parameters.get('charset')).toBe('utf-8');
+
+        const serialized = serializeMimeType(parsed);
+        expect(serialized).toBe('text/plain;charset=utf-8');
       });
     });
   });
