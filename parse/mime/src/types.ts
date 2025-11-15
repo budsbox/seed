@@ -72,6 +72,22 @@ export interface ParseOptions<
   readonly trim?: boolean;
 
   /**
+   * Whether to keep the case of `charset` parameter value.
+   * When `true`, the parameter value will be returned as-is, preserving the case.
+   * When `false`, the parameter value will be converted to lowercase.
+   * Defaults to `false` in semantic mode and `true` in sniff mode.
+   *
+   * @remarks Though the RFC 2046 does not strictly establish
+   * the case insensitivity of the `charset` parameters value _in all the cases_,
+   * RFC 9110 indicates the lower-cased variant as "preferred",
+   * so it's probably safe to assume that the parameter value should be treated as case-insensitive
+   * in semantic mode (hence lower-cased by default).
+   * @see {@link https://datatracker.ietf.org/doc/html/rfc2046#section-4.1.2 RFC 2046: Charset Parameter}
+   * @see {@link https://datatracker.ietf.org/doc/html/rfc9110#name-media-type RFC 9110: Media Type}
+   */
+  keepCharsetCase?: boolean;
+
+  /**
    * Optional tracer for debugging parser execution.
    * It redeclared as readonly to avoid triggering of the `@typescript-eslint/prefer-readonly-parameter-types` rule.
    */

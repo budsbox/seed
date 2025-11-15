@@ -191,7 +191,7 @@
     "typescript-eslint": "^8.32.1",
     "vite": "^7.1.5",
     "vite-plugin-react-rich-svg": "1.x",
-    "vitest": "^4.0.4",
+    "vitest": "^4.0.9",
     "whatwg-mimetype": "^4.0.0"
   },
   "devDependencies": {

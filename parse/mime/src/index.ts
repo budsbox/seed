@@ -197,7 +197,11 @@ export const serializeParameters = (
         queue.unshift(...value.map((v): [string, string] => [name, v]));
       } else {
         result.push(
-          `;${name}=${isHttpToken(value) ? value : `"${value.replace(/"/g, '\\"')}"`}`,
+          `;${name}=${
+            isHttpToken(value) ? value : (
+              `"${value.replace(/["\\]/g, (s) => `\\${s}`)}"`
+            )
+          }`,
         );
       }
     }
