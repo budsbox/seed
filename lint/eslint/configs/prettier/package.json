@@ -18,8 +18,8 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./types": {
       "types": "./dist/types.d.ts"
@@ -44,27 +44,27 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
-    "@eslint/js": "^9.26.0",
+    "@eslint/js": "^9.39.1",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.15.2",
-    "@typescript-eslint/parser": "^8.32.1",
-    "eslint": "^9.26.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-import-resolver-typescript": "^4.3.4",
-    "eslint-plugin-import-x": "^4.11.1",
-    "eslint-plugin-jsdoc": "^50.6.17",
+    "@types/node": "^22.19.1",
+    "@typescript-eslint/parser": "^8.48.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import-x": "^4.16.1",
+    "eslint-plugin-jsdoc": "^61.5.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "globals": "^16.1.0",
-    "type-fest": "^4.32.0",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.1"
+    "globals": "^16.5.0",
+    "type-fest": "^5.3.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1"
   },
   "peerDependencies": {
     "@budsbox/eslint": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "eslint": "^9.26.0",
-    "eslint-config-prettier": "^10.1.5"
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8"
   },
   "packageManager": "yarn@4.9.2"
 }

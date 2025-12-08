@@ -18,8 +18,8 @@
   "exports": {
     "./package.json": "./package.json",
     ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
     },
     "./types": {
       "types": "./dist/types.d.ts"
@@ -43,21 +43,21 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.15.2",
-    "eslint": "^9.26.0",
+    "@types/node": "^22.19.1",
+    "eslint": "^9.39.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "type-fest": "^4.32.0",
-    "typescript": "^5.8.3"
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "type-fest": "^5.3.1",
+    "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "@budsbox/eslint": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "eslint": "^9.26.0",
+    "eslint": "^9.39.1",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20"
+    "eslint-plugin-react-refresh": "^0.4.24"
   },
   "peerDependenciesMeta": {
     "eslint-plugin-react-refresh": {

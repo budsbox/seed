@@ -19,9 +19,9 @@
   "exports": {
     ".": {
       "import": {
+        "types": "./dist/index.d.ts",
         "@budsbox/": "./src/index.ts",
-        "default": "./dist/index.js",
-        "types": "./dist/index.d.ts"
+        "default": "./dist/index.js"
       }
     },
     "./package.json": "./package.json"
@@ -40,9 +40,9 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@types/node": "^22.15.2",
+    "@types/node": "^22.19.1",
     "tslib": "^2.8.1",
-    "type-fest": "^4.32.0"
+    "type-fest": "^5.3.1"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
@@ -50,8 +50,8 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "eslint": "^9.26.0",
-    "typescript": "^5.8.3"
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3"
   },
   "packageManager": "yarn@4.9.2"
 }
