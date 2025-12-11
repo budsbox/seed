@@ -12,22 +12,22 @@
   "imports": {
     "#eslint": {
       "import": {
-        "default": "./dist/eslint/index.js",
-        "types": "./dist/eslint/index.d.ts"
+        "types": "./dist/eslint/index.d.ts",
+        "default": "./dist/eslint/index.js"
       },
       "require": {
-        "default": "./dist/cjs/eslint/index.js",
-        "types": "./dist/cjs/eslint/index.d.ts"
+        "types": "./dist/cjs/eslint/index.d.ts",
+        "default": "./dist/cjs/eslint/index.js"
       }
     },
     "#match": {
       "import": {
-        "default": "./dist/match.js",
-        "types": "./dist/match.d.ts"
+        "types": "./dist/match.d.ts",
+        "default": "./dist/match.js"
       },
       "require": {
-        "default": "./dist/cjs/match.js",
-        "types": "./dist/cjs/match.d.ts"
+        "types": "./dist/cjs/match.d.ts",
+        "default": "./dist/cjs/match.js"
       }
     },
     "#package.json": "./package.json"

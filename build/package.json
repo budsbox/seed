@@ -12,8 +12,8 @@
   "type": "module",
   "imports": {
     "#vite-config-factory.mjs": {
-      "import": "./src/vite-config-factory.mjs",
-      "types": "./src/vite-config-factory.d.mjs.ts"
+      "types": "./src/vite-config-factory.d.mjs.ts",
+      "import": "./src/vite-config-factory.mjs"
     },
     "#package.json": "./package.json",
     "#lib-builder": {

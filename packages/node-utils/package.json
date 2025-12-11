@@ -14,14 +14,14 @@
     "#package.json": "./package.json",
     "#tsconfig": {
       "import": {
-        "default": "./dist/esm/tsconfig.js",
-        "types": "./dist/esm/tsconfig.d.ts"
+        "types": "./dist/esm/tsconfig.d.ts",
+        "default": "./dist/esm/tsconfig.js"
       }
     },
     "#fs": {
       "import": {
-        "default": "./dist/esm/fs.js",
-        "types": "./dist/esm/fs.d.ts"
+        "types": "./dist/esm/fs.d.ts",
+        "default": "./dist/esm/fs.js"
       }
     }
   },
