@@ -1,156 +1,270 @@
-import type { Nil } from '@budsbox/lib-types';
-
 import type {
-  EssenceString,
+  GetParameterFn,
   MimeTypeInput,
+  MimeTypeOptions,
   MimeTypeRecord,
+  MimeTypeSerializableInput,
+  OutputType,
   ParametersUpdateInput,
-  TopLevelTypeString,
+  ParseFn,
+  RemoveParameterFn,
+  SerializeFn,
+  SetParameterFn,
   UpdatableKey,
+  UpdateFn,
 } from './types.js';
 
-import { isNil, isString } from '@budsbox/lib-es/guards';
+import {
+  hasProp,
+  isBoolean,
+  isNil,
+  isString,
+  isTrue,
+} from '@budsbox/lib-es/guards';
+import { fif } from '@budsbox/lib-es/logical';
 
 import {
+  type DefaultStartRule,
   type EssenceParsed,
+  type MultiParameterOption,
+  type ParseOptions,
   SyntaxError as ParseSyntaxError,
-  parse,
+  type RuleResult,
+  type StartRuleNames,
+  parse as lowLevelParse,
   serializeMimeType,
   serializeParameters,
-  sniff,
 } from '@budsbox/parse-mime';
 
-const recordSet = new WeakSet<MimeTypeRecord>();
+/**
+ * The actual implementation of the {@link `ParseFn`} function.
+ *
+ * @param input - The {@link MimeTypeInput MIME type input} to parse.
+ * @returns object.
+ */
+export const parse: ParseFn = ((input) => {
+  const [mimeType] = unwrapInput(input);
 
-const isMimeRecord = (value: unknown): value is MimeTypeRecord =>
-  (recordSet as Set<unknown>).has(value);
+  return produceOutput(mimeType, mimeType);
+}) as ParseFn;
 
-export const create = (input: MimeTypeInput): MimeTypeRecord => {
-  const mimeType =
-    isMimeRecord(input) ? input : (
-      sniff(isString(input) ? input : serializeMimeType(input))
-    );
-
-  recordSet.add(mimeType);
-  return mimeType;
-};
-
-export function update(
-  mimeType: MimeTypeInput,
-  essence: EssenceString,
-): MimeTypeRecord;
-export function update(
-  mimeType: MimeTypeInput,
-  key: 'essence',
-  value: EssenceString,
-): MimeTypeRecord;
-export function update(
-  mimeType: MimeTypeInput,
-  key: 'type',
-  value: TopLevelTypeString,
-): MimeTypeRecord;
-export function update(
-  mimeType: MimeTypeInput,
-  key: 'parameters',
-  value: ParametersUpdateInput,
-): MimeTypeRecord;
-export function update(
-  mimeType: MimeTypeInput,
-  key: UpdatableKey,
-  value: string,
-): MimeTypeRecord;
-export function update(
-  mimeTypeInput: MimeTypeInput,
+export const update: UpdateFn = (
+  input: MimeTypeInput,
   ...rest:
-    | readonly [essence: string]
     | readonly [key: 'parameters', value: ParametersUpdateInput]
     | readonly [key: UpdatableKey, value: string]
-): MimeTypeRecord {
-  const mimeType = create(mimeTypeInput);
-  if (rest.length === 1) {
-    return update(mimeType, 'essence', rest[0]);
-  } else if (rest[0] === 'parameters') {
-    const input = rest[1];
-    const isInputString = isString(input);
-    const inputString =
-      isInputString ?
-        // ensure parameters are prefixed with a semicolon for convenience
-        input.replace(/^\s*;?\s*/, ';')
-      : serializeParameters(input);
-    try {
-      const parameters = parse(inputString, { startRule: 'parameters' });
-      return { ...mimeType, parameters };
-    } catch (err) {
-      if (err instanceof ParseSyntaxError) {
-        throw new SyntaxError(
-          `Failed to ${isInputString ? 'parse' : 'normalize'} parameters:\n${err.format(
-            [{ source: '<input>', text: inputString }],
-          )}`,
-        );
-      }
+    | readonly [parameters: ParametersUpdateInput]
+): string | MimeTypeRecord => {
+  if (rest.length === 1) return update(input, 'parameters', rest[0]);
 
-      throw err;
-    }
+  const [mimeRecord, options] = unwrapInput(input);
+
+  if (rest[0] === 'parameters') {
+    // deconstruct the value from arguments inside `if` to get the correct type
+    const [, value] = rest;
+    const valueString = fif(
+      value,
+      isString,
+      // ensure parameters are prefixed with a semicolon for convenience
+      (s) => s.replace(/^\s*;?\s*/, ';'),
+      serializeParameters,
+    );
+
+    const parameters = wrappedParse(
+      valueString,
+      {
+        ...options,
+        startRule: 'parameters',
+      },
+      `Failed to ${isString(value) ? 'parse' : 'normalize'} parameters`,
+    );
+    return produceOutput(input, { ...mimeRecord, parameters });
   } else {
-    const [key, value] = rest;
-    try {
-      const parsed = parse(value, { startRule: key });
-      const newEssence =
-        key === 'essence' ?
-          (parsed as EssenceParsed)
-          // update type or subtype via essence update to ensure consistency
-        : parse(
-            serializeMimeType({
-              type: mimeType.type,
-              subtype: mimeType.subtype,
-              [key]: value,
-            }),
-            { startRule: 'essence' },
-          );
-      return {
-        ...mimeType,
-        ...newEssence,
-      };
-    } catch (err) {
-      if (err instanceof ParseSyntaxError) {
-        throw new SyntaxError(
-          `Failed to parse ${key}:\n${err.format([{ source: '<input>', text: value }])}`,
+    // deconstruct the value from arguments inside `if` to get the correct type
+    const [startRule, value] = rest;
+    const parsed = wrappedParse(
+      value,
+      { ...options, startRule },
+      `Failed to parse ${startRule}`,
+    );
+    // always update the type with essence for consistency
+    const newEssence =
+      startRule === 'essence' ?
+        (parsed as EssenceParsed)
+      : wrappedParse(
+          serializeMimeType({
+            type: mimeRecord.type,
+            subtype: mimeRecord.subtype,
+            [startRule]: value,
+          }),
+          { ...options, startRule: 'essence' },
+          "Failed to parse the new essence. This probably shouldn't happen, please file an issue at github",
         );
-      }
-      throw err;
-    }
+    return produceOutput(input, {
+      ...mimeRecord,
+      ...newEssence,
+    });
   }
-}
+};
 
-export const removeParameter = (
-  mimeInput: MimeTypeInput,
-  name: string,
-): MimeTypeRecord => {
-  const mimeType = create(mimeInput);
-  if (!mimeType.parameters.has(name)) {
-    return mimeType;
+export const getParameter: GetParameterFn = ((input, name, throwOnMissing) => {
+  const [mimeType, options] = unwrapInput(input);
+  const parameterName = parseParameterName(name, options);
+  if (mimeType.parameters.has(parameterName)) {
+    return mimeType.parameters.get(parameterName)!;
+  } else if (isTrue(throwOnMissing)) {
+    throw new Error(
+      `Parameter "${name}" is not found in MIME type "${serialize(mimeType)}"`,
+    );
+  }
+
+  return null;
+}) as GetParameterFn;
+
+export const setParameter: SetParameterFn = (input, name, value) => {
+  if (isNil(value) || value === '') {
+    return removeParameter(input, name);
+  }
+
+  const [mimeType, options] = unwrapInput(input);
+  const parameterName = parseParameterName(name, options);
+  const parameterValue =
+    (
+      parameterName === 'charset' &&
+      !hasProp(options, 'keepCharsetCase', isTrue)
+    ) ?
+      String(value).toLowerCase()
+    : String(value);
+  const parameters = new Map(mimeType.parameters);
+  parameters.set(parameterName, parameterValue);
+  return produceOutput(input, { ...mimeType, parameters });
+};
+
+export const removeParameter: RemoveParameterFn = (input, name) => {
+  const [mimeType, options] = unwrapInput(input);
+
+  const parameterName = parseParameterName(name, options);
+
+  if (!mimeType.parameters.has(parameterName)) {
+    return produceOutput(input, mimeType);
   }
 
   const parameters = new Map(mimeType.parameters);
   parameters.delete(name);
 
-  return { ...mimeType, parameters };
+  return produceOutput(input, { ...mimeType, parameters });
 };
 
-export const setParameter = (
+export const serialize: SerializeFn = (input: MimeTypeInput): string =>
+  isString(input) ? input
+  : hasProp(input, 'mimeType', isString) ? input.mimeType
+  : serializeMimeType(input as MimeTypeSerializableInput);
+
+export const normalize = (input: MimeTypeInput): string =>
+  serializeMimeType(parse(input));
+
+/* ────────────────────────── Optimization Helpers ────────────────────────── */
+
+const recordSet = new WeakSet<MimeTypeRecord>();
+
+const registerRecord = (mimeType: MimeTypeRecord): MimeTypeRecord => (
+  recordSet.add(mimeType), mimeType
+);
+
+const isMimeRecord = (value: unknown): value is MimeTypeRecord =>
+  (recordSet as Set<unknown>).has(value);
+
+/* ──────────────────────────────── Helpers ───────────────────────────────── */
+
+export const unwrapInput = (
   input: MimeTypeInput,
-  name: string,
-  value?: number | string | Nil,
-): MimeTypeRecord => {
-  if (isNil(value) || value === '') {
-    return removeParameter(input, name);
+): [mimeType: MimeTypeRecord, options?: MimeTypeOptions | undefined] => {
+  if (isString(input)) {
+    return [wrappedSniff(input, undefined, 'Failed to sniff MIME type')];
+  } else if (isMimeRecord(input)) {
+    return [input];
+  } else if (hasProp(input, 'mimeType', isString)) {
+    const { mimeType, ...options } = input;
+    return [
+      wrappedSniff(mimeType, options, 'Failed to sniff MIME type'),
+      options,
+    ];
+  } else {
+    const { type, subtype, parameters, ...options } =
+      input as MimeTypeSerializableInput;
+    return [
+      wrappedSniff(
+        serializeMimeType({ type, subtype, parameters }),
+        options,
+        'Failed to sniff MIME type',
+      ),
+      options,
+    ];
   }
-
-  const mimeType = create(input);
-  const parameters = new Map(mimeType.parameters);
-  parameters.set(name, String(value));
-  return { ...mimeType, parameters };
 };
 
-export const serialize = (input: MimeTypeInput): string =>
-  serializeMimeType(create(input));
+export function produceOutput<TInput extends MimeTypeInput>(
+  input: TInput,
+  record: MimeTypeRecord,
+): OutputType<TInput>;
+export function produceOutput(
+  input: MimeTypeInput,
+  record: MimeTypeRecord,
+): OutputType {
+  const shouldOutputString =
+    isString(input) ||
+    (hasProp(input, 'serialize', isBoolean) ?
+      input.serialize
+    : hasProp(input, 'mimeType', isString));
+
+  return shouldOutputString ?
+      serializeMimeType(record)
+    : registerRecord(record);
+}
+
+const parseParameterName = (name: string, options?: MimeTypeOptions): string =>
+  wrappedParse(
+    name,
+    { ...options, startRule: 'parameterName' },
+    'Failed to parse parameter name',
+  );
+
+const wrappedParse = <
+  TRule extends StartRuleNames = DefaultStartRule,
+  TMultiParameter extends MultiParameterOption = 'keep-first',
+>(
+  input: string,
+  customOptions: ParseOptions<TRule, TMultiParameter> | undefined,
+  errorPrefix: string,
+): RuleResult<TMultiParameter>[TRule] => {
+  const source = '<input>';
+  const options = {
+    keepCharsetCase: false,
+    ...customOptions,
+    grammarSource: source,
+  };
+
+  try {
+    return lowLevelParse(input, options);
+  } catch (parseError) {
+    if (parseError instanceof ParseSyntaxError) {
+      throw new SyntaxError(
+        `${errorPrefix}: ${parseError
+          .format([{ source, text: input }])
+          .replace('Error: Expected ', 'expected')}`,
+      );
+    }
+
+    throw parseError;
+  }
+};
+
+const wrappedSniff = <
+  TRule extends StartRuleNames = DefaultStartRule,
+  TMultiParameter extends MultiParameterOption = 'keep-first',
+>(
+  input: string,
+  customOptions: ParseOptions<TRule, TMultiParameter> | undefined,
+  errorPrefix: string,
+): RuleResult<TMultiParameter>[TRule] =>
+  wrappedParse(input, { sniff: true, ...customOptions }, errorPrefix);
