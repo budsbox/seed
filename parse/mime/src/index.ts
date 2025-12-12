@@ -1,10 +1,10 @@
 /**
+ * @module @budsbox/parse-mime
  * @file Main entry point for the MIME type parser.
  *
  * This module provides functions for parsing and serializing MIME types according to
  * the WHATWG MIME Sniffing Standard and related RFCs. The parser is generated using Peggy
  * and supports multiple parsing strategies, parameter handling, and serialization.
- * @module @budsbox/parse-mime
  */
 
 import type {
@@ -40,11 +40,6 @@ export const SyntaxError = Parser.SyntaxError;
  * components depending on the specified start rule. It supports various parsing strategies
  * for handling edge cases like duplicate parameters and whitespace.
  *
- * @typeParam TRule - The grammar start rule to use for parsing. Determines which component
- * of a MIME type to parse (e.g., 'mimeType', 'essence', 'parameter'). Defaults to parsing
- * complete MIME types.
- * @typeParam TMultiParameter - Strategy for handling duplicate parameter names. Defaults to
- * 'keep-first', which retains only the first occurrence of duplicate parameters.
  * @param input - The string to parse (e.g., "text/html; charset=utf-8")
  * @param options - Optional parsing configuration
  * @param options.startRule - Which grammar rule to start parsing from. Defaults to `'mimeType'`.
@@ -57,6 +52,13 @@ export const SyntaxError = Parser.SyntaxError;
  * @returns Parsed result based on the start rule. For 'mimeType' (default), returns a
  * complete parsed MIME type with essence and parameters. Other rules return specific components.
  * @throws {SyntaxError} When the input doesn't match the expected grammar
+ * @typeParam TRule - The grammar start rule to use for parsing. Determines which component
+ * of a MIME type to parse (e.g., 'mimeType', 'essence', 'parameter'). Defaults to parsing
+ * complete MIME types.
+ * @typeParam TMultiParameter - Strategy for handling duplicate parameter names. Defaults to
+ * 'keep-first', which retains only the first occurrence of duplicate parameters.
+ * @see {@link sniff} — for a convenience wrapper that automatically enables sniff mode.
+ * @see {@link RuleResult} — for the map of a parsing result for every `options.startRule` value.
  * @example
  * ```typescript
  * // Parse a complete MIME type
@@ -72,8 +74,6 @@ export const SyntaxError = Parser.SyntaxError;
  * // essence.type === 'application'
  * // essence.subtype === 'json'
  * ```
- * @see {@link sniff} — for a convenience wrapper that automatically enables sniff mode.
- * @see {@link RuleResult} — for the map of a parsing result for every `options.startRule` value.
  */
 export const parse = Parser.parse as <
   TRule extends StartRuleNames = DefaultStartRule,
@@ -87,23 +87,17 @@ export const parse = Parser.parse as <
  * Parses a MIME type string in lenient "sniffing" mode.
  *
  * This is a convenience wrapper around {@link parse} that automatically enables
- * the sniff option. Sniffing mode attempts to extract valid MIME type information
+ * the `sniff` option. Sniffing mode attempts to extract valid MIME type information
  * even from malformed input, following the WHATWG MIME Sniffing Standard algorithm.
  * This is useful when parsing potentially non-standard MIME types from user input
  * or legacy systems.
  *
- * @typeParam TRule - The grammar start rule to use for parsing
- * @typeParam TMultiParameter - Strategy for handling duplicate parameter names
  * @param input - The string to parse
  * @param options - Optional parsing configuration (excluding 'sniff' which is always true)
  * @returns Parsed result based on the start rule, same as {@link parse}
  * @throws {SyntaxError} When the input cannot be parsed even in lenient mode
- * @example
- * ```typescript
- * // Sniff a potentially malformed MIME type
- * const result = sniff('TEXT/HTML ;charset=UTF-8');
- * // Normalizes case and whitespace issues
- * ```
+ * @typeParam TRule - The grammar start rule to use for parsing
+ * @typeParam TMultiParameter - Strategy for handling duplicate parameter names
  */
 export const sniff = <
   TRule extends StartRuleNames = DefaultStartRule,
@@ -124,9 +118,9 @@ export type ParseFunction = typeof parse;
 /**
  * Checks whether a string is a valid HTTP token, according both to IETF and WHATWG standards.
  *
+ * @internal
  * @param value - The string to validate
  * @returns `true` if the value is a valid HTTP token, `false` otherwise
- * @internal
  * @see @{link https://mimesniff.spec.whatwg.org/#http-token-code-point MIME Sniffing Standard: HTTP Token Code Point}
  * — for the description of the HTTP Token used in WHATWG MIME Sniffing Standard.
  * @see @{link https://datatracker.ietf.org/doc/html/rfc9110#name-tokens RFC 9110: Tokens}
@@ -218,6 +212,10 @@ export const serializeParameters = (
  *
  * @param mimeTypeParsed - The "MIME type"-like record to serialize.
  * @returns A string representation of the MIME type in the format "type/subtype;param1=value1;param2=value2"
+ * @see {@link parse} — for the inverse operation.
+ * @see {@link SerializableMimeTypeRecord} — for the structure of the input object.
+ * @see {@link https://mimesniff.spec.whatwg.org/#serializing-a-mime-type MIME Sniffing Standard: Serializing a MIME Type}
+ * — for the full specification of the serialization algorithm.
  * @example
  * ```typescript
  * // Normalizing a MIME type
@@ -236,10 +234,6 @@ export const serializeParameters = (
  * const result = serializeMimeType(mimeType);
  * // result === 'application/json;charset=utf-8'
  * ```
- * @see {@link parse} — for the inverse operation.
- * @see {@link SerializableMimeTypeRecord} — for the structure of the input object.
- * @see {@link https://mimesniff.spec.whatwg.org/#serializing-a-mime-type MIME Sniffing Standard: Serializing a MIME Type}
- * — for the full specification of the serialization algorithm.
  */
 export const serializeMimeType = ({
   type,

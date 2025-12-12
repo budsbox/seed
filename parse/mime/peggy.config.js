@@ -9,6 +9,7 @@ export default {
     'subtypeSuffix',
     'parameters',
     'parameter',
+    'parameterName',
     'httpToken',
   ],
   dts: true,

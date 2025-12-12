@@ -171,7 +171,7 @@ skipParameterValue
  * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
  * @see https://fetch.spec.whatwg.org/#collect-an-http-quoted-string
  */
-semanticQuotedString 'semantic quoted-string'
+semanticQuotedString 'semantic quoted string'
   = '"' content:(httpQuotedPair / httpQuotedStringChar)* ('"' / (&{ return isSniffing } !.))
     { return content.join('') }
 
@@ -179,7 +179,7 @@ semanticQuotedString 'semantic quoted-string'
  * @see https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
  */
 httpQuotedPair
-  = '\\' @([ \t] / VCHAR / obsText)
+  = '\\' @([ \t\u0020-\u007e\u0080-\u00FF])
 
 /**
  * @see https://mimesniff.spec.whatwg.org/#http-quoted-string-token-code-point
@@ -191,7 +191,7 @@ httpQuotedStringChar 'HTTP quoted string char'
 /**
  * @see https://mimesniff.spec.whatwg.org/#http-quoted-string-token-code-point
  */
-httpQuotedTokenChar 'HTTP quoted string token char ([\\t\\u0020-\\u007e\\u0080-\\u00FF])'
+httpQuotedTokenChar 'HTTP quoted string token char'
   = [\t\u0020-\u007e\u0080-\u00FF]
 
 isRestrictedName
@@ -224,24 +224,6 @@ restrictedNameFirstChar 'restricted-name first char ([a-z0-9]i)'
  */
 restrictedNameChar 'restricted-name char ([a-z0-9"!#$&\-^_"]i)'
   = [a-z0-9"!#$&\-^_"]i
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc9110#name-field-values
- */
-obsText 'obs-text ([\u0080-\u00FF])'
-  = [\u0080-\u00FF]
-
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc9110#name-syntax-notation
- */
-VCHAR 'visible ASCII char ([\\u0020-\\u007e])'
-  = [\u0020-\u007e]
-
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc9110#name-whitespace
- */
-RWS 'whitespace'
-  = $(&{ return isSemantic} [ \t]+) /
-    $(&{ return isSniffing } fetchHttpWhitespace+)
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-whitespace

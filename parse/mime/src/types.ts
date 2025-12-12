@@ -1,14 +1,20 @@
 /**
+ * @module @budsbox/parse-mime/types
  * @file Type definitions for MIME type parsing functionality.
  *
  * This module provides TypeScript type definitions for a MIME type parser generated with Peggy.
  * The parser implementation is imported from '#parser' and this file provides a type-safe
  * interface for working with MIME type parsing operations, including parsing options,
  * parse results, and structured representations of MIME types.
- * @module @budsbox/parse-mime/types
  */
 
 import type { Merge } from 'type-fest';
+
+import type {
+  ConditionalReadonly,
+  ConditionalReadonlyCollection,
+  Undef,
+} from '@budsbox/lib-types';
 
 import type * as Parser from '#parser';
 
@@ -85,7 +91,7 @@ export interface ParseOptions<
    * @see {@link https://datatracker.ietf.org/doc/html/rfc2046#section-4.1.2 RFC 2046: Charset Parameter}
    * @see {@link https://datatracker.ietf.org/doc/html/rfc9110#name-media-type RFC 9110: Media Type}
    */
-  keepCharsetCase?: boolean;
+  readonly keepCharsetCase?: boolean;
 
   /**
    * Optional tracer for debugging parser execution.
@@ -146,14 +152,7 @@ export type ParameterName = string;
  */
 export type ParameterValue<
   TMultiParameter extends MultiParameterOption = MultiParameterOption,
-  TReadOnly extends boolean = false,
-> =
-  | ('list' extends TMultiParameter ?
-      TReadOnly extends true ?
-        readonly string[]
-      : string[]
-    : never)
-  | string;
+> = ('list' extends TMultiParameter ? string[] : never) | string;
 
 /**
  * Represents a key-value pair for a parameter in a tuple format.
@@ -169,10 +168,13 @@ export type ParameterValue<
 export type ParameterEntry<
   TMultiParameter extends MultiParameterOption = MultiParameterOption,
   TReadOnly extends boolean = false,
-> =
-  TReadOnly extends true ?
-    readonly [ParameterName, ParameterValue<TMultiParameter, true>]
-  : [ParameterName, ParameterValue];
+> = ConditionalReadonly<
+  [
+    ParameterName,
+    ConditionalReadonly<ParameterValue<TMultiParameter>, TReadOnly>,
+  ],
+  TReadOnly
+>;
 
 /**
  * A collection of parsed MIME type parameters as a map from parameter names to values.
@@ -373,6 +375,12 @@ export interface RuleResult<
   parameters: ParametersParsed<TMultiParameter>;
 
   /**
+   * Result when parsing with the `parameterName` start rule.
+   * Returns only the parameter name.
+   */
+  parameterName: ParameterName;
+
+  /**
    * Result when parsing with the `subtype` start rule.
    * Returns just the subtype component with its tokens.
    *
@@ -409,6 +417,32 @@ export interface RuleResult<
   type: string;
 }
 
+/* eslint-disable @typescript-eslint/prefer-function-type */
+
+/**
+ * Defines a function interface to parse a given input string based on specific rules and options.
+ *
+ * This parsing function processes the input using a defined start rule and configuration options,
+ * producing a result associated with the selected rule and multi-parameter behavior.
+ *
+ * @param input - The input string to parse.
+ * @param options - Optional configuration object for parsing, which specifies the start rule and behavior for multi-parameters.
+ * @returns The parsing result associated with the provided start rule and multi-parameter specification.
+ * @typeParam TRule - Specifies the rule name type used as the starting rule for parsing. Defaults to `DefaultStartRule`.
+ * @typeParam TMultiParameter - Determines the handling behavior of multiple parameters. Defaults to `'keep-first'`.
+ */
+export interface ParseFn<
+  TRule extends StartRuleNames = DefaultStartRule,
+  TMultiParameter extends MultiParameterOption = 'keep-first',
+> {
+  (
+    input: string,
+    options?: ParseOptions<TRule, TMultiParameter>,
+  ): RuleResult<TMultiParameter>[TRule];
+}
+
+/* eslint-enable @typescript-eslint/prefer-function-type */
+
 /**
  * Represents a record structure where parameter names are mapped to their respective parameter values.
  *
@@ -418,14 +452,17 @@ export interface RuleResult<
  */
 export type SerializableParameterRecord<TReadOnly extends boolean = false> =
   ConditionalReadonly<
-    Record<ParameterName, ParameterValue<MultiParameterOption, true>>,
+    Record<
+      ParameterName,
+      ConditionalReadonlyCollection<ParameterValue, TReadOnly>
+    >,
     TReadOnly
   >;
 
 /**
  * Represents a type for serializable parameters. This type can either be:
- * - A `ParametersRecord` that is readonly if `TReadOnly` is true, or mutable otherwise.
- * - An iterable collection of `ParameterEntry` elements containing `MultiParameterOption` values
+ * - A {@link ParametersRecord `ParametersRecord`} that is readonly if `TReadOnly` is true, or mutable otherwise.
+ * - An iterable collection of {@link ParameterEntry `ParameterEntry`} elements containing {@link MultiParameterOption `MultiParameterOption`} values
  *   with mutability controlled by the `TReadOnly` flag.
  *
  * @typeParam TReadOnly - Whether the value should be marked as readonly (useful in function signatures). Defaults to `false`.
@@ -443,6 +480,9 @@ export type SerializableParameters<TReadOnly extends boolean = false> =
  * It differs from a {@link MimeTypeParsed fully parsed MIME type } in that it only includes essential parts like type, subtype, and parameters.
  * Also, parameters can be provided as any iterable structure or record rather than the strict `Map` format.
  *
+ * @typeParam TReadOnly - Whether the value should be marked as readonly (useful in function signatures). Defaults to `false`.
+ * @see {@link https://mimesniff.spec.whatwg.org/#mime-type-representation MIME Sniffing Standard: MIME Type Representation}
+ * — for the description of `MIME type record`, on which this type is (loosely) based.
  * @example
  * ```typescript
  * // Create a simple text MIME type
@@ -461,18 +501,12 @@ export type SerializableParameters<TReadOnly extends boolean = false> =
  *   ]],
  * };
  * ```
- * @typeParam TReadOnly - Whether the value should be marked as readonly (useful in function signatures). Defaults to `false`.
- * @see {@link https://mimesniff.spec.whatwg.org/#mime-type-representation MIME Sniffing Standard: MIME Type Representation}
- * — for the description of `MIME type record`, on which this type is (loosely) based.
  */
 export type SerializableMimeTypeRecord<TReadOnly extends boolean = false> =
   ConditionalReadonly<
     Merge<
       Pick<MimeTypeParsed, 'subtype' | 'type'>,
-      { parameters?: SerializableParameters<TReadOnly> }
+      { parameters?: Undef<SerializableParameters<TReadOnly>> }
     >,
     TReadOnly
   >;
-
-type ConditionalReadonly<T, TCondition extends boolean> =
-  TCondition extends true ? Readonly<T> : T;
