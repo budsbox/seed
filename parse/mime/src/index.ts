@@ -34,6 +34,11 @@ export type * from '#types';
 export const SyntaxError = Parser.SyntaxError;
 
 /**
+ * Represents the default starting rule for the parser.
+ */
+export const defaultStartRule: DefaultStartRule = 'mimeType';
+
+/**
  * Parses a MIME type string or component using the Peggy-generated parser.
  *
  * This is the primary parsing function that can parse complete MIME types or individual
