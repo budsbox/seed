@@ -82,7 +82,7 @@ export interface GetParameterFn {
   <TInput extends MimeTypeInput, TThrow extends boolean = false>(
     input: TInput,
     name: ParameterName,
-    throwOnMissing?: TThrow,
+    throwIfMissing?: TThrow,
   ):
     | (TThrow extends true ? never : null)
     | ParameterValue<MultiParameter<TInput>>;
@@ -107,7 +107,7 @@ export interface RemoveParameterFn {
 /**
  * Function interface for setting or updating a single parameter on a MIME type input.
  *
- * If the value is `null`, `undefined`, or an empty string, the parameter is removed instead.
+ * If the value is `null`, `undefined`, an empty string, or omitted, the parameter is removed instead.
  *
  * @param input - MIME type input to update.
  * @param parameter - Name of the parameter to set.
@@ -119,7 +119,7 @@ export interface SetParameterFn {
   <TInput extends MimeTypeInput>(
     input: TInput,
     name: ParameterName,
-    value: boolean | number | string | Nil,
+    value?: boolean | number | string | Nil,
   ): OutputType<TInput>;
 }
 
@@ -217,11 +217,17 @@ export type MimeTypeRecord<
 /* ───────────────────────── Functions Type Helpers ───────────────────────── */
 
 /**
- * Convenience alias for a MIME type string input.
+ * All supported input shapes for high-level MIME type helper functions.
  *
- * This is kept separate to make overloads and conditional types more readable.
+ * Inputs can be:
+ * - A raw MIME type string.
+ * - An object with a `mimeType` field and optional parsing options.
+ * - A serializable MIME type record along with options.
  */
-export type MimeTypeStringInput = MimeTypeString;
+export type MimeTypeInput =
+  | MimeTypeString
+  | (MimeTypeSerializableInput & MimeTypeOptions)
+  | (MimeTypeStringContainer & MimeTypeOptions);
 
 /**
  * Object shape that carries a MIME type string under the `mimeType` property.
@@ -241,6 +247,7 @@ export interface MimeTypeStringContainer {
  * These options are derived from the low-level parser options with
  * parser-internal fields omitted.
  *
+ * @interface
  * @typeParam TMultiParameter - Strategy for handling duplicate parameters.
  */
 export interface MimeTypeOptions
@@ -257,34 +264,9 @@ export interface MimeTypeOptions
 /**
  * Serializable object input for MIME type operations.
  *
- * This is a structured representation that can be passed to parsing and
- * update helpers instead of a raw string.
- *
  * @interface
  */
-export type MimeTypeSerializableInput = MimeTypeOptions &
-  SerializableMimeTypeRecord<true>;
-
-/**
- * Object-based inputs accepted by high-level MIME type helpers.
- *
- * These are either:
- * - A {@link MimeTypeSerializableInput}, or
- * - A combination of {@link MimeTypeOptions} with a {@link MimeTypeStringContainer}.
- */
-export type MimeTypeObjectInput =
-  | MimeTypeSerializableInput
-  | (MimeTypeOptions & MimeTypeStringContainer);
-
-/**
- * All supported input shapes for high-level MIME type helper functions.
- *
- * Inputs can be:
- * - A raw MIME type string.
- * - An object with a `mimeType` field and optional parsing options.
- * - A serializable MIME type record along with options.
- */
-export type MimeTypeInput = MimeTypeObjectInput | MimeTypeStringInput;
+export type MimeTypeSerializableInput = SerializableMimeTypeRecord<true>;
 
 /**
  * Output type helper that mirrors the structure of a given input.
@@ -296,7 +278,7 @@ export type MimeTypeInput = MimeTypeObjectInput | MimeTypeStringInput;
  * @typeParam TInput - The input shape whose corresponding output type is inferred.
  */
 export type OutputType<TInput extends MimeTypeInput = MimeTypeInput> =
-  TInput extends MimeTypeStringInput | { serialize: true } ? string
+  TInput extends MimeTypeString | { serialize: true } ? string
   : TInput extends { serialize: false } ? MimeTypeRecord<MultiParameter<TInput>>
   : TInput extends MimeTypeStringContainer ? string
   : MimeTypeRecord<MultiParameter<TInput>>;

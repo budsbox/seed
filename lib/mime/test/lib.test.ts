@@ -6,7 +6,7 @@ import {
   removeParameter,
   serialize,
   setParameter,
-  unwrapInput,
+  normalizeInput,
   update,
 } from '#lib';
 import { describe, expect, test } from 'vitest';
@@ -126,7 +126,7 @@ describe.concurrent('MIME Type Library', () => {
       describe('negative cases', () => {
         test('should throw SyntaxError for invalid essence', () => {
           expect(() => update('text/html', 'essence', 'invalid')).toThrow(
-            `Failed to parse essence: expected"/" or restricted-name char ([a-z0-9"!#$&-^_"]i) but end of input found.
+            `Failed to parse essence: expected "/" or restricted-name char ([a-z0-9"!#$&-^_"]i) but end of input found.
  --> <input>:1:8
   |
 1 | invalid
@@ -523,11 +523,11 @@ describe.concurrent('MIME Type Library', () => {
   });
 
   describe('internal utilities', () => {
-    describe('unwrapInput', () => {
+    describe('normalizeInput', () => {
       describe('input shapes', () => {
         test('should unwrap from raw string without options', () => {
-          const [record, options] = unwrapInput('TEXT/HTML; CHARSET=UTF-8');
-          expect(options).toBeUndefined();
+          const [record, options] = normalizeInput('TEXT/HTML; CHARSET=UTF-8');
+          expect(options).toStrictEqual({ keepCharsetCase: false });
           expect(record).toStrictEqual({
             essence: 'text/html',
             type: 'text',
@@ -539,21 +539,21 @@ describe.concurrent('MIME Type Library', () => {
 
         test('should return the same record instance and no options for MimeTypeRecord input', () => {
           const input = parse('text/plain; charset=UTF-8');
-          const [record, options] = unwrapInput(input);
+          const [record, options] = normalizeInput(input);
           expect(record).toBe(input);
-          expect(options).toBeUndefined();
+          expect(options).toStrictEqual({ keepCharsetCase: false });
         });
 
         test('should separate options from { mimeType } container', () => {
-          const [record, options] = unwrapInput({
+          const [record, options] = normalizeInput({
             mimeType: 'text/html; charset=UTF-8',
           });
           expect(serialize(record)).toBe('text/html;charset=utf-8');
-          expect(options).toStrictEqual({});
+          expect(options).toStrictEqual({ keepCharsetCase: false });
         });
 
         test('should keep provided options for { mimeType, ...options }', () => {
-          const [record, options] = unwrapInput({
+          const [record, options] = normalizeInput({
             mimeType: 'text/html; charset=UTF-8',
             serialize: true,
             keepCharsetCase: true,
@@ -568,7 +568,7 @@ describe.concurrent('MIME Type Library', () => {
         });
 
         test('should build record from serializable object and return its options', () => {
-          const [record, options] = unwrapInput({
+          const [record, options] = normalizeInput({
             type: 'text',
             subtype: 'html',
             serialize: false,
@@ -576,19 +576,23 @@ describe.concurrent('MIME Type Library', () => {
           } as const);
           expect(serialize(record)).toBe('text/html');
           expect(options).toStrictEqual({
+            keepCharsetCase: false,
             serialize: false,
             multiParameter: 'keep-first',
           });
         });
 
         test('should honor serialize option presence in returned options for serializable object', () => {
-          const [record, options] = unwrapInput({
+          const [record, options] = normalizeInput({
             type: 'application',
             subtype: 'json',
             serialize: true,
           } as const);
           expect(serialize(record)).toBe('application/json');
-          expect(options).toStrictEqual({ serialize: true });
+          expect(options).toStrictEqual({
+            keepCharsetCase: false,
+            serialize: true,
+          });
         });
       });
     });
