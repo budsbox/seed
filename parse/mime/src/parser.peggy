@@ -38,45 +38,23 @@ type
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2.8
  */
 subtype
-  = tree:tree ?
-  trail:subtypeTrail
-  {
-    const [suffix, name] = [trail.length > 1 ? trail.pop() : null, trail.join('')];
-    return {subtype: text().toLowerCase(), subtypeTokens: {tree, name, suffix}}
-  }
+  = subtype:(isRestrictedName / !{ return isRestricted } @httpToken)
+    {
+      subtype = subtype.toLowerCase();
+      const parsed = {subtype};
+      if (subtype.includes('.')) {
+        parsed.facet = subtype.slice(0, subtype.indexOf('.') + 1);
+      }
 
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
- */
-tree
-  = (isRestrictedName / (!{ return isRestricted } (![.+] httpTokenChar)+))
-  '.'
-  { return text().toLowerCase() }
+      if (subtype.includes('+')) {
+        parsed.suffix = subtype.slice(subtype.indexOf('+'));
+      }
 
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2.8
- */
-subtypeTrail
-  = first:subtypeName rest:subtypeSuffix* { return [first, ...rest]}
-
-subtypeName
-  = subtypeTrailPart
-
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2.8
- */
-subtypeSuffix
-  = sign:'+' name:subtypeTrailPart { return sign + name }
-
-subtypeTrailPart
-  = (
-      (&{ return isRestricted } restrictedNameFirstChar (restrictedNameChar / '.')*) /
-        (!{ return isRestricted } (!'+' httpTokenChar)+)
-    )
-    { return text().toLowerCase() }
-
+      return parsed;
+    }
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-parameters
@@ -148,10 +126,6 @@ sniffParameterValue
 sniffQuotedValue
   = @(semanticQuotedString / skipQuotedString) [^;]*
 
-sniffAcceptableQuotedValue
-  = '"' content:(httpQuotedPair / httpQuotedStringChar)* ('"' / !.)
-  { return content.join('') }
-
 skipQuotedString
   = '"' (httpQuotedPair / [^"])* ('"' / !.) { return null }
 
@@ -210,20 +184,17 @@ httpToken 'HTTP token'
 httpTokenChar 'HTTP Token char'
   = [a-z0-9!#$%&'*+\-.^_`|~]i
 
+/**
+ * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
+ */
 restrictedName 'restricted-name'
   = $(restrictedNameFirstChar restrictedNameChar*)
 
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
- */
 restrictedNameFirstChar 'restricted-name first char ([a-z0-9]i)'
   = [a-z0-9]i
 
-/**
- * @see https://datatracker.ietf.org/doc/html/rfc6838#section-4.2
- */
 restrictedNameChar 'restricted-name char ([a-z0-9"!#$&\-^_"]i)'
-  = [a-z0-9"!#$&\-^_"]i
+  = [a-z0-9"!#$&+\-.^_"]i
 
 /**
  * @see https://datatracker.ietf.org/doc/html/rfc9110#name-whitespace

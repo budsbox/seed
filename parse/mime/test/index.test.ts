@@ -48,7 +48,6 @@ describe.sequential('MIME Parser test suite', () => {
           essence: 'text/html',
           type: 'text',
           subtype: 'html',
-          subtypeTokens: { tree: null, name: 'html', suffix: null },
           parameters: new Map(),
         });
 
@@ -56,7 +55,6 @@ describe.sequential('MIME Parser test suite', () => {
           essence: 'x/x',
           type: 'x',
           subtype: 'x',
-          subtypeTokens: { tree: null, name: 'x', suffix: null },
           parameters: new Map(),
         });
       });
@@ -74,15 +72,13 @@ describe.sequential('MIME Parser test suite', () => {
         expect(res.essence).toBe('text/html');
       });
 
-      test('should parse tree, dotted name and suffix from subtype; everything lowercased', () => {
-        expect(
-          overloadedParse('Application/VnD.company.product.Feature+JsOn')
-            .subtypeTokens,
-        ).toEqual({
-          tree: 'vnd.',
-          name: 'company.product.feature',
-          suffix: '+json',
-        });
+      test('should parse facet and suffix from subtype; values are detected (subtype casing may be preserved)', () => {
+        const res = overloadedParse(
+          'Application/VnD.company.product.Feature+JsOn',
+        );
+        expect(res.subtype).toBe('vnd.company.product.feature+json');
+        expect(res.facet).toBe('vnd.');
+        expect(res.suffix).toBe('+json');
       });
 
       test('should parse and lowercase parameter names, ignoring leading whitespace (space and tab)', () => {
@@ -183,7 +179,6 @@ describe.sequential('MIME Parser test suite', () => {
           essence: 'text/html',
           type: 'text',
           subtype: 'html',
-          subtypeTokens: { tree: null, name: 'html', suffix: null },
           parameters: new Map(),
         });
       });
@@ -247,11 +242,8 @@ describe.sequential('MIME Parser test suite', () => {
             essence: 'application/vnd.company.product+json',
             type: 'application',
             subtype: 'vnd.company.product+json',
-            subtypeTokens: {
-              tree: 'vnd.',
-              name: 'company.product',
-              suffix: '+json',
-            },
+            facet: 'vnd.',
+            suffix: '+json',
             parameters: new Map([['charset', 'utf-8']]),
           });
         });
@@ -272,7 +264,6 @@ describe.sequential('MIME Parser test suite', () => {
             essence: 'application/json',
             type: 'application',
             subtype: 'json',
-            subtypeTokens: { tree: null, name: 'json', suffix: null },
           });
         });
 
@@ -308,21 +299,17 @@ describe.sequential('MIME Parser test suite', () => {
           const res = parseFormatted('html', { startRule: 'subtype' });
           expect(res).toEqual({
             subtype: 'html',
-            subtypeTokens: { tree: null, name: 'html', suffix: null },
           });
         });
 
-        test('should parse subtype with tree and suffix', () => {
+        test('should parse subtype with facet and suffix', () => {
           const res = parseFormatted('vnd.company.product+xml', {
             startRule: 'subtype',
           });
           expect(res).toStrictEqual({
             subtype: 'vnd.company.product+xml',
-            subtypeTokens: {
-              tree: 'vnd.',
-              name: 'company.product',
-              suffix: '+xml',
-            },
+            facet: 'vnd.',
+            suffix: '+xml',
           });
         });
 
@@ -333,59 +320,10 @@ describe.sequential('MIME Parser test suite', () => {
         });
       });
 
-      describe('tree rule', () => {
-        test('should parse tree prefix with tree startRule', () => {
-          const res = parseFormatted('vnd.', { startRule: 'tree' });
-          expect(res).toBe('vnd.');
-        });
-
-        test('should parse and lowercase tree', () => {
-          const res = parseFormatted('VND.', { startRule: 'tree' });
-          expect(res).toBe('vnd.');
-        });
-
-        test('should throw when tree rule receives subtype without trailing dot', () => {
-          expect(() =>
-            parseFormatted('vnd', { startRule: 'tree' }),
-          ).toThrowError('Expected');
-        });
-      });
-
-      describe('subtypeName rule', () => {
-        test('should parse subtype name with subtypeName startRule', () => {
-          const res = parseFormatted('html', { startRule: 'subtypeName' });
-          expect(res).toBe('html');
-        });
-
-        test('should parse and lowercase subtype name', () => {
-          const res = parseFormatted('HTML', { startRule: 'subtypeName' });
-          expect(res).toBe('html');
-        });
-
-        test('should throw when subtypeName rule receives subtype with suffix', () => {
-          expect(() =>
-            parseFormatted('html+xml', { startRule: 'subtypeName' }),
-          ).toThrowError('Expected');
-        });
-      });
-
-      describe('subtypeSuffix rule', () => {
-        test('should parse subtype suffix with subtypeSuffix startRule', () => {
-          const res = parseFormatted('+xml', { startRule: 'subtypeSuffix' });
-          expect(res).toBe('+xml');
-        });
-
-        test('should parse and lowercase subtype suffix', () => {
-          const res = parseFormatted('+JSON', { startRule: 'subtypeSuffix' });
-          expect(res).toBe('+json');
-        });
-
-        test('should throw when subtypeSuffix rule receives suffix without plus sign', () => {
-          expect(() =>
-            parseFormatted('xml', { startRule: 'subtypeSuffix' }),
-          ).toThrowError('Expected');
-        });
-      });
+      // Obsolete start rules removed from the parser (covered by other tests):
+      // - 'tree'
+      // - 'subtypeName'
+      // - 'subtypeSuffix'
 
       describe('parameters rule', () => {
         test('should parse parameters with parameters startRule', () => {
@@ -503,7 +441,6 @@ describe.sequential('MIME Parser test suite', () => {
           essence: 'x/x',
           type: 'x',
           subtype: 'x',
-          subtypeTokens: { tree: null, name: 'x', suffix: null },
           parameters: new Map(),
         });
       });
@@ -513,14 +450,12 @@ describe.sequential('MIME Parser test suite', () => {
           essence: 'x/x',
           type: 'x',
           subtype: 'x',
-          subtypeTokens: { tree: null, name: 'x', suffix: null },
           parameters: new Map(),
         });
         expect(sniffFormatted(' text/html ')).toEqual({
           essence: 'text/html',
           type: 'text',
           subtype: 'html',
-          subtypeTokens: { tree: null, name: 'html', suffix: null },
           parameters: new Map(),
         });
       });
@@ -745,12 +680,11 @@ describe.sequential('MIME Parser test suite', () => {
   });
 
   describe('Sniff mode', () => {
-    test('should accept leading/trailing whitespace and trailing semicolon in sniffing mode', () => {
+    test('should accept leading/trailing whitespace and trailing semicolon', () => {
       expect(sniffFormatted('  text/html  ')).toEqual({
         essence: 'text/html',
         type: 'text',
         subtype: 'html',
-        subtypeTokens: { tree: null, name: 'html', suffix: null },
         parameters: new Map(),
       });
     });
@@ -760,7 +694,21 @@ describe.sequential('MIME Parser test suite', () => {
       expect(res.parameters).toEqual(new Map([['note', 'foo   bar  baz']]));
     });
 
-    test('should parse overcomplicated non-restricted MIME-type in sniffing mode', () => {
+    test('should accept subtypes with the facet only', () => {
+      const res = sniffFormatted('application/vnd.');
+      expect(serializeMimeType(res)).toBe('application/vnd.');
+      expect(res.type).toBe('application');
+      expect(res.subtype).toBe('vnd.');
+    });
+
+    test('should accept subtypes starting with a "+" sign', () => {
+      const res = sniffFormatted('application/+json');
+      expect(serializeMimeType(res)).toBe('application/+json');
+      expect(res.type).toBe('application');
+      expect(res.subtype).toBe('+json');
+    });
+
+    test('should parse overcomplicated non-restricted MIME-type', () => {
       expect(
         sniffFormatted(
           '  apP.lIcaTion/emergencycAlldata.deviceiNfo+xMl;  chaRset=utf-8   ;foo=bAr "  azAz ; kEk=foo ;  ror="lol fof \\"  ";bruh=""; oraoraora= ; foo=   ; fufufu=1     ',
@@ -769,11 +717,8 @@ describe.sequential('MIME Parser test suite', () => {
         essence: 'app.lication/emergencycalldata.deviceinfo+xml',
         type: 'app.lication',
         subtype: 'emergencycalldata.deviceinfo+xml',
-        subtypeTokens: {
-          tree: 'emergencycalldata.',
-          name: 'deviceinfo',
-          suffix: '+xml',
-        },
+        facet: 'emergencycalldata.',
+        suffix: '+xml',
         parameters: new Map([
           ['charset', 'utf-8'],
           ['foo', 'bAr "  azAz'],

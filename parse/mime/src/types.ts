@@ -31,6 +31,22 @@ export interface ParseOptions<
   TMultiParameter extends MultiParameterOption = MultiParameterOption,
 > extends Pick<Parser.ParseOptions<TRule>, 'grammarSource' | 'tracer'> {
   /**
+   * Whether to keep the case of `charset` parameter value.
+   * When `true`, the parameter value will be returned as-is, preserving the case.
+   * When `false`, the parameter value will be converted to lowercase.
+   * Defaults to `false` in semantic mode and `true` in sniff mode.
+   *
+   * @remarks Though the RFC 2046 does not strictly establish
+   * the case insensitivity of the `charset` parameters value _in all the cases_,
+   * RFC 9110 indicates the lower-cased variant as "preferred",
+   * so it's probably safe to assume that the parameter value should be treated as case-insensitive
+   * in semantic mode (hence lower-cased by default).
+   * @see {@link https://datatracker.ietf.org/doc/html/rfc2046#section-4.1.2 RFC 2046: Charset Parameter}
+   * @see {@link https://datatracker.ietf.org/doc/html/rfc9110#name-media-type RFC 9110: Media Type}
+   */
+  readonly keepCharsetCase?: boolean;
+
+  /**
    * Strategy for handling parameters that appear multiple times with the same name.
    * Determines whether to keep first, last or collect all values.
    *
@@ -68,6 +84,12 @@ export interface ParseOptions<
   readonly startRule?: TRule;
 
   /**
+   * Optional tracer for debugging parser execution.
+   * It redeclared as readonly to avoid triggering of the `@typescript-eslint/prefer-readonly-parameter-types` rule.
+   */
+  readonly tracer?: Readonly<Parser.ParserTracer>;
+
+  /**
    * Whether to trim whitespace from the input before parsing.
    *
    * Disabled by default.
@@ -76,28 +98,6 @@ export interface ParseOptions<
    * @remarks it applies only when the start rule is 'mimeType'.
    */
   readonly trim?: boolean;
-
-  /**
-   * Whether to keep the case of `charset` parameter value.
-   * When `true`, the parameter value will be returned as-is, preserving the case.
-   * When `false`, the parameter value will be converted to lowercase.
-   * Defaults to `false` in semantic mode and `true` in sniff mode.
-   *
-   * @remarks Though the RFC 2046 does not strictly establish
-   * the case insensitivity of the `charset` parameters value _in all the cases_,
-   * RFC 9110 indicates the lower-cased variant as "preferred",
-   * so it's probably safe to assume that the parameter value should be treated as case-insensitive
-   * in semantic mode (hence lower-cased by default).
-   * @see {@link https://datatracker.ietf.org/doc/html/rfc2046#section-4.1.2 RFC 2046: Charset Parameter}
-   * @see {@link https://datatracker.ietf.org/doc/html/rfc9110#name-media-type RFC 9110: Media Type}
-   */
-  readonly keepCharsetCase?: boolean;
-
-  /**
-   * Optional tracer for debugging parser execution.
-   * It redeclared as readonly to avoid triggering of the `@typescript-eslint/prefer-readonly-parameter-types` rule.
-   */
-  readonly tracer?: Readonly<Parser.ParserTracer>;
 }
 
 /**
@@ -198,10 +198,10 @@ export type ParametersParsed<
 > = Map<ParameterName, ParameterValue<TMultiParameter>>;
 
 /**
- * The tree prefix indicating the subtype's registration tree, e.g., `vnd.` in `application/vnd.example`.
- * Common trees include `vnd.` (vendor), `prs.` (personal), `x.` (unregistered), etc.
+ * The facet prefix indicating the subtype's registration tree, e.g., `vnd.` in `application/vnd.example`.
+ * Common facets include `vnd.` (vendor), `prs.` (personal), `x.` (unregistered), etc.
  */
-export type SubtypeTree = `${string}.`;
+export type SubtypeFacet = `${string}.`;
 
 /**
  * The suffix of the subtype indicating the underlying structure, e.g., `+xml` in `image/svg+xml`.
@@ -221,38 +221,6 @@ export type SubtypeSuffix = `+${string}`;
 export type MimeTypeEssence = `${string}/${string}`;
 
 /**
- * Tokenized components of a MIME subtype.
- * Breaks down a subtype into its constituent parts according to RFC 6838.
- *
- * @see {@link https://datatracker.ietf.org/doc/html/rfc6838#section-4.2 RFC 6838: Naming Requirements}
- * — for the syntax of subtype components as defined by IETF standards.
- */
-export interface SubtypeTokens {
-  /**
-   * The base name of the subtype (e.g., "svg" in "image/svg+xml").
-   */
-  name: string;
-
-  /**
-   * The suffix indicating the underlying structure, e.g., `+xml` in `image/svg+xml`.
-   *
-   * It's `null` if no suffix is present.
-   *
-   * @see {@link SubtypeSuffix}
-   */
-  suffix: SubtypeSuffix | null;
-
-  /**
-   * The tree prefix indicating the subtype's registration tree (e.g., "vnd." in "application/vnd.example").
-   *
-   * It's `null` if no tree prefix is present (the standard tree).
-   *
-   * @see {@link SubtypeTree}
-   */
-  tree: SubtypeTree | null;
-}
-
-/**
  * A parsed MIME subtype with its tokenized components.
  *
  * @see {@link https://datatracker.ietf.org/doc/html/rfc6838#section-4.2 RFC 6838: Naming Requirements}
@@ -267,11 +235,14 @@ export interface SubtypeParsed {
   subtype: string;
 
   /**
-   * Structured breakdown of the subtype into name, suffix, and tree components.
-   *
-   * @see {@link SubtypeTokens}
+   * The registration facet prefix (e.g., "vnd." in "application/vnd.example").
    */
-  subtypeTokens: SubtypeTokens;
+  facet?: SubtypeFacet;
+
+  /**
+   * The structrured syntax name suffix (e.g., "+xml" in "image/svg+xml").
+   */
+  suffix?: SubtypeSuffix;
 }
 
 /**
@@ -367,18 +338,18 @@ export interface RuleResult<
   parameter: ParameterEntry<TMultiParameter>;
 
   /**
+   * Result when parsing with the `parameterName` start rule.
+   * Returns only the parameter name.
+   */
+  parameterName: ParameterName;
+
+  /**
    * Result when parsing with the `parameters` start rule.
    * Returns all parameters as a map.
    *
    * @see {@link ParametersParsed}
    */
   parameters: ParametersParsed<TMultiParameter>;
-
-  /**
-   * Result when parsing with the `parameterName` start rule.
-   * Returns only the parameter name.
-   */
-  parameterName: ParameterName;
 
   /**
    * Result when parsing with the `subtype` start rule.
@@ -406,9 +377,9 @@ export interface RuleResult<
    * Result when parsing with the 'tree' start rule.
    * Returns only the tree prefix of the subtype (e.g., `'vnd.'`).
    *
-   * @see {@link SubtypeTree}
+   * @see {@link SubtypeFacet}
    */
-  tree: SubtypeTree;
+  tree: SubtypeFacet;
 
   /**
    * Result when parsing with the 'type' start rule.
@@ -480,6 +451,7 @@ export type SerializableParameters<TReadOnly extends boolean = false> =
  * It differs from a {@link MimeTypeParsed fully parsed MIME type } in that it only includes essential parts like type, subtype, and parameters.
  * Also, parameters can be provided as any iterable structure or record rather than the strict `Map` format.
  *
+ * @interface
  * @typeParam TReadOnly - Whether the value should be marked as readonly (useful in function signatures). Defaults to `false`.
  * @see {@link https://mimesniff.spec.whatwg.org/#mime-type-representation MIME Sniffing Standard: MIME Type Representation}
  * — for the description of `MIME type record`, on which this type is (loosely) based.
