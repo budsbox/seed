@@ -212,8 +212,6 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
                 'error',
                 {
                   ignoreCase: false,
-                  newlinesBetween: 0,
-                  partitionByComment: true,
                   type: 'natural',
 
                   customGroups: [
