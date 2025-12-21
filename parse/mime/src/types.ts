@@ -10,11 +10,7 @@
 
 import type { Merge } from 'type-fest';
 
-import type {
-  ConditionalReadonly,
-  ConditionalReadonlyCollection,
-  Undef,
-} from '@budsbox/lib-types';
+import type { ConditionalReadonly, Undef } from '@budsbox/lib-types';
 
 import type * as Parser from '#parser';
 
@@ -55,12 +51,16 @@ export interface ParseOptions<
   readonly multiParameter?: TMultiParameter;
 
   /**
-   * Whether to enforce strict naming conventions for MIME type components, as defined in RFC 6838.
-   * When enabled, validates parameter names and other identifiers against standards.
-   * It requires the first character of a type, subtype, or parameter name to be an alphanumeric character.
-   * Enabled by default.
-   * Disabled in sniff mode.
+   * When enabled, validates names against
+   * {@link https://datatracker.ietf.org/doc/html/rfc6838#section-4.2 IANA-registered types naming requirements}.
+   * Those requirements apply to both type and subtype names, as well as parameter names.
+   * It requires the first character of a name to be an alphanumeric character,
+   * also restricts allowed characters to be alphanumeric or `!`, `#`, `$`, `&`, `+`, `-`, `.`, `^`, or `_`.
    *
+   * It's disabled by default (so type, subtype, and parameter names are allowed to be any valid
+   * {@link https://datatracker.ietf.org/doc/html/rfc9110#name-tokens HTTP token}).
+   *
+   * @remarks It's value ignored in sniff mode.
    * @see {@link https://datatracker.ietf.org/doc/html/rfc6838#section-4.2 RFC 6838: Naming Requirements}
    * — for the syntax of restricted names as defined by IETF standards for IANA-registered types.
    */
@@ -423,10 +423,7 @@ export interface ParseFn<
  */
 export type SerializableParameterRecord<TReadOnly extends boolean = false> =
   ConditionalReadonly<
-    Record<
-      ParameterName,
-      ConditionalReadonlyCollection<ParameterValue, TReadOnly>
-    >,
+    Record<ParameterName, ConditionalReadonly<ParameterValue, TReadOnly>>,
     TReadOnly
   >;
 

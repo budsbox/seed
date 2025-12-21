@@ -468,18 +468,6 @@ describe.sequential('MIME Parser test suite', () => {
     });
 
     describe('restrictNames option', () => {
-      test('should throw on non-restricted names by default in default mode', () => {
-        expect(() => parseFormatted('$app.lication/json')).toThrowError(
-          'Expected',
-        );
-        expect(() => parseFormatted('application/$emer.gency')).toThrowError(
-          'Expected',
-        );
-        expect(() =>
-          parseFormatted('application/emergency;$foo=bar'),
-        ).toThrowError('Expected');
-      });
-
       test('should throw on non-restricted names when restrictNames is enabled explicitly', () => {
         expect(() =>
           parseFormatted('$app.lication/json', { restrictNames: true }),
@@ -489,18 +477,6 @@ describe.sequential('MIME Parser test suite', () => {
         ).toThrowError('Expected');
         expect(() =>
           parseFormatted('application/emergency;$foo=bar', {
-            restrictNames: true,
-          }),
-        ).toThrowError('Expected');
-
-        expect(() =>
-          sniffFormatted('$app.lication/json', { restrictNames: true }),
-        ).toThrowError('Expected');
-        expect(() =>
-          sniffFormatted('application/$emer.gency', { restrictNames: true }),
-        ).toThrowError('Expected');
-        expect(() =>
-          sniffFormatted('application/emergency;$foo=bar', {
             restrictNames: true,
           }),
         ).toThrowError('Expected');
@@ -520,13 +496,17 @@ describe.sequential('MIME Parser test suite', () => {
         ).toEqual(new Map([['$foo', 'bar']]));
       });
 
-      test('should allow non-restricted names by default in sniff mode', () => {
-        expect(sniffFormatted('$application/json').type).toEqual(
-          '$application',
-        );
-        expect(sniffFormatted('application/$json').subtype).toEqual('$json');
+      test('should ignore this option in sniff mode', () => {
         expect(
-          sniffFormatted('application/$json ; $foo=bar').parameters,
+          sniffFormatted('$application/json', { restrictNames: true }).type,
+        ).toEqual('$application');
+        expect(
+          sniffFormatted('application/$json', { restrictNames: true }).subtype,
+        ).toEqual('$json');
+        expect(
+          sniffFormatted('application/$json ; $foo=bar', {
+            restrictNames: true,
+          }).parameters,
         ).toEqual(new Map([['$foo', 'bar']]));
       });
     });
