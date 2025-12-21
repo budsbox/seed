@@ -11,6 +11,8 @@ export type { UnwrapTagged as UnTag };
 
 /**
  * The general version of InferObject
+ *
+ * @typeParam T - The type to infer
  */
 export type Infer<T> =
   unknown extends T ? T
@@ -34,3 +36,33 @@ export type UnTagProperties<T extends NonNil> = {
     UnwrapTagged<T[K]>
   : T[K];
 };
+
+/**
+ * Represents a readonly version of a given collection type.
+ *
+ * The `ReadonlyCollection` type utility conditionally transforms the input type `T`
+ * based on its structure:
+ *
+ * - If `T` is a `Map`, it produces a `ReadonlyMap` preserving the keys and values.
+ * - If `T` is a `Set`, it produces a `ReadonlySet` preserving the value type.
+ * - For any other type, it produces an immutable version of the input using `Readonly<T>`.
+ *
+ * @typeParam T - The base type for which a readonly version is constructed.
+ */
+export type ReadonlyCollection<T> =
+  T extends Map<infer TKey, infer TValue> ? ReadonlyMap<TKey, TValue>
+  : T extends Set<infer TValue> ? ReadonlySet<TValue>
+  : Readonly<T>;
+
+/**
+ * A utility type that conditionally applies the `Readonly` utility type to the given type `TOriginal`
+ * based on the boolean value of `TCondition`.
+ *
+ * If `TCondition` is `true`, the resulting type makes all properties of `TOriginal` read-only.
+ * If `TCondition` is `false`, the resulting type remains the same as `TOriginal`.
+ *
+ * @typeParam TOriginal - The original type whose properties may be conditionally read-only.
+ * @typeParam TCondition - A boolean value that determines whether to apply the `Readonly` utility type to `TOriginal`.
+ */
+export type ConditionalReadonly<TOriginal, TCondition extends boolean> =
+  TCondition extends true ? ReadonlyCollection<TOriginal> : TOriginal;

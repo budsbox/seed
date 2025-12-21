@@ -77,9 +77,9 @@ export type Falsy = 0 | '' | false | Nil;
  *
  * Note that the utility has limitations, e.g. `Truthy<string>` would still be `string`, so it works with literals only.
  *
+ * @returns A type that excludes all falsy values from the provided type `T`.
  * @typeParam T - The type from which falsy values are filtered out.
  * @typeParam T - The input type that will be evaluated to exclude falsy members.
- * @returns A type that excludes all falsy values from the provided type `T`.
  */
 export type Truthy<T = unknown> = T extends Falsy ? never : T;
 
@@ -90,6 +90,21 @@ export type Truthy<T = unknown> = T extends Falsy ? never : T;
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFunction = (...args: readonly any[]) => any;
+
+/**
+ * Represents a utility type for defining an object where keys are restricted
+ * to a specific type and values are of a specified type.
+ * This type creates an immutable and optional record structure.
+ * Useful for generic interfaces that accept a record of properties,
+ *
+ * @typeParam TKey - The type of the property keys. Defaults to `PropertyKey`.
+ * @typeParam TValue - The type of the property values. Defaults to `any`.
+ */
+export type AnyRecord<
+  TKey extends PropertyKey = PropertyKey,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TValue = any,
+> = Partial<Readonly<Record<TKey, TValue>>>;
 
 /**
  * Represents a function that accepts any number of arguments and returns a value of unknown type.
