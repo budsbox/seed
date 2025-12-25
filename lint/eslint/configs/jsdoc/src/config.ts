@@ -189,10 +189,11 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
             settings: {
               jsdoc: {
                 tagNamePreference: {
-                  template: 'typeParam',
-                  hidden: 'ignore',
+                  default: 'defaultValue',
                   event: 'eventProperty',
+                  hidden: 'ignore',
                   inheritdoc: 'inheritDoc',
+                  template: 'typeParam',
                 },
               },
             },
@@ -281,7 +282,6 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
                   class: false,
                   constant: false,
                   constructs: false,
-                  default: false,
                   enum: 'enum',
                   export: false,
                   exports: false,
