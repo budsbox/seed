@@ -229,7 +229,7 @@ export function isBoolean(value: unknown): value is boolean {
 }
 
 /**
- * Determines whether the provided value is an iterable.
+ * Determines whether the provided value is iterable.
  *
  * @param value - The value to be checked.
  * @returns `true` if the value is iterable, otherwise `false`.
