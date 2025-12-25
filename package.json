@@ -94,8 +94,7 @@
     "setup-eslint": "yarn workspace @budsbox/eslint p:lib:setup",
     "setup-eslint-worktree": "yarn workspaces foreach --worktree --topological --parallel --from '@budsbox/eslint' run p:lib:setup",
     "setup-root": "run p:ts:build; echo \"$(run name) was set up successfully\"",
-    "watch-scss-types": "run scss-types --watch",
-    "ws": "yarn workspace"
+    "watch-scss-types": "run scss-types --watch"
   },
   "resolutions": {
     "eslint-module-utils@npm:^2.7.4": "patch:eslint-module-utils@npm%3A2.8.0#~/.yarn/patches/eslint-module-utils-npm-2.8.0-05e42bcab0.patch",
