@@ -1,3 +1,5 @@
+import type { Maybe, Undef } from '@budsbox/lib-types';
+
 /**
  * The `FValue` type represents a union type that can be either a value of type `T` or a function
  * that takes a parameter of type `A` and returns a value of type `T`.
@@ -8,43 +10,27 @@
 export type FValue<A, T> = T | ((value: A) => T);
 
 /**
- * A type representing a type guard function that determines if a given value of type `T`
- * conforms to a more specific type `V`, where `V` is a subtype of `T`.
+ * A user-defined type guard that checks a value of type `T` and refines it to `V` when true.
  *
- * This function should be implemented to return `true` if the provided value matches
- * the more specific type `V`, and `false` otherwise. By using a type guard, TypeScript can
- * narrow the type of variable within the scope of a condition.
- *
- * @typeParam T - The broader type against which the value will be checked.
- * @typeParam V - The narrowed type that `T` is tested against. V must extend T.
- * @param value - The value of type `T` to be tested against the narrowed type `V`.
- * @returns A boolean value indicating whether the input value is of type `V`.
+ * @param value - The value to be checked.
+ * @typeParam T - The broad input type.
+ * @typeParam V - The narrowed subtype of `T`.
  */
 export type TypeGuard<T, V extends T> = (value: T) => value is V;
 
 /**
- * A type definition for a function that performs a boolean test on a given value.
+ * A boolean predicate over values of type `T`.
  *
- * This generic type accepts a parameter `T`, which represents the type of the input
- * that the function will evaluate. The function returns a boolean indicating the
- * result of the test.
- *
- * @typeParam T - The type of the input value that the function will evaluate.
- * @param value - The input value to test.
- * @returns A boolean indicating the result of the test.
+ * @param value - The value to be checked.
+ * @typeParam T - The input value type.
  */
 export type Predicate<T> = (value: T) => boolean;
 
 /**
- * Represents a type that can either be a `TypeGuard` or a `TestFn`.
- *
- * `TestParam` is a utility type that allows defining parameters used in testing or
- * type-checking procedures. It accommodates both type guard functions and test
- * functions for more comprehensive type handling.
+ * Union of a predicate and a type guard for a given input type.
  *
  * @typeParam TValue - The base type to be tested or narrowed. Defaults to `any`.
- * @typeParam TNarrowed - A subtype of `ValueType` that represents the narrowed type.
- *                          Defaults to `ValueType`.
+ * @typeParam TNarrowed - The narrowed subtype of `TValue`. Defaults to `TValue`.
  */
 export type TestFn<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,22 +39,11 @@ export type TestFn<
 > = Predicate<TValue> | TypeGuard<TValue, TNarrowed>;
 
 /**
- * Represents a type that evaluates to a specific result based on the provided test conditions.
+ * Resolves to a type based on a predicate or type guard and the selected branch.
  *
- * @typeParam TValue - The type of value being tested.
- * @typeParam TTestFn - The type of test being applied. This could be a type guard or a test function.
- * @typeParam TBranch - A boolean that determines the branch type. If true, the resulting type will
- * focus on the narrowed type; otherwise, it excludes the narrowed type.
- *
- * The type resolves based on the following rules:
- * 1. If `TestType` is a type guard:
- *    - If `BranchType` is `true`, the resulting type includes only the portion of `ValueType` that
- *      conforms to the narrowed type.
- *    - If `BranchType` is `false`, the resulting type excludes the portion of `ValueType` that
- *      conforms to the narrowed type.
- * 2. If `TestType` is a test function, the resulting type will be the original type inferred by
- *    the test function.
- * 3. If neither condition applies, the resulting type will be `never`.
+ * @typeParam TValue - The value type under test.
+ * @typeParam TTestFn - A `Predicate` or `TypeGuard` applied to `TValue`.
+ * @typeParam TBranch - If `true`, keep the narrowed part; if `false`, exclude it.
  */
 export type TestFnResult<
   TValue,
@@ -83,28 +58,23 @@ export type TestFnResult<
   : never;
 
 /**
- * A type definition that represents a resolved value when a certain test condition is true.
+ * Maps the "true" branch of a test to a value or function result type.
  *
- * @typeParam ValueType - Represents the type of the input value being tested.
- * @typeParam TestType - Extends the `TestParam` type and defines the parameters for the test condition.
- * @typeParam ReturnType - Specifies the type of the resulting value after the test condition is satisfied.
- *
- * This type combines the test result with a return type, capturing the transformed value
- * or operation result when the test evaluates to `true`.
+ * @typeParam TValue - The input value type being tested.
+ * @typeParam TTestFn - The test (predicate or type guard).
+ * @typeParam TResult - The resulting value type.
  */
 export type FValueTrue<TValue, TTestFn extends TestFn, TResult> = FValue<
   TestFnResult<TValue, TTestFn, true>,
   TResult
 >;
+
 /**
- * Represents a type that maps a test result to a specific return type when the test evaluates to false.
+ * Maps the "false" branch of a test to a value or function result type.
  *
- * This type is a utility that processes the result of a test operation (`TestResultType`)
- * when the provided test condition evaluates as false, associating it with a specific return type (`ReturnType`).
- *
- * @typeParam ValueType - The type of the primary value being tested.
- * @typeParam TestType - A type extending `TestParam` representing the condition being tested.
- * @typeParam ReturnType - The type of the result or output when the test condition evaluates to false.
+ * @typeParam TValue - The input value type being tested.
+ * @typeParam TTestFn - The test (predicate or type guard).
+ * @typeParam TResult - The resulting value type.
  */
 export type FValueFalse<TValue, TTestFn extends TestFn, TResult> = FValue<
   TestFnResult<TValue, TTestFn, false>,
@@ -116,15 +86,63 @@ export type FValueFalse<TValue, TTestFn extends TestFn, TResult> = FValue<
  */
 export interface ParsedPackageName {
   /**
+   * The unscoped package name (the segment after the scope or the whole name if unscoped).
+   * For "@scope/pkg", this is "pkg"; for "pkg", this is "pkg".
+   */
+  name: string;
+
+  /**
    * The scope part of the package name (organization/user), with or without the leading "@" and trail "/".
    * If the package is unscoped, this will be `null` or `undefined`.
    *
    * @example "scope" for "@scope/pkg", or "undefined" for "pkg"
    */
   scope?: string | null;
+}
+
+/**
+ * Options for formatting the package name.
+ */
+export interface PackageNameFormatOptions {
   /**
-   * The unscoped package name (the segment after the scope or the whole name if unscoped).
-   * For "@scope/pkg", this is "pkg"; for "pkg", this is "pkg".
+   * Array of path chunks to be excluded when constructing the path.
+   *
+   * @defaultValue `['packages']`
    */
-  name: string;
+  excludePathChunks?: Undef<readonly string[]>;
+
+  /**
+   * The delimiter used to separate parents name from the base name of the package.
+   *
+   * @defaultValue `'_'`
+   */
+  nameDelimiter?: Undef<string>;
+
+  /**
+   * The parent package name.
+   *
+   * @defaultValue `options.root`
+   */
+  parent?: Maybe<string>;
+
+  /**
+   * The delimiter used to separate path chunks.
+   *
+   * @defaultValue `'-'`
+   */
+  pathDelimiter?: Undef<string>;
+
+  /**
+   * The path to the package, relative to its parent.
+   *
+   * @defaultValue `''`
+   */
+  relCwd?: Undef<string>;
+
+  /**
+   * The root identifier for the package.
+   *
+   * @defaultValue `null`
+   */
+  root?: Maybe<string>;
 }

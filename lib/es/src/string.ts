@@ -6,13 +6,13 @@ import type {
   SnakeCase,
 } from 'type-fest';
 
-import type { Maybe, Nil, Undef } from '@budsbox/lib-types';
+import type { Nil, Undef } from '@budsbox/lib-types';
 
-import type { ParsedPackageName } from './types.js';
+import type { PackageNameFormatOptions, ParsedPackageName } from './types.js';
 
 import { isNil, isNotNil, isString } from './guards.js';
 
-export type { ParsedPackageName };
+export type { PackageNameFormatOptions, ParsedPackageName };
 
 /**
  * Parses a package name string to extract its scope and name.
@@ -41,6 +41,7 @@ export function parsePackageName(
 export function serializePackageName(
   parsedPackageName: Readonly<ParsedPackageName>,
 ): string;
+
 /**
  * Converts a parsed package name object or a Nil value into a string representation.
  *
@@ -49,11 +50,11 @@ export function serializePackageName(
  * @returns The string representation of the package name if valid, or an empty string if `allowNil` is true and the input is Nil.
  */
 export function serializePackageName(
-  parsedPackageName: Readonly<ParsedPackageName> | Nil,
+  parsedPackageName: Nil | Readonly<ParsedPackageName>,
   allowNil: true,
 ): string;
 export function serializePackageName(
-  parsedPackageName: Readonly<ParsedPackageName> | Nil,
+  parsedPackageName: Nil | Readonly<ParsedPackageName>,
   allowNil: boolean = false,
 ): string {
   if (!allowNil && isNil(parsedPackageName)) {
@@ -73,6 +74,7 @@ export function serializePackageName(
  *                  to indicate whether the result should be returned as a parsed package name object.
  * @returns The resolved package name as a string if `parsed` is false or not specified,
  *         or as a `ParsedPackageName` object if `parsed` is true.
+ * @typeParam TParsed - Controls the return type: when `true`, returns `ParsedPackageName`; when `false` (default), returns `string`.
  */
 export function resolvePackageName<TParsed extends boolean = false>(
   ident: string | Readonly<ParsedPackageName>,
@@ -93,36 +95,6 @@ export function resolvePackageName(
   };
 
   return parsed ? parsedIdent : serializePackageName(parsedIdent);
-}
-
-/**
- * Options for formatting the package name
- */
-export interface PackageNameFormatOptions {
-  /**
-   * The root identifier for the package.
-   */
-  root?: Maybe<string>;
-  /**
-   * The parent package name.
-   */
-  parent?: Maybe<string>;
-  /**
-   * The path to the package, relative to its parent.
-   */
-  relCwd?: Undef<string>;
-  /**
-   * The delimiter used to separate path chunks.
-   */
-  pathDelimiter?: Undef<string>;
-  /**
-   * The delimiter used to separate parents name from the base name of the package.
-   */
-  nameDelimiter?: Undef<string>;
-  /**
-   * Array of path chunks to be excluded when constructing the path.
-   */
-  excludePathChunks?: Undef<readonly string[]>;
 }
 
 /**
@@ -202,7 +174,7 @@ export function clampWS(str: string): string {
  * @returns The combined path as a single string, with proper slash formatting.
  */
 export function joinPath(
-  ...parts: ReadonlyArray<string | number | boolean | null | undefined>
+  ...parts: ReadonlyArray<boolean | number | string | null | undefined>
 ): string {
   return parts
     .filter(isNotNil)
@@ -236,6 +208,7 @@ export function splitPath(path: string, keepEmptyChunks = false): string[] {
  *
  * @param str - The string to be converted to camelCase.
  * @returns The input string transformed into camelCase.
+ * @typeParam T - The input string type; used to derive the resulting `CamelCase<T>` type.
  */
 export function camelCase<T extends string>(str: T): CamelCase<T>;
 export function camelCase(name: string): string {
@@ -249,6 +222,7 @@ export function camelCase(name: string): string {
  *
  * @param str - The string to be transformed into PascalCase.
  * @returns The transformed string in PascalCase format.
+ * @typeParam T - The input string type; used to derive the resulting `PascalCase<T>` type.
  */
 export function pascalCase<T extends string>(str: T): PascalCase<T>;
 export function pascalCase(name: string): string {
@@ -261,6 +235,8 @@ export function pascalCase(name: string): string {
  * @param name - The input string that will be converted to the delimited case.
  * @param delimiter - The character or string to use as a delimiter in the transformed output.
  * @returns The input string transformed into the delimited case format using the given delimiter.
+ * @typeParam T - The input string type; used to derive the resulting `DelimiterCase<T, D>` type.
+ * @typeParam D - The delimiter string type used to separate words in the result.
  */
 export function delimCase<T extends string, D extends string>(
   name: T,
@@ -278,6 +254,7 @@ export function delimCase(name: string, delimiter = '-'): string {
  *
  * @param name - The string input to be converted to kebab-case. The input should be a string type.
  * @returns The transformed string in kebab-case format.
+ * @typeParam T - The input string type; used to derive the resulting `KebabCase<T>` type.
  */
 export function kebabCase<T extends string>(name: T): KebabCase<T>;
 export function kebabCase(name: string): string {
@@ -289,6 +266,7 @@ export function kebabCase(name: string): string {
  *
  * @param name - The string to be converted to snake_case.
  * @returns The converted string in snake_case format.
+ * @typeParam T - The input string type; used to derive the resulting `SnakeCase<T>` type.
  */
 export function snakeCase<T extends string>(name: T): SnakeCase<T>;
 export function snakeCase(name: string): string {

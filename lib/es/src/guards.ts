@@ -1,4 +1,13 @@
-import type { Def, Nil, NonNil, Undef } from '@budsbox/lib-types';
+import type { IsNever } from 'type-fest';
+
+import type {
+  AnyFunction,
+  AnyRecord,
+  Def,
+  Nil,
+  NonNil,
+  Undef,
+} from '@budsbox/lib-types';
 
 import type { Predicate, TypeGuard } from './types.js';
 
@@ -17,8 +26,10 @@ export function isUndef(value: unknown): value is Undef {
  *
  * @param value - The value to check.
  * @returns Whether the value is defined.
+ * @typeParam U - Type of the input value.
  */
 export function isDef<U>(value: U): value is Def<U>;
+
 /**
  * Checks if a given value is defined (not `undefined`).
  *
@@ -44,8 +55,10 @@ export function isNil(value: unknown): value is Nil {
  *
  * @param value - The value to be checked.
  * @returns Returns true if the value is not null or undefined; otherwise, false.
+ * @typeParam T - Type of the input value.
  */
 export function isNotNil<T>(value: T): value is NonNil<T>;
+
 /**
  * Checks if the provided value is not null or undefined.
  *
@@ -129,20 +142,22 @@ export function isRecord(
 /**
  * Checks if the given value is an array.
  *
- * @typeParam T - Type of the value to be checked.
  * @param value - The value to check.
  * @returns True if the value is an array, otherwise false.
+ * @typeParam T - Type of the value to be checked.
  */
 export function isArray<T>(value: readonly T[] | T): value is readonly T[];
+
 /**
  * Checks if the provided value is an array.
  *
- * @typeParam T - type of the value to be checked.
  * @param value - The value to be checked.
  * @returns True if the value is an array, otherwise false.
+ * @typeParam T - type of the value to be checked.
  */
 // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export function isArray<T>(value: T | T[]): value is T[];
+
 /**
  * Checks if the given value is an array.
  *
@@ -153,16 +168,33 @@ export function isArray(value: unknown): value is unknown[];
 export function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
 }
+
+/**
+ * Determines if the provided value is a function.
+ *
+ * @param value - The value to check.
+ * @returns A narrowed type indicating whether the value is a function.
+ * @typeParam T - The type of the value being checked.
+ */
+export function isFunction<T>(value: T): value is IsNever<
+  T extends AnyFunction ? T : never
+> extends true ?
+  CallableFunction & T
+: T extends AnyFunction ? T
+: never;
+
 /**
  * Determines if the provided value is of type Function.
  *
  * @param value - The value to be checked.
  * @returns True if the value is a function; otherwise, false.
+ * @typeParam TFn - Function type to narrow to when the check passes.
  */
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
 export function isFunction<TFn extends CallableFunction = CallableFunction>(
   value: unknown,
-): value is TFn {
+): value is TFn;
+export function isFunction(value: unknown): boolean {
   return typeof value === 'function';
 }
 
@@ -187,7 +219,7 @@ export function isNumber(value: unknown): value is number {
 }
 
 /**
- * Checks if the given value is of type boolean.
+ * Checks if the given value is of type `boolean`.
  *
  * @param value - The value to check.
  * @returns A boolean indicating whether the value is a boolean or not.
@@ -219,6 +251,7 @@ export function hasProp(
   test?: Predicate<unknown>,
   checkProto?: boolean,
 ): false;
+
 /**
  * Checks if a property exists on the provided source object.
  *
@@ -228,23 +261,27 @@ export function hasProp(
  * @param key - The property key to verify.
  * @param checkProto - Whether to check the prototype chain.
  * @returns Type guard indicating whether the property exists.
+ * @typeParam TSource - The source object type.
+ * @typeParam TKey - The property key type.
  */
 export function hasProp<TSource, TKey extends PropertyKey>(
   source: TSource,
   key: TKey,
   checkProto?: boolean,
-): source is TSource & Record<TKey, unknown>;
-// eslint-disable-next-line jsdoc/require-jsdoc
+): source is TSource &
+  Record<TKey, TSource extends Record<PropertyKey, infer T> ? T : unknown>;
+
 export function hasProp<
-  TSource extends NonNil,
-  TKey extends keyof TSource,
+  TKey extends PropertyKey,
+  TSource extends Partial<Readonly<AnyRecord>>,
   TNarrowed extends TSource[TKey],
 >(
-  source: TSource,
+  source: TSource | null,
   key: TKey,
   test: TypeGuard<TSource[TKey], TNarrowed>,
   checkProto?: boolean,
 ): source is TSource & Record<TKey, TNarrowed>;
+
 /**
  * Checks if a property exists on a non-null source and passes a type guard test.
  *
@@ -255,6 +292,9 @@ export function hasProp<
  * @param test - A type guard to narrow the property value type.
  * @param checkProto - Whether to check the prototype chain.
  * @returns Type guard indicating whether the property exists and satisfies the test.
+ * @typeParam TSource - The source object type.
+ * @typeParam TKey - The property key type.
+ * @typeParam TNarrowed - The narrowed type of the property value if the test passes.
  */
 export function hasProp<TSource, TKey extends PropertyKey, TNarrowed>(
   source: TSource,
@@ -262,13 +302,33 @@ export function hasProp<TSource, TKey extends PropertyKey, TNarrowed>(
   test: TypeGuard<unknown, TNarrowed>,
   checkProto?: true,
 ): source is TSource & Record<TKey, TNarrowed>;
-// eslint-disable-next-line jsdoc/require-jsdoc
+
 export function hasProp<TSource extends NonNil, TKey extends keyof TSource>(
   source: TSource,
   key: TKey,
-  test: Predicate<TSource[TKey]>,
+  test: Predicate<
+    TSource extends Record<TKey, infer TValue> ? TValue
+    : TSource extends Record<PropertyKey, infer TValue> ? TValue
+    : unknown
+  >,
   checkProto?: boolean,
 ): source is TSource & Record<TKey, unknown>;
+
+export function hasProp<TSource extends NonNil, TKey extends PropertyKey>(
+  source: TSource,
+  key: TKey,
+  // eslint-disable-next-line jsdoc/require-jsdoc
+  test: (
+    value: TSource extends AnyRecord<PropertyKey, infer TValue> ? TValue
+    : unknown,
+  ) => boolean,
+  checkProto?: boolean,
+): source is TSource &
+  Record<
+    TKey,
+    TSource extends Record<PropertyKey, infer TValue> ? TValue : unknown
+  >;
+
 /**
  * Checks if a property exists on the provided source and optionally passes a test.
  *
@@ -279,6 +339,8 @@ export function hasProp<TSource extends NonNil, TKey extends keyof TSource>(
  * @param test - An optional predicate or type guard to test the property value.
  * @param checkProto - Whether to check the prototype chain.
  * @returns Type guard indicating whether the property exists and passes the test.
+ * @typeParam TSource - The source object type.
+ * @typeParam TKey - The property key type.
  */
 export function hasProp<TSource, TKey extends PropertyKey>(
   source: TSource,
@@ -289,29 +351,26 @@ export function hasProp<TSource, TKey extends PropertyKey>(
 export function hasProp(
   source: unknown,
   key: PropertyKey,
-  option1?: boolean | Nil | Predicate<unknown>,
-  option2?: boolean | Nil,
+  ...rest:
+    | readonly [checkProto?: Undef<boolean>]
+    | readonly [test?: Undef<Predicate<unknown>>, checkProto?: Undef<boolean>]
 ): boolean {
   // Guard against prototype pollution
   if (key === '__proto__' || key === 'constructor') {
     return false;
   }
 
-  let test: Predicate<unknown> | undefined,
+  let test: Predicate<unknown> = () => true,
     checkProto: boolean = false;
-  if (isFunction(option1)) {
-    test = option1;
-
-    if (isBoolean(option2)) {
-      checkProto = option2;
-    }
-  } else if (isBoolean(option1)) {
-    checkProto = option1;
+  if (isFunction(rest[0])) {
+    [test, checkProto = false] = rest;
+  } else if (isBoolean(rest[0])) {
+    [checkProto] = rest;
   }
 
   return (
     isNotNil(source) &&
     (checkProto ? key in source : Object.hasOwn(source, key)) &&
-    (!isFunction(test) || test(source[key as never]))
+    test(source[key as never])
   );
 }
