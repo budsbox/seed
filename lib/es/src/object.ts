@@ -1,15 +1,34 @@
-import type { ConditionalExcept } from 'type-fest';
+/**
+ * @module
+ *
+ * Object utility functions for selecting, omitting, filtering, reducing, and
+ * strongly-typing common object operations.
+ */
 
-import type { Key, OmitNilProps, Value } from '@budsbox/lib-types/object';
+import type { ValueOf } from 'type-fest';
+
+import type { EntryUnion, OmitNilProps } from '@budsbox/lib-types/object';
 
 import { isNotNil } from '#guards';
 
-export function pick<T extends object, Keys extends PropertyKey = keyof T>(
-  source: T,
-  ...keys: readonly Keys[]
-): Pick<T, Keys & keyof T>;
+/**
+ * Creates an object composed of the picked `source` properties.
+ *
+ * @param source - The source object.
+ * @param keys - The property keys to pick.
+ * @returns A new object with the picked properties.
+ * @typeParam TSource - The type of the source object.
+ * @typeParam TKeys - The type of the keys to pick.
+ */
+export function pick<
+  TSource extends object,
+  TKeys extends PropertyKey = keyof TSource,
+>(
+  source: TSource,
+  ...keys: readonly TKeys[]
+): Pick<TSource, TKeys & keyof TSource>;
 export function pick(
-  source: Record<PropertyKey, unknown>,
+  source: Readonly<Record<PropertyKey, unknown>>,
   ...keys: readonly PropertyKey[]
 ): Record<PropertyKey, unknown> {
   return keys.reduce(
@@ -19,11 +38,33 @@ export function pick(
   );
 }
 
-export const pickStrict: <T extends object, Keys extends keyof T = keyof T>(
-  source: T,
+/**
+ * A strict version of {@link pick} that restricts keys to those present in `TSource`.
+ *
+ * @param source - The source object.
+ * @param keys - The property keys to pick.
+ * @returns A new object with the picked properties.
+ * @typeParam TSource - The type of the source object.
+ * @typeParam Keys - The type of the keys to pick, restricted to keys of `TSource`.
+ */
+export const pickStrict: <
+  TSource extends object,
+  Keys extends keyof TSource = keyof TSource,
+>(
+  source: TSource,
   ...keys: readonly Keys[]
-) => Pick<T, Keys> = pick;
+) => Pick<TSource, Keys> = pick;
 
+/**
+ * The opposite of {@link pick}; this method creates an object
+ * composed of the own enumerable string keyed properties of `source` that are not omitted.
+ *
+ * @param source - The source object.
+ * @param keys - The property keys to omit.
+ * @returns A new object without the omitted properties.
+ * @typeParam T - The type of the source object.
+ * @typeParam K - The type of the keys to omit.
+ */
 export function omit<T extends object, K extends PropertyKey>(
   source: T,
   ...keys: readonly K[]
@@ -36,27 +77,37 @@ export function omit(source: object, ...keys: readonly PropertyKey[]): object {
   );
 }
 
+/**
+ * A strict version of {@link omit} that restricts keys to those present in `TSource`.
+ *
+ * @param source - The source object.
+ * @param keys - The property keys to omit.
+ * @returns A new object without the omitted properties.
+ * @typeParam TSource - The type of the source object.
+ * @typeParam TKey - The type of the keys to omit, restricted to keys of `TSource`.
+ */
 export const omitStrict: <TSource extends object, TKey extends keyof TSource>(
   source: TSource,
   ...keys: readonly TKey[]
 ) => Omit<TSource, TKey> = omit;
 
-export function filterBy<T, K extends string, R extends T>(
-  value: Partial<Record<K, T>>,
-  test: (value: T) => value is R,
-): ConditionalExcept<Record<K, T>, R>;
-export function filterBy<T, K extends string, R extends T>(
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
-  value: Partial<Record<K, T>> | Record<K, T>,
-  test: (value: T) => value is R,
-): ConditionalExcept<Record<K, T>, R>;
-export function filterBy<V extends object>(
-  obj: V,
-  filter: (value: V[keyof V], key: keyof V, obj: V) => boolean,
-): Partial<V>;
-export function filterBy(
+/**
+ * Iterates over own enumerable string keyed properties of an object and returns a new object
+ * with all properties that pass `test`.
+ *
+ * @param obj - The object to filter.
+ * @param test - The function invoked per iteration.
+ * @returns A new object containing properties that satisfy the predicate.
+ * @typeParam TSource - The type of the source object.
+ */
+export function filter<TSource extends object>(
+  obj: TSource,
+  test: (value: ValueOf<TSource>, key: keyof TSource, obj: TSource) => boolean,
+): Partial<TSource>;
+
+export function filter(
   obj: object,
-  filter: (value: unknown, key: PropertyKey, obj: object) => boolean,
+  test: (value: unknown, key: PropertyKey, obj: object) => boolean,
 ): object {
   const newObj: Record<string, unknown> = {};
 
@@ -67,7 +118,7 @@ export function filterBy(
 
     const value = (obj as Record<string, unknown>)[key];
 
-    if (filter(value, key, obj)) {
+    if (test(value, key, obj)) {
       newObj[key] = value;
     }
   }
@@ -75,52 +126,60 @@ export function filterBy(
   return newObj;
 }
 
+/**
+ * Returns a new object with all `null` or `undefined` properties removed using {@link filter} and {@link isNotNil}.
+ *
+ * @param object - The object to strip of nils.
+ * @returns A new object without nil properties.
+ * @typeParam T - The type of the source object.
+ */
 export function omitNils<T extends object>(object: T): OmitNilProps<T> {
-  return filterBy(object, isNotNil) as never;
+  return filter(object, isNotNil) as never;
 }
 
-export function reduce<U>(
-  obj: Readonly<Record<string, unknown>>,
+/**
+ * Reduces `obj` to a value which is the accumulated result of running each element in `obj`
+ * through `callback`.
+ *
+ * @param obj - The object to iterate over.
+ * @param callback - The function invoked per iteration.
+ * @param initialValue - The initial value of the accumulation.
+ * @returns The accumulated value.
+ * @typeParam TSource - The type of the source object.
+ * @typeParam TResult - The type of the accumulated result.
+ */
+export function reduce<TSource extends object, TResult>(
+  obj: TSource,
   callback: (
-    previousValue: U,
-    currentValue: Value<typeof obj>,
-    currentKey: keyof typeof obj,
-    object: typeof obj,
-  ) => U,
-  initialValue: Partial<U>,
-): U {
-  return Object.entries(obj).reduce<U>(
-    (acc, [key, value]) => callback(acc, value, key, obj),
+    previousValue: TResult,
+    currentValue: ValueOf<TSource>,
+    currentKey: keyof TSource,
+    object: TSource,
+  ) => TResult,
+  initialValue: Partial<TResult>,
+): TResult;
+export function reduce(
+  source: object,
+  callback: (
+    previousValue: unknown,
+    currentValue: unknown,
+    currentKey: PropertyKey,
+    source: object,
+  ) => unknown,
+  initialValue: unknown,
+): unknown {
+  return Object.entries(source).reduce(
+    (acc, [key, value]) => callback(acc, value, key, source),
     initialValue,
   );
 }
 
 /**
- * Returns the first key of the given object.
- * Useful when working with objects that have only one key.
+ * Returns an array of a given object's own enumerable string-keyed property [key, value] pairs, typed as {@link EntryUnion}.
  *
- * @param value
+ * @param source - The object whose entries are to be returned.
+ * @returns An array of entry tuples.
+ * @typeParam T - The type of the source object.
  */
-
-export function getKey<T extends string>(value: Record<T, unknown>): T;
-export function getKey<T extends string>(
-  value: Partial<Record<T, unknown>>,
-): T | undefined;
-export function getKey<T extends object>(value: T): keyof T;
-export function getKey(value: object): Key | undefined {
-  for (const key in value) {
-    if (Object.hasOwn(value, key)) {
-      return key;
-    } else {
-      /*
-       Modern JS interpreters in the for..in loop
-        first traverse the object's own properties,
-        and then the inherited ones. Therefore, you can end the loop
-        if the own property has never been encountered
-       */
-      break;
-    }
-  }
-
-  return undefined;
-}
+export const entries = <T extends object>(source: T): Array<EntryUnion<T>> =>
+  Object.entries(source) as Array<EntryUnion<T>>;
