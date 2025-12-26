@@ -10,8 +10,8 @@ import type {
   RemoveParameterFn,
   SerializeFn,
   SetParameterFn,
-  UpdatableKey,
   UpdateFn,
+  UpdateKey,
 } from './types.js';
 
 import {
@@ -88,7 +88,7 @@ export const update: UpdateFn = (
   input: MimeTypeInput,
   ...rest:
     | readonly [key: 'parameters', value: ParametersUpdateInput]
-    | readonly [key: UpdatableKey, value: string]
+    | readonly [key: UpdateKey, value: string]
     | readonly [parameters: ParametersUpdateInput]
 ): string | MimeTypeRecord => {
   if (rest.length === 1) return update(input, 'parameters', rest[0]);

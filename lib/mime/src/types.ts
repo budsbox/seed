@@ -1,16 +1,16 @@
 import type { Except, LiteralUnion, OverrideProperties } from 'type-fest';
 
-import type { Nil } from '@budsbox/lib-types';
+import type { Infer, Nil } from '@budsbox/lib-types';
 
 import type {
   ParseOptions as LowLevelParseOptions,
+  MimeTypeEssence,
   MimeTypeParsed,
   MultiParameterOption,
   ParameterName,
   ParameterValue,
   SerializableMimeTypeRecord,
   SerializableParameters,
-  SubtypeTokens,
 } from '@budsbox/parse-mime';
 
 import type { MimeDbKey } from './mime-db.js';
@@ -170,7 +170,38 @@ export type WellKnownTopLevelType =
   WellKnownMimeType extends `${infer TTopLevelType}/${string}` ? TTopLevelType
   : never;
 
-export type MimeTypeString = LiteralUnion<string, WellKnownMimeType>;
+/**
+ * Union of all subtypes (the part after `/`) that are present
+ * in {@link WellKnownMimeType}.
+ */
+export type WellKnownSubtype =
+  WellKnownMimeType extends infer TMimeType ?
+    TMimeType extends `${string}/${infer TSubtype}` ?
+      TSubtype
+    : never
+  : never;
+
+export type WellKnownSuffixes =
+  | '+csv'
+  | '+jws'
+  | Exclude<
+      WellKnownMimeType extends infer TMimeType ?
+        TMimeType extends `${string}+${infer TSuffix}` ?
+          `+${TSuffix}`
+        : never
+      : never,
+      '' | '+'
+    >;
+
+export type MimeTypeStringInput = LiteralUnion<string, WellKnownMimeType>;
+
+/**
+ * A string representing the essence of a MIME type, i.e. `type/subtype` without parameters.
+ * The template string combined with the `WellKnownMimeType` union for better autocomplete.
+ */
+export type EssenceInput = LiteralUnion<EssenceString, WellKnownMimeType>;
+
+export type EssenceString = MimeTypeEssence;
 
 /**
  * A string representing a top-level MIME type category.
@@ -178,14 +209,9 @@ export type MimeTypeString = LiteralUnion<string, WellKnownMimeType>;
  * This is either one of the well-known top-level types (like `"text"` or `"image"`)
  * or any arbitrary string.
  */
-export type TopLevelTypeString = LiteralUnion<string, WellKnownTopLevelType>;
+export type TopLevelTypeInput = LiteralUnion<string, WellKnownTopLevelType>;
 
-/**
- * A string representing the essence of a MIME type, i.e. `type/subtype` without parameters.
- *
- * For well-known MIME types, this coincides with {@link WellKnownMimeType}.
- */
-export type EssenceString = LiteralUnion<string, WellKnownMimeType>;
+export type SubtypeInput = LiteralUnion<string, WellKnownSubtype>;
 
 /**
  * An immutable, high-level representation of a parsed MIME type.
@@ -197,7 +223,6 @@ export type EssenceString = LiteralUnion<string, WellKnownMimeType>;
  * @interface
  * @typeParam TMultiParameter - Strategy for handling duplicate parameters.
  * See {@link MultiParameterOption} for more details on the available options.
- * @remarks foo
  */
 export type MimeTypeRecord<
   TMultiParameter extends MultiParameterOption = MultiParameterOption,
@@ -209,7 +234,6 @@ export type MimeTypeRecord<
         ParameterName,
         Readonly<ParameterValue<TMultiParameter>>
       >;
-      subtypeTokens: Readonly<SubtypeTokens>;
     }
   >
 >;
@@ -221,13 +245,34 @@ export type MimeTypeRecord<
  *
  * Inputs can be:
  * - A raw MIME type string.
- * - An object with a `mimeType` field and optional parsing options.
- * - A serializable MIME type record along with options.
+ * - An object with a `mimeType` field and {@link MimeTypeOptions options}.
+ * - A serializable MIME type record along with {@link MimeTypeOptions options}.
  */
 export type MimeTypeInput =
-  | MimeTypeString
+  | MimeTypeStringInput
   | (MimeTypeSerializableInput & MimeTypeOptions)
   | (MimeTypeStringContainer & MimeTypeOptions);
+
+/**
+ * Represents the options for handling MIME types during parsing and manipulation.
+ * This is mostly a subset of {@link LowLevelParseOptions} without the `grammarSource` and `startRule` fields.
+ * Additionally, it allows specifying whether to return a string instead of a {@link MimeTypeRecord}.
+ *
+ * @interface
+ */
+export type MimeTypeOptions = Infer<
+  Except<LowLevelParseOptions<never>, 'grammarSource' | 'startRule'> & {
+    /**
+     * Whether to return a string instead of a {@link MimeTypeRecord}.
+     *
+     * When `true`, helper functions like {@link UpdateFn `update`} or {@link SetParameterFn `setParameter`}
+     * will return a serialized MIME type string.
+     *
+     * @defaultValue `false`
+     */
+    readonly serialize?: boolean;
+  }
+>;
 
 /**
  * Object shape that carries a MIME type string under the `mimeType` property.
@@ -238,27 +283,7 @@ export interface MimeTypeStringContainer {
   /**
    * MIME type string to parse or serialize.
    */
-  readonly mimeType: MimeTypeString;
-}
-
-/**
- * Options that control MIME type parsing behavior at this module level.
- *
- * These options are derived from the low-level parser options with
- * parser-internal fields omitted.
- *
- * @interface
- * @typeParam TMultiParameter - Strategy for handling duplicate parameters.
- */
-export interface MimeTypeOptions
-  extends Except<LowLevelParseOptions<never>, 'grammarSource' | 'startRule'> {
-  /**
-   * Whether to return a string instead of a {@link MimeTypeRecord}.
-   *
-   * When `true`, helper functions like {@link UpdateFn `update`} or {@link SetParameterFn `setParameter`}
-   * will return a serialized MIME type string.
-   */
-  readonly serialize?: boolean;
+  readonly mimeType: MimeTypeStringInput;
 }
 
 /**
@@ -278,7 +303,7 @@ export type MimeTypeSerializableInput = SerializableMimeTypeRecord<true>;
  * @typeParam TInput - The input shape whose corresponding output type is inferred.
  */
 export type OutputType<TInput extends MimeTypeInput = MimeTypeInput> =
-  TInput extends MimeTypeString | { serialize: true } ? string
+  TInput extends MimeTypeStringInput | { serialize: true } ? string
   : TInput extends { serialize: false } ? MimeTypeRecord<MultiParameter<TInput>>
   : TInput extends MimeTypeStringContainer ? string
   : MimeTypeRecord<MultiParameter<TInput>>;
@@ -289,28 +314,23 @@ type MultiParameter<TInput extends MimeTypeInput = MimeTypeInput> =
   : 'keep-first';
 
 /**
- * Keys of a {@link MimeTypeRecord} that can be updated via {@link UpdateFn}
- * using the "component" overload.
+ * Keys of a {@link MimeTypeRecord} that can be updated via the {@link UpdateFn `update` function}.
  */
-export type UpdatableKey = Extract<
-  keyof MimeTypeRecord,
-  'essence' | 'subtype' | 'type'
->;
-
-interface UpdateValueMap {
-  essence: EssenceString;
-  parameters: ParametersUpdateInput;
-  subtype: string;
-  type: TopLevelTypeString;
-}
+export type UpdateKey = Extract<keyof MimeTypeRecord, keyof UpdateValueMap>;
 
 /**
- * Value type accepted by {@link UpdateFn} when updating a specific key.
+ * Value type accepted by the {@link UpdateFn `update` function} when updating a specific key.
  *
  * @typeParam TKey - Target key to update.
  */
-export type UpdateValue<TKey extends keyof UpdateValueMap> =
-  UpdateValueMap[TKey];
+export type UpdateValue<TKey extends UpdateKey> = UpdateValueMap[TKey];
+
+interface UpdateValueMap {
+  essence: EssenceInput;
+  parameters: ParametersUpdateInput;
+  subtype: string;
+  type: TopLevelTypeInput;
+}
 
 /**
  * Input shape for updating parameters on a MIME type.

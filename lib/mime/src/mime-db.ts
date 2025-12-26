@@ -1,20 +1,20 @@
-import type { KeysOfUnion, SetOptional, Simplify } from 'type-fest';
+import type { KeysOfUnion, SetOptional } from 'type-fest';
 
 import mimeDbRaw from 'mime-db/db.json' with { type: 'json' };
 
 export type MimeDbKey = keyof typeof mimeDbRaw;
 
-export type MimeDbRecord = Simplify<
+export type MimeDbSource = 'apache' | 'iana' | 'nginx';
+
+export type MimeDbRecord = Readonly<
   UndefinedToOptional<{
-    readonly [K in MimeDbRecordKeys]: Readonly<
-      DistributedValueOf<MimeDbRecordUnion, K>
-    >;
-  }>
+    [K in MimeDbRecordKeys]: Readonly<DistributedValueOf<MimeDbRecordUnion, K>>;
+  }> & { source?: MimeDbSource }
 >;
 
-export type MimeDb = Record<MimeDbKey, MimeDbRecord>;
+export type MimeDb = Record<`${string}/${string}` | MimeDbKey, MimeDbRecord>;
 
-export const mimeDb: MimeDb = mimeDbRaw;
+export const mimeDb = mimeDbRaw as MimeDb;
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ UTILITY TYPES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
