@@ -27,8 +27,7 @@
       "types": "./dist/index.d.ts",
       "import": {
         "types": "./dist/index.d.ts",
-        "@budsbox/": "./src/index.ts",
-        "production": "./dist/index.min.js",
+        "budsbox": "./src/index.ts",
         "default": "./dist/index.js"
       },
       "require": "./dist/index.min.cjs"
@@ -68,5 +67,18 @@
     "typescript": "^5.9.3",
     "vitest": "^4.0.15"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.9.2",
+  "publishConfig": {
+    "imports": {
+      "#parser": {
+        "import": {
+          "types": "./dist/parser.d.ts",
+          "default": "./dist/parser.min.js"
+        }
+      },
+      "#types": {
+        "types": "./dist/types.d.ts"
+      }
+    }
+  }
 }
