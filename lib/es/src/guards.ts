@@ -271,17 +271,6 @@ export function hasProp<TSource, TKey extends PropertyKey>(
 ): source is TSource &
   Record<TKey, TSource extends Record<PropertyKey, infer T> ? T : unknown>;
 
-export function hasProp<
-  TKey extends PropertyKey,
-  TSource extends Partial<Readonly<AnyRecord>>,
-  TNarrowed extends TSource[TKey],
->(
-  source: TSource | null,
-  key: TKey,
-  test: TypeGuard<TSource[TKey], TNarrowed>,
-  checkProto?: boolean,
-): source is TSource & Record<TKey, TNarrowed>;
-
 /**
  * Checks if a property exists on a non-null source and passes a type guard test.
  *
@@ -297,22 +286,28 @@ export function hasProp<
  * @typeParam TNarrowed - The narrowed type of the property value if the test passes.
  */
 export function hasProp<TSource, TKey extends PropertyKey, TNarrowed>(
-  source: TSource,
+  source: TSource | null,
   key: TKey,
-  test: TypeGuard<unknown, TNarrowed>,
-  checkProto?: true,
+  test: TSource extends AnyRecord<TKey, infer TValue> ?
+    TypeGuard<TValue, TValue & TNarrowed>
+  : TypeGuard<unknown, TNarrowed>,
+  checkProto?: boolean,
 ): source is TSource & Record<TKey, TNarrowed>;
 
-export function hasProp<TSource extends NonNil, TKey extends keyof TSource>(
+export function hasProp<TSource, TKey extends PropertyKey>(
   source: TSource,
   key: TKey,
   test: Predicate<
-    TSource extends Record<TKey, infer TValue> ? TValue
-    : TSource extends Record<PropertyKey, infer TValue> ? TValue
+    TSource extends AnyRecord<TKey, infer TValue> ? TValue
+    : TSource extends AnyRecord<PropertyKey, infer TValue> ? TValue
     : unknown
   >,
   checkProto?: boolean,
-): source is TSource & Record<TKey, unknown>;
+): source is TSource &
+  Record<
+    TKey,
+    TSource extends Record<PropertyKey, infer TValue> ? TValue : unknown
+  >;
 
 export function hasProp<TSource extends NonNil, TKey extends PropertyKey>(
   source: TSource,
@@ -326,7 +321,7 @@ export function hasProp<TSource extends NonNil, TKey extends PropertyKey>(
 ): source is TSource &
   Record<
     TKey,
-    TSource extends Record<PropertyKey, infer TValue> ? TValue : unknown
+    TSource extends AnyRecord<PropertyKey, infer TValue> ? TValue : unknown
   >;
 
 /**
