@@ -1,43 +1,59 @@
 import type { MimeTypeInput, OutputType } from './types.js';
 
-import { hasProp, isString } from '@budsbox/lib-es/guards';
+import { ensureArray } from '@budsbox/lib-es/array';
+import { hasProp } from '@budsbox/lib-es/guards';
 
-import { parse, produceOutput, setParameter, update } from '#lib';
+import { parse, produceOutput, update } from '#lib';
 import { type MimeDbRecord, type MimeDbSource, mimeDb } from '#mime-db';
 
 import {
   canonicalTypesMap,
   extraArchiveTypes,
   extraFontTypes,
+  textDataSuffixes,
 } from './const.js';
 
-export const isWellKnown = (mimeInput: MimeTypeInput): boolean =>
-  getRecord(mimeInput) !== null;
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ UTILIIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 export const canonicalize = <TInput extends MimeTypeInput>(
   mimeInput: TInput,
-  setCharset = false,
 ): OutputType<TInput> => {
   const mimeType = parse(mimeInput);
   const canonicalEssence =
     canonicalTypesMap.get(mimeType.essence) ?? mimeType.essence;
 
-  let record =
+  return produceOutput(
+    mimeInput,
     mimeType.essence === canonicalEssence ?
       mimeType
-    : update(mimeType, 'essence', canonicalEssence);
-  if (setCharset && !record.parameters.has('charset')) {
-    const charset = getRecord(record)?.charset ?? getRecord(mimeType)?.charset;
-    if (isString(charset)) record = setParameter(record, 'charset', charset);
-  }
-
-  return produceOutput(mimeInput, record);
+    : update(mimeType, 'essence', canonicalEssence),
+  );
 };
 
-export const getRecord = (mimeInput: MimeTypeInput): MimeDbRecord | null =>
-  mimeDb[parse(mimeInput).essence] ?? null;
+export const getRecord = (mimeInput: MimeTypeInput): MimeDbRecord =>
+  mimeDb[parse(mimeInput).essence] ?? {};
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BY SOURCE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+export const findCharset = (mimeInput: MimeTypeInput): string | null => {
+  const record = parse(mimeInput);
+  return (
+    ensureArray(record.parameters.get('charset'))[0] ??
+    getRecord(record).charset ??
+    getRecord(canonicalize(record)).charset ??
+    null
+  );
+};
+
+export const getSource = (mimeInput: MimeTypeInput): MimeDbSource | null => {
+  const { essence } = parse(mimeInput);
+  return getRecord(essence).source ?? null;
+};
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TYPE GUARDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* ═══════════════════════════════ By Source ════════════════════════════════ */
+
+export const isWellKnown = (mimeInput: MimeTypeInput): boolean =>
+  hasProp(mimeDb, parse(mimeInput).essence);
 
 export const isIana = (mimeInput: MimeTypeInput): boolean =>
   getSource(mimeInput) === 'iana';
@@ -51,18 +67,15 @@ export const isNginx = (mimeInput: MimeTypeInput): boolean =>
 export const isUnregistered = (mimeInput: MimeTypeInput): boolean =>
   !isIana(mimeInput);
 
-export const getSource = (mimeInput: MimeTypeInput): MimeDbSource | null => {
-  const { essence } = parse(mimeInput);
-  return getRecord(essence)?.source ?? null;
-};
+/* ════════════════════════════════ By Tree ═════════════════════════════════ */
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BY TREE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
+// https://datatracker.ietf.org/doc/html/rfc6838#section-3.1
 export const isStandardTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
   return isIana(mimeType) && !hasProp(mimeType, 'facet');
 };
 
+// https://datatracker.ietf.org/doc/html/rfc6838#section-3.2
 export const isVendorTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
   return (
@@ -70,14 +83,15 @@ export const isVendorTree = (mimeInput: MimeTypeInput): boolean => {
   );
 };
 
-export const isUnregisteredTree = (mimeInput: MimeTypeInput): boolean => {
+// https://datatracker.ietf.org/doc/html/rfc6838#section-3.3
+export const isPersonalTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
   return (
-    isIana(mimeType) && hasProp(mimeType, 'facet', (facet) => facet === 'x.')
+    isIana(mimeType) && hasProp(mimeType, 'facet', (facet) => facet === 'prs.')
   );
 };
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BY CONTENT TYPE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ════════════════════════════ By Content Type ═════════════════════════════ */
 
 /* ───────────────────────────────── Media ────────────────────────────────── */
 
@@ -197,7 +211,21 @@ export const isCbor = (mimeInput: MimeTypeInput): boolean => {
   return essence === 'application/cbor' || suffix === '+cbor';
 };
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ BY FEATURE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+export const isTextData = (mimeInput: MimeTypeInput): boolean => {
+  const mimeType = parse(mimeInput),
+    canonical = canonicalize(mimeType);
+  return [mimeType, canonical].some(
+    (mime) =>
+      mime.type === 'text' ||
+      hasProp(mime, 'suffix', (suffix) => textDataSuffixes.has(suffix)) ||
+      isXml(mime) ||
+      isJson(mime) ||
+      isYaml(mime) ||
+      isJsonSequence(mime),
+  );
+};
+
+/* ═══════════════════════════════ By Feature ═══════════════════════════════ */
 
 export const isCompressible = (mimeInput: MimeTypeInput): boolean =>
-  getRecord(mimeInput)?.compressible === true;
+  getRecord(mimeInput).compressible === true;

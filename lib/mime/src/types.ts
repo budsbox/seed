@@ -15,6 +15,13 @@ import type {
 
 import type { MimeDbKey } from './mime-db.js';
 
+// Type exports
+export type {
+  MimeTypeEssence,
+  SubtypeFacet as MimeTypeFacet,
+  SubtypeSuffix as MimeTypeSuffix,
+} from '@budsbox/parse-mime';
+
 /* ─────────────────────────────── Functions ──────────────────────────────── */
 
 /* eslint-disable @typescript-eslint/prefer-function-type */
@@ -193,26 +200,6 @@ export type WellKnownSuffixes =
       '' | '+'
     >;
 
-export type MimeTypeStringInput = LiteralUnion<string, WellKnownMimeType>;
-
-/**
- * A string representing the essence of a MIME type, i.e. `type/subtype` without parameters.
- * The template string combined with the `WellKnownMimeType` union for better autocomplete.
- */
-export type EssenceInput = LiteralUnion<EssenceString, WellKnownMimeType>;
-
-export type EssenceString = MimeTypeEssence;
-
-/**
- * A string representing a top-level MIME type category.
- *
- * This is either one of the well-known top-level types (like `"text"` or `"image"`)
- * or any arbitrary string.
- */
-export type TopLevelTypeInput = LiteralUnion<string, WellKnownTopLevelType>;
-
-export type SubtypeInput = LiteralUnion<string, WellKnownSubtype>;
-
 /**
  * An immutable, high-level representation of a parsed MIME type.
  *
@@ -239,6 +226,24 @@ export type MimeTypeRecord<
 >;
 
 /* ───────────────────────── Functions Type Helpers ───────────────────────── */
+
+export type MimeTypeStringInput = LiteralUnion<string, WellKnownMimeType>;
+
+/**
+ * A string representing the essence of a MIME type, i.e. `type/subtype` without parameters.
+ * The template string combined with the `WellKnownMimeType` union for better autocomplete.
+ */
+export type EssenceInput = LiteralUnion<MimeTypeEssence, WellKnownMimeType>;
+
+/**
+ * A string representing a top-level MIME type category.
+ *
+ * This is either one of the well-known top-level types (like `"text"` or `"image"`)
+ * or any arbitrary string.
+ */
+export type TopLevelTypeInput = LiteralUnion<string, WellKnownTopLevelType>;
+
+export type SubtypeInput = LiteralUnion<string, WellKnownSubtype>;
 
 /**
  * All supported input shapes for high-level MIME type helper functions.

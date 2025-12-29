@@ -1,18 +1,17 @@
-import type { EssenceString, WellKnownSuffixes } from './types.js';
+/**
+ * Defines constant sets and maps used by MIME type helpers, including extra type classifications,
+ * data-oriented suffixes, and canonicalization aliases.
+ *
+ * @module
+ */
+import type { MimeTypeEssence, MimeTypeSuffix } from './types.js';
 
 import { entries } from '@budsbox/lib-es/object';
 
 /**
- * @module
- *
- * Defines constant sets and maps used by MIME type helpers, including extra type classifications,
- * data-oriented suffixes, and canonicalization aliases.
- */
-
-/**
  * Additional font MIME type essences that should be treated as fonts.
  */
-export const extraFontTypes = new Set<EssenceString>([
+export const extraFontTypes = new Set<MimeTypeEssence>([
   'application/vnd.ms-fontobject',
 ]);
 
@@ -21,7 +20,7 @@ export const extraFontTypes = new Set<EssenceString>([
  *
  * Intended for use in helpers like `isArchive`, alongside checks such as `isZip` and `isGzip`.
  */
-export const extraArchiveTypes = new Set<EssenceString>([
+export const extraArchiveTypes = new Set<MimeTypeEssence>([
   'application/x-bzip',
   'application/x-bzip2',
   'application/x-tar',
@@ -34,7 +33,7 @@ export const extraArchiveTypes = new Set<EssenceString>([
  * Useful for heuristics when deciding whether content is likely readable or structured (for example,
  * when a MIME type ends with one of these suffixes).
  */
-export const textDataSuffixes = new Set<WellKnownSuffixes>([
+export const textDataSuffixes = new Set<MimeTypeSuffix>([
   '+json',
   '+xml',
   '+yaml',
@@ -55,7 +54,7 @@ export const textDataSuffixes = new Set<WellKnownSuffixes>([
  * - {@link https://mimesniff.spec.whatwg.org/#mime-type-groups MIME Sniffing Standard — MIME Type Groups}
  * - {@link https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/MIME_types/Common_types Mozilla Developer Network — Common MIME Types}
  */
-export const canonicalTypesMap = new Map<EssenceString, EssenceString>(
+export const canonicalTypesMap = new Map<MimeTypeEssence, MimeTypeEssence>(
   entries({
     // <canonical essence>: <alias essence>[]
     'application/fdf': ['application/vnd.fdf'],
@@ -84,6 +83,8 @@ export const canonicalTypesMap = new Map<EssenceString, EssenceString>(
     'application/xml': ['text/xml'],
     'application/zip': ['application/x-zip-compressed'],
     'audio/aac': ['audio/x-aac'],
+    'audio/aiff': ['audio/x-aiff'],
+    'audio/midi': ['audio/x-midi'],
     'audio/mp4': ['audio/x-m4a'],
     'audio/mpeg': ['audio/mpeg3', 'audio/mp3'],
     'audio/qcelp': ['audio/vnd.qcelp'],
@@ -92,6 +93,7 @@ export const canonicalTypesMap = new Map<EssenceString, EssenceString>(
       'audio/vnd.wav',
       'audio/wave',
       'audio/x-wav',
+      'audio/x-pn-wav',
     ],
     'font/collection': ['application/font-cff'],
     'font/otf': [
@@ -130,11 +132,14 @@ export const canonicalTypesMap = new Map<EssenceString, EssenceString>(
       'livescript',
     ].flatMap((subtype) =>
       ['application', 'text'].map(
-        (type): EssenceString => `${type}/${subtype}`,
+        (type): MimeTypeEssence => `${type}/${subtype}`,
       ),
     ),
+    'text/org': ['text/x-org'],
     'video/vnd.youtube.yt': ['application/vnd.youtube.yt'],
-  } as const satisfies Record<EssenceString, EssenceString[]>).flatMap(
+    // https://www.rfc-editor.org/rfc/rfc2361
+    'video/x-msvideo': ['video/vnd.avi'],
+  } as const satisfies Record<MimeTypeEssence, MimeTypeEssence[]>).flatMap(
     ([canonical, aliases]) => aliases.map((alias) => [alias, canonical]),
   ),
 );

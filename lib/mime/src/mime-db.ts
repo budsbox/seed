@@ -1,3 +1,9 @@
+/**
+ * This module is just the conventional wrapper for the `mime-db` package.
+ *
+ * @module
+ */
+
 import type { KeysOfUnion, SetOptional } from 'type-fest';
 
 import mimeDbRaw from 'mime-db/db.json' with { type: 'json' };
@@ -34,6 +40,7 @@ type UndefinedToOptional<TSource extends Record<PropertyKey, unknown>> =
     >,
     undefined
   >;
+
 type ExcludeFromValues<
   TSource extends Record<PropertyKey, unknown>,
   TExclude,
