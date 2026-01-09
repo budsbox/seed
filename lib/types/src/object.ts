@@ -2,6 +2,7 @@ import type {
   ArrayTail,
   ConditionalExcept,
   ConditionalPick,
+  IsLiteral,
   IsNever,
   Merge,
   OverrideProperties,
@@ -13,6 +14,7 @@ import type { IsNil, TupleN } from './core.js';
 /**
  * Hack to show the inferred type (instead of union, intersections, generics, etc.) in tips
  *
+ * @typeParam TObject - The object type to infer.
  * @example
  * ```typescript
  * // a tip for Foo would be like { bla: string } & { bla?: string; lol?: string; }
@@ -39,6 +41,31 @@ export type InferObject<TObject extends object> = {
  */
 export type Diff<T1 extends object, T2 extends object> = InferObject<
   Omit<T1, keyof T2 & keyof T1>
+>;
+
+/**
+ * This type creates an immutable and optional record structure.
+ * Useful for generic interfaces that accept a record of properties
+ * and for the usage in function arguments.
+ *
+ * @typeParam TKey - The type of the property keys. Defaults to `PropertyKey`.
+ * @typeParam TValue - The type of the property values. Defaults to `any`.
+ * @remarks The complexity of this type stems from the following:
+ * if it were simply `Readonly<Partial<Record<TKey, TValue>>>`,
+ * and then utilized as `AnyRecord<string, number>`,
+ * the resulting type would be: `{ readonly [x: string]: number | undefined; }`.
+ * As you can see, an `undefined` is appended to the value's type, which is undesirable.
+ */
+export type AnyRecord<
+  TKey extends PropertyKey = PropertyKey,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TValue = any,
+> = Readonly<
+  {
+    [K in TKey as IsLiteral<K> extends true ? K : never]?: TValue;
+  } & {
+    [K in TKey as IsLiteral<K> extends false ? K : never]: TValue;
+  }
 >;
 
 /**
@@ -93,7 +120,6 @@ export type UnknownNestedEntry = readonly [
  *   - If `TKey` is an array of key parts (`TKeyParts`), `TPrefix` will be prepended to an array of keys,
  *      resulting in a new tuple `[[...TPrefix, ...TKeyParts[]], TValue]`.
  *   - Otherwise (if `TKey` is a single key), `TPrefix` will be prepended to a single key, resulting in a new tuple `[[...TPrefix, TKey], TValue]`.
- * @returns A new transformed entry where the key is combined with the prefix.
  */
 export type PrependEntryKey<
   TEntry extends UnknownEntry | UnknownNestedEntry,
@@ -195,8 +221,8 @@ export type OmitNilProps<T extends object> =
  * This type is particularly useful when creating a new object type by mixing in specific overrides
  * to an existing source object type.
  *
- * @typeParam Source - The base object type whose properties may be overridden.
- * @typeParam Values - An object type that defines properties to override in the `Source` type.
+ * @typeParam TSource - The base object type whose properties may be overridden.
+ * @typeParam TValues - An object type that defines properties to override in the `Source` type.
  *                    Each key in `Values` must exist in the `Source` type.
  * @deprecated Use `Mixin<Source, Values>` from `type-fest` instead.
  */
@@ -277,8 +303,8 @@ export type Value<T = object, K extends PropertyKey = PropertyKey> =
  * properties of `Child`, along with only those properties of `Parent` that do not overlap
  * with `Child`.
  *
- * @typeParam Parent - The base object type whose non-overlapping properties are included.
- * @typeParam Child - The object type whose properties take precedence.
+ * @typeParam TParent - The base object type whose non-overlapping properties are included.
+ * @typeParam TChild - The object type whose properties take precedence.
  * @deprecated Use `Merge<Destination, Source>` from `type-fest` instead.
  */
 export type Mixin<TParent extends object, TChild extends object> = Merge<

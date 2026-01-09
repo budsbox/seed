@@ -1,4 +1,10 @@
-import type { IsNever, IsNumericLiteral, NonNegativeInteger } from 'type-fest';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import type {
+  IsNever,
+  IsNumericLiteral,
+  IterableElement,
+  NonNegativeInteger,
+} from 'type-fest';
 
 /**
  * Represents a type that excludes `undefined` and `void` from the given type `T`.
@@ -85,26 +91,43 @@ export type Truthy<T = unknown> = T extends Falsy ? never : T;
 
 /**
  * Represents a function that accepts any number of arguments and returns a value of any type.
+ * Useful for generic interfaces that accept a function with arbitrary arguments and return values.
  *
  * @param args - The arguments passed to the function.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyFunction = (...args: readonly any[]) => any;
 
 /**
- * Represents a utility type for defining an object where keys are restricted
- * to a specific type and values are of a specified type.
- * This type creates an immutable and optional record structure.
- * Useful for generic interfaces that accept a record of properties,
+ * A type alias representing a set that can hold values of any type.
  *
- * @typeParam TKey - The type of the property keys. Defaults to `PropertyKey`.
- * @typeParam TValue - The type of the property values. Defaults to `any`.
+ * @typeParam T - The type of elements in the set. Defaults to `any`.
  */
-export type AnyRecord<
-  TKey extends PropertyKey = PropertyKey,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TValue = any,
-> = Partial<Readonly<Record<TKey, TValue>>>;
+export type AnySet<T = any> = Set<T>;
+
+/**
+ * Represents a set that can be either a mutable `Set` or an immutable `ReadonlySet`.
+ *
+ * @typeParam T - The type of elements contained in the set. Defaults to `any`.
+ */
+export type AnyReadableSet<T = any> = ReadonlySet<T> | Set<T>;
+
+/**
+ * Represents a map structure that can hold key-value pairs with any type for the keys and values.
+ * It is a type alias for the standard `Map` object in JavaScript.
+ *
+ * @typeParam K - The type of keys in the map. Defaults to `any`.
+ * @typeParam V - The type of values in the map. Defaults to `any`.
+ */
+export type AnyMap<K = any, V = any> = Map<K, V>;
+
+/**
+ * Represents a type that can either be a mutable `Map` or an immutable `ReadonlyMap`,
+ * though the any readable (but not
+ *
+ * @typeParam K - The type of keys in the map.
+ * @typeParam V - The type of values in the map.
+ */
+export type AnyReadableMap<K = any, V = any> = Map<K, V> | ReadonlyMap<K, V>;
 
 /**
  * Represents a function that accepts any number of arguments and returns a value of unknown type.
@@ -135,7 +158,7 @@ export type IsNil<TValue> = [TValue] extends [Nil] ? true : false;
  * You can use `TupleN` to define a tuple of a fixed size with elements of a specific type.
  */
 export type TupleN<N extends number, T = unknown> =
-  // this is to distribute a numbers union, so `TupleN<2 | 3 | 4>` will become `TupleN<2> | TupleN<3> | TupleN<4>``
+  // this is to distribute a numbers union, so `TupleN<2 | 3 | 4>` becomes `TupleN<2> | TupleN<3> | TupleN<4>``
   N extends N ?
     IsNumericLiteral<N> extends true ?
       IsNever<NonNegativeInteger<N>> extends true ?
@@ -146,3 +169,16 @@ export type TupleN<N extends number, T = unknown> =
 
 type _TupleN<T, N extends number, R extends unknown[]> =
   R['length'] extends N ? R : _TupleN<T, N, [T, ...R]>;
+
+/**
+ * Represents the intersection of the item types in an array or tuple type.
+ *
+ * This utility type recursively computes the intersection of all element types
+ * in the provided array or tuple type `TArray`. If `TArray` is empty, it defaults to `never`.
+ *
+ * @typeParam TArray - A tuple or array type whose item types will be intersected.
+ */
+export type ArrayItemsIntersection<TArray extends readonly any[]> =
+  TArray extends readonly [infer TLeft, ...infer TRight] ?
+    TLeft & (TRight extends [] ? unknown : ArrayItemsIntersection<TRight>)
+  : IterableElement<TArray>;

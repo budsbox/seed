@@ -31,7 +31,7 @@ interface Array<T> {
       currentIndex: number,
       array: readonly T[],
     ) => U,
-    initialValue: Partial<U>, // that's why
+    initialValue: U extends object ? Partial<U> : U, // that's why
   ): U;
 }
 
@@ -43,7 +43,7 @@ interface ReadonlyArray<T> {
       currentIndex: number,
       array: readonly T[],
     ) => U,
-    initialValue: Partial<U>, // that's why
+    initialValue: U extends object ? Partial<U> : U, // that's why
   ): U;
 }
 
