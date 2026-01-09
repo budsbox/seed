@@ -34,6 +34,14 @@
     "#function": {
       "types": "./dist/function.d.ts",
       "default": "./dist/function.js"
+    },
+    "#set": {
+      "types": "./dist/set.d.ts",
+      "default": "./dist/set.js"
+    },
+    "#map": {
+      "types": "./dist/map.d.ts",
+      "default": "./dist/map.js"
     }
   },
   "exports": {
@@ -60,6 +68,14 @@
     "./function": {
       "types": "./dist/function.d.ts",
       "default": "./dist/function.js"
+    },
+    "./set": {
+      "types": "./dist/set.d.ts",
+      "default": "./dist/set.js"
+    },
+    "./map": {
+      "types": "./dist/map.d.ts",
+      "default": "./dist/map.js"
     },
     "./package.json": "./package.json"
   },
