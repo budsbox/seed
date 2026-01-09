@@ -1,13 +1,7 @@
 import type { IsNever } from 'type-fest';
 
-import type {
-  AnyFunction,
-  AnyRecord,
-  Def,
-  Nil,
-  NonNil,
-  Undef,
-} from '@budsbox/lib-types';
+import type { AnyFunction, Def, Nil, NonNil, Undef } from '@budsbox/lib-types';
+import type { AnyRecord } from '@budsbox/lib-types/object';
 
 import type { Predicate, TypeGuard } from './types.js';
 
@@ -269,7 +263,7 @@ export function hasProp<TSource, TKey extends PropertyKey>(
   key: TKey,
   checkProto?: boolean,
 ): source is TSource &
-  Record<TKey, TSource extends Record<PropertyKey, infer T> ? T : unknown>;
+  Record<TKey, TSource extends AnyRecord<PropertyKey, infer T> ? T : unknown>;
 
 /**
  * Checks if a property exists on a non-null source and passes a type guard test.
@@ -306,7 +300,7 @@ export function hasProp<TSource, TKey extends PropertyKey>(
 ): source is TSource &
   Record<
     TKey,
-    TSource extends Record<PropertyKey, infer TValue> ? TValue : unknown
+    TSource extends AnyRecord<PropertyKey, infer TValue> ? TValue : unknown
   >;
 
 export function hasProp<TSource extends NonNil, TKey extends PropertyKey>(

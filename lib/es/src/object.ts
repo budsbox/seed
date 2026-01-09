@@ -7,7 +7,11 @@
 
 import type { ValueOf } from 'type-fest';
 
-import type { EntryUnion, OmitNilProps } from '@budsbox/lib-types/object';
+import type {
+  AnyRecord,
+  EntryUnion,
+  OmitNilProps,
+} from '@budsbox/lib-types/object';
 
 import { isNotNil } from '#guards';
 
@@ -136,6 +140,34 @@ export function filter(
 export function omitNils<T extends object>(object: T): OmitNilProps<T> {
   return filter(object, isNotNil) as never;
 }
+
+/**
+ * Transforms the values of an object using the provided callback function.
+ *
+ * @param object - The source object whose values are to be transformed.
+ * @param callback - A function that is called for each key-value pair in the source object.
+ * It receives the value, key, and the original object as arguments and returns the transformed value.
+ * @returns A new object with the same keys as the source object but with values transformed by the callback function.
+ * @typeParam TSource - The type of the source object.
+ * @typeParam TValue - The type of the transformed values in the resulting object.
+ */
+export const map = <TSource extends AnyRecord, TValue>(
+  object: TSource,
+  callback: (
+    value: ValueOf<TSource>,
+    key: keyof TSource,
+    object: TSource,
+  ) => TValue,
+): Record<keyof TSource, TValue> => {
+  return reduce(
+    object,
+    (acc, value, key, obj) => {
+      acc[key] = callback(value, key, obj);
+      return acc;
+    },
+    {},
+  );
+};
 
 /**
  * Reduces `obj` to a value which is the accumulated result of running each element in `obj`
