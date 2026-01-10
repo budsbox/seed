@@ -5,6 +5,8 @@ import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
 import type { TypeScriptConfigFactoryOptions } from '#types';
 
+import { dirname } from 'node:path';
+
 import perfectionist from 'eslint-plugin-perfectionist';
 import * as eslintTs from 'typescript-eslint';
 
@@ -20,7 +22,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
   TypeScriptConfigFactoryOptions
 > =
   (options = {}) =>
-  ({ createConfig, matchIncludes, sourceType }) => {
+  ({ createConfig, matchIncludes, sourceType, tsconfigPath }) => {
     return [
       createConfig({
         name: 'typescript/basic',
@@ -32,6 +34,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
               parser: eslintTs.parser as Linter.Parser,
               parserOptions: {
                 projectService: true,
+                tsconfigRootDir: dirname(tsconfigPath),
               },
             },
             plugins: {
