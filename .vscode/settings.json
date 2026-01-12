@@ -6,6 +6,10 @@
   "editor.codeActionsOnSave": ["source.fixAll.eslint", "source.formatDocument"],
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "eslint.nodePath": ".yarn/sdks",
+  "eslint.timeBudget.onFixes": {
+    "warn": 3000,
+    "error": 3000
+  },
   "editor.quickSuggestions": {
     "strings": "on"
   },
