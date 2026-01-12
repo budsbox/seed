@@ -179,14 +179,41 @@ export class ROSet<T = undefined> implements ReadonlySet<T> {
     return this.#set.values();
   }
 
+  /**
+   * Returns a native representation of the set for better debugging and inspection.
+   */
+  public toDebug(): Set<T> {
+    const output = new Set<T>(this.#set);
+    Object.defineProperty(output, Symbol.toStringTag, { value: 'read-only' });
+    return output;
+  }
+
+  /**
+   * Returns a native representation of the set for better debugging and inspection in Node.js environments
+   */
+  public [Symbol.for('nodejs.util.inspect.custom')](): Set<T> {
+    return this.toDebug();
+  }
+
   /* eslint-enable jsdoc/require-returns */
 
   readonly #set: Set<T>;
 }
 
-// it seems a bit hacky, but I plan to use it as an actual implementation for the `ReadonlySet`, so it seems reasonable
-Object.defineProperty(ROSet.prototype, Symbol.toStringTag, {
-  value: 'ReadonlySet',
+/*
+ * It seems a bit hacky, but I plan to use it as an actual implementation for the `ReadonlySet` type,
+ * so I guess it's reasonable.
+ */
+(
+  [
+    [ROSet, 'name'],
+    [ROSet.prototype, Symbol.toStringTag],
+  ] as const
+).forEach(([obj, prop]) => {
+  Object.defineProperty(obj, prop, {
+    value: 'ReadonlySet',
+    configurable: true,
+  });
 });
 
 type ItemsOfSetsArray<TSets extends readonly AnyReadableSet[]> =

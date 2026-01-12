@@ -106,12 +106,39 @@ export class ROMap<K, V> implements ReadonlyMap<K, V> {
     return this.#map.values();
   }
 
+  /**
+   * Returns a native representation of the map for better debugging and inspection.
+   */
+  public toDebug(): Map<K, V> {
+    const output = new Map<K, V>(this.#map);
+    Object.defineProperty(output, Symbol.toStringTag, { value: 'read-only' });
+    return output;
+  }
+
+  /**
+   * Returns a native representation of the map for better debugging and inspection in Node.js environments.
+   */
+  public [Symbol.for('nodejs.util.inspect.custom')](): ReadonlyMap<K, V> {
+    return this.toDebug();
+  }
+
   readonly #map: Map<K, V>;
 
   /* eslint-enable jsdoc/require-returns */
 }
 
-// it seems a bit hacky, but I plan to use it as an actual implementation for the `ReadonlyMap` type, so it seems reasonable
-Object.defineProperty(ROMap.prototype, Symbol.toStringTag, {
-  value: 'ReadonlyMap',
+/*
+ * It seems a bit hacky, but I plan to use it as an actual implementation for the `ReadonlyMap` type,
+ * so I guess it's reasonable.
+ */
+(
+  [
+    [ROMap, 'name'],
+    [ROMap.prototype, Symbol.toStringTag],
+  ] as const
+).forEach(([obj, prop]) => {
+  Object.defineProperty(obj, prop, {
+    value: 'ReadonlyMap',
+    configurable: true,
+  });
 });
