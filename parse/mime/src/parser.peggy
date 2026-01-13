@@ -98,7 +98,7 @@ parameter
  * https://datatracker.ietf.org/doc/html/rfc6838#section-4.3
  */
 parameterName
-  = @nameToken &[;=] / &{ return isSniffing } [^=;]* { return null }
+  = @nameToken &([;=] / !.) / &{ return isSniffing } [^=;]* { return null }
 
 /**
  * https://datatracker.ietf.org/doc/html/rfc9110#name-parameters

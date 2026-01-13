@@ -394,6 +394,40 @@ describe.sequential('MIME Parser test suite', () => {
         });
       });
 
+      describe('parameterName rule', () => {
+        test('should parse valid parameter name with parameterName startRule', () => {
+          const res = parseFormatted('charset', {
+            startRule: 'parameterName',
+          });
+          expect(res).toBe('charset');
+        });
+
+        test('should lowercase parameter name', () => {
+          const res = parseFormatted('CHARSET', {
+            startRule: 'parameterName',
+          });
+          expect(res).toBe('charset');
+        });
+
+        test('should throw when parameterName rule receives non-token characters', () => {
+          expect(() =>
+            parseFormatted('invalid name', { startRule: 'parameterName' }),
+          ).toThrowError('Expected');
+        });
+
+        test('should throw when parameterName rule receives parameter with value', () => {
+          expect(() =>
+            parseFormatted('charset=utf-8', { startRule: 'parameterName' }),
+          ).toThrowError('Expected');
+        });
+
+        test('should throw on empty string for parameterName rule', () => {
+          expect(() =>
+            parseFormatted('', { startRule: 'parameterName' }),
+          ).toThrowError('Expected');
+        });
+      });
+
       describe('httpToken rule', () => {
         test('should parse valid HTTP token with httpToken startRule', () => {
           const res = parseFormatted('application', { startRule: 'httpToken' });
