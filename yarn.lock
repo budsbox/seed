@@ -1084,6 +1084,7 @@ __metadata:
     type-fest: "npm:^5.3.1"
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.48.1"
+    vitest: "npm:^4.0.15"
   languageName: unknown
   linkType: soft
 
