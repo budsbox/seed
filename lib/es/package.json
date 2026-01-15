@@ -42,12 +42,20 @@
     "#map": {
       "types": "./dist/map.d.ts",
       "default": "./dist/map.js"
+    },
+    "#asserts": {
+      "types": "./dist/asserts.d.ts",
+      "default": "./dist/asserts.js"
     }
   },
   "exports": {
     "./array": {
       "types": "./dist/array.d.ts",
       "default": "./dist/array.js"
+    },
+    "./asserts": {
+      "types": "./dist/asserts.d.ts",
+      "default": "./dist/asserts.js"
     },
     "./object": {
       "types": "./dist/object.d.ts",

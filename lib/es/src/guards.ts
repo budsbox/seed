@@ -1,6 +1,6 @@
 import type { IsNever } from 'type-fest';
 
-import type { AnyFunction, Def, Nil, NonNil, Undef } from '@budsbox/lib-types';
+import type { AnyFunction, Nil, NonNil, Undef } from '@budsbox/lib-types';
 import type { AnyRecord } from '@budsbox/lib-types/object';
 
 import type { Predicate, TypeGuard } from './types.js';
@@ -22,7 +22,7 @@ export function isUndef(value: unknown): value is Undef {
  * @returns Whether the value is defined.
  * @typeParam U - Type of the input value.
  */
-export function isDef<U>(value: U): value is Def<U>;
+export function isDef<U>(value: Undef<U>): value is U;
 
 /**
  * Checks if a given value is defined (not `undefined`).
@@ -43,15 +43,6 @@ export function isDef(value: unknown): boolean {
 export function isNil(value: unknown): value is Nil {
   return value == null;
 }
-
-/**
- * Checks if the provided value is not null or undefined.
- *
- * @param value - The value to be checked.
- * @returns Returns true if the value is not null or undefined; otherwise, false.
- * @typeParam T - Type of the input value.
- */
-export function isNotNil<T>(value: T): value is NonNil<T>;
 
 /**
  * Checks if the provided value is not null or undefined.
@@ -223,6 +214,27 @@ export function isBoolean(value: unknown): value is boolean {
 }
 
 /**
+ * Checks if the provided value is of type `symbol`.
+ *
+ * @param value - The value to check.
+ * @returns Returns `true` if the value is a symbol; otherwise, returns `false`.
+ */
+export const isSymbol = (value: unknown): value is symbol =>
+  typeof value === 'symbol';
+
+/**
+ * Determines whether the given value is a valid JavaScript property key.
+ *
+ * A property key in JavaScript can be a string, symbol, or number, as these are
+ * the types allowed for indexing object properties.
+ *
+ * @param value - The value to be checked as a potential property key.
+ * @returns Returns `true` if the value is a valid property key; otherwise, returns `false`.
+ */
+export const isPropKey = (value: unknown): value is PropertyKey =>
+  isString(value) || isSymbol(value) || isNumber(value);
+
+/**
  * Determines whether the provided value is iterable.
  *
  * @param value - The value to be checked.
@@ -340,26 +352,52 @@ export function hasProp<TSource, TKey extends PropertyKey>(
 export function hasProp(
   source: unknown,
   key: PropertyKey,
-  ...rest:
-    | readonly [checkProto?: Undef<boolean>]
-    | readonly [test?: Undef<Predicate<unknown>>, checkProto?: Undef<boolean>]
+  ...rest: HasPropRestArg
+): boolean;
+export function hasProp(
+  source: unknown,
+  key: PropertyKey,
+  ...rest: HasPropRestArg
 ): boolean {
   // Guard against prototype pollution
   if (key === '__proto__' || key === 'constructor') {
     return false;
   }
 
+  if (!isPropKey(key)) {
+    throw new TypeError(
+      `Expected key to be a valid property key (string, symbol, or number), got ${typeof key} instead.`,
+    );
+  }
+
   let test: Predicate<unknown> = () => true,
     checkProto: boolean = false;
   if (isFunction(rest[0])) {
     [test, checkProto = false] = rest;
+    if (!isBoolean(checkProto)) {
+      throw new TypeError(
+        `Expected checkProto to be a boolean, got ${typeof checkProto} instead.`,
+      );
+    }
   } else if (isBoolean(rest[0])) {
     [checkProto] = rest;
+  } else if (rest.length > 0) {
+    throw new TypeError('Invalid arguments to assertProp');
   }
 
   return (
     isNotNil(source) &&
-    (checkProto ? key in source : Object.hasOwn(source, key)) &&
+    // cast Object(source) because "in" operator throws on primitive right values
+    (checkProto ? key in Object(source) : Object.hasOwn(source, key)) &&
     test(source[key as never])
   );
 }
+
+/**
+ * Possible values for the `hasProp` function's `rest` parameter.'
+ *
+ * @internal
+ */
+export type HasPropRestArg =
+  | readonly [checkProto?: Undef<boolean>]
+  | readonly [test?: Undef<Predicate<unknown>>, checkProto?: Undef<boolean>];
