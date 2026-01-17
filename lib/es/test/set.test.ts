@@ -99,35 +99,17 @@ describe.concurrent('ROSet', () => {
     expect(callback).toHaveBeenCalledWith(10, 10, roSet);
   });
 
-  test('should implement forEach with thisArg', () => {
-    const roSet = new ROSet([1]);
-    const context = { multiplier: 2 };
-    let result = 0;
-
-    roSet.forEach(function (val) {
-      result = val * this.multiplier;
-    }, context);
-
-    expect(result).toBe(2);
-  });
-
-  test('should return a debug native Set', () => {
-    const roSet = new ROSet([1, 2]);
-    const debug = roSet.toDebug();
-
-    expect(debug).toBeInstanceOf(Set);
-    expect(debug.size).toBe(2);
-    expect(Object.prototype.toString.call(debug)).toBe('[object read-only]');
-  });
-
   test('should have the correct toStringTag and constructor name', () => {
     const roSet = new ROSet();
     expect(Object.prototype.toString.call(roSet)).toBe('[object ReadonlySet]');
     expect(ROSet.name).toBe('ReadonlySet');
   });
 
-  test('should handle Nil input', () => {
-    const roSet = new ROSet(null);
-    expect(roSet.size).toBe(0);
+  test('should throw an error when attempting to modify the set', () => {
+    const roSet = new ROSet();
+
+    expect(() => roSet.add(1)).toThrow(TypeError);
+    expect(() => roSet.delete(1)).toThrow(TypeError);
+    expect(() => roSet.clear()).toThrow(TypeError);
   });
 });

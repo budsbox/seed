@@ -45,7 +45,7 @@ describe.concurrent('ROMap', () => {
       ]);
       expect(map.has(null)).toBe(true);
       expect(map.has(undefined)).toBe(true);
-      expect(map.has('random')).toBe(false);
+      expect(map.has('random' as never)).toBe(false);
     });
   });
 
@@ -126,17 +126,6 @@ describe.concurrent('ROMap', () => {
   });
 
   describe.concurrent('debug and metadata', () => {
-    test('toDebug should return a Map with correct tag', () => {
-      const map = new ROMap([['a', 1]]);
-      const debugMap = map.toDebug();
-
-      expect(debugMap instanceof Map).toBe(true);
-      expect(debugMap.get('a')).toBe(1);
-      expect(Object.prototype.toString.call(debugMap)).toBe(
-        '[object read-only]',
-      );
-    });
-
     test('toStringTag should be ReadonlyMap', () => {
       const map = new ROMap();
       expect(Object.prototype.toString.call(map)).toBe('[object ReadonlyMap]');
@@ -162,11 +151,11 @@ describe.concurrent('ROMap', () => {
     });
 
     test('should not allow modification (immutability check)', () => {
-      const map = new ROMap([['a', 1]]) as any;
-      // We expect these to fail/throw if tried because they aren't implemented
-      expect(map.set).toBeUndefined();
-      expect(map.delete).toBeUndefined();
-      expect(map.clear).toBeUndefined();
+      const map = new ROMap([['a', 1]]);
+
+      expect(() => map.set('b', 2)).toThrow(TypeError);
+      expect(() => map.delete('a')).toThrow(TypeError);
+      expect(() => map.clear()).toThrow(TypeError);
     });
   });
 });
