@@ -4,6 +4,7 @@ import type {
   ConditionalPick,
   IsLiteral,
   IsNever,
+  LiteralToPrimitive,
   Merge,
   OverrideProperties,
   UnknownRecord,
@@ -31,9 +32,9 @@ export type InferObject<TObject extends object> = {
 }['foo'];
 
 /**
- * A TypeScript utility type `Diff` that computes the difference between two object types.
+ * This type computes the difference between two object types.
  *
- * This type extracts properties from the first object type `T1` that do not exist in the second object type `T2`.
+ * It extracts properties from the first object type `T1` that do not exist in the second object type `T2`.
  * The resulting object contains only the properties of `T1` that are not present in both `T1` and `T2`.
  *
  * @typeParam T1 - The first object type.
@@ -212,6 +213,73 @@ export type OmitNilProps<T extends object> =
   T extends unknown ?
     { [K in keyof T as IsNil<T[K]> extends true ? never : K]: T[K] }
   : never;
+
+/**
+ * Extracts the value type of property from a union of object types distributively.
+ *
+ * This type distributes over union members of `TSource` and extracts the value type
+ * associated with the specified key `TKey`. It handles both explicit properties
+ * and index signatures.
+ *
+ * @typeParam TSource - The source type (typically a union of objects) to extract the property value from.
+ * @typeParam TKey - The property key to look up.
+ * @typeParam TStripPartial - When `true`, excludes `undefined` from the result for optional/index signature matches.
+ *   Defaults to `false`.
+ * @example
+ * ```typescript
+ * type Union = { foo: string } | { foo: number } | { bar: boolean };
+ *
+ * // Resolves to: string | number
+ * type FooValue = DistributedPropValue<Union, 'foo'>;
+ *
+ * type WithIndex = { [x: string]: number };
+ *
+ * // Resolves to: number | undefined
+ * type IndexValue = DistributedPropValue<WithIndex, 'anyKey'>;
+ *
+ * // Resolves to: number (undefined stripped)
+ * type IndexValueStripped = DistributedPropValue<WithIndex, 'anyKey', true>;
+ * ```
+ */
+export type DistributedPropValue<
+  TSource,
+  TKey extends PropertyKey,
+  TStripPartial extends boolean = false,
+> = TSource extends AnyRecord ? PropValue<TSource, TKey, TStripPartial> : never;
+
+type NoPropValue<T extends boolean> = T extends true ? never : undefined;
+
+type PropValue<
+  TSource,
+  TKey extends PropertyKey,
+  TStripPartial extends boolean = false,
+  TSourceKey extends keyof TSource = keyof TSource,
+> =
+  [LiteralToPrimitive<TKey>] extends [TSourceKey] ?
+    NoPropValue<TStripPartial> | TSource[TKey & TSourceKey]
+  : [TKey] extends [TSourceKey] ?
+    TStripPartial extends true ?
+      ValueOfPartial<TSource, TKey>
+    : TSource[TKey & TSourceKey]
+  : NoPropValue<TStripPartial>;
+
+type ValueOfPartial<TSource, TKey extends keyof TSource> =
+  TSource extends AnyRecord<TKey, infer TValue> ? TValue : never;
+
+/**
+ * A conditional type that evaluates whether a given object type `T` is an empty object (`{}`).
+ *
+ * The type resolves to `true` when the following conditions are met:
+ * - The type `T` extends `Record<PropertyKey, never>`, indicating it's a record without properties and methods.
+ * - The keys of `T` are determined to be of `never` type using the `IsNever` utility type.
+ *
+ * If the conditions are not met, the type resolves to `false`.
+ *
+ * @typeParam T - The object type to evaluate as an empty object.
+ * @remarks It's superior to `type-fest`'s `IsEmptyObject<T>` because it handles `Record<symbol, never>` correctly.
+ */
+export type IsEmptyObject<T> =
+  T extends Record<PropertyKey, never> ? IsNever<keyof T> : false;
 
 /**
  * Represents a utility type `Override` that combines the properties of a `Source` object
