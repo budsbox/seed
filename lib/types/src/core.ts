@@ -146,6 +146,16 @@ export type UnknownFunction = (...args: readonly unknown[]) => unknown;
 export type IsNil<TValue> = [TValue] extends [Nil] ? true : false;
 
 /**
+ * A utility type that evaluates to the fallback type `TFallbackType` if `T` is determined to be `never`.
+ * Otherwise, it resolves to `T`.
+ *
+ * @typeParam T - The primary type to evaluate.
+ * @typeParam TFallbackType - The fallback type to use if `T` is `never`. Defaults to `unknown`.
+ */
+export type WithFallback<T, TFallbackType = unknown> =
+  IsNever<T> extends true ? TFallbackType : T;
+
+/**
  * Represents a type for a tuple with a specific length `N` and elements of type `T`.
  * This is a recursive type that generates a tuple type of exactly `N` elements.
  *
