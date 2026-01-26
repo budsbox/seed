@@ -94,7 +94,7 @@
   "scripts": {
     "name": "echo $npm_package_name",
     "prepack": "yarn p:ts:prepack",
-    "test": "vitest",
+    "test": "run p:vitest:watch",
     "watch": "yarn p:ts:watch"
   },
   "dependencies": {

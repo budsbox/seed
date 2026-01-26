@@ -1,9 +1,120 @@
-import type { IsNever } from 'type-fest';
+import type { IsNever, Primitive } from 'type-fest';
 
-import type { AnyFunction, Nil, NonNil, Undef } from '@budsbox/lib-types';
-import type { AnyRecord } from '@budsbox/lib-types/object';
+import type {
+  AnyFunction,
+  Nil,
+  NonNil,
+  Undef,
+  WithFallback,
+} from '@budsbox/lib-types';
+import type {
+  AnyRecord,
+  DistributedPropValue,
+} from '@budsbox/lib-types/object';
 
-import type { Predicate, TypeGuard } from './types.js';
+import type {
+  NarrowedType,
+  PlainPredicate,
+  Predicate,
+  PredicateDescriptor,
+  TypeGuard,
+} from './types.js';
+
+const descriptionSymbol = Symbol.for('@budsbox/lib-es#predicateDescription');
+
+/**
+ * Adds a human-readable description to a given type guard function, enhancing its metadata.
+ * This metadata can later be used for debugging, logging, or explanatory purposes.
+ *
+ * @param typeGuard - The type guard function responsible for evaluating whether a value satisfies
+ *                    a specific type predicate.
+ * @param typeDescription - A string description of the type that the `typeGuard` validates.
+ * @throws {TypeError} If `typeGuard` is not a function or `typeDescription` is not a string.
+ */
+export const describeTypeGuard = (
+  typeGuard: TypeGuard,
+  typeDescription: string,
+): void => {
+  if (!isFunction(typeGuard))
+    throw new TypeError('Expected typeGuard to be a function');
+  if (!isString(typeDescription))
+    throw new TypeError('Expected typeDescription to be a string');
+  Object.defineProperty(typeGuard, descriptionSymbol, {
+    value: { type: typeDescription } as const satisfies PredicateDescriptor,
+  });
+};
+
+/**
+ * Adds a human-readable description to a given predicate function, enhancing its metadata.
+ * This metadata can later be used for debugging, logging, or explanatory purposes.
+ *
+ * @param predicate - The predicate function to associate with a description. Must be a valid function.
+ * @param conditionDescription - A description explaining the condition represented by the predicate. Must be a string.
+ * @throws {TypeError} If `predicate` is not a function or `conditionDescription` is not a string.
+ */
+export const describePredicate = (
+  predicate: Predicate,
+  conditionDescription: string,
+): void => {
+  if (!isFunction(predicate))
+    throw new TypeError(
+      `Expected predicate to be a function, got ${typeof predicate} instead.`,
+    );
+  if (!isString(conditionDescription))
+    throw new TypeError(
+      `Expected predicateDescription to be a string, got ${typeof conditionDescription} instead.`,
+    );
+  Object.defineProperty(predicate, descriptionSymbol, {
+    value: {
+      condition: conditionDescription,
+    } as const satisfies PredicateDescriptor,
+  });
+};
+
+/**
+ * Retrieves the descriptor associated with a given predicate function, if available.
+ *
+ * @param predicate - A predicate function to retrieve the descriptor from.
+ * @returns The `PredicateDescriptor` associated with the predicate, or `undefined` if not present.
+ * @throws {TypeError} If the provided `predicate` is not a function.
+ */
+export const getPredicateDescriptor = (
+  predicate: Predicate,
+): PredicateDescriptor | undefined => {
+  if (!isFunction(predicate))
+    throw new TypeError(
+      `Expected predicate to be a function, got ${typeof predicate} instead.`,
+    );
+
+  if (hasProp(predicate, descriptionSymbol, isObject)) {
+    return predicate[descriptionSymbol] as PredicateDescriptor;
+  }
+
+  return;
+};
+
+/**
+ * Generates a textual description for a given predicate function.
+ *
+ * @param predicate - The predicate function for which to generate a description.
+ * @returns A string describing the predicate, including its condition or type,
+ *          or a fallback description when no descriptor is available.
+ */
+export const getPredicateDescription = (predicate: Predicate): string => {
+  const descriptor = getPredicateDescriptor(predicate);
+
+  if (isNotNil(descriptor)) {
+    if (hasProp(descriptor, 'condition')) {
+      return descriptor.condition;
+    } else {
+      return `to be ${descriptor.type}`;
+    }
+  }
+
+  const name = predicate.name || '(anonymous)';
+
+  return `to satisfy predicate ${name}`;
+};
 
 /**
  * Checks if the provided value is `undefined`.
@@ -14,6 +125,8 @@ import type { Predicate, TypeGuard } from './types.js';
 export function isUndef(value: unknown): value is Undef {
   return value === undefined;
 }
+
+describeTypeGuard(isUndef, 'undefined');
 
 /**
  * Checks if a given value is defined (not `undefined`).
@@ -34,6 +147,8 @@ export function isDef(value: unknown): boolean {
   return value !== undefined;
 }
 
+describeTypeGuard(isDef, 'not undefined');
+
 /**
  * Checks if the provided value is `null` or `undefined`.
  *
@@ -43,6 +158,8 @@ export function isDef(value: unknown): boolean {
 export function isNil(value: unknown): value is Nil {
   return value == null;
 }
+
+describeTypeGuard(isNil, 'null or undefined');
 
 /**
  * Checks if the provided value is not null or undefined.
@@ -55,6 +172,8 @@ export function isNotNil(value: unknown): boolean {
   return !isNil(value);
 }
 
+describeTypeGuard(isNotNil, 'non-nullable');
+
 /**
  * Checks if the provided value is strictly equal to true.
  *
@@ -64,6 +183,8 @@ export function isNotNil(value: unknown): boolean {
 export function isTrue(value: unknown): value is true {
   return value === true;
 }
+
+describeTypeGuard(isTrue, 'true');
 
 /**
  * Determines if the provided value is strictly `false`.
@@ -75,6 +196,101 @@ export function isFalse(value: unknown): value is false {
   return value === false;
 }
 
+describeTypeGuard(isFalse, 'false');
+
+/**
+ * Determines if the provided value is a string.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a string, otherwise false.
+ */
+export function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}
+
+describeTypeGuard(isString, 'string');
+
+/**
+ * Checks if the provided value is a number and not NaN.
+ *
+ * @param value - The value to be checked.
+ * @returns Returns true if the value is a number and not NaN, otherwise false.
+ */
+export function isNumber(value: unknown): value is number {
+  return typeof value === 'number' && !Number.isNaN(value);
+}
+
+describeTypeGuard(isNumber, 'number');
+
+/**
+ * Checks if a given value is of type `bigint`.
+ *
+ * @param value - The value to be checked.
+ * @returns Returns `true` if the value is a `bigint`, otherwise `false`.
+ */
+export function isBigint(value: unknown): value is bigint {
+  return typeof value === 'bigint';
+}
+
+describeTypeGuard(isBigint, 'bigint');
+
+/**
+ * Checks if the given value is of type `boolean`.
+ *
+ * @param value - The value to check.
+ * @returns A boolean indicating whether the value is a boolean or not.
+ */
+export function isBoolean(value: unknown): value is boolean {
+  return typeof value === 'boolean';
+}
+
+describeTypeGuard(isBoolean, 'boolean');
+
+/**
+ * Checks if the provided value is of type `symbol`.
+ *
+ * @param value - The value to check.
+ * @returns Returns `true` if the value is a symbol; otherwise, returns `false`.
+ */
+export const isSymbol = (value: unknown): value is symbol =>
+  typeof value === 'symbol';
+
+describeTypeGuard(isSymbol, 'symbol');
+
+/**
+ * Determines whether the given value is a valid JavaScript property key.
+ *
+ * A property key in JavaScript can be a string, symbol, or number, as these are
+ * the types allowed for indexing object properties.
+ *
+ * @param value - The value to be checked as a potential property key.
+ * @returns Returns `true` if the value is a valid property key; otherwise, returns `false`.
+ */
+export const isPropKey = (value: unknown): value is PropertyKey =>
+  isString(value) || isSymbol(value) || isNumber(value);
+
+describeTypeGuard(
+  isPropKey,
+  'valid property key (i.e., string, symbol, or number)',
+);
+
+/**
+ * Checks if a given value is a primitive type.
+ *
+ * A value is considered primitive if it is `null`, `undefined`, `boolean`, `string`, `number`, `symbol`, or `bigint`.
+ *
+ * @param value - The value to check.
+ * @returns A boolean indicating whether the value is a primitive type.
+ */
+export const isPrimitive = (value: unknown): value is Primitive =>
+  isNil(value) ||
+  isBoolean(value) ||
+  isString(value) ||
+  isNumber(value) ||
+  Number.isNaN(value) ||
+  isSymbol(value) ||
+  isBigint(value);
+
 /**
  * Determines if the given value is truly, i.e., converts to true when used in a boolean context.
  *
@@ -84,6 +300,8 @@ export function isFalse(value: unknown): value is false {
 export function isTruly(value: unknown): boolean {
   return Boolean(value);
 }
+
+describePredicate(isTruly, 'to evaluates to true when coerced to a boolean');
 
 /**
  * Determines if a given value is falsy.
@@ -96,6 +314,8 @@ export function isFalsy(value: unknown): boolean {
   return !isTruly(value);
 }
 
+describePredicate(isFalsy, 'to evaluates to false when coerced to a boolean');
+
 /**
  * Checks if the given value is an object.
  *
@@ -103,8 +323,10 @@ export function isFalsy(value: unknown): boolean {
  * @returns True if the value is an object, false otherwise.
  */
 export function isObject(value: unknown): value is object {
-  return value != null && typeof value === 'object';
+  return value !== null && typeof value === 'object';
 }
+
+describeTypeGuard(isObject, 'object');
 
 /**
  * Checks if the provided value is a record.
@@ -116,6 +338,7 @@ export function isObject(value: unknown): value is object {
  * @param value - The value to check.
  * @param allowEmpty - Determines whether empty records are allowed.
  * @returns A boolean indicating whether the value is a record.
+ * @deprecated Use `isObject` instead and check property keys manually.
  */
 export function isRecord(
   value: unknown,
@@ -123,6 +346,9 @@ export function isRecord(
 ): value is Record<PropertyKey, unknown> {
   return isObject(value) && (allowEmpty || Object.keys(value).length > 0);
 }
+
+// eslint-disable-next-line @typescript-eslint/no-deprecated
+describeTypeGuard(isRecord, 'record (object with property keys)');
 
 /**
  * Checks if the given value is an array.
@@ -154,6 +380,8 @@ export function isArray(value: unknown): value is unknown[] {
   return Array.isArray(value);
 }
 
+describeTypeGuard(isArray, 'array');
+
 /**
  * Determines if the provided value is a function.
  *
@@ -183,56 +411,7 @@ export function isFunction(value: unknown): boolean {
   return typeof value === 'function';
 }
 
-/**
- * Determines if the provided value is a string.
- *
- * @param value - The value to check.
- * @returns True if the value is a string, otherwise false.
- */
-export function isString(value: unknown): value is string {
-  return typeof value === 'string';
-}
-
-/**
- * Checks if the provided value is a number and not NaN.
- *
- * @param value - The value to be checked.
- * @returns Returns true if the value is a number and not NaN, otherwise false.
- */
-export function isNumber(value: unknown): value is number {
-  return typeof value === 'number' && !Number.isNaN(value);
-}
-
-/**
- * Checks if the given value is of type `boolean`.
- *
- * @param value - The value to check.
- * @returns A boolean indicating whether the value is a boolean or not.
- */
-export function isBoolean(value: unknown): value is boolean {
-  return typeof value === 'boolean';
-}
-
-/**
- * Checks if the provided value is of type `symbol`.
- *
- * @param value - The value to check.
- * @returns Returns `true` if the value is a symbol; otherwise, returns `false`.
- */
-export const isSymbol = (value: unknown): value is symbol =>
-  typeof value === 'symbol';
-
-/**
- * Determines whether the given value is a valid JavaScript property key.
- *
- * A property key in JavaScript can be a string, symbol, or number, as these are
- * the types allowed for indexing object properties.
- *
- * @param value - The value to be checked as a potential property key.
- * @returns Returns `true` if the value is a valid property key; otherwise, returns `false`.
- */
-export const isPropKey = (value: unknown): value is PropertyKey =>
-  isString(value) || isSymbol(value) || isNumber(value);
+describeTypeGuard(isFunction, 'function');
 
 /**
  * Determines whether the provided value is iterable.
@@ -244,19 +423,27 @@ export function isIterable(value: unknown): value is Iterable<unknown> {
   return hasProp(value, Symbol.iterator, isFunction, true);
 }
 
+describePredicate(isIterable, 'to be iterable');
+
+/* ──────────────────────────────── hasProp ───────────────────────────────── */
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function hasProp(
   source: Nil,
   prop: PropertyKey,
-  checkProto?: boolean,
-): false;
+  ...rest:
+    | readonly [checkProto?: boolean]
+    | readonly [test?: PlainPredicate, checkProto?: boolean]
+): source is never;
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function hasProp(
-  source: Nil,
-  key: PropertyKey,
-  test?: Predicate<unknown>,
-  checkProto?: boolean,
-): false;
+  source: unknown,
+  prop: '__proto__' | 'constructor',
+  ...rest:
+    | readonly [checkProto?: boolean]
+    | readonly [test?: PlainPredicate, checkProto?: boolean]
+): source is never;
 
 /**
  * Checks if a property exists on the provided source object.
@@ -267,15 +454,26 @@ export function hasProp(
  * @param key - The property key to verify.
  * @param checkProto - Whether to check the prototype chain.
  * @returns Type guard indicating whether the property exists.
+ * @throws {TypeError} If the provided key is not a valid property key.
+ * @throws {TypeError} If the provided checkProto flag is not a boolean.
+ * @throws {TypeError} If the provided test is not a function.
+ * @throws {TypeError} If the provided test function does not return a boolean.
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
+ * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
  */
 export function hasProp<TSource, TKey extends PropertyKey>(
   source: TSource,
   key: TKey,
   checkProto?: boolean,
-): source is TSource &
-  Record<TKey, TSource extends AnyRecord<PropertyKey, infer T> ? T : unknown>;
+): source is WithFallback<
+  TSource extends AnyRecord<TKey, unknown> ?
+    TSource &
+      Record<TKey, WithFallback<DistributedPropValue<TSource, TKey, true>>>
+  : never,
+  TSource &
+    Record<TKey, WithFallback<DistributedPropValue<TSource, TKey, true>>>
+>;
 
 /**
  * Checks if a property exists on a non-null source and passes a type guard test.
@@ -287,79 +485,75 @@ export function hasProp<TSource, TKey extends PropertyKey>(
  * @param test - A type guard to narrow the property value type.
  * @param checkProto - Whether to check the prototype chain.
  * @returns Type guard indicating whether the property exists and satisfies the test.
+ * @throws {TypeError} If the provided key is not a valid property key.
+ * @throws {TypeError} If the provided checkProto flag is not a boolean.
+ * @throws {TypeError} If the provided test is not a function.
+ * @throws {TypeError} If the provided test function does not return a boolean.
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
- * @typeParam TNarrowed - The narrowed type of the property value if the test passes.
+ * @typeParam TGuard - The type guard type.
+ * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
  */
-export function hasProp<TSource, TKey extends PropertyKey, TNarrowed>(
-  source: TSource | null,
-  key: TKey,
-  test: TSource extends AnyRecord<TKey, infer TValue> ?
-    TypeGuard<TValue, TValue & TNarrowed>
-  : TypeGuard<unknown, TNarrowed>,
-  checkProto?: boolean,
-): source is TSource & Record<TKey, TNarrowed>;
-
-export function hasProp<TSource, TKey extends PropertyKey>(
-  source: TSource,
-  key: TKey,
-  test: Predicate<
-    TSource extends AnyRecord<TKey, infer TValue> ? TValue
-    : TSource extends AnyRecord<PropertyKey, infer TValue> ? TValue
-    : unknown
+export function hasProp<
+  TSource,
+  TKey extends PropertyKey,
+  TGuard extends TypeGuard<
+    WithFallback<DistributedPropValue<TSource, TKey, true>>
   >,
-  checkProto?: boolean,
-): source is TSource &
-  Record<
-    TKey,
-    TSource extends AnyRecord<PropertyKey, infer TValue> ? TValue : unknown
-  >;
-
-export function hasProp<TSource extends NonNil, TKey extends PropertyKey>(
+>(
   source: TSource,
   key: TKey,
-  // eslint-disable-next-line jsdoc/require-jsdoc
-  test: (
-    value: TSource extends AnyRecord<PropertyKey, infer TValue> ? TValue
-    : unknown,
-  ) => boolean,
+  test: TGuard,
+
   checkProto?: boolean,
-): source is TSource &
-  Record<
-    TKey,
-    TSource extends AnyRecord<PropertyKey, infer TValue> ? TValue : unknown
-  >;
+): source is WithFallback<
+  TSource extends AnyRecord<TKey, unknown> ?
+    IsNever<TSource[TKey & keyof TSource] & NarrowedType<TGuard>> extends true ?
+      never
+    : TSource & Record<TKey, NarrowedType<TGuard>>
+  : never,
+  TSource & Record<TKey, NarrowedType<TGuard>>
+>;
 
 /**
  * Checks if a property exists on the provided source and optionally passes a test.
  *
- * Narrows the source type to include the specified property key with an unknown value.
- *
  * @param source - The object to check.
  * @param key - The property key to verify.
- * @param test - An optional predicate or type guard to test the property value.
+ * @param test - An optional predicate to test the property value.
  * @param checkProto - Whether to check the prototype chain.
- * @returns Type guard indicating whether the property exists and passes the test.
+ * @returns The boolean result of the test.
+ * @throws {TypeError} If the provided key is not a valid property key.
+ * @throws {TypeError} If the provided checkProto flag is not a boolean.
+ * @throws {TypeError} If the provided test is not a function.
+ * @throws {TypeError} If the provided test function does not return a boolean.
+ * @remarks This overload does not narrow the type
+ * because the predicate may reject valid property values without invalidating their existence,
+ * which would cause incorrect type elimination in the `else` branch.
+ * If you need type narrowing for the property value, use the {@link TypeGuard} overload instead.
+ * Alternatively, you can split the checks: `hasProp(source, key) && test(source[key])`.
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
+ * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
  */
 export function hasProp<TSource, TKey extends PropertyKey>(
   source: TSource,
   key: TKey,
-  test?: Predicate<unknown>,
+  test: PlainPredicate<WithFallback<DistributedPropValue<TSource, TKey, true>>>,
   checkProto?: boolean,
-): source is TSource & Record<TKey, unknown>;
-export function hasProp(
-  source: unknown,
-  key: PropertyKey,
-  ...rest: HasPropRestArg
 ): boolean;
+
 export function hasProp(
   source: unknown,
   key: PropertyKey,
-  ...rest: HasPropRestArg
+  ...rest:
+    | readonly [checkProto?: Undef<boolean>]
+    | readonly [
+        test?: Undef<PlainPredicate<unknown>>,
+        checkProto?: Undef<boolean>,
+      ]
 ): boolean {
-  // Guard against prototype pollution
+  // a little guard against prototype pollution
   if (key === '__proto__' || key === 'constructor') {
     return false;
   }
@@ -370,7 +564,7 @@ export function hasProp(
     );
   }
 
-  let test: Predicate<unknown> = () => true,
+  let test: PlainPredicate<unknown> | undefined,
     checkProto: boolean = false;
   if (isFunction(rest[0])) {
     [test, checkProto = false] = rest;
@@ -382,22 +576,21 @@ export function hasProp(
   } else if (isBoolean(rest[0])) {
     [checkProto] = rest;
   } else if (rest.length > 0) {
-    throw new TypeError('Invalid arguments to assertProp');
+    throw new TypeError('Invalid arguments to hasProp');
   }
 
-  return (
+  const existenceResult =
     isNotNil(source) &&
     // cast Object(source) because "in" operator throws on primitive right values
-    (checkProto ? key in Object(source) : Object.hasOwn(source, key)) &&
-    test(source[key as never])
-  );
-}
+    (checkProto ? key in Object(source) : Object.hasOwn(source, key));
 
-/**
- * Possible values for the `hasProp` function's `rest` parameter.'
- *
- * @internal
- */
-export type HasPropRestArg =
-  | readonly [checkProto?: Undef<boolean>]
-  | readonly [test?: Undef<Predicate<unknown>>, checkProto?: Undef<boolean>];
+  const testResult =
+    existenceResult && isFunction(test) ? test(source[key as never]) : true;
+
+  if (!isBoolean(testResult))
+    throw new TypeError(
+      `Expected test to return a boolean, got ${typeof testResult} instead.`,
+    );
+
+  return existenceResult && testResult;
+}

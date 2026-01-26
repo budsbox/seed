@@ -16,7 +16,8 @@ export type FValue<A, T> = T | ((value: A) => T);
  * @typeParam T - The broad input type.
  * @typeParam V - The narrowed subtype of `T`.
  */
-export type TypeGuard<T, V extends T> = (value: T) => value is V;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type TypeGuard<T = any, V extends T = T> = (value: T) => value is V;
 
 /**
  * A boolean predicate over values of type `T`.
@@ -24,19 +25,33 @@ export type TypeGuard<T, V extends T> = (value: T) => value is V;
  * @param value - The value to be checked.
  * @typeParam T - The input value type.
  */
-export type Predicate<T> = (value: T) => boolean;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type PlainPredicate<T = any> = (value: T) => boolean;
 
 /**
- * Union of a predicate and a type guard for a given input type.
+ * Union of a plain predicate and a type guard for a given input type.
  *
  * @typeParam TValue - The base type to be tested or narrowed. Defaults to `any`.
  * @typeParam TNarrowed - The narrowed subtype of `TValue`. Defaults to `TValue`.
  */
-export type TestFn<
+export type Predicate<
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TValue = any,
   TNarrowed extends TValue = TValue,
-> = Predicate<TValue> | TypeGuard<TValue, TNarrowed>;
+> = PlainPredicate<TValue> | TypeGuard<TValue, TNarrowed>;
+
+/**
+ * Extracts the narrowed type from a type guard function.
+ *
+ * This utility type is used to derive the type that a given type guard
+ * function narrows down to when the guard evaluates to `true`.
+ *
+ * @returns The narrowed type of the given type guard.
+ * @typeParam TGuard - A `TypeGuard` type from which the narrowed type should be extracted.
+ */
+export type NarrowedType<TGuard extends TypeGuard> =
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  TGuard extends TypeGuard<any, infer TNarrowed> ? TNarrowed : never;
 
 /**
  * Resolves to a type based on a predicate or type guard and the selected branch.
@@ -47,14 +62,14 @@ export type TestFn<
  */
 export type TestFnResult<
   TValue,
-  TTestFn extends TestFn,
+  TTestFn extends Predicate,
   TBranch extends boolean,
 > =
   TTestFn extends TypeGuard<unknown, infer TNarrowed> ?
     TBranch extends true ?
       Extract<TValue, TNarrowed>
     : Exclude<TValue, TNarrowed>
-  : TTestFn extends Predicate<infer TOriginal> ? TOriginal
+  : TTestFn extends PlainPredicate<infer TOriginal> ? TOriginal
   : never;
 
 /**
@@ -64,7 +79,7 @@ export type TestFnResult<
  * @typeParam TTestFn - The test (predicate or type guard).
  * @typeParam TResult - The resulting value type.
  */
-export type FValueTrue<TValue, TTestFn extends TestFn, TResult> = FValue<
+export type FValueTrue<TValue, TTestFn extends Predicate, TResult> = FValue<
   TestFnResult<TValue, TTestFn, true>,
   TResult
 >;
@@ -76,7 +91,7 @@ export type FValueTrue<TValue, TTestFn extends TestFn, TResult> = FValue<
  * @typeParam TTestFn - The test (predicate or type guard).
  * @typeParam TResult - The resulting value type.
  */
-export type FValueFalse<TValue, TTestFn extends TestFn, TResult> = FValue<
+export type FValueFalse<TValue, TTestFn extends Predicate, TResult> = FValue<
   TestFnResult<TValue, TTestFn, false>,
   TResult
 >;
@@ -146,3 +161,8 @@ export interface PackageNameFormatOptions {
    */
   root?: Maybe<string>;
 }
+
+/**
+ * Represents a descriptor for a predicate, which can be either described by a condition or a type.
+ */
+export type PredicateDescriptor = { condition: string } | { type: string };
