@@ -228,6 +228,8 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
                 requireJsdocOptions,
               ],
               'jsdoc/require-param': ['error', { ...requireParamOptions }],
+              'jsdoc/require-throws': 'error',
+              'jsdoc/require-throws-description': 'error',
               'jsdoc/sort-tags': 'error',
               'jsdoc/tag-lines': ['error', 'never', { startLines: 1 }],
             },
@@ -328,6 +330,8 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
               ],
               // typedoc allows non-empty `@inheritDoc`, and there's no way to configure the rule to exclude the tag
               'jsdoc/empty-tags': 'off',
+              // doesnt support {@link ErrorType} syntax
+              'jsdoc/require-throws-type': 'off',
             },
           })),
         ],
