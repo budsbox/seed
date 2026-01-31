@@ -1,11 +1,14 @@
-import type {
-  FValueFalse,
-  FValueTrue,
-  Predicate,
-  TestFnResult,
-} from './types.js';
+import type { Predicate } from '@budsbox/lib-types';
 
-import { isFunction, isNotNil, isTrue } from '#guards';
+import type { FValueFalse, FValueTrue } from './types.js';
+
+import {
+  assertBoolean,
+  assertFunction,
+  isFunction,
+  isNotNil,
+  isTrue,
+} from '#guards';
 
 /**
  * Functional If
@@ -40,18 +43,21 @@ export function fif<
   test: TTestFn,
   onTrue: FValueTrue<TValue, TTestFn, TTrue>,
   onFalse?: FValueFalse<TValue, TTestFn, TFalse>,
-): TFalse | TTrue {
-  if (test(value)) {
-    return isFunction(onTrue) ?
-        onTrue(value as TestFnResult<TValue, TTestFn, true>)
-      : onTrue;
+): TFalse | TTrue;
+export function fif(
+  value: unknown,
+  test: Predicate,
+  onTrue: unknown,
+  onFalse: unknown,
+): unknown {
+  assertFunction(test, 'test');
+  const result = test(value);
+  assertBoolean(result, 'test result');
+  if (result) {
+    return isFunction(onTrue) ? onTrue(value) : onTrue;
   }
 
-  if (isFunction(onFalse)) {
-    return onFalse(value as TestFnResult<TValue, TTestFn, false>);
-  }
-
-  return onFalse!;
+  return isFunction(onFalse) ? onFalse(value) : onFalse;
 }
 
 /**

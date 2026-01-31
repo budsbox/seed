@@ -10,7 +10,14 @@ import type { Nil, Undef } from '@budsbox/lib-types';
 
 import type { PackageNameFormatOptions, ParsedPackageName } from './types.js';
 
-import { isNil, isNotNil, isString } from './guards.js';
+import {
+  assertArray,
+  assertBoolean,
+  assertNotNil,
+  assertString,
+  isNotNil,
+  isString,
+} from '#guards';
 
 export type { PackageNameFormatOptions, ParsedPackageName };
 
@@ -25,6 +32,8 @@ export function parsePackageName(
   packageName: string,
   clean: boolean = false,
 ): Required<ParsedPackageName> {
+  assertString(packageName, 'packageName');
+  assertBoolean(clean, 'clean');
   const [scope, cleanScope] = /^@([^/]+)\//.exec(packageName) ?? [null, null];
   return {
     scope: clean ? cleanScope : scope,
@@ -57,10 +66,11 @@ export function serializePackageName(
   parsedPackageName: Nil | Readonly<ParsedPackageName>,
   allowNil: boolean = false,
 ): string {
-  if (!allowNil && isNil(parsedPackageName)) {
-    throw new TypeError('Expected a non-nil value');
+  if (!allowNil) {
+    assertNotNil(parsedPackageName, 'parsedPackageName');
   }
   const { scope, name } = parsedPackageName ?? { scope: null, name: '' };
+  assertString(name, 'parsedPackageName.name');
   return joinPath(scope?.replace(/^@?/, '@'), name);
 }
 
@@ -121,6 +131,16 @@ export function formatPackageName(
     excludePathChunks = ['packages'],
   }: Readonly<PackageNameFormatOptions> = {},
 ): string {
+  assertString(base, 'base');
+  if (isNotNil(root)) assertString(root, 'root');
+  if (isNotNil(parent)) assertString(parent, 'parent');
+  [
+    ['relCwd', relCwd],
+    ['pathDelimiter', pathDelimiter],
+    ['nameDelimiter', nameDelimiter],
+  ].forEach(([name, value]) => void assertString(value, name));
+  assertArray(excludePathChunks, isString, 'excludePathChunks');
+
   const topLevel = parent === root;
   const exclude = new Set(excludePathChunks);
   const pathChunks = splitPath(relCwd).filter((chunk) => !exclude.has(chunk));
@@ -144,6 +164,7 @@ export function formatPackageName(
  * @param value - The value to be converted to its string representation. Can be of any type.
  * @returns A string representation of the input value.
  * If the value cannot be serialized using JSON.stringify, it falls back to using String conversion.
+ * @deprecated Use `debugValueString` from `@budsbox/lib-es/guards` instead.
  */
 export function debugString(value: unknown): string {
   try {
@@ -161,6 +182,7 @@ export function debugString(value: unknown): string {
  * @returns The processed string with trimmed and normalized whitespace.
  */
 export function clampWS(str: string): string {
+  assertString(str, 'str');
   return str.trim().replace(/\s+/g, ' ');
 }
 
@@ -197,6 +219,8 @@ export function joinPath(
  * @returns An array of strings representing the components of the path.
  */
 export function splitPath(path: string, keepEmptyChunks = false): string[] {
+  assertString(path, 'path');
+  assertBoolean(keepEmptyChunks, 'keepEmptyChunks');
   const splitted = path.split(/\/+/);
   return keepEmptyChunks ? splitted : (
       splitted.filter((chunk) => chunk.length > 0)

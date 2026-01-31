@@ -1,12 +1,14 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { describe, expect, test, vi } from 'vitest';
+
 import {
-  hasProp,
-  isString,
-  isNumber,
   describeTypeGuard,
+  hasProp,
   isFunction,
+  isNumber,
+  isObject,
+  isString,
 } from '#guards';
-import { isObject } from '#guards';
 
 describe.concurrent('hasProp', () => {
   describe('basic property checks with string keys', () => {
@@ -27,11 +29,11 @@ describe.concurrent('hasProp', () => {
 
     test('returns true for property with falsy values', () => {
       const obj = {
-        zero: 0,
         empty: '',
         falseBool: false,
         null: null,
         undefined: undefined,
+        zero: 0,
       };
       expect(hasProp(obj, 'zero')).toBe(true);
       expect(hasProp(obj, 'empty')).toBe(true);
@@ -82,12 +84,12 @@ describe.concurrent('hasProp', () => {
 
   describe('hasProp with checkProto flag', () => {
     test('returns false for prototype properties when checkProto is false', () => {
-      const obj = Object.create({ inherited: 'value' });
+      const obj = { __proto__: { inherited: 'value' } };
       expect(hasProp(obj, 'inherited', false)).toBe(false);
     });
 
     test('returns true for prototype properties when checkProto is true', () => {
-      const obj = Object.create({ inherited: 'value' });
+      const obj = { __proto__: { inherited: 'value' } };
       expect(hasProp(obj, 'inherited', true)).toBe(true);
     });
 
@@ -105,7 +107,7 @@ describe.concurrent('hasProp', () => {
     });
 
     test('returns false for prototype properties and true for own properties when checkProto is false or omitted', () => {
-      const obj = Object.create({ inherited: 'value' });
+      const obj = { __proto__: { inherited: 'value' } };
       expect(hasProp(obj, 'toString', false)).toBe(false);
       expect(hasProp(obj, 'hasOwnProperty', false)).toBe(false);
       expect(hasProp(obj, 'inherited')).toBe(false);
@@ -167,20 +169,17 @@ describe.concurrent('hasProp', () => {
 
   describe('hasProp with type guard and checkProto', () => {
     test('returns true when inherited property passes type guard and checkProto is true', () => {
-      const proto = { inherited: 'value' };
-      const obj = Object.create(proto);
+      const obj = { __proto__: { inherited: 'value' } };
       expect(hasProp(obj, 'inherited', isString, true)).toBe(true);
     });
 
     test('returns false when inherited property fails type guard even when checkProto is true', () => {
-      const proto = { inherited: 'value' };
-      const obj = Object.create(proto);
+      const obj = { __proto__: { inherited: 'value' } };
       expect(hasProp(obj, 'inherited', isNumber, true)).toBe(false);
     });
 
     test('returns false when inherited property passes type guard but checkProto is false', () => {
-      const proto = { inherited: 'value' };
-      const obj = Object.create(proto);
+      const obj = { __proto__: { inherited: 'value' } };
       expect(hasProp(obj, 'inherited', isString, false)).toBe(false);
     });
 
@@ -290,7 +289,7 @@ describe.concurrent('hasProp', () => {
 
     test('throws TypeError when test function returns non-boolean', () => {
       const obj = { name: 'John' };
-      const invalidGuard = () => 'not a boolean';
+      const invalidGuard = (): string => 'not a boolean';
 
       expect(() => hasProp(obj, 'name', invalidGuard as never)).toThrow(
         TypeError,
@@ -319,7 +318,7 @@ describe.concurrent('hasProp', () => {
     });
 
     test('works with functions', () => {
-      const fn = () => {};
+      const fn = (): void => {};
       fn.customProp = 'value';
       expect(hasProp(fn, 'customProp')).toBe(true);
       expect(hasProp(fn, 'name')).toBe(true);

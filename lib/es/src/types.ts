@@ -1,57 +1,11 @@
-import type { Maybe, Undef } from '@budsbox/lib-types';
-
-/**
- * The `FValue` type represents a union type that can be either a value of type `T` or a function
- * that takes a parameter of type `A` and returns a value of type `T`.
- *
- * @typeParam A - The type of the parameter for the function.
- * @typeParam T - The type of the value or the return type of the function.
- */
-export type FValue<A, T> = T | ((value: A) => T);
-
-/**
- * A user-defined type guard that checks a value of type `T` and refines it to `V` when true.
- *
- * @param value - The value to be checked.
- * @typeParam T - The broad input type.
- * @typeParam V - The narrowed subtype of `T`.
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type TypeGuard<T = any, V extends T = T> = (value: T) => value is V;
-
-/**
- * A boolean predicate over values of type `T`.
- *
- * @param value - The value to be checked.
- * @typeParam T - The input value type.
- */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type PlainPredicate<T = any> = (value: T) => boolean;
-
-/**
- * Union of a plain predicate and a type guard for a given input type.
- *
- * @typeParam TValue - The base type to be tested or narrowed. Defaults to `any`.
- * @typeParam TNarrowed - The narrowed subtype of `TValue`. Defaults to `TValue`.
- */
-export type Predicate<
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TValue = any,
-  TNarrowed extends TValue = TValue,
-> = PlainPredicate<TValue> | TypeGuard<TValue, TNarrowed>;
-
-/**
- * Extracts the narrowed type from a type guard function.
- *
- * This utility type is used to derive the type that a given type guard
- * function narrows down to when the guard evaluates to `true`.
- *
- * @returns The narrowed type of the given type guard.
- * @typeParam TGuard - A `TypeGuard` type from which the narrowed type should be extracted.
- */
-export type NarrowedType<TGuard extends TypeGuard> =
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  TGuard extends TypeGuard<any, infer TNarrowed> ? TNarrowed : never;
+import type {
+  FValue,
+  Maybe,
+  PlainPredicate,
+  Predicate,
+  TypeGuard,
+  Undef,
+} from '@budsbox/lib-types';
 
 /**
  * Resolves to a type based on a predicate or type guard and the selected branch.
@@ -161,8 +115,3 @@ export interface PackageNameFormatOptions {
    */
   root?: Maybe<string>;
 }
-
-/**
- * Represents a descriptor for a predicate, which can be either described by a condition or a type.
- */
-export type PredicateDescriptor = { condition: string } | { type: string };

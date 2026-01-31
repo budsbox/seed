@@ -17,6 +17,9 @@
     "#object": {
       "types": "./dist/object.d.ts"
     },
+    "#function": {
+      "types": "./dist/function.d.ts"
+    },
     "#es.d.ts": {
       "types": "./es.d.ts"
     },

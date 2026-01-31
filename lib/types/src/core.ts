@@ -81,21 +81,12 @@ export type Falsy = 0 | '' | false | Nil;
  * are retained. Falsy values include `false`, `0`, `""` (empty string),
  * `null`, `undefined`, and `NaN`.
  *
- * Note that the utility has limitations, e.g. `Truthy<string>` would still be `string`, so it works with literals only.
- *
  * @returns A type that excludes all falsy values from the provided type `T`.
+ * @remarks The utility has limitations, e.g. `Truthy<string>` would still be `string`, so it works with literals only.
  * @typeParam T - The type from which falsy values are filtered out.
  * @typeParam T - The input type that will be evaluated to exclude falsy members.
  */
 export type Truthy<T = unknown> = T extends Falsy ? never : T;
-
-/**
- * Represents a function that accepts any number of arguments and returns a value of any type.
- * Useful for generic interfaces that accept a function with arbitrary arguments and return values.
- *
- * @param args - The arguments passed to the function.
- */
-export type AnyFunction = (...args: readonly any[]) => any;
 
 /**
  * A type alias representing a set that can hold values of any type.
@@ -128,13 +119,6 @@ export type AnyMap<K = any, V = any> = Map<K, V>;
  * @typeParam V - The type of values in the map.
  */
 export type AnyReadableMap<K = any, V = any> = Map<K, V> | ReadonlyMap<K, V>;
-
-/**
- * Represents a function that accepts any number of arguments and returns a value of unknown type.
- *
- * @param args - The arguments passed to the function.
- */
-export type UnknownFunction = (...args: readonly unknown[]) => unknown;
 
 /**
  * A utility type that evaluates whether a given type is `Nil`, i.e. `null | undefined`.
