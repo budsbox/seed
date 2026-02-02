@@ -276,10 +276,21 @@ describe('assertArray', () => {
     expectTypeOf(value).toEqualTypeOf<number[]>();
   });
 
-  // test('predicate gets inferred item type', () => {
-  //   const value = ['a', 'b'] as const;
-  //   assertArray(value, (item) => typeof item === 'string');
-  // });
+  test('type guard gets inferred item type', () => {
+    const value = ['a', 'b'] as const;
+    assertArray(value, (item) => {
+      expectTypeOf(item).toEqualTypeOf<'a' | 'b'>();
+      return typeof item === 'string';
+    });
+  });
+
+  test('predicate gets inferred item type', () => {
+    const value = ['a', 'b'] as const;
+    assertArray(value, (item) => {
+      expectTypeOf(item).toEqualTypeOf<'a' | 'b'>();
+      return true;
+    });
+  });
 
   test('accepts readonly arrays', () => {
     const value = ['a', 'b'] as const;

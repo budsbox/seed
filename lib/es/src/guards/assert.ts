@@ -5,6 +5,7 @@
 
 import type {
   AnyFunction,
+  NarrowedType,
   NonNil,
   Predicate,
   TypeGuard,
@@ -267,24 +268,17 @@ export function assertArray<T>(
   name?: string,
 ): asserts value is WithFallback<Extract<T, readonly unknown[]>, T & unknown[]>;
 export function assertArray<
-  TValue extends TGuardInput,
-  TGuardInput,
-  TNarrowed extends TGuardInput,
+  TValue,
+  TGuard extends TypeGuard<
+    WithFallback<TValue extends ReadonlyArray<infer TItem> ? TItem : never>
+  >,
 >(
   value: TValue,
-  typeGuard: TypeGuard<TGuardInput, TNarrowed>,
+  typeGuard: TGuard,
   name?: string,
 ): asserts value is WithFallback<
-  Extract<TValue, readonly TNarrowed[]>,
-  TValue & TNarrowed[]
->;
-export function assertArray<TValue, TNarrowed extends TValue>(
-  value: TValue,
-  typeGuard: TypeGuard<unknown, TNarrowed>,
-  name?: string,
-): asserts value is WithFallback<
-  Extract<TValue, readonly TNarrowed[]>,
-  TValue & TNarrowed[]
+  Extract<TValue, Array<NarrowedType<TGuard>>>,
+  TValue & Array<NarrowedType<TGuard>>
 >;
 export function assertArray<TValue>(
   value: TValue,
