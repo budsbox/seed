@@ -24,7 +24,7 @@ import {
   isTrue,
   isTruly,
   isUndef,
-} from '#guards';
+} from '#guards/check';
 
 describe('isUndef', () => {
   test('narrows to undefined', () => {

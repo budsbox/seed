@@ -1,7 +1,6 @@
 import { describe, expect, test } from 'vitest';
 
 import {
-  getPredicateDescriptor,
   isArray,
   isBigint,
   isBoolean,
@@ -20,7 +19,8 @@ import {
   isTrue,
   isTruly,
   isUndef,
-} from '#guards';
+} from '#guards/check';
+import { getPredicateDescriptor } from '#guards/describe';
 
 describe.concurrent('isUndef', () => {
   test('returns true for undefined', () => {

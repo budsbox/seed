@@ -15,8 +15,8 @@ import {
   assertSymbol,
   invariant,
   invariantPredicate,
-  isString,
-} from '#guards';
+} from '#guards/assert';
+import { isString } from '#guards/check';
 
 describe('invariant', () => {
   test('narrows condition to true', () => {

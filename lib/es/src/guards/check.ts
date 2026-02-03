@@ -9,7 +9,7 @@ import type {
   WithFallback,
 } from '@budsbox/lib-types';
 
-import { describePredicate, describeTypeGuard } from './describe.js';
+import { describePredicate, describeTypePredicate } from './describe.js';
 
 /**
  * Checks if the provided value is `undefined`.
@@ -21,7 +21,7 @@ export function isUndef(value: unknown): value is Undef {
   return value === undefined;
 }
 
-describeTypeGuard(isUndef, 'undefined');
+describeTypePredicate(isUndef, 'undefined');
 
 /**
  * Checks if a given value is defined (not `undefined`).
@@ -36,7 +36,7 @@ export function isDef(value: unknown): boolean {
   return value !== undefined;
 }
 
-describeTypeGuard(isDef, 'not undefined');
+describeTypePredicate(isDef, 'not undefined');
 
 /**
  * Checks if the provided value is `null` or `undefined`.
@@ -48,7 +48,7 @@ export function isNil(value: unknown): value is Nil {
   return value == null;
 }
 
-describeTypeGuard(isNil, 'null or undefined');
+describeTypePredicate(isNil, 'null or undefined');
 
 /**
  * Checks if the provided value is not null or undefined.
@@ -61,7 +61,7 @@ export function isNotNil(value: unknown): boolean {
   return !isNil(value);
 }
 
-describeTypeGuard(isNotNil, 'non-nullable');
+describeTypePredicate(isNotNil, 'non-nullable');
 
 /**
  * Checks if the provided value is strictly equal to true.
@@ -73,7 +73,7 @@ export function isTrue(value: unknown): value is true {
   return value === true;
 }
 
-describeTypeGuard(isTrue, 'true');
+describeTypePredicate(isTrue, 'true');
 
 /**
  * Determines if the provided value is strictly `false`.
@@ -85,7 +85,7 @@ export function isFalse(value: unknown): value is false {
   return value === false;
 }
 
-describeTypeGuard(isFalse, 'false');
+describeTypePredicate(isFalse, 'false');
 
 /**
  * Determines if the provided value is a string.
@@ -97,7 +97,7 @@ export function isString(value: unknown): value is string {
   return typeof value === 'string';
 }
 
-describeTypeGuard(isString, 'string');
+describeTypePredicate(isString, 'string');
 
 /**
  * Checks if the provided value is a number and not NaN.
@@ -109,7 +109,7 @@ export function isNumber(value: unknown): value is number {
   return typeof value === 'number' && !Number.isNaN(value);
 }
 
-describeTypeGuard(isNumber, 'number');
+describeTypePredicate(isNumber, 'number');
 
 /**
  * Checks if a given value is of type `bigint`.
@@ -121,7 +121,7 @@ export function isBigint(value: unknown): value is bigint {
   return typeof value === 'bigint';
 }
 
-describeTypeGuard(isBigint, 'bigint');
+describeTypePredicate(isBigint, 'bigint');
 
 /**
  * Checks if the given value is of type `boolean`.
@@ -133,7 +133,7 @@ export function isBoolean(value: unknown): value is boolean {
   return typeof value === 'boolean';
 }
 
-describeTypeGuard(isBoolean, 'boolean');
+describeTypePredicate(isBoolean, 'boolean');
 
 /**
  * Checks if the provided value is of type `symbol`.
@@ -144,7 +144,7 @@ describeTypeGuard(isBoolean, 'boolean');
 export const isSymbol = (value: unknown): value is symbol =>
   typeof value === 'symbol';
 
-describeTypeGuard(isSymbol, 'symbol');
+describeTypePredicate(isSymbol, 'symbol');
 
 /**
  * Determines whether the given value is a valid JavaScript property key.
@@ -158,7 +158,7 @@ describeTypeGuard(isSymbol, 'symbol');
 export const isPropKey = (value: unknown): value is PropertyKey =>
   isString(value) || isSymbol(value) || isNumber(value);
 
-describeTypeGuard(
+describeTypePredicate(
   isPropKey,
   'valid property key (i.e., string, symbol, or number)',
 );
@@ -215,7 +215,7 @@ export function isObject(value: unknown): value is object {
   return value !== null && typeof value === 'object';
 }
 
-describeTypeGuard(isObject, 'object');
+describeTypePredicate(isObject, 'object');
 
 /**
  * Checks if the given value is an array.
@@ -230,7 +230,7 @@ export function isArray<T>(
   return Array.isArray(value);
 }
 
-describeTypeGuard(isArray, 'array');
+describeTypePredicate(isArray, 'array');
 
 /**
  * Determines if the provided value is a function.
@@ -258,4 +258,4 @@ export function isFunction(value: unknown): boolean {
   return typeof value === 'function';
 }
 
-describeTypeGuard(isFunction, 'function');
+describeTypePredicate(isFunction, 'function');

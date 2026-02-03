@@ -11,10 +11,13 @@ import { isFunction, isString, isTrue } from './check.js';
 import {
   type PredicateDescriptor,
   describePredicate as _describePredicate,
-  describeTypeGuard as _describeTypeGuard,
+  describeTypePredicate as _describeTypePredicate,
   getPredicateDescriptor as _getPredicateDescriptor,
 } from './describe.js';
-import { debugValueType, formatPredicateExpectedMessage } from './message.js';
+import {
+  formatPredicateExpectedMessage as _formatPredicateExpectedMessage,
+  debugValueType,
+} from './message.js';
 import { assertProp, hasProp } from './prop.js';
 
 // Value exports
@@ -141,13 +144,13 @@ export const invariantPredicate: typeof _invariantPredicate = (
  * @returns The original type guard function, with the description attached.
  * @throws {TypeError} If `typeGuard` is not a function or `typeDescription` is not a string.
  */
-export const describeTypeGuard: typeof _describeTypeGuard = (
+export const describeTypePredicate: typeof _describeTypePredicate = (
   typeGuard,
   typeDescription,
 ) => {
   assertFunction(typeGuard, 'typeGuard');
   assertString(typeDescription, 'typeDescription');
-  return _describeTypeGuard(typeGuard, typeDescription);
+  return _describeTypePredicate(typeGuard, typeDescription);
 };
 
 /**
@@ -183,3 +186,17 @@ export const getPredicateDescriptor: typeof _getPredicateDescriptor = (
   assertFunction(predicate, 'predicate');
   return _getPredicateDescriptor(predicate);
 };
+
+/**
+ *
+ * @param predicate
+ * @param value
+ * @param valueName
+ */
+export const formatPredicateExpectedMessage: typeof _formatPredicateExpectedMessage =
+  (predicate, value, valueName = 'value') => {
+    assertFunction(predicate);
+    assertString(valueName, 'valueName');
+
+    return _formatPredicateExpectedMessage(predicate, value, valueName);
+  };

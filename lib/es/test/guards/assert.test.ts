@@ -12,8 +12,8 @@ import {
   assertSymbol,
   invariant,
   invariantPredicate,
-  isString,
-} from '#guards';
+} from '#guards/assert';
+import { isString } from '#guards/check';
 
 describe.concurrent('invariant', () => {
   test('does not throw when condition is true', () => {
@@ -42,15 +42,6 @@ describe.concurrent('invariant', () => {
     expect(() => void invariant(false, messageFn)).toThrow(
       'Lazy error message',
     );
-  });
-
-  test('throws TypeError for non-boolean condition', () => {
-    expect(() => void invariant(1 as never)).toThrow(TypeError);
-    expect(() => void invariant('' as never)).toThrow(
-      'Expected condition to be boolean, got string instead',
-    );
-    expect(() => void invariant(null as never)).toThrow(TypeError);
-    expect(() => void invariant(undefined as never)).toThrow(TypeError);
   });
 });
 

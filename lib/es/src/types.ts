@@ -1,17 +1,17 @@
 import type {
   FValue,
   Maybe,
-  PlainPredicate,
   Predicate,
-  TypeGuard,
+  TypePredicate,
   Undef,
+  ValuePredicate,
 } from '@budsbox/lib-types';
 
 /**
  * Resolves to a type based on a predicate or type guard and the selected branch.
  *
  * @typeParam TValue - The value type under test.
- * @typeParam TTestFn - A `Predicate` or `TypeGuard` applied to `TValue`.
+ * @typeParam TTestFn - A `Predicate` or `TypePredicate` applied to `TValue`.
  * @typeParam TBranch - If `true`, keep the narrowed part; if `false`, exclude it.
  */
 export type TestFnResult<
@@ -19,11 +19,11 @@ export type TestFnResult<
   TTestFn extends Predicate,
   TBranch extends boolean,
 > =
-  TTestFn extends TypeGuard<unknown, infer TNarrowed> ?
+  TTestFn extends TypePredicate<unknown, infer TNarrowed> ?
     TBranch extends true ?
       Extract<TValue, TNarrowed>
     : Exclude<TValue, TNarrowed>
-  : TTestFn extends PlainPredicate<infer TOriginal> ? TOriginal
+  : TTestFn extends ValuePredicate<infer TOriginal> ? TOriginal
   : never;
 
 /**
@@ -52,6 +52,8 @@ export type FValueFalse<TValue, TTestFn extends Predicate, TResult> = FValue<
 
 /**
  * Represents a parsed Node.js (npm) package name split into its optional scope and the bare name.
+ *
+ * @inline
  */
 export interface ParsedPackageName {
   /**
@@ -71,6 +73,8 @@ export interface ParsedPackageName {
 
 /**
  * Options for formatting the package name.
+ *
+ * @inline
  */
 export interface PackageNameFormatOptions {
   /**

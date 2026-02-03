@@ -10,13 +10,15 @@
 export type FValue<A, T> = T | ((value: A) => T);
 
 /**
- * A user-defined type guard that checks a value of type `T` and narrows it to `V` when true.
+ * A one-parameter type guard that checks a value of type `T` and narrows it to `V` when true.
  *
  * @param value - The value to be checked.
  * @typeParam T - The broad input type.
- * @typeParam V - The narrowed subtype of `T`.
+ * @typeParam TNarrowed - The narrowed subtype of `T`.
  */
-export type TypeGuard<T = any, V extends T = T> = (value: T) => value is V;
+export type TypePredicate<T = any, TNarrowed extends T = T> = (
+  value: T,
+) => value is TNarrowed;
 
 /**
  * A boolean predicate over values of type `T`.
@@ -24,7 +26,7 @@ export type TypeGuard<T = any, V extends T = T> = (value: T) => value is V;
  * @param value - The value to be checked.
  * @typeParam T - The input value type.
  */
-export type PlainPredicate<T = any> = (value: T) => boolean;
+export type ValuePredicate<T = any> = (value: T) => boolean;
 
 /**
  * Union of a plain predicate and a type guard for a given input type.
@@ -33,35 +35,21 @@ export type PlainPredicate<T = any> = (value: T) => boolean;
  * @typeParam TNarrowed - The narrowed subtype of `TValue`. Defaults to `TValue`.
  */
 export type Predicate<TValue = any, TNarrowed extends TValue = TValue> =
-  | PlainPredicate<TValue>
-  | TypeGuard<TValue, TNarrowed>;
+  | TypePredicate<TValue, TNarrowed>
+  | ValuePredicate<TValue>;
 
 /**
- * Represents an assertion function used to narrow the type of a given value.
- * It checks whether a value meets certain criteria and narrows its type accordingly when the assertion passes.
+ * Extracts the narrowed type from a {@link TypePredicate type predicate} (one-parameter type guard).
  *
- * @param value - The value to be tested by the assertion function.
- * @throws {TypeError} If the assertion fails.
- * @typeParam TValue - The base type of the value being asserted.
- * @typeParam TNarrowed - The narrowed type of the value after the assertion is validated. Defaults to the base type.
+ * @returns The narrowed type of the given type predicate.
+ * @typeParam TGuard - A `TypePredicate` type from which the narrowed type should be extracted.
+ * @remarks This type is limited by design, because there's no universal way to describe all the possible type guards.
  */
-export type Assertion<TValue = any, TNarrowed extends TValue = TValue> = (
-  value: TValue,
-) => asserts value is TNarrowed;
+export type NarrowedType<TGuard extends TypePredicate> =
+  TGuard extends TypePredicate<any, infer TNarrowed> ? TNarrowed : never;
 
 /**
- * Extracts the narrowed type from a type guard or assertion function.
- *
- * @returns The narrowed type of the given type guard.
- * @typeParam TGuard - A `TypeGuard` type from which the narrowed type should be extracted.
- */
-export type NarrowedType<TGuard extends Assertion | TypeGuard> =
-  TGuard extends TypeGuard<any, infer TNarrowed> ? TNarrowed
-  : TGuard extends Assertion<any, infer TNarrowed> ? TNarrowed
-  : never;
-
-/**
- * Represents a function that accepts any number of arguments and returns a value of unknown type.
+ * Represents a function that accepts any number of arguments and returns a value of the unknown type.
  *
  * @param args - The arguments passed to the function.
  */
@@ -69,7 +57,7 @@ export type UnknownFunction = (...args: readonly unknown[]) => unknown;
 
 /**
  * Represents a function that accepts any number of arguments and returns a value of any type.
- * Useful for generic interfaces that accept a function with arbitrary arguments and return values.
+ * Useful for generic types that accept a function with arbitrary arguments and return values.
  *
  * @param args - The arguments passed to the function.
  */

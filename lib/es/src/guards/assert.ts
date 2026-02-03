@@ -8,7 +8,7 @@ import type {
   NarrowedType,
   NonNil,
   Predicate,
-  TypeGuard,
+  TypePredicate,
   Undef,
   UnknownFunction,
   WithFallback,
@@ -56,7 +56,7 @@ export function invariant(
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function invariantPredicate<TNarrowed>(
-  predicate: TypeGuard<unknown, TNarrowed>,
+  predicate: TypePredicate<unknown, TNarrowed>,
   value: unknown,
   valueName?: string,
 ): asserts value is TNarrowed;
@@ -67,7 +67,7 @@ export function invariantPredicate<
   TGuardInput,
   TNarrowed extends TGuardInput,
 >(
-  predicate: TypeGuard<TGuardInput, TNarrowed>,
+  predicate: TypePredicate<TGuardInput, TNarrowed>,
   value: TValue,
   valueName?: string,
 ): asserts value is TValue extends TNarrowed ? TValue : never;
@@ -103,7 +103,7 @@ export function invariantPredicate(
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function callPredicate<TNarrowed>(
-  predicate: TypeGuard<unknown, TNarrowed>,
+  predicate: TypePredicate<unknown, TNarrowed>,
   value: unknown,
   predicateName?: string,
 ): value is TNarrowed;
@@ -114,7 +114,7 @@ export function callPredicate<
   TGuardInput,
   TNarrowed extends TGuardInput,
 >(
-  predicate: TypeGuard<TGuardInput, TNarrowed>,
+  predicate: TypePredicate<TGuardInput, TNarrowed>,
   value: TValue,
   predicateName?: string,
 ): value is WithFallback<Extract<TValue, TNarrowed>, TValue & TNarrowed>;
@@ -269,7 +269,7 @@ export function assertArray<T>(
 ): asserts value is WithFallback<Extract<T, readonly unknown[]>, T & unknown[]>;
 export function assertArray<
   TValue,
-  TGuard extends TypeGuard<
+  TGuard extends TypePredicate<
     WithFallback<TValue extends ReadonlyArray<infer TItem> ? TItem : never>
   >,
 >(

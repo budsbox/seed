@@ -33,17 +33,16 @@ export const formatPredicateExpectedMessage = (
 ): string => {
   const descriptor = getPredicateDescriptor(predicate);
   let description: string,
-    isTypeGuard = false;
+    isTypePredicate = false;
   if (isNotNil(descriptor)) {
     if ('condition' in descriptor) description = descriptor.condition;
     else {
       description = `to be ${descriptor.type}`;
-      isTypeGuard = true;
+      isTypePredicate = true;
     }
-  } else
-    description = `to satisfy ${predicate.name || '(anonymous)'} predicate`;
+  } else description = defaultDescription(predicate);
 
-  return `Expected ${valueName} ${description}, got ${isTypeGuard ? debugValueType(value) : debugValueString(value)} instead`;
+  return `Expected ${valueName} ${description}, got ${isTypePredicate ? debugValueType(value) : debugValueString(value)} instead`;
 };
 
 /**
@@ -136,3 +135,6 @@ export const formatAccessString = (
 
 const oToString = (value: unknown): string =>
   Object.prototype.toString.call(value);
+
+const defaultDescription = (predicate: Predicate): string =>
+  `to satisfy ${predicate.name || '(anonymous)'} predicate`;

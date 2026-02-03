@@ -1,7 +1,14 @@
-/* eslint-disable @typescript-eslint/no-extraneous-class */
+/* eslint-disable @typescript-eslint/no-extraneous-class,@typescript-eslint/consistent-type-assertions */
 import { describe, expect, test } from 'vitest';
 
-import { assertIterable, isIterable } from '#guards';
+import {
+  assertIterable,
+  describePredicate,
+  describeTypePredicate,
+  getPredicateDescriptor,
+  invariant,
+  isIterable,
+} from '#guards';
 
 describe.concurrent('isIterable', () => {
   describe('positive cases', () => {
@@ -224,6 +231,121 @@ describe.concurrent('assertIterable', () => {
       expect(() => void assertIterable([], 42 as never)).toThrow(
         'Expected valueName to be string, got number instead',
       );
+    });
+  });
+});
+
+describe.concurrent('type-safe reexports', () => {
+  describe('describeTypePredicate', () => {
+    test('should throw TypeError when typeGuard is not a function', () => {
+      expect(() => describeTypePredicate(null as never, 'string')).toThrow(
+        TypeError,
+      );
+      expect(() => describeTypePredicate(undefined as never, 'string')).toThrow(
+        'Expected',
+      );
+      expect(() => describeTypePredicate(123 as never, 'string')).toThrow(
+        TypeError,
+      );
+      expect(() =>
+        describeTypePredicate('not a function' as never, 'string'),
+      ).toThrow(TypeError);
+      expect(() => describeTypePredicate({} as never, 'string')).toThrow(
+        TypeError,
+      );
+      expect(() => describeTypePredicate([] as never, 'string')).toThrow(
+        TypeError,
+      );
+    });
+
+    test('should throw TypeError when typeDescription is not a string', () => {
+      const typeGuard = (value: unknown): value is string =>
+        typeof value === 'string';
+
+      expect(() => describeTypePredicate(typeGuard, null as never)).toThrow(
+        TypeError,
+      );
+      expect(() =>
+        describeTypePredicate(typeGuard, undefined as never),
+      ).toThrow(TypeError);
+      expect(() => describeTypePredicate(typeGuard, 123 as never)).toThrow(
+        TypeError,
+      );
+      expect(() => describeTypePredicate(typeGuard, {} as never)).toThrow(
+        TypeError,
+      );
+      expect(() => describeTypePredicate(typeGuard, [] as never)).toThrow(
+        TypeError,
+      );
+    });
+  });
+
+  describe('describePredicate', () => {
+    test('should throw TypeError when predicate is not a function', () => {
+      expect(() => describePredicate(null as never, 'description')).toThrow(
+        TypeError,
+      );
+      expect(() =>
+        describePredicate(undefined as never, 'description'),
+      ).toThrow(TypeError);
+      expect(() => describePredicate(123 as never, 'description')).toThrow(
+        TypeError,
+      );
+      expect(() =>
+        describePredicate('not a function' as never, 'description'),
+      ).toThrow(TypeError);
+      expect(() => describePredicate({} as never, 'description')).toThrow(
+        TypeError,
+      );
+      expect(() => describePredicate([] as never, 'description')).toThrow(
+        TypeError,
+      );
+    });
+
+    test('should throw TypeError when conditionDescription is not a string', () => {
+      const predicate = (value: number): boolean => value > 0;
+
+      expect(() => describePredicate(predicate, null as never)).toThrow(
+        TypeError,
+      );
+      expect(() => describePredicate(predicate, undefined as never)).toThrow(
+        TypeError,
+      );
+      expect(() => describePredicate(predicate, 123 as never)).toThrow(
+        TypeError,
+      );
+      expect(() => describePredicate(predicate, {} as never)).toThrow(
+        TypeError,
+      );
+      expect(() => describePredicate(predicate, [] as never)).toThrow(
+        TypeError,
+      );
+    });
+  });
+
+  describe('getPredicateDescriptor', () => {
+    test('should throw TypeError when predicate is not a function', () => {
+      expect(() => getPredicateDescriptor(null as never)).toThrow(TypeError);
+      expect(() => getPredicateDescriptor(undefined as never)).toThrow(
+        TypeError,
+      );
+      expect(() => getPredicateDescriptor(123 as never)).toThrow(TypeError);
+      expect(() => getPredicateDescriptor('not a function' as never)).toThrow(
+        TypeError,
+      );
+      expect(() => getPredicateDescriptor({} as never)).toThrow(TypeError);
+      expect(() => getPredicateDescriptor([] as never)).toThrow(TypeError);
+    });
+  });
+
+  describe('invariant', () => {
+    test('throws TypeError for non-boolean condition', () => {
+      expect(() => void invariant(1 as never)).toThrow(TypeError);
+      expect(() => void invariant('' as never)).toThrow(
+        'Expected condition to be boolean, got string instead',
+      );
+      expect(() => void invariant(null as never)).toThrow(TypeError);
+      expect(() => void invariant(undefined as never)).toThrow(TypeError);
     });
   });
 });

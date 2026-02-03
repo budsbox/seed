@@ -6,10 +6,10 @@ import type {
   NarrowedType,
   Nil,
   NonNil,
-  PlainPredicate,
   Predicate,
-  TypeGuard,
+  TypePredicate,
   Undef,
+  ValuePredicate,
   WithFallback,
 } from '@budsbox/lib-types';
 
@@ -90,7 +90,7 @@ export function hasProp<TSource, TKey extends PropertyKey>(
 export function hasProp<
   TSource,
   TKey extends PropertyKey,
-  TGuard extends TypeGuard<PropValue<TSource, TKey>>,
+  TGuard extends TypePredicate<PropValue<TSource, TKey>>,
 >(
   source: TSource,
   key: TKey,
@@ -116,7 +116,7 @@ export function hasProp<
  * This overload doesn't narrow the type,
  * because the predicate may reject valid property values without invalidating their existence,
  * which would cause incorrect type elimination in the `else` branch.
- * If you need type narrowing for the property value, use the {@link hasProp:TYPE_GUARD} overload instead.
+ * If you need type narrowing for the property value, use the {@link hasProp:TYPE_GUARD type guard} overload instead.
  * Alternatively, you can split the checks: `hasProp(source, key) && test(source[key])`.
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
@@ -126,7 +126,7 @@ export function hasProp<
 export function hasProp<TSource, TKey extends PropertyKey>(
   source: TSource,
   key: TKey,
-  predicate: PlainPredicate<PropValue<TSource, TKey>>,
+  predicate: ValuePredicate<PropValue<TSource, TKey>>,
   checkProto?: boolean,
 ): boolean;
 
@@ -150,7 +150,7 @@ export function hasProp(
 
   if (isNil(source)) return false;
 
-  let predicate: PlainPredicate<unknown> | undefined,
+  let predicate: ValuePredicate<unknown> | undefined,
     checkProto: boolean = false,
     index = 0;
 
@@ -245,7 +245,7 @@ export function assertProp<TSource, TKey extends StrictKey<TSource>>(
 export function assertProp<
   TSource,
   TKey extends StrictKey<TSource>,
-  TGuard extends TypeGuard,
+  TGuard extends TypePredicate,
 >(
   source: TSource,
   key: TKey,
@@ -277,7 +277,7 @@ export function assertProp<
 export function assertProp<TSource, TKey extends StrictKey<TSource>>(
   source: TSource,
   key: TKey,
-  predicate?: PlainPredicate<PropValue<TSource, TKey>>,
+  predicate?: ValuePredicate<PropValue<TSource, TKey>>,
   ...rest: WithoutPredicate<AssertPropRest>
 ): asserts source is SourceNarrowed<TSource, TKey>;
 
@@ -375,7 +375,7 @@ type SourceNarrowed<TSource, TKey extends PropertyKey> = WithFallback<
 type SourceNarrowedWithTypeGuard<
   TSource,
   TKey extends PropertyKey,
-  TGuard extends TypeGuard,
+  TGuard extends TypePredicate,
 > = WithFallback<
   TSource extends AnyRecord<TKey, unknown> ?
     IsNever<TSource[TKey & keyof TSource] & NarrowedType<TGuard>> extends true ?

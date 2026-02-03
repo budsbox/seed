@@ -1,11 +1,11 @@
-import type { Predicate, TypeGuard } from '@budsbox/lib-types';
+import type { Predicate, TypePredicate } from '@budsbox/lib-types';
 
 const descriptionSymbol = Symbol.for(
   '@budsbox/lib-es/guards#predicateDescription',
 );
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export const describeTypeGuard = <TGuard extends TypeGuard>(
+export const describeTypePredicate = <TGuard extends TypePredicate>(
   typeGuard: TGuard,
   typeDescription: string,
 ): TGuard => {

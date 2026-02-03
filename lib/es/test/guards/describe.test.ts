@@ -1,17 +1,16 @@
-/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { describe, expect, test } from 'vitest';
 
 import {
   describePredicate,
-  describeTypeGuard,
+  describeTypePredicate,
   getPredicateDescriptor,
-} from '#guards';
+} from '#guards/describe';
 
-describe.concurrent('describeTypeGuard', () => {
+describe.concurrent('describeTypePredicate', () => {
   test('should attach type description to type guard function', () => {
     const typeGuard = (value: unknown): value is string =>
       typeof value === 'string';
-    const described = describeTypeGuard(typeGuard, 'string');
+    const described = describeTypePredicate(typeGuard, 'string');
 
     expect(described).toBe(typeGuard);
     const descriptor = getPredicateDescriptor(described);
@@ -21,7 +20,7 @@ describe.concurrent('describeTypeGuard', () => {
   test('should work with arrow function type guards', () => {
     const isNumber = (value: unknown): value is number =>
       typeof value === 'number';
-    const described = describeTypeGuard(isNumber, 'number');
+    const described = describeTypePredicate(isNumber, 'number');
 
     expect(described).toBe(isNumber);
     const descriptor = getPredicateDescriptor(described);
@@ -32,45 +31,17 @@ describe.concurrent('describeTypeGuard', () => {
     function isBoolean(value: unknown): value is boolean {
       return typeof value === 'boolean';
     }
-    const described = describeTypeGuard(isBoolean, 'boolean');
+    const described = describeTypePredicate(isBoolean, 'boolean');
 
     expect(described).toBe(isBoolean);
     const descriptor = getPredicateDescriptor(described);
     expect(descriptor).toStrictEqual({ type: 'boolean' });
   });
 
-  test('should throw TypeError when typeGuard is not a function', () => {
-    expect(() => describeTypeGuard(null as never, 'string')).toThrow(TypeError);
-    expect(() => describeTypeGuard(undefined as never, 'string')).toThrow(
-      TypeError,
-    );
-    expect(() => describeTypeGuard(123 as never, 'string')).toThrow(TypeError);
-    expect(() =>
-      describeTypeGuard('not a function' as never, 'string'),
-    ).toThrow(TypeError);
-    expect(() => describeTypeGuard({} as never, 'string')).toThrow(TypeError);
-    expect(() => describeTypeGuard([] as never, 'string')).toThrow(TypeError);
-  });
-
-  test('should throw TypeError when typeDescription is not a string', () => {
-    const typeGuard = (value: unknown): value is string =>
-      typeof value === 'string';
-
-    expect(() => describeTypeGuard(typeGuard, null as never)).toThrow(
-      TypeError,
-    );
-    expect(() => describeTypeGuard(typeGuard, undefined as never)).toThrow(
-      TypeError,
-    );
-    expect(() => describeTypeGuard(typeGuard, 123 as never)).toThrow(TypeError);
-    expect(() => describeTypeGuard(typeGuard, {} as never)).toThrow(TypeError);
-    expect(() => describeTypeGuard(typeGuard, [] as never)).toThrow(TypeError);
-  });
-
   test('should accept empty string as description', () => {
     const typeGuard = (value: unknown): value is string =>
       typeof value === 'string';
-    const described = describeTypeGuard(typeGuard, '');
+    const described = describeTypePredicate(typeGuard, '');
 
     expect(described).toBe(typeGuard);
     const descriptor = getPredicateDescriptor(described);
@@ -80,7 +51,7 @@ describe.concurrent('describeTypeGuard', () => {
   test('should preserve function behavior', () => {
     const typeGuard = (value: unknown): value is string =>
       typeof value === 'string';
-    const described = describeTypeGuard(typeGuard, 'string');
+    const described = describeTypePredicate(typeGuard, 'string');
 
     expect(described('test')).toBe(true);
     expect(described(123)).toBe(false);
@@ -90,8 +61,8 @@ describe.concurrent('describeTypeGuard', () => {
   test('should allow overwriting description', () => {
     const typeGuard = (value: unknown): value is string =>
       typeof value === 'string';
-    const first = describeTypeGuard(typeGuard, 'first');
-    const second = describeTypeGuard(first, 'second');
+    const first = describeTypePredicate(typeGuard, 'first');
+    const second = describeTypePredicate(first, 'second');
 
     expect(second).toBe(typeGuard);
     const descriptor = getPredicateDescriptor(second);
@@ -129,41 +100,6 @@ describe.concurrent('describePredicate', () => {
     expect(descriptor).toStrictEqual({ condition: 'to be positive' });
   });
 
-  test('should throw TypeError when predicate is not a function', () => {
-    expect(() => describePredicate(null as never, 'description')).toThrow(
-      TypeError,
-    );
-    expect(() => describePredicate(undefined as never, 'description')).toThrow(
-      TypeError,
-    );
-    expect(() => describePredicate(123 as never, 'description')).toThrow(
-      TypeError,
-    );
-    expect(() =>
-      describePredicate('not a function' as never, 'description'),
-    ).toThrow(TypeError);
-    expect(() => describePredicate({} as never, 'description')).toThrow(
-      TypeError,
-    );
-    expect(() => describePredicate([] as never, 'description')).toThrow(
-      TypeError,
-    );
-  });
-
-  test('should throw TypeError when conditionDescription is not a string', () => {
-    const predicate = (value: number): boolean => value > 0;
-
-    expect(() => describePredicate(predicate, null as never)).toThrow(
-      TypeError,
-    );
-    expect(() => describePredicate(predicate, undefined as never)).toThrow(
-      TypeError,
-    );
-    expect(() => describePredicate(predicate, 123 as never)).toThrow(TypeError);
-    expect(() => describePredicate(predicate, {} as never)).toThrow(TypeError);
-    expect(() => describePredicate(predicate, [] as never)).toThrow(TypeError);
-  });
-
   test('should accept empty string as description', () => {
     const predicate = (value: number): boolean => value > 0;
     const described = describePredicate(predicate, '');
@@ -197,7 +133,7 @@ describe.concurrent('getPredicateDescriptor', () => {
   test('should return type descriptor from described type guard', () => {
     const typeGuard = (value: unknown): value is string =>
       typeof value === 'string';
-    const described = describeTypeGuard(typeGuard, 'string');
+    const described = describeTypePredicate(typeGuard, 'string');
 
     const descriptor = getPredicateDescriptor(described);
     expect(descriptor).toStrictEqual({ type: 'string' });
@@ -223,23 +159,12 @@ describe.concurrent('getPredicateDescriptor', () => {
     expect(getPredicateDescriptor(fn)).toBe(undefined);
   });
 
-  test('should throw TypeError when predicate is not a function', () => {
-    expect(() => getPredicateDescriptor(null as never)).toThrow(TypeError);
-    expect(() => getPredicateDescriptor(undefined as never)).toThrow(TypeError);
-    expect(() => getPredicateDescriptor(123 as never)).toThrow(TypeError);
-    expect(() => getPredicateDescriptor('not a function' as never)).toThrow(
-      TypeError,
-    );
-    expect(() => getPredicateDescriptor({} as never)).toThrow(TypeError);
-    expect(() => getPredicateDescriptor([] as never)).toThrow(TypeError);
-  });
-
   test('should distinguish between type and condition descriptors', () => {
     const typeGuard = (value: unknown): value is string =>
       typeof value === 'string';
     const predicate = (value: number): boolean => value > 0;
 
-    const describedTypeGuard = describeTypeGuard(typeGuard, 'string');
+    const describedTypeGuard = describeTypePredicate(typeGuard, 'string');
     const describedPredicate = describePredicate(predicate, 'to be positive');
 
     const typeGuardDescriptor = getPredicateDescriptor(describedTypeGuard);

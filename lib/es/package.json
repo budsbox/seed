@@ -28,6 +28,10 @@
       "types": "./dist/guards/index.d.ts",
       "default": "./dist/guards/index.js"
     },
+    "#guards/*": {
+      "types": "./dist/guards/*.d.ts",
+      "default": "./dist/guards/*.js"
+    },
     "#logical": {
       "types": "./dist/logical.d.ts",
       "default": "./dist/logical.js"
