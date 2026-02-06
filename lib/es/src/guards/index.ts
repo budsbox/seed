@@ -1,8 +1,16 @@
-import type { Predicate } from '@budsbox/lib-types';
+import type { IterableElement } from 'type-fest';
+
+import type {
+  ArrayItemsIntersection,
+  NarrowedType,
+  Predicate,
+  TypePredicate,
+} from '@budsbox/lib-types';
 
 import {
   invariant as _invariant,
   invariantPredicate as _invariantPredicate,
+  assertArray,
   assertBoolean,
   assertFunction,
   assertString,
@@ -13,11 +21,12 @@ import {
   describePredicate as _describePredicate,
   describeTypePredicate as _describeTypePredicate,
   getPredicateDescriptor as _getPredicateDescriptor,
+  describeComplexPredicate,
 } from './describe.js';
 import {
   formatPredicateExpectedMessage as _formatPredicateExpectedMessage,
-  debugValueType,
-} from './message.js';
+  formatDebugType,
+} from './format.js';
 import { assertProp, hasProp } from './prop.js';
 
 // Value exports
@@ -72,6 +81,68 @@ export function assertIterable(
   assertProp(value, Symbol.iterator, isFunction, true, valueName);
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
+export function somePredicate<TGuards extends readonly TypePredicate[]>(
+  ...predicates: TGuards
+): TypePredicate<
+  ArrayItemsIntersection<PredicatesListArg<TGuards>>,
+  NarrowedType<IterableElement<TGuards>>
+>;
+
+/**
+ * Creates a predicate that returns true if at least one of the provided predicates is satisfied.
+ *
+ * @param predicates - A list of predicate functions to evaluate.
+ * @returns A predicate function that checks if any predicate matches.
+ */
+export function somePredicate(
+  ...predicates: readonly Predicate[]
+): Predicate<unknown>;
+
+export function somePredicate(
+  ...predicates: readonly Predicate[]
+): Predicate<unknown> {
+  assertArray(predicates, isFunction);
+
+  const fn: Predicate<unknown> = (value) => {
+    return predicates.some((predicate) => predicate(value));
+  };
+
+  return describeComplexPredicate(fn, false, ...predicates);
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export function everyPredicate<TGuards extends readonly TypePredicate[]>(
+  ...predicates: TGuards
+): TypePredicate<
+  ArrayItemsIntersection<PredicatesListArg<TGuards>>,
+  ArrayItemsIntersection<TypePredicatesListNarrows<TGuards>> &
+    ArrayItemsIntersection<PredicatesListArg<TGuards>>
+>;
+
+/**
+ * {@label GENERAL}
+ * Creates a predicate that returns true if all the provided predicates are satisfied.
+ *
+ * @param predicates - A list of predicate functions to evaluate.
+ * @returns A predicate function that checks if every predicate matches.
+ */
+export function everyPredicate(
+  ...predicates: readonly Predicate[]
+): Predicate<unknown>;
+
+export function everyPredicate(
+  ...predicates: readonly Predicate[]
+): Predicate<unknown> {
+  assertArray(predicates, isFunction);
+
+  const fn: Predicate<unknown> = (value) => {
+    return predicates.every((predicate) => predicate(value));
+  };
+
+  return describeComplexPredicate(fn, true, ...predicates);
+}
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SAFE WRAPPERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /**
@@ -96,7 +167,7 @@ export function invariant(
   assertBoolean(condition, 'condition');
   _invariant(
     isString(message) || isFunction(message),
-    `Expected message to be a string or function, got ${debugValueType(message)} instead`,
+    `Expected message to be a string or function, got ${formatDebugType(message)} instead`,
   );
   _invariant(
     condition,
@@ -188,10 +259,13 @@ export const getPredicateDescriptor: typeof _getPredicateDescriptor = (
 };
 
 /**
+ * Formats an error message indicating the expected condition for a predicate function.
  *
- * @param predicate
- * @param value
- * @param valueName
+ * @param predicate - The predicate function to generate an error message for.
+ * @param value - The value that failed to satisfy the predicate.
+ * @param valueName - The name of the value for the error message. Defaults to 'value'.
+ * @returns A formatted error message describing what was expected.
+ * @throws {TypeError} If `predicate` is not a function or `valueName` is not a string.
  */
 export const formatPredicateExpectedMessage: typeof _formatPredicateExpectedMessage =
   (predicate, value, valueName = 'value') => {
@@ -200,3 +274,29 @@ export const formatPredicateExpectedMessage: typeof _formatPredicateExpectedMess
 
     return _formatPredicateExpectedMessage(predicate, value, valueName);
   };
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERNALS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+type PredicatesListArg<TPredicates extends readonly Predicate[]> =
+  TPredicates extends [infer TLeft, ...infer TRight] ?
+    [
+      TLeft extends Predicate<infer TArg, infer _> ? TArg : never,
+      ...PredicatesListArg<
+        TRight extends readonly Predicate[] ? TRight : never
+      >,
+    ]
+  : TPredicates extends readonly [] ? []
+  : TPredicates extends ReadonlyArray<Predicate<infer TArg>> ? TArg[]
+  : never;
+
+type TypePredicatesListNarrows<TPredicates extends readonly TypePredicate[]> =
+  TPredicates extends [infer TLeft, ...infer TRight] ?
+    [
+      TLeft extends TypePredicate<infer _, infer TNarrow> ? TNarrow : never,
+      ...TypePredicatesListNarrows<
+        TRight extends readonly TypePredicate[] ? TRight : never
+      >,
+    ]
+  : TPredicates extends readonly [] ? []
+  : TPredicates extends ReadonlyArray<TypePredicate<infer TArg>> ? TArg[]
+  : never;

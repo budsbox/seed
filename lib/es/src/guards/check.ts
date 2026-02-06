@@ -254,8 +254,96 @@ export function isFunction<T>(
 export function isFunction<TFn extends AnyFunction = UnknownFunction>(
   value: unknown,
 ): value is TFn;
+
+export function isFunction(value: unknown): value is AnyFunction;
 export function isFunction(value: unknown): boolean {
   return typeof value === 'function';
 }
 
 describeTypePredicate(isFunction, 'function');
+
+/**
+ * Checks if the given value is a {@link Date} instance.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a Date instance, otherwise false.
+ */
+export function isDate(value: unknown): value is Date {
+  return value instanceof Date;
+}
+
+/**
+ * Checks if the given value is a {@link RegExp} instance.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a RegExp instance, otherwise false.
+ */
+export function isRegExp(value: unknown): value is RegExp {
+  return value instanceof RegExp;
+}
+
+describeTypePredicate(isRegExp, 'RegExp');
+
+/**
+ * Checks if the given value is an {@link Error} instance.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is an Error instance, otherwise false.
+ */
+export function isError(value: unknown): value is Error {
+  return value instanceof Error;
+}
+
+describeTypePredicate(isError, 'Error');
+
+/**
+ * Checks if the given value is a {@link Map} instance.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a Map instance, otherwise false.
+ */
+export function isMap(value: unknown): value is Map<unknown, unknown> {
+  return value instanceof Map;
+}
+
+describeTypePredicate(isMap, 'Map');
+
+/**
+ * Checks if the given value is a {@link Set} instance.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a Set instance, otherwise false.
+ */
+export function isSet(value: unknown): value is Set<unknown> {
+  return value instanceof Set;
+}
+
+describeTypePredicate(isSet, 'Set');
+
+/**
+ * Checks if the given value is a {@link WeakMap} or {@link Map} instance.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a WeakMap or Map instance, otherwise false.
+ */
+export function isWeakMapLike(
+  value: unknown,
+): value is Map<unknown, unknown> | WeakMap<WeakKey, unknown> {
+  return value instanceof WeakMap || isMap(value);
+}
+
+describeTypePredicate(isWeakMapLike, 'WeakMap or Map');
+
+/**
+ * Checks if the given value is a {@link WeakSet} or {@link Set} instance.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a WeakSet or Set instance, otherwise false.
+ */
+export function isWeakSetLike(
+  value: unknown,
+): value is Set<unknown> | WeakSet<WeakKey> {
+  return value instanceof WeakSet || value instanceof Set;
+}
+
+describeTypePredicate(isWeakSetLike, 'WeakSet or Set');

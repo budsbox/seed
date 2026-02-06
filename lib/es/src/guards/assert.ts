@@ -27,10 +27,10 @@ import {
   isTrue,
 } from './check.js';
 import {
-  debugValueString,
-  debugValueType,
+  formatDebugType,
+  formatDebugValue,
   formatPredicateExpectedMessage,
-} from './message.js';
+} from './format.js';
 
 /**
  * Asserts that a given condition is true. Throws an error if the condition is false.
@@ -310,7 +310,7 @@ export function assertArray(
     () =>
       `Invalid argument combination. Unexpected arguments at position ${String(
         index + 1,
-      )}: ${debugValueString(rest.slice(index).map(debugValueType))}`,
+      )}: ${formatDebugValue(rest.slice(index).map(formatDebugType))}`,
   );
 
   invariantPredicate(isArray, value, name);

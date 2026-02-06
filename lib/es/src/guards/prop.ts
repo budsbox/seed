@@ -21,11 +21,11 @@ import {
 } from './assert.js';
 import { isBoolean, isFunction, isNil, isString } from './check.js';
 import {
-  debugValueString,
-  debugValueType,
   formatAccessString,
+  formatDebugType,
+  formatDebugValue,
   formatPredicateExpectedMessage,
-} from './message.js';
+} from './format.js';
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ hasProp ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -162,7 +162,7 @@ export function hasProp(
     () =>
       `Invalid argument combination. Unexpected arguments at position ${String(
         index + 2,
-      )}: ${debugValueString(rest.slice(index).map(debugValueType))}`,
+      )}: ${formatDebugValue(rest.slice(index).map(formatDebugType))}`,
   );
 
   if (propExists(source, key, checkProto)) {
@@ -298,7 +298,7 @@ export function assertProp(
     () =>
       checkProto ?
         `Expected ${formatAccessString(sourceName, key)} to exist`
-      : `Expected ${sourceName} to have own property ${debugValueString(key)}`,
+      : `Expected ${sourceName} to have own property ${formatDebugValue(key)}`,
   );
   const propValue = source[key as never];
   const result = predicate(propValue);
@@ -345,7 +345,7 @@ const normalizeAssertRest = (
     () =>
       `Invalid argument combination for ${fnName}. Unexpected arguments at position ${String(
         index + argShift,
-      )}: ${debugValueString(rest.slice(index).map(debugValueType))}`,
+      )}: ${formatDebugValue(rest.slice(index).map(formatDebugType))}`,
   );
 
   return [predicate, checkProto, sourceName];

@@ -1,33 +1,48 @@
-import type { Predicate, TypePredicate } from '@budsbox/lib-types';
+import type { Predicate } from '@budsbox/lib-types';
 
 const descriptionSymbol = Symbol.for(
   '@budsbox/lib-es/guards#predicateDescription',
 );
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export const describeTypePredicate = <TGuard extends TypePredicate>(
-  typeGuard: TGuard,
+export const describeTypePredicate = <TPredicate extends Predicate>(
+  predicate: TPredicate,
   typeDescription: string,
-): TGuard => {
-  Object.defineProperty(typeGuard, descriptionSymbol, {
-    configurable: true,
-    value: { type: typeDescription } as const satisfies PredicateDescriptor,
-  });
+): TPredicate => {
+  describePredicate(predicate, { type: typeDescription });
 
-  return typeGuard;
+  return predicate;
 };
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export const describePredicate = <TPredicate extends Predicate>(
   predicate: TPredicate,
-  conditionDescription: string,
+  conditionOrDescriptor: string | Readonly<PredicateDescriptor>,
 ): TPredicate => {
   Object.defineProperty(predicate, descriptionSymbol, {
     configurable: true,
-    value: {
-      condition: conditionDescription,
-    } as const satisfies PredicateDescriptor,
+    value:
+      typeof conditionOrDescriptor === 'string' ?
+        ({
+          condition: conditionOrDescriptor,
+        } as const satisfies PredicateDescriptor)
+      : conditionOrDescriptor,
   });
+
+  return predicate;
+};
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export const describeComplexPredicate = <TPredicate extends Predicate>(
+  predicate: TPredicate,
+  and: boolean,
+  ...subPredicates: readonly Predicate[]
+): TPredicate => {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+  const value = {
+    [and ? 'and' : 'or']: subPredicates,
+  } as Record<'and' | 'or', readonly Predicate[]>;
+  describePredicate(predicate, value);
 
   return predicate;
 };
@@ -43,6 +58,10 @@ export const getPredicateDescriptor = (
 };
 
 /**
- * Represents a descriptor for a predicate, which can be either described by a condition or a type.
+ * Represents a descriptor for a predicate.
  */
-export type PredicateDescriptor = { condition: string } | { type: string };
+export type PredicateDescriptor =
+  | { and: readonly Predicate[] }
+  | { condition: string }
+  | { or: readonly Predicate[] }
+  | { type: string };

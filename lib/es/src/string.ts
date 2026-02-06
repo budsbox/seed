@@ -164,7 +164,7 @@ export function formatPackageName(
  * @param value - The value to be converted to its string representation. Can be of any type.
  * @returns A string representation of the input value.
  * If the value cannot be serialized using JSON.stringify, it falls back to using String conversion.
- * @deprecated Use `debugValueString` from `@budsbox/lib-es/guards` instead.
+ * @deprecated Use `formatDebugValue` from `@budsbox/lib-es/guards` instead.
  */
 export function debugString(value: unknown): string {
   try {

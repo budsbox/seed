@@ -349,3 +349,29 @@ describe.concurrent('type-safe reexports', () => {
     });
   });
 });
+
+/*describe.concurrent('invalid arguments', () => {
+    test('throws TypeError when predicate is not a function', (): void => {
+      expect(() => getPredicateConditions('not a function' as never)).toThrow(
+        TypeError,
+      );
+    });
+
+    test('throws TypeError when predicate is null', (): void => {
+      expect(() => getPredicateConditions(null as never)).toThrow(TypeError);
+    });
+
+    test('throws TypeError when predicate is undefined', (): void => {
+      expect(() => getPredicateConditions(undefined as never)).toThrow(
+        TypeError,
+      );
+    });
+
+    test('throws TypeError when predicate is a number', (): void => {
+      expect(() => getPredicateConditions(42 as never)).toThrow(TypeError);
+    });
+
+    test('throws TypeError when predicate is an object', (): void => {
+      expect(() => getPredicateConditions({} as never)).toThrow(TypeError);
+    });
+  });*/
