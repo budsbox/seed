@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions,@typescript-eslint/consistent-type-definitions */
 import type { IsEmptyObject } from '@budsbox/lib-types';
 
-import { hasProp, isBoolean, isNumber, isString } from '#guards';
+import { expectTypeOf } from 'vitest';
+
+import { assertProp, hasProp, isBoolean, isNumber, isString } from '#guards';
 
 describe('hasProp type tests', () => {
   describe('basics', () => {
@@ -143,6 +145,19 @@ describe('hasProp type tests', () => {
       }
     });
 
+    test('union of primitives where primitive has the prop in its proto narrows to this primitive', () => {
+      const source = 'foo' as number | string;
+
+      if (hasProp(source, 'length')) {
+        expectTypeOf(source).toEqualTypeOf<
+          string & Record<'length', unknown>
+        >();
+        expectTypeOf(source.length).toBeNumber();
+      } else {
+        expectTypeOf(source).toEqualTypeOf<number | string>();
+      }
+    });
+
     test('union of primitives and object with optional property narrows to the object with required property', () => {
       type MixedUnion = number | string | { data?: string };
       const source = { data: 'test' } as MixedUnion;
@@ -266,6 +281,260 @@ describe('hasProp type tests', () => {
         expectTypeOf(v).toEqualTypeOf<boolean | number | string>();
         return true;
       });
+    });
+  });
+});
+
+describe('assertProp type tests', () => {
+  describe('basics', () => {
+    test('the source being null or undefined always throws (return type is never)', () => {
+      const nullSource = null;
+      expectTypeOf(assertProp(nullSource, 'foo')).toBeNever();
+
+      const undefinedSource = undefined;
+      expectTypeOf(assertProp(undefinedSource, 'foo')).toBeNever();
+    });
+
+    test('the key being __proto__ or constructor always throws (return type is never)', () => {
+      const source = {};
+      expectTypeOf(assertProp(source, '__proto__')).toBeNever();
+      expectTypeOf(assertProp(source, 'constructor')).toBeNever();
+    });
+
+    test('nullable source value narrows to non-nullable', () => {
+      const source = { foo: 'bar' } as { foo: string } | null;
+
+      assertProp(source, 'foo');
+      expectTypeOf(source).toEqualTypeOf<{ foo: string }>();
+      expectTypeOf(source.foo).toBeString();
+    });
+
+    test('unknown source value narrows to record with unknown value', () => {
+      const source: unknown = { bar: 123 };
+
+      assertProp(source, 'bar');
+      expectTypeOf(source).toEqualTypeOf<Record<'bar', unknown>>();
+      expectTypeOf(source.bar).toBeUnknown();
+    });
+
+    test('source with optional property narrows to record with required property', () => {
+      const source = { foo: 123 } as { foo?: number };
+
+      assertProp(source, 'foo');
+      expectTypeOf(source).toMatchObjectType<{ foo: number }>();
+      expectTypeOf(source.foo).toBeNumber();
+    });
+
+    test('union of objects all having the tested prop stays as is', () => {
+      type A = { id: number; a: string };
+      type B = { id: number; b: boolean };
+      const source = { id: 1, a: 'test' } as A | B;
+
+      assertProp(source, 'id');
+      expectTypeOf(source).toEqualTypeOf<A | B>();
+      expectTypeOf(source.id).toBeNumber();
+    });
+
+    test('union of objects where only one has the prop narrows to this object', () => {
+      type WithProp = { special: boolean; common: number };
+      type WithoutProp = { common: number };
+      const source = { special: true, common: 1 } as WithoutProp | WithProp;
+
+      assertProp(source, 'special');
+      expectTypeOf(source).toMatchObjectType<WithProp>();
+      expectTypeOf(source.special).toBeBoolean();
+    });
+
+    test('union of objects with required and optional prop narrows to the objects with required prop', () => {
+      type WithProp = { special: boolean; other: number };
+      type WithOptionalProp = { special?: boolean };
+      type WithoutProp = { other: string };
+      const source = { special: true, common: 1 } as
+        | WithOptionalProp
+        | WithoutProp
+        | WithProp;
+
+      assertProp(source, 'special');
+      expectTypeOf(source).branded.toEqualTypeOf<
+        Record<'special', boolean> | WithProp
+      >();
+      expectTypeOf(source.special).toBeBoolean();
+    });
+
+    test('union of primitives and object with property narrows to the object', () => {
+      type MixedUnion = number | string | { data: string };
+      const source = { data: 'test' } as MixedUnion;
+
+      assertProp(source, 'data');
+      expectTypeOf(source).toEqualTypeOf<Record<'data', string>>();
+    });
+
+    test('union of primitives and object with optional property narrows to the object with required property', () => {
+      type MixedUnion = number | string | { data?: string };
+      const source = { data: 'test' } as MixedUnion;
+
+      assertProp(source, 'data');
+      expectTypeOf(source).toMatchObjectType<Record<'data', string>>();
+      expectTypeOf(source.data).toBeString();
+    });
+
+    test('symbol property key', () => {
+      const sym = Symbol('test');
+      const source: unknown = { [sym]: 'value' };
+
+      assertProp(source, sym);
+      expectTypeOf(source).toEqualTypeOf<Record<typeof sym, unknown>>();
+      expectTypeOf(source[sym]).toBeUnknown();
+    });
+
+    test('number property key', () => {
+      const source: unknown = { 0: 'first', 1: 'second' };
+
+      assertProp(source, 0);
+      expectTypeOf(source).toEqualTypeOf<Record<0, unknown>>();
+      expectTypeOf(source[0]).toBeUnknown();
+    });
+  });
+
+  describe('type guard', () => {
+    test('narrows unknown value to record type with narrowed property', () => {
+      const source: unknown = { count: 42 };
+
+      assertProp(source, 'count', isNumber);
+      expectTypeOf(source).toEqualTypeOf<Record<'count', number>>();
+      expectTypeOf(source.count).toBeNumber();
+    });
+
+    test('narrows unknown property to guarded property type', () => {
+      const source = { foo: 42 } as { foo: unknown };
+      assertProp(source, 'foo', isNumber);
+      expectTypeOf(source).toMatchObjectType<{ foo: number }>();
+      expectTypeOf(source.foo).toBeNumber();
+    });
+
+    test('narrows union of objects with compatible and incompatible property types', () => {
+      type WithCompatibleProp = { foo: number | string };
+      type WithIncompatibleProp = { foo: boolean | string };
+      const source = { foo: 42 } as WithCompatibleProp | WithIncompatibleProp;
+
+      assertProp(source, 'foo', isNumber);
+      expectTypeOf(source).toMatchObjectType<{ foo: number }>();
+    });
+
+    test('type guard receives union of all possible property types', () => {
+      const source = { foo: 42 } as { foo: boolean | string } | { foo: number };
+      assertProp(source, 'foo', (v) => {
+        expectTypeOf(v).toEqualTypeOf<boolean | number | string>();
+        return typeof v === 'number';
+      });
+    });
+
+    test('narrows union using type guard on specific property', () => {
+      type WithProp = { special: boolean; common: number };
+      type WithoutProp = { common: number };
+      const source = { special: true, common: 1 } as WithoutProp | WithProp;
+
+      assertProp(source, 'special', isBoolean);
+      expectTypeOf(source).toMatchObjectType<WithProp>();
+      expectTypeOf(source.special).toBeBoolean();
+    });
+
+    test('narrows optional property to required with type guard', () => {
+      type WithOptional = { required: string; optional?: number };
+      const source: WithOptional = { required: 'yes', optional: 5 };
+
+      assertProp(source, 'optional', isNumber);
+      expectTypeOf(source).toEqualTypeOf<
+        WithOptional & Record<'optional', number>
+      >();
+      expectTypeOf(source.optional).toBeNumber();
+    });
+
+    test('narrows union of primitives and object using property type guard', () => {
+      type MixedUnion = number | string | { name: string };
+      const source = { name: 'Alice' } as MixedUnion;
+
+      assertProp(source, 'name', isString);
+      expectTypeOf(source).toMatchObjectType<Record<'name', string>>();
+      expectTypeOf(source.name).toBeString();
+    });
+
+    test('narrows nested property with nested type guard', () => {
+      const source: unknown = { nested: { inner: 42 } };
+
+      assertProp(source, 'nested', (v): v is { inner: number } =>
+        hasProp(v, 'inner', isNumber),
+      );
+      expectTypeOf(source).toEqualTypeOf<{ nested: { inner: number } }>();
+    });
+  });
+
+  describe('predicate', () => {
+    test('predicate receives union of all possible property types', () => {
+      const source = { foo: 42 } as { foo: boolean | string } | { foo: number };
+      assertProp(source, 'foo', (v) => {
+        expectTypeOf(v).toEqualTypeOf<boolean | number | string>();
+        return true;
+      });
+    });
+
+    test('predicate still narrows the source type (unlike hasProp)', () => {
+      const source: unknown = { bar: 123 };
+
+      assertProp(source, 'bar', () => true);
+      expectTypeOf(source).toEqualTypeOf<Record<'bar', unknown>>();
+      expectTypeOf(source.bar).toBeUnknown();
+    });
+
+    test('nullable source value narrows to non-nullable with predicate', () => {
+      const source = { foo: 'bar' } as { foo: string } | null;
+
+      assertProp(source, 'foo', () => true);
+      expectTypeOf(source).toEqualTypeOf<{ foo: string }>();
+      expectTypeOf(source.foo).toBeString();
+    });
+
+    test('source with optional property narrows to record with required property with predicate', () => {
+      const source = { foo: 123 } as { foo?: number };
+
+      assertProp(source, 'foo', () => true);
+      expectTypeOf(source).toMatchObjectType<{ foo: number }>();
+      expectTypeOf(source.foo).toBeNumber();
+    });
+
+    test('union of objects where only one has the prop narrows to this object with predicate', () => {
+      type WithProp = { special: boolean; common: number };
+      type WithoutProp = { common: number };
+      const source = { special: true, common: 1 } as WithoutProp | WithProp;
+
+      assertProp(source, 'special', () => true);
+      expectTypeOf(source).toMatchObjectType<WithProp>();
+      expectTypeOf(source.special).toBeBoolean();
+    });
+
+    test('union of primitives and object with property narrows to the object with predicate', () => {
+      type MixedUnion = number | string | { data: string };
+      const source = { data: 'test' } as MixedUnion;
+
+      assertProp(source, 'data', () => true);
+      expectTypeOf(source).toEqualTypeOf<Record<'data', string>>();
+    });
+
+    test('symbol property key with predicate', () => {
+      const sym = Symbol('test');
+      const source: unknown = { [sym]: 'value' };
+
+      assertProp(source, sym, () => true);
+      expectTypeOf(source).toEqualTypeOf<Record<typeof sym, unknown>>();
+      expectTypeOf(source[sym]).toBeUnknown();
+    });
+
+    test('number property key with predicate', () => {
+      const source: unknown = { 0: 'first', 1: 'second' };
+
+      assertProp(source, 0, () => true);
+      expectTypeOf(source).toEqualTypeOf<Record<0, unknown>>();
+      expectTypeOf(source[0]).toBeUnknown();
     });
   });
 });
