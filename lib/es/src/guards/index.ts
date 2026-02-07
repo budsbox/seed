@@ -1,4 +1,4 @@
-import type { IterableElement } from 'type-fest';
+import type { Constructor, IterableElement } from 'type-fest';
 
 import type {
   ArrayItemsIntersection,
@@ -12,6 +12,7 @@ import {
   invariantPredicate as _invariantPredicate,
   assertArray,
   assertBoolean,
+  assertError,
   assertFunction,
   assertString,
 } from './assert.js';
@@ -24,8 +25,10 @@ import {
   describeComplexPredicate,
 } from './describe.js';
 import {
+  formatError as _formatError,
   formatPredicateExpectedMessage as _formatPredicateExpectedMessage,
   formatDebugType,
+  objectTag,
 } from './format.js';
 import { assertProp, hasProp } from './prop.js';
 
@@ -45,6 +48,7 @@ export * from './check.js';
 export * from './prop.js';
 
 export type { PredicateDescriptor };
+export { objectTag };
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~ HIGH-LEVEL FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 /*
@@ -81,6 +85,43 @@ export function assertIterable(
   assertProp(value, Symbol.iterator, isFunction, true, valueName);
 }
 
+/**
+ * Creates a type predicate that checks whether a value is an instance of the provided constructor.
+ * The returned predicate acts as a type guard for narrowing the value to the constructor's type.
+ *
+ * @param ctor - A constructor function to check against.
+ * @returns A type predicate function that narrows the value type to an instance of the constructor.
+ * @throws {@link TypeError} If `ctor` is not a function.
+ * @typeParam T - The type of instances produced by the constructor.
+ */
+export const ofType = <T>(ctor: Constructor<T>): TypePredicate<unknown, T> => {
+  assertFunction(ctor, 'ctor');
+
+  return describeTypePredicate(
+    (value): value is T => value instanceof ctor,
+    `instance of ${ctor.name ? ctor.name : 'anonymous class'}`,
+  );
+};
+
+/**
+ * Asserts that a value is an instance of the provided constructor.
+ * If the assertion succeeds, the value is narrowed to the constructor's type.
+ *
+ * @param ctor - A constructor function to check against.
+ * @param value - The value to be verified as an instance of the constructor.
+ * @param name - The name of the value for the error message. Defaults to 'value'.
+ * @throws {@link TypeError} If `ctor` is not a function or if the value is not an instance of the constructor.
+ * @typeParam T - The type of instances produced by the constructor.
+ */
+export function assertOfType<T>(
+  ctor: Constructor<T>,
+  value: unknown,
+  name = 'value',
+): asserts value is T {
+  assertFunction(ctor, 'ctor');
+  invariantPredicate(ofType(ctor), value, name);
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function somePredicate<TGuards extends readonly TypePredicate[]>(
   ...predicates: TGuards
@@ -94,10 +135,11 @@ export function somePredicate<TGuards extends readonly TypePredicate[]>(
  *
  * @param predicates - A list of predicate functions to evaluate.
  * @returns A predicate function that checks if any predicate matches.
+ * @typeParam TPredicates - The type of the list of predicates.
  */
-export function somePredicate(
-  ...predicates: readonly Predicate[]
-): Predicate<unknown>;
+export function somePredicate<TPredicates extends readonly Predicate[]>(
+  ...predicates: TPredicates
+): Predicate<ArrayItemsIntersection<PredicatesListArg<TPredicates>>>;
 
 export function somePredicate(
   ...predicates: readonly Predicate[]
@@ -121,15 +163,15 @@ export function everyPredicate<TGuards extends readonly TypePredicate[]>(
 >;
 
 /**
- * {@label GENERAL}
  * Creates a predicate that returns true if all the provided predicates are satisfied.
  *
  * @param predicates - A list of predicate functions to evaluate.
  * @returns A predicate function that checks if every predicate matches.
+ * @typeParam TPredicates - The type of the list of predicates.
  */
-export function everyPredicate(
+export function everyPredicate<TPredicates extends readonly Predicate[]>(
   ...predicates: readonly Predicate[]
-): Predicate<unknown>;
+): Predicate<ArrayItemsIntersection<PredicatesListArg<TPredicates>>>;
 
 export function everyPredicate(
   ...predicates: readonly Predicate[]
@@ -144,6 +186,8 @@ export function everyPredicate(
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SAFE WRAPPERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* ─────────────────────────────── assert.ts ──────────────────────────────── */
 
 /**
  * Asserts that a given condition is true. Throws an error if the condition is false.
@@ -204,6 +248,8 @@ export const invariantPredicate: typeof _invariantPredicate = (
   _invariantPredicate(predicate, value, valueName);
 };
 
+/* ────────────────────────────── describe.ts ─────────────────────────────── */
+
 /**
  * Adds a human-readable description to a given type guard function, enhancing its metadata.
  * This metadata can later be used for debugging, logging, or explanatory purposes.
@@ -258,6 +304,8 @@ export const getPredicateDescriptor: typeof _getPredicateDescriptor = (
   return _getPredicateDescriptor(predicate);
 };
 
+/* ─────────────────────────────── format.ts ──────────────────────────────── */
+
 /**
  * Formats an error message indicating the expected condition for a predicate function.
  *
@@ -274,6 +322,23 @@ export const formatPredicateExpectedMessage: typeof _formatPredicateExpectedMess
 
     return _formatPredicateExpectedMessage(predicate, value, valueName);
   };
+
+/**
+ * Formats an {@link Error} object into a concise debug string.
+ *
+ * Includes the error's name, message, optional `code` and `cause` properties,
+ * and a truncated stack trace. Nested values are formatted using {@link formatDebugValue}.
+ *
+ * @param error - The error to format.
+ * @param options - Optional formatting configuration via {@link FormatOptions}.
+ * @returns A formatted string representation of the error.
+ * @throws {TypeError} If `error` is not an instance of {@link Error}.
+ */
+export const formatError: typeof _formatError = (error, options) => {
+  assertError(error);
+
+  return _formatError(error, options);
+};
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERNALS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 

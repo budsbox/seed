@@ -4,21 +4,28 @@ import {
   isArray,
   isBigint,
   isBoolean,
+  isDate,
   isDef,
+  isError,
   isFalse,
   isFalsy,
   isFunction,
+  isMap,
   isNil,
   isNotNil,
   isNumber,
   isObject,
   isPrimitive,
   isPropKey,
+  isRegExp,
+  isSet,
   isString,
   isSymbol,
   isTrue,
   isTruly,
   isUndef,
+  isWeakMapLike,
+  isWeakSetLike,
 } from '#guards/check';
 import { getPredicateDescriptor } from '#guards/describe';
 
@@ -290,7 +297,7 @@ describe.concurrent('isPropKey', () => {
   test('has correct descriptor', () => {
     const descriptor = getPredicateDescriptor(isPropKey);
     expect(descriptor).toStrictEqual({
-      type: 'valid property key (i.e., string, symbol, or number)',
+      type: 'valid property key (string, symbol, or number)',
     });
   });
 });
@@ -444,5 +451,231 @@ describe.concurrent('isFunction', () => {
   test('has correct descriptor', () => {
     const descriptor = getPredicateDescriptor(isFunction);
     expect(descriptor).toStrictEqual({ type: 'function' });
+  });
+});
+
+describe.concurrent('isFunction', () => {
+  test('returns true for functions', () => {
+    expect(isFunction(() => {})).toBe(true);
+    expect(isFunction(function () {})).toBe(true);
+    expect(isFunction(async () => {})).toBe(true);
+    expect(isFunction(function* () {})).toBe(true);
+    // eslint-disable-next-line @typescript-eslint/no-extraneous-class
+    expect(isFunction(class {})).toBe(true);
+  });
+
+  test('returns false for non-functions', () => {
+    expect(isFunction({})).toBe(false);
+    expect(isFunction([])).toBe(false);
+    expect(isFunction('function')).toBe(false);
+    expect(isFunction(123)).toBe(false);
+    expect(isFunction(null)).toBe(false);
+    expect(isFunction(undefined)).toBe(false);
+  });
+
+  test('has correct descriptor', () => {
+    const descriptor = getPredicateDescriptor(isFunction);
+    expect(descriptor).toStrictEqual({ type: 'function' });
+  });
+});
+
+describe.concurrent('isDate', () => {
+  test('returns true for Date instances', () => {
+    expect(isDate(new Date())).toBe(true);
+    expect(isDate(new Date('2024-01-01'))).toBe(true);
+    expect(isDate(new Date(0))).toBe(true);
+  });
+
+  test('returns false for non-Date objects', () => {
+    expect(isDate({})).toBe(false);
+    expect(isDate({ toISOString: () => '' })).toBe(false);
+    expect(isDate(Date.now())).toBe(false);
+    expect(isDate(new Number(123))).toBe(false);
+  });
+
+  test('returns false for primitives', () => {
+    expect(isDate(123)).toBe(false);
+    expect(isDate('2024-01-01')).toBe(false);
+    expect(isDate(true)).toBe(false);
+    expect(isDate(null)).toBe(false);
+    expect(isDate(undefined)).toBe(false);
+  });
+
+  test('has correct descriptor', () => {
+    const descriptor = getPredicateDescriptor(isDate);
+    expect(descriptor).toStrictEqual({ type: 'Date' });
+  });
+});
+
+describe.concurrent('isRegExp', () => {
+  test('returns true for RegExp instances', () => {
+    expect(isRegExp(/test/)).toBe(true);
+    expect(isRegExp(/test/gi)).toBe(true);
+    expect(isRegExp(new RegExp('test'))).toBe(true);
+    expect(isRegExp(new RegExp('test', 'i'))).toBe(true);
+  });
+
+  test('returns false for non-RegExp objects', () => {
+    expect(isRegExp({ source: 'test' })).toBe(false);
+    expect(isRegExp({})).toBe(false);
+  });
+
+  test('returns false for primitives', () => {
+    expect(isRegExp('/test/')).toBe(false);
+    expect(isRegExp(123)).toBe(false);
+    expect(isRegExp(true)).toBe(false);
+    expect(isRegExp(null)).toBe(false);
+    expect(isRegExp(undefined)).toBe(false);
+  });
+
+  test('has correct descriptor', () => {
+    const descriptor = getPredicateDescriptor(isRegExp);
+    expect(descriptor).toStrictEqual({ type: 'RegExp' });
+  });
+});
+
+describe.concurrent('isError', () => {
+  test('returns true for Error instances', () => {
+    expect(isError(new Error())).toBe(true);
+    expect(isError(new Error('message'))).toBe(true);
+    expect(isError(new TypeError('type error'))).toBe(true);
+    expect(isError(new RangeError('range error'))).toBe(true);
+    expect(isError(new SyntaxError('syntax error'))).toBe(true);
+    expect(isError(new ReferenceError('reference error'))).toBe(true);
+  });
+
+  test('returns false for non-Error objects', () => {
+    expect(isError({ message: 'error' })).toBe(false);
+    expect(isError({ name: 'Error', message: 'error' })).toBe(false);
+    expect(isError({})).toBe(false);
+  });
+
+  test('returns false for primitives', () => {
+    expect(isError('error')).toBe(false);
+    expect(isError(123)).toBe(false);
+    expect(isError(true)).toBe(false);
+    expect(isError(null)).toBe(false);
+    expect(isError(undefined)).toBe(false);
+  });
+
+  test('has correct descriptor', () => {
+    const descriptor = getPredicateDescriptor(isError);
+    expect(descriptor).toStrictEqual({ type: 'Error' });
+  });
+});
+
+describe.concurrent('isMap', () => {
+  test('returns true for Map instances', () => {
+    expect(isMap(new Map())).toBe(true);
+    expect(isMap(new Map([['key', 'value']]))).toBe(true);
+  });
+
+  test('returns false for non-Map objects', () => {
+    expect(isMap({})).toBe(false);
+    expect(isMap(new WeakMap())).toBe(false);
+    expect(isMap(new Set())).toBe(false);
+    expect(isMap([['key', 'value']])).toBe(false);
+  });
+
+  test('returns false for primitives', () => {
+    expect(isMap('map')).toBe(false);
+    expect(isMap(123)).toBe(false);
+    expect(isMap(true)).toBe(false);
+    expect(isMap(null)).toBe(false);
+    expect(isMap(undefined)).toBe(false);
+  });
+
+  test('has correct descriptor', () => {
+    const descriptor = getPredicateDescriptor(isMap);
+    expect(descriptor).toStrictEqual({ type: 'Map' });
+  });
+});
+
+describe.concurrent('isSet', () => {
+  test('returns true for Set instances', () => {
+    expect(isSet(new Set())).toBe(true);
+    expect(isSet(new Set([1, 2, 3]))).toBe(true);
+  });
+
+  test('returns false for non-Set objects', () => {
+    expect(isSet({})).toBe(false);
+    expect(isSet(new WeakSet())).toBe(false);
+    expect(isSet(new Map())).toBe(false);
+    expect(isSet([1, 2, 3])).toBe(false);
+  });
+
+  test('returns false for primitives', () => {
+    expect(isSet('set')).toBe(false);
+    expect(isSet(123)).toBe(false);
+    expect(isSet(true)).toBe(false);
+    expect(isSet(null)).toBe(false);
+    expect(isSet(undefined)).toBe(false);
+  });
+
+  test('has correct descriptor', () => {
+    const descriptor = getPredicateDescriptor(isSet);
+    expect(descriptor).toStrictEqual({ type: 'Set' });
+  });
+});
+
+describe.concurrent('isWeakMapLike', () => {
+  test('returns true for WeakMap instances', () => {
+    expect(isWeakMapLike(new WeakMap())).toBe(true);
+  });
+
+  test('returns true for Map instances', () => {
+    expect(isWeakMapLike(new Map())).toBe(true);
+    expect(isWeakMapLike(new Map([['key', 'value']]))).toBe(true);
+  });
+
+  test('returns false for non-WeakMap/Map objects', () => {
+    expect(isWeakMapLike({})).toBe(false);
+    expect(isWeakMapLike(new WeakSet())).toBe(false);
+    expect(isWeakMapLike(new Set())).toBe(false);
+    expect(isWeakMapLike([['key', 'value']])).toBe(false);
+  });
+
+  test('returns false for primitives', () => {
+    expect(isWeakMapLike('weakmap')).toBe(false);
+    expect(isWeakMapLike(123)).toBe(false);
+    expect(isWeakMapLike(true)).toBe(false);
+    expect(isWeakMapLike(null)).toBe(false);
+    expect(isWeakMapLike(undefined)).toBe(false);
+  });
+
+  test('has correct descriptor', () => {
+    const descriptor = getPredicateDescriptor(isWeakMapLike);
+    expect(descriptor).toStrictEqual({ type: 'WeakMap or Map' });
+  });
+});
+
+describe.concurrent('isWeakSetLike', () => {
+  test('returns true for WeakSet instances', () => {
+    expect(isWeakSetLike(new WeakSet())).toBe(true);
+  });
+
+  test('returns true for Set instances', () => {
+    expect(isWeakSetLike(new Set())).toBe(true);
+    expect(isWeakSetLike(new Set([1, 2, 3]))).toBe(true);
+  });
+
+  test('returns false for non-WeakSet/Set objects', () => {
+    expect(isWeakSetLike({})).toBe(false);
+    expect(isWeakSetLike(new WeakMap())).toBe(false);
+    expect(isWeakSetLike(new Map())).toBe(false);
+    expect(isWeakSetLike([1, 2, 3])).toBe(false);
+  });
+
+  test('returns false for primitives', () => {
+    expect(isWeakSetLike('weakset')).toBe(false);
+    expect(isWeakSetLike(123)).toBe(false);
+    expect(isWeakSetLike(true)).toBe(false);
+    expect(isWeakSetLike(null)).toBe(false);
+    expect(isWeakSetLike(undefined)).toBe(false);
+  });
+
+  test('has correct descriptor', () => {
+    const descriptor = getPredicateDescriptor(isWeakSetLike);
+    expect(descriptor).toStrictEqual({ type: 'WeakSet or Set' });
   });
 });

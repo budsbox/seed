@@ -254,6 +254,7 @@ export const formatDebugValue = (
  * Includes the error's name, message, optional `code` and `cause` properties,
  * and a truncated stack trace. Nested values are formatted using {@link formatDebugValue}.
  *
+ * @internal
  * @param error - The error to format.
  * @param options - Optional formatting configuration via {@link FormatOptions}.
  * @returns A formatted string representation of the error.

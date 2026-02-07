@@ -3,6 +3,8 @@
  * Provides assertion functions for runtime type checking and validation.
  */
 
+import type { Primitive } from 'type-fest';
+
 import type {
   AnyFunction,
   NarrowedType,
@@ -17,20 +19,31 @@ import type {
 import {
   isArray,
   isBoolean,
+  isDate,
+  isDef,
+  isError,
   isFunction,
+  isMap,
   isNotNil,
   isNumber,
   isObject,
+  isPrimitive,
   isPropKey,
+  isRegExp,
+  isSet,
   isString,
   isSymbol,
   isTrue,
+  isWeakMapLike,
+  isWeakSetLike,
 } from './check.js';
 import {
   formatDebugType,
   formatDebugValue,
   formatPredicateExpectedMessage,
 } from './format.js';
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GENERAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /**
  * Asserts that a given condition is true. Throws an error if the condition is false.
@@ -155,6 +168,23 @@ export function callPredicate(
   return result;
 }
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ASSERTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/**
+ * Asserts that the given value is defined (not undefined).
+ *
+ * @param value - The value to be checked for being defined.
+ * @param name - An optional name or description of the value included in the error message if the assertion fails.
+ * @throws {TypeError} If the value is undefined.
+ * @typeParam T - The type of the value being asserted.
+ */
+export function assertDef<T>(
+  value: T,
+  name?: string,
+): asserts value is NonNil<T> | (null & T) {
+  invariantPredicate(isDef, value, name);
+}
+
 /**
  * Asserts that the provided value is neither null nor undefined.
  *
@@ -238,6 +268,20 @@ export function assertBoolean(
   name?: string,
 ): asserts value is boolean {
   invariantPredicate(isBoolean, value, name);
+}
+
+/**
+ * Asserts that the provided value is a primitive type (string, number, boolean, bigint, symbol, null, or undefined).
+ *
+ * @param value - The value to check.
+ * @param name - The name of the value for the error message.
+ * @throws {TypeError} If the value is not a primitive type.
+ */
+export function assertPrimitive(
+  value: unknown,
+  name?: string,
+): asserts value is Primitive {
+  invariantPredicate(isPrimitive, value, name);
 }
 
 /**
@@ -341,4 +385,102 @@ export function assertFunction<TFn extends AnyFunction = UnknownFunction>(
 ): asserts value is TFn;
 export function assertFunction(value: unknown, name?: string): void {
   invariantPredicate(isFunction, value, name);
+}
+
+/**
+ * Asserts that the provided value is a Date object.
+ *
+ * @param value - The value to check.
+ * @param name - The name of the value for the error message.
+ * @throws {TypeError} If the value is not a Date object.
+ */
+export function assertDate(
+  value: unknown,
+  name?: string,
+): asserts value is Date {
+  invariantPredicate(isDate, value, name);
+}
+
+/**
+ * Asserts that the provided value is a RegExp object.
+ *
+ * @param value - The value to check.
+ * @param name - The name of the value for the error message.
+ * @throws {TypeError} If the value is not a RegExp object.
+ */
+export function assertRegExp(
+  value: unknown,
+  name?: string,
+): asserts value is RegExp {
+  invariantPredicate(isRegExp, value, name);
+}
+
+/**
+ * Asserts that the provided value is an Error object.
+ *
+ * @param value - The value to check.
+ * @param name - The name of the value for the error message.
+ * @throws {TypeError} If the value is not an Error object.
+ */
+export function assertError(
+  value: unknown,
+  name?: string,
+): asserts value is Error {
+  invariantPredicate(isError, value, name);
+}
+
+/**
+ * Asserts that the provided value is a Map object.
+ *
+ * @param value - The value to check.
+ * @param name - The name of the value for the error message.
+ * @throws {TypeError} If the value is not a Map object.
+ */
+export function assertMap(
+  value: unknown,
+  name?: string,
+): asserts value is Map<unknown, unknown> {
+  invariantPredicate(isMap, value, name);
+}
+
+/**
+ * Asserts that the provided value is a Set object.
+ *
+ * @param value - The value to check.
+ * @param name - The name of the value for the error message.
+ * @throws {TypeError} If the value is not a Set object.
+ */
+export function assertSet(
+  value: unknown,
+  name?: string,
+): asserts value is Set<unknown> {
+  invariantPredicate(isSet, value, name);
+}
+
+/**
+ * Asserts that the provided value is WeakMap-like (a WeakMap object).
+ *
+ * @param value - The value to check.
+ * @param name - The name of the value for the error message.
+ * @throws {TypeError} If the value is not a WeakMap object.
+ */
+export function assertWeakMapLike(
+  value: unknown,
+  name?: string,
+): asserts value is WeakMap<WeakKey, unknown> {
+  invariantPredicate(isWeakMapLike, value, name);
+}
+
+/**
+ * Asserts that the provided value is WeakSet-like (a WeakSet object).
+ *
+ * @param value - The value to check.
+ * @param name - The name of the value for the error message.
+ * @throws {TypeError} If the value is not a WeakSet object.
+ */
+export function assertWeakSetLike(
+  value: unknown,
+  name?: string,
+): asserts value is WeakSet<WeakKey> {
+  invariantPredicate(isWeakSetLike, value, name);
 }

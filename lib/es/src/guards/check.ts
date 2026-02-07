@@ -160,13 +160,11 @@ export const isPropKey = (value: unknown): value is PropertyKey =>
 
 describeTypePredicate(
   isPropKey,
-  'valid property key (i.e., string, symbol, or number)',
+  'valid property key (string, symbol, or number)',
 );
 
 /**
- * Checks if a given value is a primitive type.
- *
- * A value is considered primitive if it is `null`, `undefined`, `boolean`, `string`, `number`, `symbol`, or `bigint`.
+ * Checks if a given value is a primitive type (null, undefined, boolean, string, number, symbol, or bigint).
  *
  * @param value - The value to check.
  * @returns A boolean indicating whether the value is a primitive type.
@@ -179,6 +177,11 @@ export const isPrimitive = (value: unknown): value is Primitive =>
   Number.isNaN(value) ||
   isSymbol(value) ||
   isBigint(value);
+
+describeTypePredicate(
+  isPrimitive,
+  'primitive type (null, undefined, boolean, string, number, symbol, or bigint)',
+);
 
 /**
  * Determines if the given value is truly, i.e., converts to true when used in a boolean context.
@@ -271,6 +274,8 @@ describeTypePredicate(isFunction, 'function');
 export function isDate(value: unknown): value is Date {
   return value instanceof Date;
 }
+
+describeTypePredicate(isDate, 'Date');
 
 /**
  * Checks if the given value is a {@link RegExp} instance.
