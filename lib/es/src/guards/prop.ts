@@ -3,6 +3,7 @@ import type { IsNever, IterableElement, KeysOfUnion } from 'type-fest';
 import type {
   AnyRecord,
   DistributedPropValue,
+  IsEmptyObject,
   NarrowedType,
   Nil,
   NonNil,
@@ -14,15 +15,15 @@ import type {
 } from '@budsbox/lib-types';
 
 import {
-  assertBoolean,
+  assertFunction,
   assertNotNil,
   assertPropKey,
+  callPredicate,
   invariant,
 } from './assert.js';
 import { isBoolean, isFunction, isNil, isString } from './check.js';
 import {
   formatAccessString,
-  formatDebugType,
   formatDebugValue,
   formatPredicateExpectedMessage,
 } from './format.js';
@@ -135,11 +136,6 @@ export function hasProp(
   key: PropertyKey,
   ...rest: HasPropRest
 ): boolean {
-  // a little guard against prototype pollution
-  if (protectedKeys.has(key as never)) {
-    return false;
-  }
-
   assertPropKey(key, 'key');
 
   invariant(
@@ -148,9 +144,7 @@ export function hasProp(
       `Expected 2, 3, or 4 arguments, got ${String(rest.length + 2)} instead.`,
   );
 
-  if (isNil(source)) return false;
-
-  let predicate: ValuePredicate<unknown> | undefined,
+  let predicate: ValuePredicate<unknown> = () => true,
     checkProto: boolean = false,
     index = 0;
 
@@ -160,22 +154,19 @@ export function hasProp(
   invariant(
     index >= rest.length,
     () =>
-      `Invalid argument combination. Unexpected arguments at position ${String(
+      `Invalid arguments. Unexpected arguments at position ${String(
         index + 2,
-      )}: ${formatDebugValue(rest.slice(index).map(formatDebugType))}`,
+      )}: ${rest
+        .slice(index)
+        .map((arg) => formatDebugValue(arg, { maxDepth: 1 }))
+        .join(', ')}`,
   );
 
-  if (propExists(source, key, checkProto)) {
-    if (isFunction(predicate)) {
-      const result = predicate(source[key as never]);
-      assertBoolean(result, 'predicate result');
-      return result;
-    }
-
-    return true;
-  }
-
-  return false;
+  return (
+    !isNil(source) &&
+    propExists(source, key, checkProto) &&
+    callPredicate(predicate, source[key as never])
+  );
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ assertProp ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -245,7 +236,7 @@ export function assertProp<TSource, TKey extends StrictKey<TSource>>(
 export function assertProp<
   TSource,
   TKey extends StrictKey<TSource>,
-  TGuard extends TypePredicate,
+  TGuard extends TypePredicate<PropValue<TSource, TKey>>,
 >(
   source: TSource,
   key: TKey,
@@ -293,18 +284,14 @@ export function assertProp(
     ...rest,
   );
   assertNotNil(source, sourceName);
-  invariant(
-    !protectedKeys.has(key as never) && propExists(source, key, checkProto),
-    () =>
-      checkProto ?
-        `Expected ${formatAccessString(sourceName, key)} to exist`
-      : `Expected ${sourceName} to have own property ${formatDebugValue(key)}`,
+  invariant(propExists(source, key, checkProto), () =>
+    checkProto ?
+      `Expected ${formatAccessString(sourceName, key)} to exist`
+    : `Expected ${sourceName} to have own property ${formatDebugValue(key)}`,
   );
-  const propValue = source[key as never];
-  const result = predicate(propValue);
-  assertBoolean(result, 'predicate result');
 
-  invariant(result, () =>
+  const propValue = source[key as never];
+  invariant(callPredicate(predicate, propValue), () =>
     formatPredicateExpectedMessage(
       predicate,
       propValue,
@@ -314,6 +301,92 @@ export function assertProp(
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ assertOptionalProp ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/**
+ * Asserts that a property either does not exist or passes a type guard test.
+ *
+ * Narrows both the source type and the property value type based on the provided type guard,
+ * or eliminates the property if it does not exist.
+ *
+ * @param source - The object to check.
+ * @param key - The property key to verify.
+ * @param typeGuard - A type guard to narrow the property value type.
+ * Accepts the property value as the only parameter.
+ * @param rest - Optional parameters: `checkProto` flag and `sourceName` for error messages.
+ * @returns void if the assertion succeeds, otherwise throws an error.
+ * {@label TYPE_GUARD}
+ * @throws {@link TypeError} In the following cases:
+ * - If the provided key is not a valid property key.
+ * - If the provided type guard is not a function.
+ * - If the provided type guard does not return a boolean.
+ * - If the property exists but fails the type guard test.
+ * @typeParam TSource - The source object type.
+ * @typeParam TKey - The property key type.
+ * @typeParam TGuard - The type guard type.
+ * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
+ */
+export function assertOptionalProp<
+  TSource,
+  TKey extends StrictKey<TSource>,
+  TGuard extends TypePredicate,
+>(
+  source: TSource,
+  key: TKey,
+  typeGuard: TGuard,
+  ...rest: WithoutPredicate<AssertPropRest>
+): asserts source is
+  | SourceEliminated<TSource, TKey>
+  | SourceNarrowedWithTypeGuard<TSource, TKey, TGuard>;
+
+/**
+ * Asserts that a property either does not exist or passes a predicate test.
+ *
+ * @param source - The object to check.
+ * @param key - The property key to verify.
+ * @param predicate - A predicate to test the property value if it exists.
+ * Accepts the property value as the only parameter.
+ * @returns void if the assertion succeeds, otherwise throws an error.
+ * {@label PREDICATE}
+ * @throws {@link TypeError} In the following cases:
+ * - If the provided key is not a valid property key.
+ * - If the provided predicate is not a function.
+ * - If the provided predicate does not return a boolean.
+ * - If the property exists but fails the predicate test.
+ * @typeParam TSource - The source object type.
+ * @typeParam TKey - The property key type.
+ * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
+ */
+export function assertOptionalProp<TSource, TKey extends StrictKey<TSource>>(
+  source: TSource,
+  key: TKey,
+  predicate: ValuePredicate<PropValue<TSource, TKey>>,
+): asserts source is
+  | SourceEliminated<TSource, TKey>
+  | SourceNarrowed<TSource, TKey>;
+
+export function assertOptionalProp(
+  source: unknown,
+  key: PropertyKey,
+  ...rest: AssertPropRest
+): void {
+  assertPropKey(key);
+  assertFunction(rest[0], 'predicate');
+
+  const [predicate, checkProto, sourceName] = normalizeAssertRest(
+    'assertOptionalProp',
+    ...rest,
+  );
+  if (isNil(source) || !propExists(source, key, checkProto)) return;
+
+  const propValue = source[key as never];
+  invariant(callPredicate(predicate, propValue), () =>
+    formatPredicateExpectedMessage(
+      predicate,
+      propValue,
+      formatAccessString(sourceName, key),
+    ),
+  );
+}
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Internals ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -345,7 +418,10 @@ const normalizeAssertRest = (
     () =>
       `Invalid argument combination for ${fnName}. Unexpected arguments at position ${String(
         index + argShift,
-      )}: ${formatDebugValue(rest.slice(index).map(formatDebugType))}`,
+      )}: ${rest
+        .slice(index + argShift)
+        .map((arg) => formatDebugValue(arg, { maxDepth: 1 }))
+        .join(', ')}`,
   );
 
   return [predicate, checkProto, sourceName];
@@ -355,7 +431,10 @@ const propExists = (
   source: NonNil,
   key: PropertyKey,
   checkProto: boolean,
-): boolean => (checkProto ? key in Object(source) : Object.hasOwn(source, key));
+): boolean =>
+  // a little (not exhaustive) guard against prototype pollution
+  !protectedKeys.has(key as never) &&
+  (checkProto ? key in Object(source) : Object.hasOwn(source, key));
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Types ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
@@ -384,6 +463,32 @@ type SourceNarrowedWithTypeGuard<
   : never,
   TSource & Record<TKey, NarrowedType<TGuard>>
 >;
+
+type SourceEliminated<TSource, TKey extends PropertyKey> =
+  TSource extends Readonly<Record<TKey, unknown>> ? never
+  : TSource extends AnyRecord<TKey, unknown> ?
+    // this check is to ensure compatibility with TSource
+    Omit<TSource, TKey> extends TSource ?
+      NeverIfEmpty<Omit<TSource, TKey>>
+    : TSource
+  : TSource;
+
+type NeverIfEmpty<T> = IsEmptyObject<T> extends true ? never : T;
+
+// type Test1 = string | { foo: number };
+// type Test2 = string | { foo?: number };
+// type Test3 = { lol: string } | { readonly foo?: number | undefined };
+// type Test4 = { lol: string } | { readonly foo?: number | string; bla: boolean };
+// type Test5 =
+//   | { lol: string }
+//   | { readonly foo: number | undefined; bla: boolean };
+//
+// type IsNumber = (value: unknown) => value is number;
+// type SourceElimTest1 = SourceEliminated<Test1, 'foo'>;
+// type SourceElimTest2 = Infer<SourceEliminated<Test2, 'foo'>>;
+// type SourceElimTest3 = Infer<SourceEliminated<Test3, 'foo'>>;
+// type SourceElimTest4 = Infer<SourceEliminated<Test4, 'foo'>>;
+// type SourceElimTest5 = Infer<SourceEliminated<Test5, 'foo'>>;
 
 type HasPropRest =
   | readonly [checkProto?: Undef<boolean>]
