@@ -7,7 +7,6 @@
     "rootDir": "${configDir}/test",
     "tsBuildInfoFile": "${configDir}/dist/test.tsbuildinfo",
     "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "types": ["@budsbox/lib-types/es.d.ts", "vitest/globals"]
+    "moduleResolution": "Bundler"
   }
 }
