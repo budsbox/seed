@@ -1,36 +1,39 @@
-import type { Constructor, IterableElement } from 'type-fest';
-
-import type {
-  ArrayItemsIntersection,
-  NarrowedType,
-  Predicate,
-  TypePredicate,
-} from '@budsbox/lib-types';
+import type { Predicate } from '@budsbox/lib-types';
 
 import {
   invariant as _invariant,
   invariantPredicate as _invariantPredicate,
-  assertArray,
   assertBoolean,
   assertError,
   assertFunction,
   assertString,
 } from './assert.js';
-import { isFunction, isString, isTrue } from './check.js';
+import {
+  isFunction,
+  isInteger,
+  isNonNegative,
+  isNumber,
+  isObject,
+  isString,
+  isTrue,
+  isUndef,
+  isWeakSetLike,
+} from './check.js';
 import {
   type PredicateDescriptor,
   describePredicate as _describePredicate,
   describeTypePredicate as _describeTypePredicate,
   getPredicateDescriptor as _getPredicateDescriptor,
-  describeComplexPredicate,
 } from './describe.js';
 import {
+  type FormatOptions,
+  formatDebugValue as _formatDebugValue,
   formatError as _formatError,
   formatPredicateExpectedMessage as _formatPredicateExpectedMessage,
-  formatDebugType,
   objectTag,
 } from './format.js';
-import { assertProp, hasProp } from './prop.js';
+import { assertSome, everyPredicate } from './hlf.js';
+import { assertOptionalProp } from './prop.js';
 
 // Value exports
 export {
@@ -45,147 +48,13 @@ export {
   assertSymbol,
 } from './assert.js';
 export * from './check.js';
+export * from './hlf.js';
 export * from './prop.js';
 
 export type { PredicateDescriptor };
 export { objectTag };
 
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~ HIGH-LEVEL FUNCTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-/*
- * Those functions use functions from several other submodules,
- * that's why they're not placed in more appropriate places, like './assert.ts' or './check.ts'.
- */
-
-/**
- * Determines whether the provided value is iterable.
- *
- * @param value - The value to be checked.
- * @returns `true` if the value is iterable, otherwise `false`.
- * @privateRemarks This function defined here and not in './check.ts' because it uses hasProp
- */
-export function isIterable(value: unknown): value is Iterable<unknown> {
-  return hasProp(value, Symbol.iterator, isFunction, true);
-}
-
-_describePredicate(isIterable, 'to be iterable');
-
-/**
- * Asserts that the provided value is iterable.
- *
- * @param value - The value to be checked for iterable compatibility.
- * @param valueName - The name of the value for the error message. Defaults to 'value'.
- * @throws {@link TypeError} If the provided value is not iterable.
- * @privateRemarks This function defined here and not in './assert.ts' because it uses assertProp
- */
-export function assertIterable(
-  value: unknown,
-  valueName = 'value',
-): asserts value is Iterable<unknown> {
-  assertString(valueName, 'valueName');
-  assertProp(value, Symbol.iterator, isFunction, true, valueName);
-}
-
-/**
- * Creates a type predicate that checks whether a value is an instance of the provided constructor.
- * The returned predicate acts as a type guard for narrowing the value to the constructor's type.
- *
- * @param ctor - A constructor function to check against.
- * @returns A type predicate function that narrows the value type to an instance of the constructor.
- * @throws {@link TypeError} If `ctor` is not a function.
- * @typeParam T - The type of instances produced by the constructor.
- */
-export const ofType = <T>(ctor: Constructor<T>): TypePredicate<unknown, T> => {
-  assertFunction(ctor, 'ctor');
-
-  return describeTypePredicate(
-    (value): value is T => value instanceof ctor,
-    `instance of ${ctor.name ? ctor.name : 'anonymous class'}`,
-  );
-};
-
-/**
- * Asserts that a value is an instance of the provided constructor.
- * If the assertion succeeds, the value is narrowed to the constructor's type.
- *
- * @param ctor - A constructor function to check against.
- * @param value - The value to be verified as an instance of the constructor.
- * @param name - The name of the value for the error message. Defaults to 'value'.
- * @throws {@link TypeError} If `ctor` is not a function or if the value is not an instance of the constructor.
- * @typeParam T - The type of instances produced by the constructor.
- */
-export function assertOfType<T>(
-  ctor: Constructor<T>,
-  value: unknown,
-  name = 'value',
-): asserts value is T {
-  assertFunction(ctor, 'ctor');
-  invariantPredicate(ofType(ctor), value, name);
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function somePredicate<TGuards extends readonly TypePredicate[]>(
-  ...predicates: TGuards
-): TypePredicate<
-  ArrayItemsIntersection<PredicatesListArg<TGuards>>,
-  NarrowedType<IterableElement<TGuards>>
->;
-
-/**
- * Creates a predicate that returns true if at least one of the provided predicates is satisfied.
- *
- * @param predicates - A list of predicate functions to evaluate.
- * @returns A predicate function that checks if any predicate matches.
- * @typeParam TPredicates - The type of the list of predicates.
- */
-export function somePredicate<TPredicates extends readonly Predicate[]>(
-  ...predicates: TPredicates
-): Predicate<ArrayItemsIntersection<PredicatesListArg<TPredicates>>>;
-
-export function somePredicate(
-  ...predicates: readonly Predicate[]
-): Predicate<unknown> {
-  assertArray(predicates, isFunction);
-
-  const fn: Predicate<unknown> = (value) => {
-    return predicates.some((predicate) => predicate(value));
-  };
-
-  return describeComplexPredicate(fn, false, ...predicates);
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function everyPredicate<TGuards extends readonly TypePredicate[]>(
-  ...predicates: TGuards
-): TypePredicate<
-  ArrayItemsIntersection<PredicatesListArg<TGuards>>,
-  ArrayItemsIntersection<TypePredicatesListNarrows<TGuards>> &
-    ArrayItemsIntersection<PredicatesListArg<TGuards>>
->;
-
-/**
- * Creates a predicate that returns true if all the provided predicates are satisfied.
- *
- * @param predicates - A list of predicate functions to evaluate.
- * @returns A predicate function that checks if every predicate matches.
- * @typeParam TPredicates - The type of the list of predicates.
- */
-export function everyPredicate<TPredicates extends readonly Predicate[]>(
-  ...predicates: readonly Predicate[]
-): Predicate<ArrayItemsIntersection<PredicatesListArg<TPredicates>>>;
-
-export function everyPredicate(
-  ...predicates: readonly Predicate[]
-): Predicate<unknown> {
-  assertArray(predicates, isFunction);
-
-  const fn: Predicate<unknown> = (value) => {
-    return predicates.every((predicate) => predicate(value));
-  };
-
-  return describeComplexPredicate(fn, true, ...predicates);
-}
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ SAFE WRAPPERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ TYPE-SAFE WRAPPERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /* ─────────────────────────────── assert.ts ──────────────────────────────── */
 
@@ -209,10 +78,7 @@ export function invariant(
   ),
 ): asserts condition is true {
   assertBoolean(condition, 'condition');
-  _invariant(
-    isString(message) || isFunction(message),
-    `Expected message to be a string or function, got ${formatDebugType(message)} instead`,
-  );
+  assertSome(message, 'message', isString, isFunction);
   _invariant(
     condition,
     isString(message) ? message : (
@@ -336,32 +202,47 @@ export const formatPredicateExpectedMessage: typeof _formatPredicateExpectedMess
  */
 export const formatError: typeof _formatError = (error, options) => {
   assertError(error);
+  assertFormatOptions(options);
 
   return _formatError(error, options);
 };
 
+/**
+ * Formats a value into a human-readable debug string representation.
+ *
+ * Handles primitives, arrays, objects, functions, dates, errors, maps, sets,
+ * and objects with custom `toString` methods. Circular references are detected
+ * and marked as `[Circular]` for arrays or `{Circular}` for objects.
+ *
+ * @param value - The value to format for debugging purposes.
+ * @param options - Optional formatting configuration via {@link FormatOptions}.
+ * @returns A string representation suitable for debug output.
+ * @throws {@link TypeError} in the following cases:
+ * - `options` is not an object or `undefined`.
+ * - `options` has a `maxDepth` property that is not a positive integer.
+ * - `options` has a `maxArrayLength` property that is not a positive integer.
+ * - `options` has a `maxStringLength` property that is not a positive integer.
+ */
+export const formatDebugValue: typeof _formatDebugValue = (value, options) => {
+  assertFormatOptions(options);
+
+  return _formatDebugValue(value, options);
+};
+
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERNALS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-type PredicatesListArg<TPredicates extends readonly Predicate[]> =
-  TPredicates extends [infer TLeft, ...infer TRight] ?
-    [
-      TLeft extends Predicate<infer TArg, infer _> ? TArg : never,
-      ...PredicatesListArg<
-        TRight extends readonly Predicate[] ? TRight : never
-      >,
-    ]
-  : TPredicates extends readonly [] ? []
-  : TPredicates extends ReadonlyArray<Predicate<infer TArg>> ? TArg[]
-  : never;
+/* ─────────────────────────────── Utilities ──────────────────────────────── */
 
-type TypePredicatesListNarrows<TPredicates extends readonly TypePredicate[]> =
-  TPredicates extends [infer TLeft, ...infer TRight] ?
-    [
-      TLeft extends TypePredicate<infer _, infer TNarrow> ? TNarrow : never,
-      ...TypePredicatesListNarrows<
-        TRight extends readonly TypePredicate[] ? TRight : never
-      >,
-    ]
-  : TPredicates extends readonly [] ? []
-  : TPredicates extends ReadonlyArray<TypePredicate<infer TArg>> ? TArg[]
-  : never;
+function assertFormatOptions(
+  options?: FormatOptions,
+): asserts options is FormatOptions {
+  assertSome(options, 'options', isObject, isUndef);
+  const numberKeys = ['maxDepth', 'maxLength', 'maxItems'] as const;
+  for (const key of numberKeys)
+    assertOptionalProp(
+      options,
+      key,
+      everyPredicate(isNumber, isNonNegative, isInteger),
+    );
+  assertOptionalProp(options, 'seen', isWeakSetLike, 'options');
+}

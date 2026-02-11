@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-conversion */
 import { describe, expect, test } from 'vitest';
 
 import {
@@ -26,6 +27,7 @@ import {
   isUndef,
   isWeakMapLike,
   isWeakSetLike,
+  sameValueZero,
 } from '#guards/check';
 import { getPredicateDescriptor } from '#guards/describe';
 
@@ -677,5 +679,178 @@ describe.concurrent('isWeakSetLike', () => {
   test('has correct descriptor', () => {
     const descriptor = getPredicateDescriptor(isWeakSetLike);
     expect(descriptor).toStrictEqual({ type: 'WeakSet or Set' });
+  });
+});
+
+describe.concurrent('sameValueZero', () => {
+  describe.concurrent('identical primitive values', () => {
+    test('returns true for identical numbers', (): void => {
+      expect(sameValueZero(42, 42)).toBe(true);
+      expect(sameValueZero(0, 0)).toBe(true);
+      expect(sameValueZero(-1, -1)).toBe(true);
+    });
+
+    test('returns true for identical strings', (): void => {
+      expect(sameValueZero('hello', 'hello')).toBe(true);
+      expect(sameValueZero('', '')).toBe(true);
+    });
+
+    test('returns true for identical booleans', (): void => {
+      expect(sameValueZero(true, true)).toBe(true);
+      expect(sameValueZero(false, false)).toBe(true);
+    });
+
+    test('returns true for identical symbols', (): void => {
+      const sym = Symbol('test');
+      expect(sameValueZero(sym, sym)).toBe(true);
+    });
+
+    test('returns true for identical bigints', (): void => {
+      expect(sameValueZero(1n, 1n)).toBe(true);
+      expect(sameValueZero(0n, 0n)).toBe(true);
+    });
+  });
+
+  describe.concurrent('NaN handling', () => {
+    test('returns true for NaN compared with itself', (): void => {
+      expect(sameValueZero(Number.NaN, Number.NaN)).toBe(true);
+    });
+
+    test('returns true for NaN compared with NaN literal', (): void => {
+      expect(sameValueZero(Number.NaN, NaN)).toBe(true);
+    });
+
+    test('returns true when x is NaN and y is NaN', (): void => {
+      const x = 0 / 0; // NaN
+      const y = Number.NaN;
+      expect(sameValueZero(x, y)).toBe(true);
+    });
+  });
+
+  describe.concurrent('signed zero handling', () => {
+    test('returns true for +0 compared with +0', (): void => {
+      expect(sameValueZero(+0, +0)).toBe(true);
+    });
+
+    test('returns true for -0 compared with -0', (): void => {
+      expect(sameValueZero(-0, -0)).toBe(true);
+    });
+
+    test('returns true for +0 compared with -0', (): void => {
+      expect(sameValueZero(+0, -0)).toBe(true);
+    });
+
+    test('returns true for -0 compared with +0', (): void => {
+      expect(sameValueZero(-0, +0)).toBe(true);
+    });
+  });
+
+  describe.concurrent('object identity', () => {
+    test('returns true for identical object references', (): void => {
+      const obj = { a: 1 };
+      expect(sameValueZero(obj, obj)).toBe(true);
+    });
+
+    test('returns true for identical array references', (): void => {
+      const arr = [1, 2, 3];
+      expect(sameValueZero(arr, arr)).toBe(true);
+    });
+
+    test('returns true for identical function references', (): void => {
+      const fn = (): number => 42;
+      expect(sameValueZero(fn, fn)).toBe(true);
+    });
+
+    test('returns true for identical Map instances', (): void => {
+      const map = new Map();
+      expect(sameValueZero(map, map)).toBe(true);
+    });
+
+    test('returns true for identical Set instances', (): void => {
+      const set = new Set();
+      expect(sameValueZero(set, set)).toBe(true);
+    });
+  });
+
+  describe.concurrent('null and undefined', () => {
+    test('returns true for null compared with itself', (): void => {
+      expect(sameValueZero(null, null)).toBe(true);
+    });
+
+    test('returns true for undefined compared with itself', (): void => {
+      expect(sameValueZero(undefined, undefined)).toBe(true);
+    });
+  });
+
+  describe.concurrent('different values', () => {
+    test('returns false for different numbers', (): void => {
+      expect(sameValueZero(1, 2)).toBe(false);
+      expect(sameValueZero(42, 43)).toBe(false);
+    });
+
+    test('returns false for different strings', (): void => {
+      expect(sameValueZero('hello', 'world')).toBe(false);
+      expect(sameValueZero('', 'a')).toBe(false);
+    });
+
+    test('returns false for different booleans', (): void => {
+      expect(sameValueZero(true, false)).toBe(false);
+    });
+
+    test('returns false for different types', (): void => {
+      expect(sameValueZero(1, '1')).toBe(false);
+      expect(sameValueZero(true, 1)).toBe(false);
+      expect(sameValueZero(null, undefined)).toBe(false);
+      expect(sameValueZero(0, null)).toBe(false);
+    });
+
+    test('returns false for different object references', (): void => {
+      expect(sameValueZero({ a: 1 }, { a: 1 })).toBe(false);
+      expect(sameValueZero([1, 2], [1, 2])).toBe(false);
+    });
+
+    test('returns false for different symbols', (): void => {
+      expect(sameValueZero(Symbol('a'), Symbol('a'))).toBe(false);
+    });
+
+    test('returns false for different bigints', (): void => {
+      expect(sameValueZero(1n, 2n)).toBe(false);
+    });
+  });
+
+  describe.concurrent('type narrowing', () => {
+    test('preserves type parameter in result type', (): void => {
+      const x = 'test' as const;
+      const result: boolean = sameValueZero(x, 'test');
+      expect(result).toBe(true);
+    });
+  });
+
+  describe.concurrent('edge cases', () => {
+    test('handles Infinity', (): void => {
+      expect(sameValueZero(Infinity, Infinity)).toBe(true);
+      expect(sameValueZero(-Infinity, -Infinity)).toBe(true);
+      expect(sameValueZero(Infinity, -Infinity)).toBe(false);
+    });
+
+    test('handles very small numbers close to zero', (): void => {
+      const verySmall = Number.MIN_VALUE;
+      expect(sameValueZero(verySmall, verySmall)).toBe(true);
+      expect(sameValueZero(verySmall, -verySmall)).toBe(false);
+    });
+
+    test('handles numbers with decimal places', (): void => {
+      expect(sameValueZero(3.14, 3.14)).toBe(true);
+      expect(sameValueZero(3.14, 3.15)).toBe(false);
+    });
+
+    test('returns false when comparing with no second argument', (): void => {
+      expect(sameValueZero(42, undefined)).toBe(false);
+    });
+
+    test('works with any unknown type for second argument', (): void => {
+      const unknownValue: unknown = 42;
+      expect(sameValueZero(42, unknownValue)).toBe(true);
+    });
   });
 });

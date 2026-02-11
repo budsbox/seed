@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions,@typescript-eslint/consistent-type-definitions */
 import type { IsEmptyObject } from '@budsbox/lib-types';
 
-import { expectTypeOf } from 'vitest';
+import { describe, expectTypeOf, test } from 'vitest';
 
 import { assertProp, hasProp, isBoolean, isNumber, isString } from '#guards';
 

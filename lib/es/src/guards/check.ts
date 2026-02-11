@@ -11,6 +11,10 @@ import type {
 
 import { describePredicate, describeTypePredicate } from './describe.js';
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ PRIMITIVES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/* ─────────────────────────────── Nullables ──────────────────────────────── */
+
 /**
  * Checks if the provided value is `undefined`.
  *
@@ -63,6 +67,20 @@ export function isNotNil(value: unknown): boolean {
 
 describeTypePredicate(isNotNil, 'non-nullable');
 
+/* ──────────────────────────────── Boolean ───────────────────────────────── */
+
+/**
+ * Checks if the given value is of type `boolean`.
+ *
+ * @param value - The value to check.
+ * @returns A boolean indicating whether the value is a boolean or not.
+ */
+export function isBoolean(value: unknown): value is boolean {
+  return typeof value === 'boolean';
+}
+
+describeTypePredicate(isBoolean, 'boolean');
+
 /**
  * Checks if the provided value is strictly equal to true.
  *
@@ -88,16 +106,31 @@ export function isFalse(value: unknown): value is false {
 describeTypePredicate(isFalse, 'false');
 
 /**
- * Determines if the provided value is a string.
+ * Determines if the given value is truly, i.e., converts to true when used in a boolean context.
  *
- * @param value - The value to check.
- * @returns True if the value is a string, otherwise false.
+ * @param value - The value to be tested for truthiness.
+ * @returns Returns true if the value is truthy, false otherwise.
  */
-export function isString(value: unknown): value is string {
-  return typeof value === 'string';
+export function isTruly(value: unknown): boolean {
+  return Boolean(value);
 }
 
-describeTypePredicate(isString, 'string');
+describePredicate(isTruly, 'to evaluates to true when coerced to a boolean');
+
+/**
+ * Determines if a given value is falsy.
+ * A value is considered falsy if it evaluates to false when coerced to a boolean.
+ *
+ * @param value - The value to be tested.
+ * @returns True if the value is falsy, otherwise false.
+ */
+export function isFalsy(value: unknown): boolean {
+  return !isTruly(value);
+}
+
+describePredicate(isFalsy, 'to evaluates to false when coerced to a boolean');
+
+/* ──────────────────────────────── Numeric ───────────────────────────────── */
 
 /**
  * Checks if the provided value is a number and not NaN.
@@ -124,16 +157,54 @@ export function isBigint(value: unknown): value is bigint {
 describeTypePredicate(isBigint, 'bigint');
 
 /**
- * Checks if the given value is of type `boolean`.
+ * Determines whether a given number is positive.
  *
- * @param value - The value to check.
- * @returns A boolean indicating whether the value is a boolean or not.
+ * @param num - The number or bigint to check.
+ * @returns A boolean indicating whether the input is greater than zero.
  */
-export function isBoolean(value: unknown): value is boolean {
-  return typeof value === 'boolean';
+export function isPositive(num: bigint | number): boolean {
+  return isBigint(num) ? num > 0n : num > 0;
 }
 
-describeTypePredicate(isBoolean, 'boolean');
+describePredicate(isPositive, 'to be greater than zero');
+
+/**
+ * Determines whether a given number is non-negative.
+ *
+ * @param num - The number to check. It can be a `bigint` or a `number`.
+ * @returns A boolean indicating whether the provided number is greater than or equal to zero.
+ */
+export function isNonNegative(num: bigint | number): boolean {
+  return isBigint(num) ? num >= 0n : num >= 0;
+}
+
+describePredicate(isNonNegative, 'to be greater than or equal to zero');
+
+/**
+ * Checks if the provided value is an integer.
+ *
+ * @param num - The value to check, which can be a `bigint` or `number`.
+ * @returns True if the value is an integer, otherwise false.
+ */
+export function isInteger(num: bigint | number): boolean {
+  return isBigint(num) || Number.isInteger(num);
+}
+
+describePredicate(isInteger, 'to be an integer');
+
+/* ────────────────────────────────── Misc ────────────────────────────────── */
+
+/**
+ * Determines if the provided value is a string.
+ *
+ * @param value - The value to check.
+ * @returns True if the value is a string, otherwise false.
+ */
+export function isString(value: unknown): value is string {
+  return typeof value === 'string';
+}
+
+describeTypePredicate(isString, 'string');
 
 /**
  * Checks if the provided value is of type `symbol`.
@@ -180,33 +251,10 @@ export const isPrimitive = (value: unknown): value is Primitive =>
 
 describeTypePredicate(
   isPrimitive,
-  'primitive type (null, undefined, boolean, string, number, symbol, or bigint)',
+  'a primitive (null, undefined, boolean, string, number, symbol, or bigint)',
 );
 
-/**
- * Determines if the given value is truly, i.e., converts to true when used in a boolean context.
- *
- * @param value - The value to be tested for truthiness.
- * @returns Returns true if the value is truthy, false otherwise.
- */
-export function isTruly(value: unknown): boolean {
-  return Boolean(value);
-}
-
-describePredicate(isTruly, 'to evaluates to true when coerced to a boolean');
-
-/**
- * Determines if a given value is falsy.
- * A value is considered falsy if it evaluates to false when coerced to a boolean.
- *
- * @param value - The value to be tested.
- * @returns True if the value is falsy, otherwise false.
- */
-export function isFalsy(value: unknown): boolean {
-  return !isTruly(value);
-}
-
-describePredicate(isFalsy, 'to evaluates to false when coerced to a boolean');
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ OBJECT-LIKE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /**
  * Checks if the given value is an object.
@@ -352,3 +400,19 @@ export function isWeakSetLike(
 }
 
 describeTypePredicate(isWeakSetLike, 'WeakSet or Set');
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ABSTRACT ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
+/**
+ * Determines whether two values are the same value using the "SameValueZero" comparison algorithm.
+ *
+ * @param x - The first value to be compared.
+ * @param y - The second value to be compared.
+ * @returns A boolean indicating whether `x` and `y` are the same value according to the "SameValueZero" comparison.
+ * @remarks It differs from strict equality (`===`) in that `-0` and `+0` are considered equal, and `NaN` is considered equal to itself.
+ * @remarks It differs from `Object.is` in that it considers `-0` and `+0` equal.
+ * @remarks It's the same algorithm used by `Set` to compare elements.
+ * @typeParam TValue - The type of the first value being compared.
+ */
+export const sameValueZero = <TValue>(x: TValue, y: unknown): y is TValue =>
+  Object.is(x, y) || (x === 0 && y === 0);

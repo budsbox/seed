@@ -87,7 +87,6 @@ export const getPredicateConditions = (
     };
   } else {
     const [conjunction, predicates] = descriptorEntry;
-    const separator = `, ${conjunction} `;
     let isType = false,
       isValue = false;
 
@@ -106,19 +105,16 @@ export const getPredicateConditions = (
       }
     }
 
-    const typeGuardString =
-      typeGuards.length === 1 ?
-        typeGuards[0]!
-      : [typeGuards.slice(0, -1).join(', ')]
-          .concat(typeGuards.slice(-1))
-          .join(separator);
+    const typeGuardString = joinWithConjunction(typeGuards, conjunction);
 
-    const plainString = plains.join(separator);
+    const plainString = joinWithConjunction(plains, conjunction);
 
     const isPrintableTypes = typeGuards.length > 0;
 
     const condition = `${isPrintableTypes ? `to be ${typeGuardString}` : ''}${
-      isValue ? `${isPrintableTypes ? separator : ''}${plainString}` : ''
+      isValue ?
+        `${isPrintableTypes ? ` ${conjunction} ` : ''}${plainString}`
+      : ''
     }`;
 
     return { condition, isType, isValue };
@@ -159,6 +155,7 @@ export const formatDebugType = (value: unknown): string => {
  * and objects with custom `toString` methods. Circular references are detected
  * and marked as `[Circular]` for arrays or `{Circular}` for objects.
  *
+ * @internal
  * @param value - The value to format for debugging purposes.
  * @param options - Optional formatting configuration via {@link FormatOptions}.
  * @returns A string representation suitable for debug output.
@@ -375,6 +372,23 @@ const defaultDescription = (predicate: Predicate): string =>
 
 const clamp = (str: string, maxLength: number): string =>
   str.length > maxLength ? `${str.slice(0, maxLength).trimEnd()}...` : str;
+
+/**
+ * Joins an array of strings into a single formatted string using the specified conjunction.
+ *
+ * @param items - An array of strings to be joined. If the array is empty, an empty string is returned.
+ * @param conjunction - A word or phrase to be used as the conjunction between the last two items.
+ * @returns A formatted string where the items are separated by commas and the conjunction is added before the final item.
+ */
+export const joinWithConjunction = (
+  items: string[],
+  conjunction: string,
+): string => {
+  if (items.length === 0) return '';
+  if (items.length === 1) return items[0]!;
+  if (items.length === 2) return `${items[0]!} ${conjunction} ${items[1]!}`;
+  return `${items.slice(0, -1).join(', ')}, ${conjunction} ${items[items.length - 1]!}`;
+};
 
 /**
  * Configuration options for debug formatting functions.

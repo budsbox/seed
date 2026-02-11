@@ -166,7 +166,7 @@ describe.concurrent('getPredicateConditions', () => {
         );
 
         expect(result).toStrictEqual({
-          condition: 'to be string, or number',
+          condition: 'to be string or number',
           isType: true,
           isValue: false,
         });
@@ -183,7 +183,7 @@ describe.concurrent('getPredicateConditions', () => {
         );
 
         expect(result).toStrictEqual({
-          condition: 'to equal "a", or to equal "b"',
+          condition: 'to equal "a" or to equal "b"',
           isType: false,
           isValue: true,
         });
@@ -204,7 +204,7 @@ describe.concurrent('getPredicateConditions', () => {
         );
 
         expect(result).toStrictEqual({
-          condition: 'to be number, or to equal "a"',
+          condition: 'to be number or to equal "a"',
           isType: true,
           isValue: true,
         });
@@ -236,7 +236,7 @@ describe.concurrent('getPredicateConditions', () => {
         );
 
         expect(result).toStrictEqual({
-          condition: 'to be string, and number',
+          condition: 'to be string and number',
           isType: true,
           isValue: false,
         });
@@ -253,7 +253,7 @@ describe.concurrent('getPredicateConditions', () => {
         );
 
         expect(result).toStrictEqual({
-          condition: 'to equal "a", and to equal "b"',
+          condition: 'to equal "a" and to equal "b"',
           isType: false,
           isValue: true,
         });
@@ -274,7 +274,7 @@ describe.concurrent('getPredicateConditions', () => {
         );
 
         expect(result).toStrictEqual({
-          condition: 'to be number, and to equal "a"',
+          condition: 'to be number and to equal "a"',
           isType: true,
           isValue: true,
         });
@@ -321,7 +321,7 @@ describe.concurrent('getPredicateConditions', () => {
 
       expect(result).toStrictEqual({
         condition:
-          '(to be object, and to be iterable), or to satisfy some condition',
+          '(to be object and to be iterable) or to satisfy some condition',
         isType: true,
         isValue: true,
       });
@@ -418,7 +418,7 @@ describe.concurrent('formatPredicateExpectedMessage', () => {
         );
 
         expect(result).toBe(
-          'Expected value to be string, or number, got boolean instead',
+          'Expected value to be string or number, got boolean instead',
         );
       });
 
@@ -434,7 +434,7 @@ describe.concurrent('formatPredicateExpectedMessage', () => {
         );
 
         expect(result).toBe(
-          'Expected value to equal "a", or to equal "b", got "c" instead',
+          'Expected value to equal "a" or to equal "b", got "c" instead',
         );
       });
 
@@ -454,7 +454,7 @@ describe.concurrent('formatPredicateExpectedMessage', () => {
         );
 
         expect(result).toBe(
-          'Expected value to be number, or to equal "a", got string ("b") instead',
+          'Expected value to be number or to equal "a", got string ("b") instead',
         );
       });
     });
@@ -467,7 +467,7 @@ describe.concurrent('formatPredicateExpectedMessage', () => {
         );
 
         expect(result).toBe(
-          'Expected value to be object, and array, got string instead',
+          'Expected value to be object and array, got string instead',
         );
       });
 
@@ -485,7 +485,7 @@ describe.concurrent('formatPredicateExpectedMessage', () => {
         );
 
         expect(result).toBe(
-          'Expected value to have length > 0, and to have length < 10, got "" instead',
+          'Expected value to have length > 0 and to have length < 10, got "" instead',
         );
       });
     });
