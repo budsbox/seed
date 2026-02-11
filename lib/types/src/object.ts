@@ -83,9 +83,12 @@ export type AnyRecord<
  * while `Entry<T>` will resolve to `[ 'a' | 'b', number | string ]`.
  * Also, it's intended to work with objects only, not with arrays, Maps or Sets. Use `Entry<T>` for those cases.
  */
-export type EntryUnion<T extends object> = {
-  [K in keyof T]: [K, T[K]];
-}[keyof T];
+export type EntryUnion<T extends object> =
+  T extends object ?
+    {
+      [K in keyof T]: [K, T[K]];
+    }[keyof T]
+  : never;
 
 /**
  * Represents a general type of object where the first item is a key of type `PropertyKey`
