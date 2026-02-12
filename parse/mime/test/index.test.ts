@@ -461,6 +461,23 @@ describe.sequential('MIME Parser test suite', () => {
     });
 
     describe('trim option', () => {
+      test('should validate the option type', () => {
+        expect(() =>
+          parseFormatted('text/html', { trim: 'invalid' as never }),
+        ).toThrowError(
+          'Expected options.trim to be boolean, got string instead',
+        );
+        expect(() =>
+          parseFormatted('text/html', { trim: true }),
+        ).not.toThrowError(TypeError);
+        expect(() =>
+          parseFormatted('text/html', { trim: false }),
+        ).not.toThrowError(TypeError);
+        expect(() => parseFormatted('text/html', {})).not.toThrowError(
+          TypeError,
+        );
+      });
+
       test('should throw on whitespace around type when trim is disabled (default mode)', () => {
         expect(() => parseFormatted(' x/x ')).toThrowError('Expected');
         expect(() => parseFormatted(' text/html')).toThrowError('Expected');
@@ -502,6 +519,23 @@ describe.sequential('MIME Parser test suite', () => {
     });
 
     describe('restrictNames option', () => {
+      test('should validate the option type', () => {
+        expect(() =>
+          parseFormatted('text/html', { restrictNames: 'invalid' as never }),
+        ).toThrowError(
+          'Expected options.restrictNames to be boolean, got string instead',
+        );
+        expect(() =>
+          parseFormatted('text/html', { restrictNames: true }),
+        ).not.toThrowError(TypeError);
+        expect(() =>
+          parseFormatted('text/html', { restrictNames: false }),
+        ).not.toThrowError(TypeError);
+        expect(() => parseFormatted('text/html', {})).not.toThrowError(
+          TypeError,
+        );
+      });
+
       test('should throw on non-restricted names when restrictNames is enabled explicitly', () => {
         expect(() =>
           parseFormatted('$app.lication/json', { restrictNames: true }),
@@ -546,6 +580,23 @@ describe.sequential('MIME Parser test suite', () => {
     });
 
     describe('multiParameter option', () => {
+      test('should validate the option value', () => {
+        expect(() =>
+          parseFormatted('text/plain', { multiParameter: 'invalid' as never }),
+        ).toThrowError(
+          'Expected options.multiParameter to be any of: "keep-first", "keep-last", or "list", got "invalid" instead',
+        );
+        expect(() =>
+          parseFormatted('text/plain', { multiParameter: 'keep-first' }),
+        ).not.toThrow(TypeError);
+        expect(() =>
+          parseFormatted('text/plain', { multiParameter: 'keep-last' }),
+        ).not.toThrow(TypeError);
+        expect(() =>
+          parseFormatted('text/plain', { multiParameter: 'list' }),
+        ).not.toThrow(TypeError);
+      });
+
       test('should keep first occurrence of duplicate parameter by default (keep-first)', () => {
         const res = parseFormatted('text/plain; foo=bar; foo=baz; foo=qux');
         expect(res.parameters).toStrictEqual(new Map([['foo', 'bar']]));
@@ -655,6 +706,23 @@ describe.sequential('MIME Parser test suite', () => {
     });
 
     describe('keepCharsetCase option', () => {
+      test('should validate the option type', () => {
+        expect(() =>
+          parseFormatted('text/html', { keepCharsetCase: 'invalid' as never }),
+        ).toThrowError(
+          'Expected options.keepCharsetCase to be boolean, got string instead',
+        );
+        expect(() =>
+          parseFormatted('text/html', { keepCharsetCase: true }),
+        ).not.toThrowError(TypeError);
+        expect(() =>
+          parseFormatted('text/html', { keepCharsetCase: false }),
+        ).not.toThrowError(TypeError);
+        expect(() => parseFormatted('text/html', {})).not.toThrowError(
+          TypeError,
+        );
+      });
+
       test('should lowercase charset by default in semantic mode', () => {
         const parsed = parseFormatted('text/plain; charset=Utf-8');
         expect(parsed.parameters.get('charset')).toBe('utf-8');
@@ -771,6 +839,37 @@ describe.sequential('MIME Parser test suite', () => {
             expect(sniffFormatted(input)).toStrictEqual(sniffFormatted(output));
           }
         },
+      );
+    });
+  });
+
+  describe('edgeCases', () => {
+    test('throws when input is not string', () => {
+      expect(() => sniffFormatted(null as never)).toThrowError(TypeError);
+      expect(() => sniffFormatted(undefined as never)).toThrowError(
+        'Expected input to be string, got undefined instead',
+      );
+      expect(() => sniffFormatted(123 as never)).toThrowError(TypeError);
+      expect(() => sniffFormatted(true as never)).toThrowError(TypeError);
+      expect(() => sniffFormatted({} as never)).toThrowError(TypeError);
+      expect(() => sniffFormatted([] as never)).toThrowError(TypeError);
+    });
+
+    test('throws when options is not object or not a null/undefined', () => {
+      expect(() => sniffFormatted('text/html', null as never)).not.toThrowError(
+        TypeError,
+      );
+      expect(() =>
+        sniffFormatted('text/html', undefined as never),
+      ).not.toThrowError(TypeError);
+      expect(() => sniffFormatted('text/html', {} as never)).not.toThrowError(
+        TypeError,
+      );
+      expect(() => parse('text/html', 'foobar' as never)).toThrowError(
+        TypeError,
+      );
+      expect(() => parse('text/html', 'foobar' as never)).toThrowError(
+        'Expected options to be object, got string instead',
       );
     });
   });

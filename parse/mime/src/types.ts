@@ -8,11 +8,13 @@
  * parse results, and structured representations of MIME types.
  */
 
-import type { Merge } from 'type-fest';
+import type { IterableElement, Merge } from 'type-fest';
 
 import type { ConditionalReadonly, Undef } from '@budsbox/lib-types';
 
 import type * as Parser from '#parser';
+
+import type { multiParameterOptions } from './const.js';
 
 export type { Parser };
 
@@ -120,7 +122,9 @@ export type DefaultStartRule = NonNullable<Parser.ParseOptions['startRule']>;
  * - `'keep-last'`: When a parameter appears multiple times, only the last value is kept
  * - `'list'`: When a parameter appears multiple times, all values are collected in an array
  */
-export type MultiParameterOption = 'keep-first' | 'keep-last' | 'list';
+export type MultiParameterOption = IterableElement<
+  typeof multiParameterOptions
+>;
 
 /**
  * Name of a MIME type parameter (e.g., "charset" in "text/html; charset=utf-8").

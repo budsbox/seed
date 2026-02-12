@@ -1,9 +1,21 @@
+{{
+  import { assertOptionalProp, assertString, assertObject, isBoolean, anyOf } from '@budsbox/lib-es/guards';
+  import {multiParameterOptions} from './const.js';
+}}
+
 {
+  assertString(input, 'input');
+  assertObject(options, 'options')
+  const booleanProps = ['sniff', 'trim', 'restrictNames', 'keepCharsetCase'];
+  booleanProps.forEach((key) => {
+    assertOptionalProp(options, key, isBoolean, 'options');
+  });
+  assertOptionalProp(options, 'multiParameter', anyOf(...multiParameterOptions), 'options');
+
   const isSniffing = options.sniff ?? false;
   const isSemantic = !isSniffing;
   const isTrim = options.trim ?? isSniffing;
   const isRestrictedNames = isSemantic && (options.restrictNames ?? false);
-  const isSemanticQuoted = options.quotedSemantics ?? isSemantic;
   const multiParameter = options.multiParameter ?? 'keep-first';
   const keepCharsetCase = options.keepCharsetCase ?? isSniffing;
 }
