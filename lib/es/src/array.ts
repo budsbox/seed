@@ -1,6 +1,14 @@
 import type { FValue, TupleN } from '@budsbox/lib-types';
 
-import { isFunction } from '#guards';
+import {
+  assertArray,
+  assertEvery,
+  isArray,
+  isFunction,
+  isInteger,
+  isNonNegative,
+  isNumber,
+} from '#guards';
 
 /**
  * @module
@@ -45,6 +53,7 @@ export function nArray<N extends number, T = null>(
   value?: FValue<number, T>,
 ): TupleN<N, T>;
 export function nArray(n: number, value: unknown = null): unknown[] {
+  assertEvery(n, 'n', isNumber, isNonNegative, isInteger);
   if (isFunction<(n: number) => unknown>(value)) {
     const newArray: unknown[] = new Array(n);
     for (let i = 0; i < newArray.length; i++) {
@@ -64,8 +73,10 @@ export function nArray(n: number, value: unknown = null): unknown[] {
  * @returns A new array with unique elements in their original order.
  * @typeParam T - The element type.
  */
-export const dedupe = <T>(items: readonly T[]): T[] =>
-  Array.from(new Set(items));
+export const dedupe = <T>(items: readonly T[]): T[] => {
+  assertArray(items, 'items');
+  return Array.from(new Set(items));
+};
 
 /**
  * Creates an array of unique values from multiple input arrays.
@@ -115,6 +126,7 @@ export function diff<T>(
   source: readonly T[],
   ...excludes: ReadonlyArray<readonly T[]>
 ): T[] {
+  assertArray(excludes, isArray, 'excludes');
   const set = new Set(excludes.flatMap((v) => v));
   return source.filter((v) => !set.has(v));
 }

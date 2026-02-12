@@ -14,9 +14,19 @@ import {
   assertArray,
   assertBoolean,
   assertNotNil,
+  assertObject,
+  assertOptionalProp,
+  assertProp,
+  assertSome,
   assertString,
+  isBoolean,
+  isNil,
   isNotNil,
+  isNumber,
+  isObject,
   isString,
+  isUndef,
+  somePredicate,
 } from '#guards';
 
 export type { PackageNameFormatOptions, ParsedPackageName };
@@ -39,6 +49,24 @@ export function parsePackageName(
     scope: clean ? cleanScope : scope,
     name: packageName.replace(scope ?? '', ''),
   };
+}
+
+function normalizePackageName(
+  ident: string | Readonly<ParsedPackageName>,
+  clean?: boolean,
+): Required<ParsedPackageName> {
+  assertSome(ident, 'ident', isString, isObject);
+
+  if (isObject(ident)) {
+    assertProp(ident, 'name', isString);
+    assertOptionalProp(ident, 'scope', somePredicate(isString, isNil));
+    return {
+      ...ident,
+      scope: null,
+    };
+  }
+
+  return parsePackageName(ident, clean);
 }
 
 /**
@@ -69,8 +97,9 @@ export function serializePackageName(
   if (!allowNil) {
     assertNotNil(parsedPackageName, 'parsedPackageName');
   }
-  const { scope, name } = parsedPackageName ?? { scope: null, name: '' };
-  assertString(name, 'parsedPackageName.name');
+  const { scope, name } = normalizePackageName(
+    parsedPackageName ?? { scope: null, name: '' },
+  );
   return joinPath(scope?.replace(/^@?/, '@'), name);
 }
 
@@ -97,7 +126,7 @@ export function resolvePackageName(
     parsed = false,
   }: { baseScope?: Undef<string>; parsed?: boolean } = {},
 ): string | ParsedPackageName {
-  const { scope, name } = isString(ident) ? parsePackageName(ident) : ident;
+  const { scope, name } = normalizePackageName(ident);
 
   const parsedIdent: ParsedPackageName = {
     scope: scope ?? baseScope ?? null,
@@ -122,24 +151,38 @@ export function resolvePackageName(
  */
 export function formatPackageName(
   base: string,
-  {
+  options: Readonly<PackageNameFormatOptions> = {},
+): string {
+  assertString(base, 'base');
+  assertObject(options, 'options');
+  (['root', 'parent'] as const).forEach((key) => {
+    assertOptionalProp(options, key, somePredicate(isNil, isString), 'options');
+  });
+  (['relCwd', 'pathDelimiter', 'nameDelimiter'] as const).forEach((key) => {
+    assertOptionalProp(
+      options,
+      key,
+      somePredicate(isUndef, isString),
+      'options',
+    );
+  });
+
+  const {
     root = null,
     parent = root,
     relCwd = '',
     pathDelimiter = '-',
     nameDelimiter = '_',
     excludePathChunks = ['packages'],
-  }: Readonly<PackageNameFormatOptions> = {},
-): string {
-  assertString(base, 'base');
-  if (isNotNil(root)) assertString(root, 'root');
-  if (isNotNil(parent)) assertString(parent, 'parent');
+  } = options;
+  assertArray(excludePathChunks, isString, 'excludePathChunks');
+
   [
     ['relCwd', relCwd],
     ['pathDelimiter', pathDelimiter],
     ['nameDelimiter', nameDelimiter],
   ].forEach(([name, value]) => void assertString(value, name));
-  assertArray(excludePathChunks, isString, 'excludePathChunks');
+  assertArray(excludePathChunks, isString, 'options.excludePathChunks');
 
   const topLevel = parent === root;
   const exclude = new Set(excludePathChunks);
@@ -147,7 +190,7 @@ export function formatPackageName(
   if (pathChunks.at(-1) === base) {
     pathChunks.pop();
   }
-  const { scope, name: parentName } = parsePackageName(parent ?? '');
+  const { scope, name: parentName } = normalizePackageName(parent ?? '');
 
   return serializePackageName({
     scope,
@@ -198,6 +241,11 @@ export function clampWS(str: string): string {
 export function joinPath(
   ...parts: ReadonlyArray<boolean | number | string | null | undefined>
 ): string {
+  assertArray(
+    parts,
+    somePredicate(isString, isNumber, isBoolean, isNil),
+    'parts',
+  );
   return parts
     .filter(isNotNil)
     .reduce<string>(
@@ -236,6 +284,7 @@ export function splitPath(path: string, keepEmptyChunks = false): string[] {
  */
 export function camelCase<T extends string>(str: T): CamelCase<T>;
 export function camelCase(name: string): string {
+  assertString(name, 'name');
   return clampWS(name).replace(/[-_\s]+([^-_\s])/g, (_, suffix: string) =>
     suffix.toUpperCase(),
   );
@@ -267,6 +316,8 @@ export function delimCase<T extends string, D extends string>(
   delimiter: D,
 ): DelimiterCase<T, D>;
 export function delimCase(name: string, delimiter = '-'): string {
+  assertString(name, 'name');
+  assertString(delimiter, 'delimiter');
   return clampWS(name)
     .replace(/(.)([A-Z])/g, `$1${delimiter}$2`)
     .replace(/[-_\s]+/g, delimiter)

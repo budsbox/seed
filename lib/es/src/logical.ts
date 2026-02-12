@@ -2,13 +2,7 @@ import type { Predicate } from '@budsbox/lib-types';
 
 import type { FValueFalse, FValueTrue } from './types.js';
 
-import {
-  assertBoolean,
-  assertFunction,
-  isFunction,
-  isNotNil,
-  isTrue,
-} from '#guards';
+import { callPredicate, isFunction, isNotNil, isTrue } from '#guards';
 
 /**
  * Functional If
@@ -50,14 +44,13 @@ export function fif(
   onTrue: unknown,
   onFalse: unknown,
 ): unknown {
-  assertFunction(test, 'test');
-  const result = test(value);
-  assertBoolean(result, 'test result');
-  if (result) {
-    return isFunction(onTrue) ? onTrue(value) : onTrue;
-  }
-
-  return isFunction(onFalse) ? onFalse(value) : onFalse;
+  return (
+    callPredicate(test, value, 'test') ?
+      isFunction(onTrue) ? onTrue(value)
+      : onTrue
+    : isFunction(onFalse) ? onFalse(value)
+    : onFalse
+  );
 }
 
 /**

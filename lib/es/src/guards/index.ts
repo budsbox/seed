@@ -39,13 +39,23 @@ import { assertOptionalProp } from './prop.js';
 export {
   assertArray,
   assertBoolean,
+  assertDate,
+  assertDef,
+  assertError,
   assertFunction,
+  assertMap,
   assertNotNil,
   assertNumber,
   assertObject,
+  assertPrimitive,
   assertPropKey,
+  assertRegExp,
+  assertSet,
   assertString,
   assertSymbol,
+  assertWeakMapLike,
+  assertWeakSetLike,
+  callPredicate,
 } from './assert.js';
 export * from './check.js';
 export * from './hlf.js';
