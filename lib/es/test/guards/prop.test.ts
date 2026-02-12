@@ -1,7 +1,9 @@
 import { describe, expect, test, vi } from 'vitest';
 
 import {
+  assertOptionalProp,
   assertProp,
+  describePredicate,
   describeTypePredicate,
   hasProp,
   isFunction,
@@ -835,6 +837,419 @@ describe.concurrent('assertProp', () => {
       if (!hasProp(obj, 'age', isString)) {
         expect(() => void assertProp(obj, 'age', isString)).toThrow();
       }
+    });
+  });
+});
+
+describe.concurrent('assertOptionalProp', () => {
+  describe('basic property assertions with type guard', () => {
+    test('does not throw when property does not exist', () => {
+      const obj = { foo: 'bar' };
+      expect(() => void assertOptionalProp(obj, 'baz', isString)).not.toThrow();
+    });
+
+    test('does not throw when property exists and passes type guard', () => {
+      const obj = { name: 'John', age: 30 };
+      expect(
+        () => void assertOptionalProp(obj, 'name', isString),
+      ).not.toThrow();
+      expect(() => void assertOptionalProp(obj, 'age', isNumber)).not.toThrow();
+    });
+
+    test('throws when property exists but fails type guard', () => {
+      const obj = { name: 'John', age: 30 };
+      expect(() => void assertOptionalProp(obj, 'name', isNumber)).toThrow(
+        TypeError,
+      );
+      expect(() => void assertOptionalProp(obj, 'age', isString)).toThrow(
+        'Expected source.age to be string, got number instead',
+      );
+    });
+
+    test('does not throw for nil sources', () => {
+      expect(
+        () => void assertOptionalProp(null, 'foo', isString),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp(undefined, 'foo', isString),
+      ).not.toThrow();
+    });
+  });
+
+  describe('property assertions with symbol keys', () => {
+    test('does not throw when symbol property does not exist', () => {
+      const sym = Symbol('test');
+      const obj = { foo: 'bar' };
+      expect(() => void assertOptionalProp(obj, sym, isString)).not.toThrow();
+    });
+
+    test('does not throw when symbol property exists and passes type guard', () => {
+      const sym = Symbol('test');
+      const obj = { [sym]: 'value' };
+      expect(() => void assertOptionalProp(obj, sym, isString)).not.toThrow();
+    });
+
+    test('throws when symbol property exists but fails type guard', () => {
+      const sym = Symbol('test');
+      const obj = { [sym]: 123 };
+      expect(() => void assertOptionalProp(obj, sym, isString)).toThrow(
+        TypeError,
+      );
+      expect(() => void assertOptionalProp(obj, sym, isString)).toThrow(
+        'Expected source[Symbol(test)] to be string, got number instead',
+      );
+    });
+  });
+
+  describe('property assertions with number keys', () => {
+    test('does not throw when numeric property does not exist', () => {
+      const arr = ['a', 'b'];
+      expect(() => void assertOptionalProp(arr, 5, isString)).not.toThrow();
+    });
+
+    test('does not throw when numeric property exists and passes type guard', () => {
+      const arr = ['a', 'b', 'c'];
+      expect(() => void assertOptionalProp(arr, 0, isString)).not.toThrow();
+    });
+
+    test('throws when numeric property exists but fails type guard', () => {
+      const arr = ['a', 'b', 'c'];
+      expect(() => void assertOptionalProp(arr, 0, isNumber)).toThrow(
+        TypeError,
+      );
+      expect(() => void assertOptionalProp(arr, 0, isNumber)).toThrow(
+        'Expected source[0] to be number, got string instead',
+      );
+    });
+  });
+
+  describe('assertOptionalProp with checkProto flag', () => {
+    test('does not throw for inherited properties when checkProto is false', () => {
+      const obj = { __proto__: { inherited: 'value' } };
+      expect(
+        () => void assertOptionalProp(obj, 'inherited', isString, false),
+      ).not.toThrow();
+    });
+
+    test('does not throw for inherited properties when checkProto is true and passes type guard', () => {
+      const obj = { __proto__: { inherited: 'value' } };
+      expect(
+        () => void assertOptionalProp(obj, 'inherited', isString, true),
+      ).not.toThrow();
+    });
+
+    test('throws for inherited properties when checkProto is true and fails type guard', () => {
+      const obj = { __proto__: { inherited: 'value' } };
+      expect(
+        () => void assertOptionalProp(obj, 'inherited', isNumber, true),
+      ).toThrow(TypeError);
+    });
+
+    test('does not throw for own properties regardless of checkProto value', () => {
+      const obj = { own: 'value' };
+      expect(
+        () => void assertOptionalProp(obj, 'own', isString, false),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp(obj, 'own', isString, true),
+      ).not.toThrow();
+    });
+  });
+
+  describe('assertOptionalProp with custom type guards', () => {
+    test('works with custom type guards', () => {
+      const isPositive = (value: unknown): value is number =>
+        isNumber(value) && value > 0;
+      describePredicate(isPositive, 'to be positive number');
+
+      const obj = { a: 5, b: -3, c: 0 };
+      expect(() => void assertOptionalProp(obj, 'a', isPositive)).not.toThrow();
+      expect(() => void assertOptionalProp(obj, 'b', isPositive)).toThrow(
+        TypeError,
+      );
+      expect(() => void assertOptionalProp(obj, 'c', isPositive)).toThrow(
+        'Expected source.c to be positive number, got 0 instead',
+      );
+      expect(() => void assertOptionalProp(obj, 'd', isPositive)).not.toThrow();
+    });
+
+    test('type guard is not called when property does not exist', () => {
+      const testGuard = vi.fn((value: unknown): value is string =>
+        isString(value),
+      );
+
+      const obj = { name: 'John' };
+      assertOptionalProp(obj, 'missing', testGuard);
+
+      expect(testGuard).not.toHaveBeenCalled();
+    });
+
+    test('type guard is called when property exists', () => {
+      const testGuard = vi.fn((value: unknown): value is string =>
+        isString(value),
+      );
+
+      const obj = { name: 'John' };
+      assertOptionalProp(obj, 'name', testGuard);
+
+      expect(testGuard).toHaveBeenCalledOnce();
+      expect(testGuard).toHaveBeenCalledWith('John');
+    });
+  });
+
+  describe('assertOptionalProp with plain predicate', () => {
+    test('does not throw when property does not exist', () => {
+      const obj = { name: 'John' };
+      const isLongString = (value: unknown): boolean =>
+        isString(value) && value.length > 3;
+
+      expect(
+        () => void assertOptionalProp(obj, 'missing', isLongString),
+      ).not.toThrow();
+    });
+
+    test('does not throw when property exists and passes predicate', () => {
+      const obj = { name: 'John' };
+      const isLongString = (value: unknown): boolean =>
+        isString(value) && value.length > 3;
+
+      expect(
+        () => void assertOptionalProp(obj, 'name', isLongString),
+      ).not.toThrow();
+    });
+
+    test('throws when property exists but fails predicate', () => {
+      const obj = { name: 'Jo' };
+      const isLongString = (value: unknown): boolean =>
+        isString(value) && value.length > 3;
+
+      expect(() => void assertOptionalProp(obj, 'name', isLongString)).toThrow(
+        TypeError,
+      );
+      expect(() => void assertOptionalProp(obj, 'name', isLongString)).toThrow(
+        'Expected source.name to satisfy isLongString predicate, got "Jo" instead',
+      );
+    });
+
+    test('predicate is called with correct property value', () => {
+      const obj = { name: 'John' };
+      const predicate = vi.fn((value: unknown): boolean => isString(value));
+
+      assertOptionalProp(obj, 'name', predicate);
+
+      expect(predicate).toHaveBeenCalledOnce();
+      expect(predicate).toHaveBeenCalledWith('John');
+    });
+
+    test('predicate is not called when property does not exist', () => {
+      const obj = { name: 'John' };
+      const predicate = vi.fn((value: unknown): boolean => isString(value));
+
+      assertOptionalProp(obj, 'missing', predicate);
+
+      expect(predicate).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('assertOptionalProp with protected keys (__proto__, constructor)', () => {
+    test('does not throw for __proto__ key (treated as non-existent)', () => {
+      const obj = { __proto__: { malicious: 'value' } };
+      expect(
+        () => void assertOptionalProp(obj, '__proto__', isObject),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp(obj, '__proto__', isObject, true),
+      ).not.toThrow();
+    });
+
+    test('does not throw for constructor key (treated as non-existent)', () => {
+      const obj = { constructor: 'value' };
+      expect(
+        () => void assertOptionalProp(obj, 'constructor', isString),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp(obj, 'constructor', isString, true),
+      ).not.toThrow();
+    });
+
+    test('type guard is not called for protected keys', () => {
+      const obj = { __proto__: { malicious: 'value' }, constructor: 'value' };
+      const testGuard = vi.fn((value: unknown): value is string =>
+        isString(value),
+      );
+
+      assertOptionalProp(obj, '__proto__', testGuard);
+      assertOptionalProp(obj, 'constructor', testGuard);
+
+      expect(testGuard).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('assertOptionalProp with sourceName parameter', () => {
+    test('includes sourceName in error message for type guard failure', () => {
+      const obj = { name: 'John' };
+      expect(
+        () => void assertOptionalProp(obj, 'name', isNumber, 'config'),
+      ).toThrow(/config\.name/);
+    });
+
+    test('includes sourceName in error message for predicate failure', () => {
+      const obj = { name: 'Jo' };
+      const isLongString = (value: unknown): boolean =>
+        isString(value) && value.length > 3;
+      expect(
+        () => void assertOptionalProp(obj, 'name', isLongString, 'profile'),
+      ).toThrow(/profile\.name/);
+    });
+
+    test('uses default sourceName when not provided', () => {
+      const obj = { name: 123 };
+      expect(() => void assertOptionalProp(obj, 'name', isString)).toThrow(
+        /source/,
+      );
+    });
+  });
+
+  describe('assertOptionalProp with checkProto and sourceName', () => {
+    test('includes sourceName in error message when inherited property fails type guard', () => {
+      const obj = { __proto__: { inherited: 'value' } };
+      expect(
+        () => void assertOptionalProp(obj, 'inherited', isNumber, true, 'data'),
+      ).toThrow(/data\.inherited/);
+    });
+
+    test('does not throw when inherited property passes type guard', () => {
+      const obj = { __proto__: { inherited: 'value' } };
+      expect(
+        () => void assertOptionalProp(obj, 'inherited', isString, true, 'data'),
+      ).not.toThrow();
+    });
+  });
+
+  describe('error cases', () => {
+    test('throws TypeError when key is not a valid property key', () => {
+      const obj = { name: 'John' };
+      expect(() => void assertOptionalProp(obj, {} as never, isString)).toThrow(
+        TypeError,
+      );
+      expect(() => void assertOptionalProp(obj, [] as never, isString)).toThrow(
+        'Expected key to be valid property key (string, symbol, or number), got array instead',
+      );
+      expect(
+        () => void assertOptionalProp(obj, null as never, isString),
+      ).toThrow(TypeError);
+    });
+
+    test('throws TypeError when predicate is not a function', () => {
+      const obj = { name: 'John' };
+      expect(
+        () => void assertOptionalProp(obj, 'name', 'invalid' as never),
+      ).toThrow(TypeError);
+      expect(() => void assertOptionalProp(obj, 'name', 123 as never)).toThrow(
+        'Expected predicate to be function, got number instead',
+      );
+      expect(() => void assertOptionalProp(obj, 'name', null as never)).toThrow(
+        TypeError,
+      );
+      expect(
+        () => void assertOptionalProp(obj, 'name', undefined as never),
+      ).toThrow(TypeError);
+    });
+
+    test('throws TypeError when test function returns non-boolean', () => {
+      const obj = { name: 'John' };
+      const invalidGuard = (): string => 'not a boolean';
+
+      expect(
+        () => void assertOptionalProp(obj, 'name', invalidGuard as never),
+      ).toThrow(TypeError);
+      expect(
+        () => void assertOptionalProp(obj, 'name', invalidGuard as never),
+      ).toThrow('Expected predicate result to be boolean, got string instead');
+    });
+
+    test('throws TypeError when checkProto is not a boolean', () => {
+      const obj = { name: 'John' };
+      expect(
+        () => void assertOptionalProp(obj, 'name', isString, 123 as never),
+      ).toThrow(TypeError);
+      expect(
+        () => void assertOptionalProp(obj, 'name', isString, null as never),
+      ).toThrow(TypeError);
+    });
+  });
+
+  describe('edge cases', () => {
+    test('works with objects that have no prototype', () => {
+      const obj = Object.create(null) as { prop?: string };
+      obj.prop = 'value';
+      expect(
+        () => void assertOptionalProp(obj, 'prop', isString),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp(obj, 'missing', isString, true),
+      ).not.toThrow();
+    });
+
+    test('works with primitive values', () => {
+      expect(
+        () => void assertOptionalProp('string', 'length', isNumber),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp('string', 'missing', isNumber),
+      ).not.toThrow();
+    });
+
+    test('works with arrays', () => {
+      const arr = [1, 2, 3];
+      expect(
+        () => void assertOptionalProp(arr, 'length', isNumber),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp(arr, 'push', isFunction, true),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp(arr, 'nonexistent', isString),
+      ).not.toThrow();
+    });
+
+    test('works with functions', () => {
+      const fn = (): void => {};
+      fn.customProp = 'value';
+      expect(
+        () => void assertOptionalProp(fn, 'customProp', isString),
+      ).not.toThrow();
+      expect(
+        () => void assertOptionalProp(fn, 'nonexistent', isString),
+      ).not.toThrow();
+    });
+
+    test('handles Symbol.iterator', () => {
+      const arr = [1, 2, 3];
+      expect(
+        () => void assertOptionalProp(arr, Symbol.iterator, isFunction, true),
+      ).not.toThrow();
+    });
+
+    test('handles property with undefined value', () => {
+      const obj = { foo: undefined };
+      const isUndefined = (value: unknown): value is undefined =>
+        value === undefined;
+      expect(
+        () => void assertOptionalProp(obj, 'foo', isUndefined),
+      ).not.toThrow();
+      expect(() => void assertOptionalProp(obj, 'foo', isString)).toThrow(
+        'Expected source.foo to be string, got undefined instead',
+      );
+    });
+
+    test('handles property with null value', () => {
+      const obj = { foo: null };
+      const isNull = (value: unknown): value is null => value === null;
+      expect(() => void assertOptionalProp(obj, 'foo', isNull)).not.toThrow();
+      expect(() => void assertOptionalProp(obj, 'foo', isString)).toThrow(
+        TypeError,
+      );
     });
   });
 });

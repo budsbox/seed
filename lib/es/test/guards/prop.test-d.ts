@@ -3,9 +3,16 @@ import type { IsEmptyObject } from '@budsbox/lib-types';
 
 import { describe, expectTypeOf, test } from 'vitest';
 
-import { assertProp, hasProp, isBoolean, isNumber, isString } from '#guards';
+import {
+  assertOptionalProp,
+  assertProp,
+  hasProp,
+  isBoolean,
+  isNumber,
+  isString,
+} from '#guards';
 
-describe('hasProp type tests', () => {
+describe('hasProp', () => {
   describe('basics', () => {
     test('the source being null or undefined always narrows down to never', () => {
       const nullSource = null;
@@ -285,7 +292,7 @@ describe('hasProp type tests', () => {
   });
 });
 
-describe('assertProp type tests', () => {
+describe('assertProp', () => {
   describe('basics', () => {
     test('the source being null or undefined always throws (return type is never)', () => {
       const nullSource = null;
@@ -535,6 +542,145 @@ describe('assertProp type tests', () => {
       assertProp(source, 0, () => true);
       expectTypeOf(source).toEqualTypeOf<Record<0, unknown>>();
       expectTypeOf(source[0]).toBeUnknown();
+    });
+  });
+});
+
+describe('assertOptionalProp', () => {
+  describe('with type guard', () => {
+    test('null or undefined source value remains as is', () => {
+      const sourceNull = null,
+        sourceUndefined = undefined;
+      assertOptionalProp(sourceNull, 'prop', isString);
+      expectTypeOf(sourceNull).toEqualTypeOf<null>();
+
+      assertOptionalProp(sourceUndefined, 'prop', isString);
+      expectTypeOf(sourceUndefined).toEqualTypeOf<undefined>();
+    });
+
+    test('nullable source stays nullable', () => {
+      const source = { foo: 1 } as { foo: number } | null;
+
+      assertOptionalProp(source, 'foo', isNumber);
+      expectTypeOf(source).toEqualTypeOf<{ foo: number } | null>();
+      expectTypeOf(source?.foo).toEqualTypeOf<number | undefined>();
+    });
+
+    test('narrows unknown source to nullable partial record', () => {
+      const source = { foo: 'bar' } as unknown;
+
+      assertOptionalProp(source, 'foo', isString);
+      expectTypeOf(source).toEqualTypeOf<
+        Partial<Record<'foo', string>> | null | undefined
+      >();
+      expectTypeOf(source?.foo).toEqualTypeOf<string | undefined>();
+    });
+
+    test('narrows source with optional unknown prop to record with optional prop with narrowed type', () => {
+      const source: { foo?: unknown } = { foo: 42 };
+      assertOptionalProp(source, 'foo', isNumber);
+      expectTypeOf(source).toMatchObjectType<{ foo?: number }>();
+      expectTypeOf(source.foo).toEqualTypeOf<number | undefined>();
+    });
+
+    test('narrows source with optional union prop to record with optional prop narrowed by type guard', () => {
+      const source: { foo?: number | string } = { foo: 42 };
+      assertOptionalProp(source, 'foo', isNumber);
+      expectTypeOf(source).toMatchObjectType<{ foo?: number }>();
+      expectTypeOf(source.foo).toEqualTypeOf<number | undefined>();
+    });
+
+    test('narrows union of objects with same required prop to object matching type guard', () => {
+      const source = { foo: 42 } as { foo: number } | { foo: string };
+      assertOptionalProp(source, 'foo', isNumber);
+      expectTypeOf(source).toMatchObjectType<{ foo: number }>();
+      expectTypeOf(source.foo).toEqualTypeOf<number>();
+    });
+
+    test('narrows union of objects with required and optional prop to matching object or object with never prop', () => {
+      const source = { foo: 42 } as
+        | { foo: number }
+        | { foo?: string; bar: boolean };
+      assertOptionalProp(source, 'foo', isNumber);
+      expectTypeOf(source).toEqualTypeOf<
+        { bar: boolean; foo?: never } | { foo: number }
+      >();
+      expectTypeOf(source.foo).toEqualTypeOf<number | undefined>();
+    });
+
+    test('union of primitive and object with prop remains unchanged when prop exists only on object', () => {
+      const source = { foo: 42 } as string | { foo: number };
+      assertOptionalProp(source, 'foo', isNumber);
+      expectTypeOf(source).toEqualTypeOf<string | { foo: number }>();
+      expectTypeOf(source).not.toHaveProperty('foo');
+    });
+
+    test('chained case', () => {
+      const source = { foo: 42 } as unknown;
+      assertOptionalProp(source, 'foo', isNumber);
+      assertOptionalProp(source, 'bar', isString);
+      expectTypeOf(source).branded.toEqualTypeOf<
+        | {
+            foo?: number;
+            bar?: string;
+          }
+        | null
+        | undefined
+      >();
+    });
+
+    test('nested case', () => {
+      const source = { foo: { bar: 42 } } as unknown;
+      assertOptionalProp(source, 'foo', (v) => hasProp(v, 'bar', isNumber));
+      expectTypeOf(source).toEqualTypeOf<
+        { foo?: Record<'bar', number> } | null | undefined
+      >();
+    });
+  });
+
+  describe('with predicate', () => {
+    const testPredicate = (): boolean => true;
+
+    test('null or undefined source value remains as is', () => {
+      const sourceNull = null,
+        sourceUndefined = undefined;
+      assertOptionalProp(sourceNull, 'prop', testPredicate);
+      expectTypeOf(sourceNull).toEqualTypeOf<null>();
+
+      assertOptionalProp(sourceUndefined, 'prop', testPredicate);
+      expectTypeOf(sourceUndefined).toEqualTypeOf<undefined>();
+    });
+
+    test('nullable source stays nullable', () => {
+      const source = { foo: 1 } as { foo: number } | null;
+
+      assertOptionalProp(source, 'foo', testPredicate);
+      expectTypeOf(source).toEqualTypeOf<{ foo: number } | null>();
+      expectTypeOf(source?.foo).toEqualTypeOf<number | undefined>();
+    });
+
+    test('narrows unknown source to nullable partial record with unknown prop', () => {
+      const source = { foo: 'bar' } as unknown;
+
+      assertOptionalProp(source, 'foo', testPredicate);
+      expectTypeOf(source).toEqualTypeOf<
+        { foo?: unknown } | null | undefined
+      >();
+      expectTypeOf(source?.foo).toEqualTypeOf<unknown>();
+    });
+
+    test('chained case', () => {
+      const source = { foo: 42 } as unknown;
+      assertOptionalProp(source, 'foo', testPredicate);
+      assertOptionalProp(source, 'bar', testPredicate);
+      expectTypeOf(source).branded.toEqualTypeOf<
+        | {
+            foo?: unknown;
+            bar?: unknown;
+          }
+        | null
+        | undefined
+      >();
     });
   });
 });

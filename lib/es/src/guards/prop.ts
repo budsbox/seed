@@ -1,8 +1,15 @@
-import type { IsNever, IterableElement, KeysOfUnion } from 'type-fest';
+import type {
+  IsNever,
+  IsUnknown,
+  IterableElement,
+  KeysOfUnion,
+} from 'type-fest';
 
 import type {
   AnyRecord,
+  CustomRecord,
   DistributedPropValue,
+  Infer,
   IsEmptyObject,
   NarrowedType,
   Nil,
@@ -305,15 +312,14 @@ export function assertProp(
 /**
  * Asserts that a property either does not exist or passes a type guard test.
  *
- * Narrows both the source type and the property value type based on the provided type guard,
- * or eliminates the property if it does not exist.
+ * Narrows both the source type and the property value type based on the provided type guard.
  *
  * @param source - The object to check.
  * @param key - The property key to verify.
  * @param typeGuard - A type guard to narrow the property value type.
  * Accepts the property value as the only parameter.
  * @param rest - Optional parameters: `checkProto` flag and `sourceName` for error messages.
- * @returns void if the assertion succeeds, otherwise throws an error.
+ * @returns void.
  * {@label TYPE_GUARD}
  * @throws {@link TypeError} In the following cases:
  * - If the provided key is not a valid property key.
@@ -327,8 +333,8 @@ export function assertProp(
  */
 export function assertOptionalProp<
   TSource,
-  TKey extends StrictKey<TSource>,
-  TGuard extends TypePredicate,
+  TKey extends PropertyKey,
+  TGuard extends TypePredicate<PropValue<TSource, TKey>>,
 >(
   source: TSource,
   key: TKey,
@@ -336,7 +342,7 @@ export function assertOptionalProp<
   ...rest: WithoutPredicate<AssertPropRest>
 ): asserts source is
   | SourceEliminated<TSource, TKey>
-  | SourceNarrowedWithTypeGuard<TSource, TKey, TGuard>;
+  | SourceNarrowedWithTypeGuard<TSource, TKey, TGuard, true>;
 
 /**
  * Asserts that a property either does not exist or passes a predicate test.
@@ -345,7 +351,8 @@ export function assertOptionalProp<
  * @param key - The property key to verify.
  * @param predicate - A predicate to test the property value if it exists.
  * Accepts the property value as the only parameter.
- * @returns void if the assertion succeeds, otherwise throws an error.
+ * @param rest - Optional parameters: `checkProto` flag and `sourceName` for error messages.
+ * @returns void.
  * {@label PREDICATE}
  * @throws {@link TypeError} In the following cases:
  * - If the provided key is not a valid property key.
@@ -356,20 +363,21 @@ export function assertOptionalProp<
  * @typeParam TKey - The property key type.
  * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
  */
-export function assertOptionalProp<TSource, TKey extends StrictKey<TSource>>(
+export function assertOptionalProp<TSource, TKey extends PropertyKey>(
   source: TSource,
   key: TKey,
   predicate: ValuePredicate<PropValue<TSource, TKey>>,
+  ...rest: WithoutPredicate<AssertPropRest>
 ): asserts source is
   | SourceEliminated<TSource, TKey>
-  | SourceNarrowed<TSource, TKey>;
+  | SourceNarrowed<TSource, TKey, true>;
 
 export function assertOptionalProp(
   source: unknown,
   key: PropertyKey,
   ...rest: AssertPropRest
 ): void {
-  assertPropKey(key);
+  assertPropKey(key, 'key');
   assertFunction(rest[0], 'predicate');
 
   const [predicate, checkProto, sourceName] = normalizeAssertRest(
@@ -444,51 +452,40 @@ type PropValue<TSource, TKey extends PropertyKey> = WithFallback<
 
 type StrictKey<TSource> = WithFallback<KeysOfUnion<TSource>, PropertyKey>;
 
-type SourceNarrowed<TSource, TKey extends PropertyKey> = WithFallback<
+type SourceNarrowed<
+  TSource,
+  TKey extends PropertyKey,
+  TPartial extends boolean = false,
+> = WithFallback<
   TSource extends AnyRecord<TKey, unknown> ?
-    TSource & Record<TKey, PropValue<TSource, TKey>>
+    TSource & CustomRecord<TKey, PropValue<TSource, TKey>, TPartial>
   : never,
-  TSource & Record<TKey, PropValue<TSource, TKey>>
+  TSource & CustomRecord<TKey, PropValue<TSource, TKey>, TPartial>
 >;
 
 type SourceNarrowedWithTypeGuard<
   TSource,
   TKey extends PropertyKey,
   TGuard extends TypePredicate,
+  TPartial extends boolean = false,
 > = WithFallback<
   TSource extends AnyRecord<TKey, unknown> ?
     IsNever<TSource[TKey & keyof TSource] & NarrowedType<TGuard>> extends true ?
       never
-    : TSource & Record<TKey, NarrowedType<TGuard>>
+    : TSource & CustomRecord<TKey, NarrowedType<TGuard>, TPartial>
   : never,
-  TSource & Record<TKey, NarrowedType<TGuard>>
+  TSource & CustomRecord<TKey, NarrowedType<TGuard>, TPartial>
 >;
 
 type SourceEliminated<TSource, TKey extends PropertyKey> =
   TSource extends Readonly<Record<TKey, unknown>> ? never
   : TSource extends AnyRecord<TKey, unknown> ?
-    // this check is to ensure compatibility with TSource
-    Omit<TSource, TKey> extends TSource ?
-      NeverIfEmpty<Omit<TSource, TKey>>
-    : TSource
+    Infer<
+      IsEmptyObject<Omit<TSource, TKey>> extends true ? never
+      : TSource & CustomRecord<TKey, never, true>
+    >
+  : IsUnknown<TSource> extends true ? (null | undefined) & TSource
   : TSource;
-
-type NeverIfEmpty<T> = IsEmptyObject<T> extends true ? never : T;
-
-// type Test1 = string | { foo: number };
-// type Test2 = string | { foo?: number };
-// type Test3 = { lol: string } | { readonly foo?: number | undefined };
-// type Test4 = { lol: string } | { readonly foo?: number | string; bla: boolean };
-// type Test5 =
-//   | { lol: string }
-//   | { readonly foo: number | undefined; bla: boolean };
-//
-// type IsNumber = (value: unknown) => value is number;
-// type SourceElimTest1 = SourceEliminated<Test1, 'foo'>;
-// type SourceElimTest2 = Infer<SourceEliminated<Test2, 'foo'>>;
-// type SourceElimTest3 = Infer<SourceEliminated<Test3, 'foo'>>;
-// type SourceElimTest4 = Infer<SourceEliminated<Test4, 'foo'>>;
-// type SourceElimTest5 = Infer<SourceEliminated<Test5, 'foo'>>;
 
 type HasPropRest =
   | readonly [checkProto?: Undef<boolean>]
