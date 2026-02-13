@@ -15,13 +15,20 @@ import type {
 } from './types.js';
 
 import {
+  assertOptionalProp,
+  assertProp,
+  assertSome,
   hasProp,
   isBoolean,
+  isIterable,
   isNil,
+  isObject,
   isString,
   isTrue,
+  somePredicate,
 } from '@budsbox/lib-es/guards';
 import { fif } from '@budsbox/lib-es/logical';
+import { ROMap } from '@budsbox/lib-es/map';
 import { delimCase } from '@budsbox/lib-es/string';
 
 import {
@@ -308,9 +315,15 @@ export const normalize = (input: MimeTypeInput): string =>
 
 const recordSet = new WeakSet<MimeTypeRecord>();
 
-const registerRecord = (mimeType: MimeTypeRecord): MimeTypeRecord => (
-  recordSet.add(mimeType), mimeType
-);
+const registerRecord = (mimeType: MimeTypeRecord): MimeTypeRecord => {
+  const readonlyMimeType = Object.freeze({
+    ...mimeType,
+    parameters: new ROMap(mimeType.parameters),
+  });
+
+  recordSet.add(readonlyMimeType);
+  return readonlyMimeType;
+};
 
 const isMimeRecord = (value: unknown): value is MimeTypeRecord =>
   (recordSet as Set<unknown>).has(value);
@@ -337,6 +350,8 @@ const isMimeRecord = (value: unknown): value is MimeTypeRecord =>
 export const normalizeInput = (
   input: MimeTypeInput,
 ): [mimeType: MimeTypeRecord, options: MimeTypeOptions] => {
+  assertSome(input, 'input', isString, isObject);
+
   const defaultOptions: MimeTypeOptions = {
     keepCharsetCase: false,
   };
@@ -347,10 +362,18 @@ export const normalizeInput = (
   } else if (hasProp(input, 'mimeType', isString)) {
     const { mimeType, ...userOptions } = input;
     const options = { ...defaultOptions, ...userOptions };
+    assertOptionalProp(input, 'serialize', isBoolean, 'input');
     return [customSniff(mimeType, options), options];
   } else {
-    const { type, subtype, parameters, ...userOptions } =
-      input as MimeTypeSerializableInput;
+    assertProp(input, 'type', isString, 'input');
+    assertProp(input, 'subtype', isString, 'input');
+    assertOptionalProp(
+      input,
+      'parameters',
+      somePredicate(isObject, isIterable),
+    );
+    assertOptionalProp(input, 'serialize', isBoolean, 'input');
+    const { type, subtype, parameters, ...userOptions } = input;
     const options = { ...defaultOptions, ...userOptions };
     return [
       customSniff(serializeMimeType({ type, subtype, parameters }), options),
