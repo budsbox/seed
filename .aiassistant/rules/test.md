@@ -11,3 +11,5 @@ Cover negative cases (exceptions, null-cases, omitted arguments and so on).
 For tests with incorrect argument types use `as never` instead of `as any` or `@ts-expect-error`.
 Test functions, constructors and methods with invalid arguments, expect TypeError to be thrown.
 Explicitly define a return type of the functions you create.
+Do not write type tests.
+To verify if a function has been invoked, use `vi.fn` together with `expect(fn).toHaveBeenCalled()` or `expect(fn).not.toHaveBeenCalled()`
