@@ -13,5 +13,9 @@ export default await createFlatConfig({
       tsconfigFile: 'tsconfig.tools.json',
       presets: [eslintPresetTools()],
     },
+    {
+      tsconfigFile: './tsconfig.test.json',
+      presets: [eslintPresetLib()],
+    },
   ],
 });

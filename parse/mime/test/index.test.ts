@@ -1,17 +1,20 @@
-import { describe, expect, test } from 'vitest';
-import {
-  parse,
-  sniff,
-  ParseFunction,
-  SyntaxError as ParserSyntaxError,
-  serializeMimeType,
-} from '@budsbox/parse-mime';
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import generatedMimeSniffTests from 'mime-sniff-test-data/generated.json';
 import handCraftedMimeSniffTests from 'mime-sniff-test-data/hand-crafted.json';
+import { describe, expect, test } from 'vitest';
+
+import {
+  type ParseFunction,
+  SyntaxError as ParserSyntaxError,
+  parse,
+  serializeMimeType,
+  serializeParameters,
+  sniff,
+} from '@budsbox/parse-mime';
 
 const grammarSource = '<test-string>';
 
-const formatSyntaxError = (input: string, err: unknown) =>
+const formatSyntaxError = (input: string, err: unknown): unknown =>
   err instanceof ParserSyntaxError ?
     new ParserSyntaxError(
       err.format([{ source: grammarSource, text: input }]),
@@ -240,11 +243,11 @@ describe.sequential('MIME Parser test suite', () => {
           );
           expect(res).toStrictEqual({
             essence: 'application/vnd.company.product+json',
-            type: 'application',
-            subtype: 'vnd.company.product+json',
             facet: 'vnd.',
-            suffix: '+json',
             parameters: new Map([['charset', 'utf-8']]),
+            subtype: 'vnd.company.product+json',
+            suffix: '+json',
+            type: 'application',
           });
         });
 
@@ -797,10 +800,7 @@ describe.sequential('MIME Parser test suite', () => {
         ),
       ).toStrictEqual({
         essence: 'app.lication/emergencycalldata.deviceinfo+xml',
-        type: 'app.lication',
-        subtype: 'emergencycalldata.deviceinfo+xml',
         facet: 'emergencycalldata.',
-        suffix: '+xml',
         parameters: new Map([
           ['charset', 'utf-8'],
           ['foo', 'bAr "  azAz'],
@@ -809,13 +809,16 @@ describe.sequential('MIME Parser test suite', () => {
           ['bruh', ''],
           ['fufufu', '1'],
         ]),
+        subtype: 'emergencycalldata.deviceinfo+xml',
+        suffix: '+xml',
+        type: 'app.lication',
       });
     });
 
     /**
      * @see {@link https://raw.githubusercontent.com/web-platform-tests/wpt/refs/heads/master/mimesniff/mime-types/resources/generated-mime-types.json}
      */
-    test('MIME Sniffing Standard generated tests', () => {
+    test(`MIME Sniffing Standard generated tests (${String(generatedMimeSniffTests.length)})`, () => {
       for (const { input, output } of generatedMimeSniffTests) {
         if (output === null) {
           expect.soft(() => sniffFormatted(input)).toThrowError('Expected');
@@ -843,7 +846,7 @@ describe.sequential('MIME Parser test suite', () => {
     });
   });
 
-  describe('edgeCases', () => {
+  describe('edge cases', () => {
     test('throws when input is not string', () => {
       expect(() => sniffFormatted(null as never)).toThrowError(TypeError);
       expect(() => sniffFormatted(undefined as never)).toThrowError(
@@ -871,6 +874,49 @@ describe.sequential('MIME Parser test suite', () => {
       expect(() => parse('text/html', 'foobar' as never)).toThrowError(
         'Expected options to be object, got string instead',
       );
+    });
+
+    test('throws when serializeParameters receives invalid input', () => {
+      expect(() => serializeParameters('x' as never)).toThrowError(TypeError);
+      expect(() => serializeParameters('x' as never)).toThrowError(
+        'Expected parameter to be array, got string instead',
+      );
+      expect(() => serializeParameters([['a', 1]] as never)).toThrowError(
+        TypeError,
+      );
+      expect(() => serializeParameters([['a', 1]] as never)).toThrowError(
+        'Expected parameter_value to be string, got number instead',
+      );
+      expect(() =>
+        serializeParameters([['a', ['b', 2]]] as never),
+      ).toThrowError(TypeError);
+      expect(() =>
+        serializeParameters([['a', ['b', 2]]] as never),
+      ).toThrowError(
+        'Expected parameter_value[1] to be string, got number instead',
+      );
+    });
+
+    test('throws when serializeMimeType receives invalid record', () => {
+      expect(() => serializeMimeType({} as never)).toThrowError(TypeError);
+      expect(() => serializeMimeType({} as never)).toThrowError(
+        'Expected record to have own property "type"',
+      );
+      expect(() =>
+        serializeMimeType({ type: 'text', subtype: 1 } as never),
+      ).toThrowError(TypeError);
+      expect(() =>
+        serializeMimeType({ type: 'text', subtype: 1 } as never),
+      ).toThrowError(
+        'Expected record.subtype to be string, got number instead',
+      );
+      expect(() =>
+        serializeMimeType({
+          type: 'text',
+          subtype: 'plain',
+          parameters: 'x',
+        } as never),
+      ).toThrowError(TypeError);
     });
   });
 });

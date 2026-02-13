@@ -17,7 +17,19 @@ import type {
   StartRuleNames,
 } from '#types';
 
-import { isArray, isIterable } from '@budsbox/lib-es/guards';
+import {
+  assertArray,
+  assertOptionalProp,
+  assertProp,
+  assertSome,
+  assertString,
+  isArray,
+  isIterable,
+  isObject,
+  isString,
+  isUndef,
+  somePredicate,
+} from '@budsbox/lib-es/guards';
 
 import * as Parser from '#parser';
 
@@ -110,8 +122,11 @@ export const sniff = <
 >(
   input: string,
   options?: Readonly<Omit<ParseOptions<TRule, TMultiParameter>, 'sniff'> & {}>,
-): RuleResult<TMultiParameter>[TRule] =>
-  parse(input, { ...options, sniff: true });
+): RuleResult<TMultiParameter>[TRule] => {
+  assertSome(options, 'options', isObject, isUndef);
+
+  return parse(input, { ...options, sniff: true });
+};
 
 /**
  * Type alias for the {@link parse} function signature.
@@ -120,6 +135,7 @@ export const sniff = <
  */
 export type ParseFunction = typeof parse;
 
+// eslint-disable-next-line jsdoc/require-throws,jsdoc/lines-before-block
 /**
  * Checks whether a string is a valid HTTP token, according both to IETF and WHATWG standards.
  *
@@ -184,25 +200,30 @@ const isHttpToken = (value: string): boolean => {
 export const serializeParameters = (
   parameters: SerializableParameters<true>,
 ): string => {
+  if (isUndef(parameters)) return '';
+  assertSome(parameters, 'parameters', isObject, isIterable);
   const queue = [
     ...(isIterable(parameters) ? parameters : Object.entries(parameters)),
   ];
   const result: string[] = [];
   while (queue.length) {
-    const item = queue.shift();
-    if (isArray(item)) {
-      const [name, value] = item;
-      if (isArray(value)) {
-        queue.unshift(...value.map((v): [string, string] => [name, v]));
-      } else {
-        result.push(
-          `;${name}=${
-            isHttpToken(value) ? value : (
-              `"${value.replace(/["\\]/g, (s) => `\\${s}`)}"`
-            )
-          }`,
-        );
-      }
+    const parameter = queue.shift();
+    assertArray(parameter, 'parameter');
+
+    const [name, value] = parameter;
+    assertString(name, 'parameter_name');
+    if (isArray(value)) {
+      assertArray(value, isString, 'parameter_value');
+      queue.unshift(...value.map((v): [string, string] => [name, v]));
+    } else {
+      assertString(value, 'parameter_value');
+      result.push(
+        `;${name}=${
+          isHttpToken(value) ? value : (
+            `"${value.replace(/["\\]/g, (s) => `\\${s}`)}"`
+          )
+        }`,
+      );
     }
   }
 
@@ -215,7 +236,7 @@ export const serializeParameters = (
  * This is the inverse operation of parsing
  * and is useful for normalizing MIME types or constructing them programmatically.
  *
- * @param mimeTypeParsed - The "MIME type"-like record to serialize.
+ * @param record - The "MIME type"-like record to serialize.
  * @returns A string representation of the MIME type in the format "type/subtype;param1=value1;param2=value2"
  * @see {@link parse} — for the inverse operation.
  * @see {@link SerializableMimeTypeRecord} — for the structure of the input object.
@@ -240,9 +261,19 @@ export const serializeParameters = (
  * // result === 'application/json;charset=utf-8'
  * ```
  */
-export const serializeMimeType = ({
-  type,
-  subtype,
-  parameters = [],
-}: SerializableMimeTypeRecord<true>): string =>
-  `${type}/${subtype}${serializeParameters(parameters)}`;
+export const serializeMimeType = (
+  record: SerializableMimeTypeRecord<true>,
+): string => {
+  assertProp(record, 'type', isString, 'record');
+  assertProp(record, 'subtype', isString, 'record');
+  assertOptionalProp(
+    record,
+    'parameters',
+    somePredicate(isObject, isIterable, isUndef),
+    'record',
+  );
+
+  const { type, subtype, parameters = [] } = record;
+
+  return `${type}/${subtype}${serializeParameters(parameters)}`;
+};
