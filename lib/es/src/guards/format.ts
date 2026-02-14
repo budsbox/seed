@@ -42,8 +42,10 @@ export const formatPredicateExpectedMessage = (
 ): string => {
   const { condition, isType, isValue } = getPredicateConditions(predicate);
 
+  const formattedType = isType ? formatDebugType(value) : '';
+  const formattedValue = isValue ? formatDebugValue(value) : '';
   return `Expected ${valueName} ${condition}, got${isType ? ` ${formatDebugType(value)}` : ''}${
-    isValue ?
+    isValue && formattedValue !== formattedType ?
       isType ? [' (', formatDebugValue(value), ')'].join('')
       : ` ${formatDebugValue(value)}`
     : ''

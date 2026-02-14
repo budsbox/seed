@@ -457,6 +457,26 @@ describe.concurrent('formatPredicateExpectedMessage', () => {
           'Expected value to be number or to equal "a", got string ("b") instead',
         );
       });
+
+      test("merges formatted value and type if they're equal", (): void => {
+        const conditionPredicate: Predicate = (v: unknown): boolean =>
+          v === 'a';
+        describePredicate(conditionPredicate, 'to equal "a"');
+
+        const result = formatPredicateExpectedMessage(
+          describeComplexPredicate(
+            () => true,
+            false,
+            isNumber,
+            conditionPredicate,
+          ),
+          undefined,
+        );
+
+        expect(result).toBe(
+          'Expected value to be number or to equal "a", got undefined instead',
+        );
+      });
     });
 
     describe('and', () => {
