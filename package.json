@@ -175,6 +175,7 @@
     "globals": "^16.5.0",
     "meow": "^13.2.0",
     "micromatch": "^4.0.8",
+    "mime-db": "*",
     "peggy": "^5.0.6",
     "prettier": "3.2.5",
     "react": "^19.1.1",

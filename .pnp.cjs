@@ -198,7 +198,7 @@ const RAW_RUNTIME_STATE =
     ["@budsbox/lib-es", ["workspace:lib/es"]],\
     ["@budsbox/lib-extensions", ["workspace:lib/extensions"]],\
     ["@budsbox/lib-hooks", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/hooks", "workspace:lib/hooks"]],\
-    ["@budsbox/lib-mime", ["workspace:lib/mime"]],\
+    ["@budsbox/lib-mime", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/mime", "workspace:lib/mime"]],\
     ["@budsbox/lib-node", ["virtual:1287f1b01dd2d4c2cad206204706ae47e285461fd79406ec408ab902c68ff7072d287b17bbcfea09e58c194b8e7f5684c1fc2d88386d712213b6bbc9a9bbdc66#workspace:lib/node", "virtual:2124a3c153e594d15c846ecc0c9889c8176441816422daf8fcc61775abe7be69ab8be3e66c11eee238b4f541dfecf1404b8c0ddbf2f1dead45e96aa469921953#workspace:lib/node", "virtual:8c41fb32c97ec01dabd94e06cbe82df0ad73ee654b68e31b7dc7a572c3ab03b98e160808c18058ba5f7bcc0c5344e53ccace64b61b51213eb8091d8b0e7031d7#workspace:lib/node", "virtual:d93d4a4d20395a299ed8fa823f85e7a98343b13f580779977fa000ee98d600ec1e85ab5b1315e0ea8e8dd557354b949cf159921464fdf30eaeb15b5a887629e1#workspace:lib/node", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lib/node", "workspace:lib/node"]],\
     ["@budsbox/lib-random", ["workspace:lib/random"]],\
     ["@budsbox/lib-react", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/react", "workspace:lib/react"]],\
@@ -246,7 +246,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-extensions", "workspace:lib/extensions"],\
           ["@budsbox/lib-hooks", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/hooks"],\
-          ["@budsbox/lib-mime", "workspace:lib/mime"],\
+          ["@budsbox/lib-mime", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/mime"],\
           ["@budsbox/lib-node", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lib/node"],\
           ["@budsbox/lib-random", "workspace:lib/random"],\
           ["@budsbox/lib-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/react"],\
@@ -299,6 +299,7 @@ const RAW_RUNTIME_STATE =
           ["lint-staged", "npm:16.2.7"],\
           ["meow", "npm:13.2.0"],\
           ["micromatch", "npm:4.0.8"],\
+          ["mime-db", "npm:1.54.0"],\
           ["peggy", "npm:5.0.6"],\
           ["prettier", "npm:3.2.5"],\
           ["react", "npm:19.1.1"],\
@@ -4665,6 +4666,33 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@budsbox/lib-mime", [\
+      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/mime", {\
+        "packageLocation": "./.yarn/__virtual__/@budsbox-lib-mime-virtual-42a42e663e/1/lib/mime/",\
+        "packageDependencies": [\
+          ["@budsbox/eslint", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint"],\
+          ["@budsbox/eslint_presets-lib", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/lib"],\
+          ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
+          ["@budsbox/lib-es", "workspace:lib/es"],\
+          ["@budsbox/lib-mime", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/mime"],\
+          ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
+          ["@budsbox/parse-mime", "workspace:parse/mime"],\
+          ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
+          ["@types/eslint", "npm:9.6.1"],\
+          ["@types/mime-db", null],\
+          ["@types/node", "npm:22.19.1"],\
+          ["eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:9.39.1"],\
+          ["mime-db", "npm:1.54.0"],\
+          ["tslib", "npm:2.8.1"],\
+          ["type-fest", "npm:5.3.1"],\
+          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
+          ["vitest", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#npm:4.0.15"]\
+        ],\
+        "packagePeers": [\
+          "@types/mime-db",\
+          "mime-db"\
+        ],\
+        "linkType": "SOFT"\
+      }],\
       ["workspace:lib/mime", {\
         "packageLocation": "./lib/mime/",\
         "packageDependencies": [\
@@ -5678,7 +5706,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-extensions", "workspace:lib/extensions"],\
           ["@budsbox/lib-hooks", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/hooks"],\
-          ["@budsbox/lib-mime", "workspace:lib/mime"],\
+          ["@budsbox/lib-mime", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/mime"],\
           ["@budsbox/lib-node", "virtual:dc469e658bd5f80e297cbde79679387bb000acc0f17ced30902dc5f4b07c7feaa049359142e17ef27e4248f13b37b911fc470f447ca164ea7e7dc8bb8185f09a#workspace:lib/node"],\
           ["@budsbox/lib-random", "workspace:lib/random"],\
           ["@budsbox/lib-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/react"],\
@@ -5731,6 +5759,7 @@ const RAW_RUNTIME_STATE =
           ["lint-staged", "npm:16.2.7"],\
           ["meow", "npm:13.2.0"],\
           ["micromatch", "npm:4.0.8"],\
+          ["mime-db", "npm:1.54.0"],\
           ["peggy", "npm:5.0.6"],\
           ["prettier", "npm:3.2.5"],\
           ["react", "npm:19.1.1"],\
