@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   ArrayTail,
   ConditionalExcept,
@@ -51,23 +52,87 @@ export type Diff<T1 extends object, T2 extends object> = InferObject<
  *
  * @typeParam TKey - The type of the property keys. Defaults to `PropertyKey`.
  * @typeParam TValue - The type of the property values. Defaults to `any`.
- * @remarks The complexity of this type stems from the following:
- * if it were simply `Readonly<Partial<Record<TKey, TValue>>>`,
- * and then utilized as `AnyRecord<string, number>`,
- * the resulting type would be: `{ readonly [x: string]: number | undefined; }`.
- * As you can see, an `undefined` is appended to the value's type, which is undesirable.
  */
 export type AnyRecord<
   TKey extends PropertyKey = PropertyKey,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   TValue = any,
-> = Readonly<
+> = CustomRecord<TKey, TValue, true, true>;
+
+/**
+ * Creates a customizable record type with configurable partiality and mutability.
+ *
+ * This type allows you to define a record where you can control whether properties
+ * are partial (optional) and/or readonly through boolean type parameters.
+ *
+ * @typeParam TKey - The type of the property keys. Defaults to `PropertyKey`.
+ * @typeParam TValue - The type of the property values. Defaults to `any`.
+ * @typeParam TPartial - When `true`, makes literal keys optional using {@link ConditionalPartial}. Defaults to `false`.
+ * @typeParam TReadOnly - When `true`, makes all properties readonly using {@link ConditionalReadonly}. Defaults to `false`.
+ * @see {@link AnyRecord} for a specialized version with both partial and readonly behavior.
+ */
+export type CustomRecord<
+  TKey extends PropertyKey = PropertyKey,
+  TValue = any,
+  TPartial extends boolean = false,
+  TReadOnly extends boolean = false,
+> = ConditionalPartial<
+  ConditionalReadonly<Record<TKey, TValue>, TReadOnly>,
+  TPartial
+>;
+
+/**
+ * Conditionally makes literal keys of a type optional based on a boolean parameter.
+ *
+ * When `TPartial` is `true`, this type applies {@link LiteralKeysPartial} to make
+ * literal string/number/symbol keys optional while preserving index signatures as required.
+ * When `TPartial` is `false`, the source type is returned unchanged.
+ *
+ * @typeParam TSource - The source type to potentially make partial.
+ * @typeParam TPartial - When `true`, applies partial behavior to literal keys. Defaults to `false`.
+ * @see {@link LiteralKeysPartial} for the underlying transformation logic.
+ */
+export type ConditionalPartial<TSource, TPartial extends boolean = false> =
+  TPartial extends true ? LiteralKeysPartial<TSource> : TSource;
+
+/**
+ * Makes only literal keys of an object type optional while preserving index signatures as is.
+ *
+ * This type splits properties into two groups: literal keys (specific string/number/symbol literals)
+ * become optional, while index signatures (e.g., `[x: string]: T`) remain required. This prevents
+ * `undefined` from being added to the value type when using index signatures, which would occur
+ * with a simple `Partial<T>`.
+ *
+ * This type scope of application is other generic types,
+ * and `undefined` may interfere with type safety and expected behavior.
+ *
+ * @typeParam TSource - The source object type to transform.
+ * @example
+ * ```typescript
+ * type Example = { foo: string; bar: number; [x: string]: string | number };
+ *
+ * // Result: { foo?: string; bar?: number; [x: string]: string | number }
+ * type Result = LiteralKeysPartial<Example>;
+ * ```
+ */
+export type LiteralKeysPartial<TSource> = InferObject<
   {
-    [K in TKey as IsLiteral<K> extends true ? K : never]?: TValue;
+    [K in keyof TSource as IsLiteral<K> extends true ? K : never]?: TSource[K];
   } & {
-    [K in TKey as IsLiteral<K> extends false ? K : never]: TValue;
+    [K in keyof TSource as IsLiteral<K> extends false ? K : never]: TSource[K];
   }
 >;
+
+/**
+ * Conditionally makes a type readonly based on a boolean parameter.
+ *
+ * When `TReadOnly` is `true`, applies `Readonly<T>` to make all properties immutable.
+ * When `TReadOnly` is `false`, returns the type unchanged.
+ *
+ * @typeParam T - The type to potentially make readonly.
+ * @typeParam TReadOnly - When `true`, makes all properties readonly. Defaults to `false`.
+ */
+export type ConditionalReadonly<T, TReadOnly extends boolean = false> =
+  TReadOnly extends true ? Readonly<T> : T;
 
 /**
  * Represents a mapped type that transforms an object type `T` into a union of tuples.
@@ -284,6 +349,8 @@ type ValueOfPartial<TSource, TKey extends keyof TSource> =
 export type IsEmptyObject<T> =
   T extends Record<PropertyKey, never> ? IsNever<keyof T> : false;
 
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEPRECATED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+
 /**
  * Represents a utility type `Override` that combines the properties of a `Source` object
  * with the properties from a `Values` object. The resulting type overrides the properties
@@ -339,7 +406,6 @@ export type FilterByType<T, U> = ConditionalPick<T, U>;
  * @typeParam T - The type from which keys are to be extracted. Default is `any`.
  * @deprecated Use `KeysOfUnion<T>` from `type-fest` or simple `keyof <Type>` instead.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Key<T = any> =
   T extends Record<infer K, unknown> ? K
   : T extends object ? keyof T
