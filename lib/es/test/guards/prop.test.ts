@@ -335,8 +335,6 @@ describe.concurrent('hasProp', () => {
   });
 });
 
-// ... existing code ...
-
 describe.concurrent('assertProp', () => {
   describe('basic property assertions with string keys', () => {
     test('does not throw when property exists on object', () => {
@@ -751,15 +749,23 @@ describe.concurrent('assertProp', () => {
 
     test('throws TypeError when third argument is not string, boolean or predicate', () => {
       const obj = { name: 'John' };
-      expect(() => void assertProp(obj, 'name', 123 as never)).toThrow(
-        TypeError,
+      expect(() => void assertProp(obj, 'name', 123 as never)).toThrowError(
+        new TypeError(
+          'Expected args[2] to be function, boolean, or string, got number instead',
+        ),
       );
-      expect(() => void assertProp(obj, 'name', null as never)).toThrow(
-        TypeError,
+      expect(() => void assertProp(obj, 'name', null as never)).toThrowError(
+        new TypeError(
+          'Expected args[2] to be function, boolean, or string, got null instead',
+        ),
       );
       expect(
         () => void assertProp(obj, 'name', isString, 123 as never),
-      ).toThrow(TypeError);
+      ).toThrowError(
+        new TypeError(
+          'Expected args[3] to be boolean or string, got number instead',
+        ),
+      );
     });
 
     test('throws TypeError when test function returns non-boolean', () => {

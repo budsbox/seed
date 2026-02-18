@@ -12,8 +12,9 @@ import {
   assertSymbol,
   invariant,
   invariantPredicate,
+  normalizeOptionalRest,
 } from '#guards/assert';
-import { isString } from '#guards/check';
+import { isBoolean, isNumber, isString } from '#guards/check';
 
 describe.concurrent('invariant', () => {
   test('does not throw when condition is true', () => {
@@ -86,6 +87,149 @@ describe.concurrent('invariantPredicate', () => {
     expect(
       () => void invariantPredicate((() => null) as never, 'test'),
     ).toThrow(TypeError);
+  });
+});
+
+describe.concurrent('normalizeOptionalRest', () => {
+  test('works for empty array', () => {
+    expect(
+      normalizeOptionalRest([isString, isBoolean, isNumber], []),
+    ).toStrictEqual([undefined, undefined, undefined]);
+  });
+
+  test('works for one of three argument', () => {
+    expect(
+      normalizeOptionalRest([isString, isBoolean, isNumber], ['foo']),
+    ).toStrictEqual(['foo', undefined, undefined]);
+    expect(
+      normalizeOptionalRest([isString, isBoolean, isNumber], [true]),
+    ).toStrictEqual([undefined, true, undefined]);
+    expect(
+      normalizeOptionalRest([isString, isBoolean, isNumber], [1]),
+    ).toStrictEqual([undefined, undefined, 1]);
+  });
+
+  test('works for two of three arguments', () => {
+    expect(
+      normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', true]),
+    ).toStrictEqual(['foo', true, undefined]);
+    expect(
+      normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', 1]),
+    ).toStrictEqual(['foo', undefined, 1]);
+    expect(
+      normalizeOptionalRest([isString, isBoolean, isNumber], [true, 1]),
+    ).toStrictEqual([undefined, true, 1]);
+  });
+
+  test('works for three arguments', () => {
+    expect(
+      normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', true, 1]),
+    ).toStrictEqual(['foo', true, 1]);
+  });
+
+  test('throws for four arguments', () => {
+    expect(() =>
+      normalizeOptionalRest(
+        [isString, isBoolean, isNumber],
+        ['foo', true, 1, 2],
+      ),
+    ).toThrow(TypeError);
+    expect(() =>
+      normalizeOptionalRest(
+        [isString, isBoolean, isNumber],
+        ['foo', true, 1, 2],
+      ),
+    ).toThrow('Too many arguments provided. Expected at most 3, got 4');
+    expect(() =>
+      normalizeOptionalRest(
+        [isString, isBoolean, isNumber],
+        ['foo', true, 1, 2],
+        1,
+      ),
+    ).toThrow('Too many arguments provided. Expected at most 4, got 5');
+  });
+
+  test('throws for wrong subsequence', () => {
+    expect(() =>
+      normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', 'foo']),
+    ).toThrowError(
+      new TypeError(
+        'Expected args[1] to be boolean or number, got string instead',
+      ),
+    );
+
+    expect(() =>
+      normalizeOptionalRest(
+        [isString, isBoolean, isNumber],
+        ['foo', true, 'foo'],
+      ),
+    ).toThrowError(
+      new TypeError('Expected args[2] to be number, got string instead'),
+    );
+
+    expect(() =>
+      normalizeOptionalRest([isString, isBoolean, isNumber], [true, 'foo']),
+    ).toThrowError(
+      new TypeError('Expected args[1] to be number, got string instead'),
+    );
+
+    expect(() =>
+      normalizeOptionalRest(
+        [isString, isBoolean, isBoolean, isNumber],
+        ['foo', true, 'foo'],
+      ),
+    ).toThrowError(
+      new TypeError(
+        'Expected args[2] to be boolean or number, got string instead',
+      ),
+    );
+  });
+
+  test('throws correct error for wrong subsequence with restShift', () => {
+    expect(() =>
+      normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', 'foo'], 1),
+    ).toThrowError(
+      new TypeError(
+        'Expected args[2] to be boolean or number, got string instead',
+      ),
+    );
+
+    expect(() =>
+      normalizeOptionalRest(
+        [isString, isBoolean, isNumber],
+        ['foo', true, 'foo'],
+        2,
+      ),
+    ).toThrowError(
+      new TypeError('Expected args[4] to be number, got string instead'),
+    );
+
+    expect(() =>
+      normalizeOptionalRest([isString, isBoolean, isNumber], [true, 'foo'], 2),
+    ).toThrowError(
+      new TypeError('Expected args[3] to be number, got string instead'),
+    );
+
+    expect(() =>
+      normalizeOptionalRest(
+        [isString, isBoolean, isBoolean, isNumber],
+        ['foo', true, 'foo'],
+        1,
+      ),
+    ).toThrowError(
+      new TypeError(
+        'Expected args[3] to be boolean or number, got string instead',
+      ),
+    );
+  });
+
+  test('ignores trailing undefined values', () => {
+    expect(
+      normalizeOptionalRest(
+        [isString, isBoolean, isNumber],
+        ['foo', true, undefined],
+      ),
+    ).toStrictEqual(['foo', true, undefined]);
   });
 });
 
@@ -300,8 +444,6 @@ describe.concurrent('assertArray', () => {
   });
 
   test('validates with predicate and custom name', () => {
-    const isNumber = (value: unknown): value is number =>
-      typeof value === 'number';
     expect(
       () => void assertArray([1, 2, 3], isNumber, 'numbers'),
     ).not.toThrow();

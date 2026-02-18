@@ -16,6 +16,8 @@ import type {
   WithFallback,
 } from '@budsbox/lib-types';
 
+import type { NormalizedOptionalRest } from './types.js';
+
 import {
   isArray,
   isBoolean,
@@ -37,9 +39,9 @@ import {
   isWeakMapLike,
   isWeakSetLike,
 } from './check.js';
+import { describeComplexPredicate } from './describe.js';
 import {
-  formatDebugType,
-  formatDebugValue,
+  formatAccessString,
   formatPredicateExpectedMessage,
 } from './format.js';
 
@@ -166,6 +168,100 @@ export function callPredicate(
       formatPredicateExpectedMessage(isBoolean, result, 'predicate result'),
     );
   return result;
+}
+
+/**
+ * Normalizes a sequence of optional rest arguments by matching them against a series of type predicates.
+ *
+ * This function takes an array of arguments and attempts to match each argument against the corresponding
+ * predicate in the sequence. Arguments that match their predicates are placed at their respective positions
+ * in the output array, while unmatched positions are filled with `undefined`. This enables flexible function
+ * signatures where arguments can be provided with gaps as long as they're in the right order.
+ *
+ * The function validates that:
+ * - No more arguments are provided than there are predicates
+ * - Each argument matches its corresponding predicate in sequence
+ * - Any remaining arguments after a successful match also satisfy the subsequent predicates
+ *
+ * @param predicateSequence - An ordered array of type predicates that define the expected types for each position.
+ * @param args - The actual arguments to normalize against the predicate sequence.
+ * @param restShift - An optional offset added to argument indices in error messages, useful when these
+ *                   arguments are part of a larger parameter list. Defaults to 0.
+ * @returns A tuple where each element is either the matched argument value or `undefined` if no match was found
+ *         at that position. The length matches the predicate sequence length.
+ * @throws {TypeError} If more arguments are provided than predicates in the sequence.
+ * @throws {TypeError} If an argument doesn't match any of the remaining predicates in the sequence.
+ * @typeParam TPredicateSequence - a tuple of predicate types.
+ * @remarks For this function to work, a predicate sequence has to be tuple. Use `as const` to convert array to tuple.
+ * @example
+ * ```typescript
+ * normalizeOptionalRest([isString, isBoolean, isNumber], ['foo'])
+ * // Returns: ['foo', undefined, undefined]
+ *
+ * normalizeOptionalRest([isString, isBoolean, isNumber], [true])
+ * // Returns: [undefined, true, undefined]
+ *
+ * normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', true, 1])
+ * // Returns: ['foo', true, 1]
+ *
+ * normalizeOptionalRest([isString, isBoolean, isNumber] as const, ['foo', 1])
+ * // Returns: ['foo', undefined, 1]
+ *
+ * // Using restShift for better error messages in nested contexts
+ * normalizeOptionalRest([isString, isBoolean] as const, ['foo', 'bar'], 2)
+ * // Throws: TypeError with message referencing rest[3] instead of rest[1]
+ *
+ * // Trailing undefined values are ignored
+ * normalizeOptionalRest([isString, isBoolean, isNumber] as const, ['foo', true, undefined])
+ * // Returns: ['foo', true, undefined]
+ * ```
+ */
+export function normalizeOptionalRest<
+  TPredicateSequence extends ReadonlyArray<Predicate<unknown>>,
+>(
+  predicateSequence: TPredicateSequence,
+  args: readonly unknown[],
+  restShift?: number,
+): NormalizedOptionalRest<TPredicateSequence>;
+export function normalizeOptionalRest(
+  predicateSequence: ReadonlyArray<Predicate<unknown>>,
+  args: readonly unknown[],
+  restShift: number = 0,
+): unknown[] {
+  if (args.length > predicateSequence.length)
+    throw new TypeError(
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+      `Too many arguments provided. Expected at most ${predicateSequence.length + restShift}, got ${args.length + restShift}`,
+    );
+
+  const output = new Array<unknown>(predicateSequence.length).fill(undefined);
+  let predicateSuccessIndex = -1,
+    argIndex = 0;
+
+  for (let i = 0; i < predicateSequence.length; i++) {
+    const predicate = predicateSequence[i]!;
+    if (callPredicate(predicate, args[argIndex])) {
+      predicateSuccessIndex = i;
+      output[i] = args[argIndex++];
+    }
+  }
+
+  if (
+    argIndex < args.length &&
+    !args.slice(argIndex).every((v) => v === undefined)
+  ) {
+    invariantPredicate(
+      describeComplexPredicate(
+        () => false, // dummy
+        false,
+        ...predicateSequence.slice(predicateSuccessIndex + 1),
+      ),
+      args[argIndex],
+      formatAccessString('args', argIndex + restShift),
+    );
+  }
+
+  return output;
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ASSERTIONS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -340,21 +436,10 @@ export function assertArray(
     | readonly [name?: Undef<string>]
     | readonly [predicate: Predicate, name?: Undef<string>]
 ): void {
-  invariant(
-    rest.length <= 2,
-    `Expected 1–3 arguments, got: ${String(rest.length + 1)}`,
-  );
-  let predicate: Predicate | undefined,
-    name: string | undefined = 'value',
-    index = 0;
-  if (isFunction(rest[index])) predicate = rest[index++] as Predicate;
-  if (isString(rest[index])) name = rest[index++] as string;
-  invariant(
-    index === rest.length,
-    () =>
-      `Invalid argument combination. Unexpected arguments at position ${String(
-        index + 1,
-      )}: ${formatDebugValue(rest.slice(index).map(formatDebugType))}`,
+  const [predicate, name = 'valueName'] = normalizeOptionalRest(
+    [isFunction, isString] as const,
+    rest,
+    1,
   );
 
   invariantPredicate(isArray, value, name);

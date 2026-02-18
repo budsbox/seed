@@ -27,6 +27,7 @@ import {
   assertPropKey,
   callPredicate,
   invariant,
+  normalizeOptionalRest,
 } from './assert.js';
 import { isBoolean, isFunction, isNil, isString } from './check.js';
 import {
@@ -109,6 +110,12 @@ export function hasProp<
 /**
  * Checks if a property exists on the provided source and optionally passes a test.
  *
+ * This overload doesn't narrow the type,
+ * because the predicate may reject valid property values without invalidating their existence,
+ * which would cause incorrect type elimination in the `else` branch.
+ * If you need type narrowing for the property value, use the {@link hasProp:TYPE_GUARD type guard} overload instead.
+ * Alternatively, you can split the checks: `hasProp(source, key) && test(source[key])`.
+ *
  * @param source - The object to check.
  * @param key - The property key to verify.
  * @param predicate - An optional predicate to test the property value.
@@ -120,15 +127,9 @@ export function hasProp<
  * - If the provided checkProto flag is not a boolean.
  * - If the provided predicate is not a function.
  * - If the provided predicate does not return a boolean.
- * @remarks
- * This overload doesn't narrow the type,
- * because the predicate may reject valid property values without invalidating their existence,
- * which would cause incorrect type elimination in the `else` branch.
- * If you need type narrowing for the property value, use the {@link hasProp:TYPE_GUARD type guard} overload instead.
- * Alternatively, you can split the checks: `hasProp(source, key) && test(source[key])`.
+ * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
- * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
  * {@label PREDICATE}
  */
 export function hasProp<TSource, TKey extends PropertyKey>(
@@ -286,10 +287,9 @@ export function assertProp(
 ): void {
   assertPropKey(key, 'key');
 
-  const [predicate, checkProto, sourceName] = normalizeAssertRest(
-    'assertProp',
-    ...rest,
-  );
+  const [predicate = () => true, checkProto = false, sourceName = 'source'] =
+    normalizeOptionalRest([isFunction, isBoolean, isString] as const, rest, 2);
+
   assertNotNil(source, sourceName);
   invariant(propExists(source, key, checkProto), () =>
     checkProto ?
@@ -375,15 +375,18 @@ export function assertOptionalProp<TSource, TKey extends PropertyKey>(
 export function assertOptionalProp(
   source: unknown,
   key: PropertyKey,
+  predicate: Predicate,
   ...rest: AssertPropRest
 ): void {
   assertPropKey(key, 'key');
-  assertFunction(rest[0], 'predicate');
+  assertFunction(predicate, 'predicate');
 
-  const [predicate, checkProto, sourceName] = normalizeAssertRest(
-    'assertOptionalProp',
-    ...rest,
+  const [checkProto = false, sourceName = 'source'] = normalizeOptionalRest(
+    [isBoolean, isString] as const,
+    rest,
+    2,
   );
+
   if (isNil(source) || !propExists(source, key, checkProto)) return;
 
   const propValue = source[key as never];
@@ -399,41 +402,6 @@ export function assertOptionalProp(
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Internals ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 const protectedKeys = new Set(['constructor', '__proto__'] as const);
-
-const normalizeAssertRest = (
-  fnName: string,
-  ...rest: AssertPropRest
-): [predicate: Predicate, checkProto: boolean, sourceName: string] => {
-  const argShift = 2; // source, key
-
-  invariant(
-    rest.length <= 3,
-    () =>
-      `Expected 2–5 arguments, got ${String(rest.length + argShift)} instead.`,
-  );
-
-  let predicate: Predicate = () => true,
-    checkProto: boolean = false,
-    sourceName = 'source';
-  let index = 0;
-
-  if (isFunction(rest[index])) predicate = rest[index++] as Predicate;
-  if (isBoolean(rest[index])) checkProto = rest[index++] as boolean;
-  if (isString(rest[index])) sourceName = rest[index++] as string;
-
-  invariant(
-    index >= rest.length,
-    () =>
-      `Invalid argument combination for ${fnName}. Unexpected arguments at position ${String(
-        index + argShift,
-      )}: ${rest
-        .slice(index + argShift)
-        .map((arg) => formatDebugValue(arg, { maxDepth: 1 }))
-        .join(', ')}`,
-  );
-
-  return [predicate, checkProto, sourceName];
-};
 
 const propExists = (
   source: NonNil,
@@ -452,6 +420,20 @@ type PropValue<TSource, TKey extends PropertyKey> = WithFallback<
 
 type StrictKey<TSource> = WithFallback<KeysOfUnion<TSource>, PropertyKey>;
 
+/**
+ * Represents a utility type that narrows the source object `TSource`
+ * to include a subset of properties defined by `TKey` with their respective value types.
+ *
+ * If `TSource` is compatible with the specified property key and value criteria,
+ * it extends `CustomRecord` to provide the narrowed structure. Otherwise, it falls
+ * back to the specified fallback type.
+ *
+ * @internal
+ * @typeParam TSource - The source object type to be narrowed.
+ * @typeParam TKey - The property key or keys to narrow down on.
+ * @typeParam TPartial - A boolean flag indicating whether the properties in `TKey` should be optional.
+ * @inline
+ */
 type SourceNarrowed<
   TSource,
   TKey extends PropertyKey,
@@ -463,6 +445,10 @@ type SourceNarrowed<
   TSource & CustomRecord<TKey, PropValue<TSource, TKey>, TPartial>
 >;
 
+/**
+ * @preventInline
+ * @ignore
+ */
 type SourceNarrowedWithTypeGuard<
   TSource,
   TKey extends PropertyKey,
@@ -477,6 +463,10 @@ type SourceNarrowedWithTypeGuard<
   TSource & CustomRecord<TKey, NarrowedType<TGuard>, TPartial>
 >;
 
+/**
+ * @preventInline
+ * @ignore
+ */
 type SourceEliminated<TSource, TKey extends PropertyKey> =
   TSource extends Readonly<Record<TKey, unknown>> ? never
   : TSource extends AnyRecord<TKey, unknown> ?
@@ -497,6 +487,10 @@ type AssertPropRest = readonly [
   sourceName?: Undef<string>,
 ];
 
+/**
+ * @preventInline
+ * @ignore
+ */
 type WithoutPredicate<TRest extends readonly unknown[]> = Exclude<
   TRest,
   readonly [predicate?: Undef<Predicate>, ...rest: unknown[]]

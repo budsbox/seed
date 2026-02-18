@@ -15,8 +15,9 @@ import {
   assertSymbol,
   invariant,
   invariantPredicate,
+  normalizeOptionalRest,
 } from '#guards/assert';
-import { isString } from '#guards/check';
+import { isBoolean, isNumber, isString } from '#guards/check';
 
 describe('invariant', () => {
   test('narrows condition to true', () => {
@@ -66,6 +67,14 @@ describe('invariantPredicate', () => {
   test('returns void', () => {
     expectTypeOf(invariantPredicate).returns.toEqualTypeOf<void>();
   });
+});
+
+describe('normalizeOptionalRest', () => {
+  const predicates = [isString, isNumber, isBoolean] as const;
+
+  expectTypeOf(normalizeOptionalRest(predicates, ['foo', 1])).toEqualTypeOf<
+    [string | undefined, number | undefined, boolean | undefined]
+  >();
 });
 
 describe('assertNotNil', () => {

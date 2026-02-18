@@ -14,6 +14,8 @@ import type {
   TypePredicate,
 } from '@budsbox/lib-types';
 
+import type { PredicatesListArg, PredicatesListNarrowed } from './types.js';
+
 import {
   assertArray,
   assertFunction,
@@ -197,7 +199,7 @@ export function everyPredicate<TGuards extends readonly TypePredicate[]>(
   ...predicates: TGuards
 ): TypePredicate<
   ArrayItemsIntersection<PredicatesListArg<TGuards>>,
-  ArrayItemsIntersection<PredicatesListNarrowType<TGuards>> &
+  ArrayItemsIntersection<PredicatesListNarrowed<TGuards>> &
     ArrayItemsIntersection<PredicatesListArg<TGuards>>
 >;
 
@@ -227,9 +229,7 @@ export function everyPredicate(
 export function assertEvery<TPredicates extends readonly Predicate[]>(
   value: ArrayItemsIntersection<PredicatesListArg<TPredicates>>,
   ...rest: TPredicates
-): asserts value is ArrayItemsIntersection<
-  PredicatesListNarrowType<TPredicates>
->;
+): asserts value is ArrayItemsIntersection<PredicatesListNarrowed<TPredicates>>;
 
 /**
  * Asserts that a value satisfies all of the provided predicates.
@@ -253,9 +253,7 @@ export function assertEvery<TPredicates extends readonly Predicate[]>(
   value: ArrayItemsIntersection<PredicatesListArg<TPredicates>>,
   valueName: string,
   ...rest: TPredicates
-): asserts value is ArrayItemsIntersection<
-  PredicatesListNarrowType<TPredicates>
->;
+): asserts value is ArrayItemsIntersection<PredicatesListNarrowed<TPredicates>>;
 
 export function assertEvery(
   value: unknown,
@@ -359,28 +357,3 @@ function assertPredicates(
 }
 
 /* ───────────────────────────────── Types ────────────────────────────────── */
-
-type PredicatesListArg<TPredicates extends readonly Predicate[]> =
-  TPredicates extends [infer TLeft, ...infer TRight] ?
-    [
-      TLeft extends Predicate<infer TArg, infer _> ? TArg : never,
-      ...PredicatesListArg<
-        TRight extends readonly Predicate[] ? TRight : never
-      >,
-    ]
-  : TPredicates extends readonly [] ? []
-  : TPredicates extends ReadonlyArray<Predicate<infer TArg>> ? TArg[]
-  : never;
-
-type PredicatesListNarrowType<TPredicates extends readonly Predicate[]> =
-  TPredicates extends [infer TLeft, ...infer TRight] ?
-    [
-      TLeft extends Predicate<infer _, infer TNarrow> ? TNarrow : never,
-      ...PredicatesListNarrowType<
-        TRight extends readonly Predicate[] ? TRight : never
-      >,
-    ]
-  : TPredicates extends readonly [] ? []
-  : TPredicates extends ReadonlyArray<Predicate<infer _, infer TNarrow>> ?
-    TNarrow[]
-  : never;
