@@ -4,6 +4,7 @@ import type { NonNil } from '#core';
 import type { InferObject } from '#object';
 
 // Type exports
+export type * from '#array';
 export type * from '#core';
 export type * from '#function';
 export type * from '#object';

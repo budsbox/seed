@@ -11,14 +11,17 @@
   "type": "module",
   "imports": {
     "#package.json": "./package.json",
+    "#array": {
+      "types": "./dist/array.d.ts"
+    },
     "#core": {
       "types": "./dist/core.d.ts"
     },
-    "#object": {
-      "types": "./dist/object.d.ts"
-    },
     "#function": {
       "types": "./dist/function.d.ts"
+    },
+    "#object": {
+      "types": "./dist/object.d.ts"
     },
     "#es.d.ts": {
       "types": "./es.d.ts"
