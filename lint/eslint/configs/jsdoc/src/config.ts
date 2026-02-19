@@ -53,6 +53,7 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
         'linkplain',
         'tutorial',
         'inheritdoc',
+        'inheritDoc',
         'label',
       ],
     } as const;
@@ -93,6 +94,10 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
         'primaryExport',
         'sortStrategy',
         'useDeclaredType',
+
+        // https://gitlab.com/hperchec/typedoc-plugin-import-target
+        'importTarget',
+        'includeExample',
       ],
       inlineTags: [
         ...checkTagNamesOptions.inlineTags,
@@ -206,7 +211,12 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
                 'error',
                 {
                   noSingleLineBlocks: true,
-                  singleLineTags: ['inheritdoc', 'type'],
+                  singleLineTags: [
+                    'inheritdoc',
+                    'inheritDoc',
+                    'ignore',
+                    'type',
+                  ],
                 },
               ],
               'jsdoc/no-bad-blocks': 'error',
@@ -289,6 +299,7 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
                   exports: false,
                   function: false,
                   global: false,
+                  hidden: 'ignore',
                   implements: false,
                   inherits: false,
                   instance: false,
