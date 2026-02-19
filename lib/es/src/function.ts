@@ -1,3 +1,10 @@
+/**
+ * This module provides utility functions for working with functions, including caching and memoization.
+ *
+ * @module
+ * @importTarget ./function
+ */
+
 import type { UnknownArray } from 'type-fest';
 
 import type {

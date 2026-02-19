@@ -1,8 +1,17 @@
+/**
+ * This module provides functional logical operations and utilities.
+ *
+ * @module
+ * @importTarget ./logical
+ */
+
 import type { Predicate } from '@budsbox/lib-types';
 
 import type { FValueFalse, FValueTrue } from './types.js';
 
 import { callPredicate, isFunction, isNotNil, isTrue } from '#guards';
+
+export type { FValueFalse, FValueTrue };
 
 /**
  * Functional If

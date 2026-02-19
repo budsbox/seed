@@ -1,8 +1,9 @@
 /**
- * @module
- *
  * Object utility functions for selecting, omitting, filtering, reducing, and
  * strongly-typing common object operations.
+ *
+ * @module
+ * @importTarget ./object
  */
 
 import type { ValueOf } from 'type-fest';

@@ -1,3 +1,4 @@
+/* eslint-disable jsdoc/informative-docs */
 import type {
   FValue,
   Maybe,
@@ -54,6 +55,7 @@ export type FValueFalse<TValue, TTestFn extends Predicate, TResult> = FValue<
  * Represents a parsed Node.js (npm) package name split into its optional scope and the bare name.
  *
  * @inline
+ * @category Package Name
  */
 export interface ParsedPackageName {
   /**
@@ -75,6 +77,7 @@ export interface ParsedPackageName {
  * Options for formatting the package name.
  *
  * @inline
+ * @category Package Name
  */
 export interface PackageNameFormatOptions {
   /**

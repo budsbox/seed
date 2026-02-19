@@ -380,7 +380,7 @@ const clamp = (str: string, maxLength: number): string =>
  * @category Formatting
  */
 export const joinWithConjunction = (
-  items: string[],
+  items: readonly string[],
   conjunction: string,
 ): string => {
   if (items.length === 0) return '';
