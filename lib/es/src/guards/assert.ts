@@ -170,52 +170,12 @@ export function callPredicate(
   return result;
 }
 
-/**
- * Normalizes a sequence of optional rest arguments by matching them against a series of type predicates.
- *
- * This function takes an array of arguments and attempts to match each argument against the corresponding
- * predicate in the sequence. Arguments that match their predicates are placed at their respective positions
- * in the output array, while unmatched positions are filled with `undefined`. This enables flexible function
- * signatures where arguments can be provided with gaps as long as they're in the right order.
- *
- * The function validates that:
- * - No more arguments are provided than there are predicates
- * - Each argument matches its corresponding predicate in sequence
- * - Any remaining arguments after a successful match also satisfy the subsequent predicates
- *
- * @param predicateSequence - An ordered array of type predicates that define the expected types for each position.
- * @param args - The actual arguments to normalize against the predicate sequence.
- * @param restShift - An optional offset added to argument indices in error messages, useful when these
- *                   arguments are part of a larger parameter list. Defaults to 0.
- * @returns A tuple where each element is either the matched argument value or `undefined` if no match was found
- *         at that position. The length matches the predicate sequence length.
- * @throws {TypeError} If more arguments are provided than predicates in the sequence.
- * @throws {TypeError} If an argument doesn't match any of the remaining predicates in the sequence.
- * @typeParam TPredicateSequence - a tuple of predicate types.
- * @remarks For this function to work, a predicate sequence has to be tuple. Use `as const` to convert array to tuple.
- * @example
- * ```typescript
- * normalizeOptionalRest([isString, isBoolean, isNumber], ['foo'])
- * // Returns: ['foo', undefined, undefined]
- *
- * normalizeOptionalRest([isString, isBoolean, isNumber], [true])
- * // Returns: [undefined, true, undefined]
- *
- * normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', true, 1])
- * // Returns: ['foo', true, 1]
- *
- * normalizeOptionalRest([isString, isBoolean, isNumber] as const, ['foo', 1])
- * // Returns: ['foo', undefined, 1]
- *
- * // Using restShift for better error messages in nested contexts
- * normalizeOptionalRest([isString, isBoolean] as const, ['foo', 'bar'], 2)
- * // Throws: TypeError with message referencing rest[3] instead of rest[1]
- *
- * // Trailing undefined values are ignored
- * normalizeOptionalRest([isString, isBoolean, isNumber] as const, ['foo', true, undefined])
- * // Returns: ['foo', true, undefined]
- * ```
+/*
+ * This function defined here, because it required for some internal use cases,
+ * such as in `assertProp` or `assertArray`. It's an internal implementation,
+ * but it's reexported in `@budsbox/lib-es/function` for external use (with assertion checks).
  */
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function normalizeOptionalRest<
   TPredicateSequence extends ReadonlyArray<Predicate<unknown>>,
 >(

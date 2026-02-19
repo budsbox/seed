@@ -1,3 +1,9 @@
+/**
+ * This module provides type guards and related utilities for JavaScript types.
+ *
+ * @module
+ */
+
 import type { Predicate } from '@budsbox/lib-types';
 
 import {
@@ -31,9 +37,13 @@ import {
   formatError as _formatError,
   formatPredicateExpectedMessage as _formatPredicateExpectedMessage,
   objectTag,
+  shortObjectTag,
 } from './format.js';
 import { assertSome, everyPredicate } from './hlf.js';
 import { assertOptionalProp } from './prop.js';
+
+// Type exports
+export type * from './types.js';
 
 // Value exports
 export {
@@ -61,8 +71,8 @@ export * from './check.js';
 export * from './hlf.js';
 export * from './prop.js';
 
-export type { PredicateDescriptor };
-export { objectTag };
+export type { FormatOptions, PredicateDescriptor };
+export { objectTag, shortObjectTag };
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ TYPE-SAFE WRAPPERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
