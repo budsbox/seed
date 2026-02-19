@@ -16,8 +16,9 @@ import type {
  * @typeParam T - A tuple type from which the power set is generated. Must extend `UnknownArray`.
  * @remarks
  * - The generated power set includes the empty tuple and original tuple as subsets.
- * - Keep in mind that the **number of subsets grows exponentially** (like 2**n, so for 10-tuple it will be 1024 of subsets)
- * with the size of the input tuple, so use it with caution for large tuples.
+ * - Keep in mind that the **number of subsets grows exponentially**
+ * with the size of the input tuple (e.g., for a 10-tuple, there will be 1024 subsets.),
+ * so use it with caution for large tuples.
  */
 export type PowerSet<T extends UnknownArray> =
   T extends readonly [infer THead, ...infer TRest] ?
@@ -28,7 +29,7 @@ export type PowerSet<T extends UnknownArray> =
  * Represents a type for a tuple with a specific length `N` and elements of type `T`.
  * This is a recursive type that generates a tuple type of exactly `N` elements.
  *
- * @typeParam N - The desired length of the tuple. If `N` is a `number`, it defines the fixed size.
+ * @typeParam N - The desired length of the tuple. It should be a non-negative integer or a union of non-negative integers.
  * @typeParam T - The type of the elements in the tuple. Defaults to `unknown` if not specified.
  * @remarks
  * - If `N` is of type `number`, it determines the length of the tuple.

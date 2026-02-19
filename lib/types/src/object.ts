@@ -11,7 +11,9 @@ import type {
   UnknownRecord,
 } from 'type-fest';
 
-import type { IsNil, TupleN } from './core.js';
+import type { TupleN } from '#array';
+
+import type { IsNil } from './core.js';
 
 /**
  * Hack to show the inferred type (instead of union, intersections, generics, etc.) in tips
