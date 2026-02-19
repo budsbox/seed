@@ -1,10 +1,24 @@
 /**
- * This module provides type guards and related utilities for JavaScript types.
+ * This module provides type guards, assertions, and related utilities for JavaScript types.
  *
  * @module
+ * @showCategories
+ * @importTarget ./guards
  */
 
 import type { Predicate } from '@budsbox/lib-types';
+
+import type {
+  DescribePredicateFn,
+  DescribeTypePredicateFn,
+  FormatDebugValueFn,
+  FormatErrorFn,
+  FormatOptions,
+  FormatPredicateExpectedMessageFn,
+  GetPredicateDescriptorFn,
+  InvariantFn,
+  InvariantPredicateFn,
+} from './types.js';
 
 import {
   invariant as _invariant,
@@ -26,13 +40,11 @@ import {
   isWeakSetLike,
 } from './check.js';
 import {
-  type PredicateDescriptor,
   describePredicate as _describePredicate,
   describeTypePredicate as _describeTypePredicate,
   getPredicateDescriptor as _getPredicateDescriptor,
 } from './describe.js';
 import {
-  type FormatOptions,
   formatDebugValue as _formatDebugValue,
   formatError as _formatError,
   formatPredicateExpectedMessage as _formatPredicateExpectedMessage,
@@ -68,10 +80,10 @@ export {
   callPredicate,
 } from './assert.js';
 export * from './check.js';
+export { formatDebugType } from './format.js';
 export * from './hlf.js';
 export * from './prop.js';
 
-export type { FormatOptions, PredicateDescriptor };
 export { objectTag, shortObjectTag };
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~ TYPE-SAFE WRAPPERS ~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -79,24 +91,15 @@ export { objectTag, shortObjectTag };
 /* ─────────────────────────────── assert.ts ──────────────────────────────── */
 
 /**
- * Asserts that a given condition is true. Throws an error if the condition is false.
- * The error message can be a string or a lazily evaluated function that returns a string.
+ * {@link InvariantFn} implementation.
  *
- * @param condition - A boolean expression that is expected to evaluate to true.
- * @param message - An optional error message or a function that generates the error message
- * if the condition evaluates to false. Defaults to 'Expected condition to be true'.
- * @throws {TypeError} In the following cases:
- * - If the provided `condition` is not a boolean.
- * - If the condition evaluates to false.
+ * @inheritDoc {@link InvariantFn}
+ * @category Assertions
  */
-export function invariant(
-  condition: boolean,
-  message: string | (() => string) = formatPredicateExpectedMessage(
-    isTrue,
-    false,
-    'condition',
-  ),
-): asserts condition is true {
+export const invariant: InvariantFn = (
+  condition,
+  message = formatPredicateExpectedMessage(isTrue, false, 'condition'),
+) => {
   assertBoolean(condition, 'condition');
   assertSome(message, 'message', isString, isFunction);
   _invariant(
@@ -109,22 +112,15 @@ export function invariant(
       }
     ),
   );
-}
+};
 
 /**
- * Asserts that the given value satisfies the specified predicate function. If the value
- * does not satisfy the predicate, an error will be thrown. If the predicate is a type guard,
- * the value will be narrowed accordingly.
+ * {@link InvariantPredicateFn} implementation.
  *
- * @internal
- * @param predicate - A predicate function used to validate the value. Optionally, the predicate
- * may act as a type guard and narrow the type of the value.
- * @param value - The value to be verified against the predicate.
- * @param valueName - The name of the value for the error message. Defaults to 'value'.
- * @throws {TypeError} - if the value does not meet the requirements defined by the predicate.
- * @typeParam TValue - The type of the value being checked.
+ * @inheritDoc {@link InvariantPredicateFn}
+ * @category Assertions
  */
-export const invariantPredicate: typeof _invariantPredicate = (
+export const invariantPredicate: InvariantPredicateFn = (
   predicate: Predicate,
   value: unknown,
   valueName = 'value',
@@ -137,17 +133,12 @@ export const invariantPredicate: typeof _invariantPredicate = (
 /* ────────────────────────────── describe.ts ─────────────────────────────── */
 
 /**
- * Adds a human-readable description to a given type guard function, enhancing its metadata.
- * This metadata can later be used for debugging, logging, or explanatory purposes.
+ * {@link DescribeTypePredicateFn} implementation.
  *
- * @internal
- * @param typeGuard - The type guard function responsible for evaluating whether a value satisfies
- *                    a specific type predicate.
- * @param typeDescription - A string description of the type that the `typeGuard` validates.
- * @returns The original type guard function, with the description attached.
- * @throws {TypeError} If `typeGuard` is not a function or `typeDescription` is not a string.
+ * @inheritDoc {@link DescribeTypePredicateFn}
+ * @category Describing
  */
-export const describeTypePredicate: typeof _describeTypePredicate = (
+export const describeTypePredicate: DescribeTypePredicateFn = (
   typeGuard,
   typeDescription,
 ) => {
@@ -157,15 +148,12 @@ export const describeTypePredicate: typeof _describeTypePredicate = (
 };
 
 /**
- * Adds a human-readable description to a given predicate function, enhancing its metadata.
- * This metadata can later be used for debugging, logging, or explanatory purposes.
+ * {@link DescribePredicateFn} implementation.
  *
- * @param predicate - The predicate function to associate with a description. Must be a valid function.
- * @param conditionDescription - A description explaining the condition represented by the predicate. Must be a string.
- * @returns The original predicate function, with the description attached.
- * @throws {TypeError} If `predicate` is not a function or `conditionDescription` is not a string.
+ * @inheritDoc {@link DescribePredicateFn}
+ * @category Describing
  */
-export const describePredicate: typeof _describePredicate = (
+export const describePredicate: DescribePredicateFn = (
   predicate,
   conditionDescription,
 ) => {
@@ -176,16 +164,12 @@ export const describePredicate: typeof _describePredicate = (
 };
 
 /**
- * Retrieves the descriptor associated with a given predicate function, if available.
+ * {@link GetPredicateDescriptorFn} implementation.
  *
- * @internal
- * @param predicate - A predicate function to retrieve the descriptor from.
- * @returns The `PredicateDescriptor` associated with the predicate, or `undefined` if not present.
- * @throws {TypeError} If the provided `predicate` is not a function.
+ * @inheritDoc {@link GetPredicateDescriptorFn}
+ * @category Describing
  */
-export const getPredicateDescriptor: typeof _getPredicateDescriptor = (
-  predicate,
-) => {
+export const getPredicateDescriptor: GetPredicateDescriptorFn = (predicate) => {
   assertFunction(predicate, 'predicate');
   return _getPredicateDescriptor(predicate);
 };
@@ -193,15 +177,12 @@ export const getPredicateDescriptor: typeof _getPredicateDescriptor = (
 /* ─────────────────────────────── format.ts ──────────────────────────────── */
 
 /**
- * Formats an error message indicating the expected condition for a predicate function.
+ * {@link FormatPredicateExpectedMessageFn} implementation.
  *
- * @param predicate - The predicate function to generate an error message for.
- * @param value - The value that failed to satisfy the predicate.
- * @param valueName - The name of the value for the error message. Defaults to 'value'.
- * @returns A formatted error message describing what was expected.
- * @throws {TypeError} If `predicate` is not a function or `valueName` is not a string.
+ * @inheritDoc {@link FormatPredicateExpectedMessageFn}
+ * @category Formatting
  */
-export const formatPredicateExpectedMessage: typeof _formatPredicateExpectedMessage =
+export const formatPredicateExpectedMessage: FormatPredicateExpectedMessageFn =
   (predicate, value, valueName = 'value') => {
     assertFunction(predicate);
     assertString(valueName, 'valueName');
@@ -210,17 +191,12 @@ export const formatPredicateExpectedMessage: typeof _formatPredicateExpectedMess
   };
 
 /**
- * Formats an {@link Error} object into a concise debug string.
+ * {@link FormatErrorFn} implementation.
  *
- * Includes the error's name, message, optional `code` and `cause` properties,
- * and a truncated stack trace. Nested values are formatted using {@link formatDebugValue}.
- *
- * @param error - The error to format.
- * @param options - Optional formatting configuration via {@link FormatOptions}.
- * @returns A formatted string representation of the error.
- * @throws {TypeError} If `error` is not an instance of {@link Error}.
+ * @inheritDoc {@link FormatErrorFn}
+ * @category Formatting
  */
-export const formatError: typeof _formatError = (error, options) => {
+export const formatError: FormatErrorFn = (error, options) => {
   assertError(error);
   assertFormatOptions(options);
 
@@ -228,22 +204,12 @@ export const formatError: typeof _formatError = (error, options) => {
 };
 
 /**
- * Formats a value into a human-readable debug string representation.
+ * {@link FormatDebugValueFn} implementation.
  *
- * Handles primitives, arrays, objects, functions, dates, errors, maps, sets,
- * and objects with custom `toString` methods. Circular references are detected
- * and marked as `[Circular]` for arrays or `{Circular}` for objects.
- *
- * @param value - The value to format for debugging purposes.
- * @param options - Optional formatting configuration via {@link FormatOptions}.
- * @returns A string representation suitable for debug output.
- * @throws {@link TypeError} in the following cases:
- * - `options` is not an object or `undefined`.
- * - `options` has a `maxDepth` property that is not a positive integer.
- * - `options` has a `maxArrayLength` property that is not a positive integer.
- * - `options` has a `maxStringLength` property that is not a positive integer.
+ * @inheritDoc {@link FormatDebugValueFn}
+ * @category Formatting
  */
-export const formatDebugValue: typeof _formatDebugValue = (value, options) => {
+export const formatDebugValue: FormatDebugValueFn = (value, options) => {
   assertFormatOptions(options);
 
   return _formatDebugValue(value, options);

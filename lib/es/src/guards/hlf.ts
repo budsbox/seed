@@ -32,11 +32,14 @@ import {
 import { formatDebugValue, joinWithConjunction } from './format.js';
 import { assertProp, hasProp } from './prop.js';
 
+/* ──────────────────────────────── Iterable ──────────────────────────────── */
+
 /**
  * Determines whether the provided value is iterable.
  *
  * @param value - The value to be checked.
  * @returns `true` if the value is iterable, otherwise `false`.
+ * @category Checks
  */
 export function isIterable(value: unknown): value is Iterable<unknown> {
   return hasProp(value, Symbol.iterator, isFunction, true);
@@ -44,14 +47,13 @@ export function isIterable(value: unknown): value is Iterable<unknown> {
 
 describePredicate(isIterable, 'to be iterable');
 
-/* ──────────────────────────────── Iterable ──────────────────────────────── */
-
 /**
  * Asserts that the provided value is iterable.
  *
  * @param value - The value to be checked for iterable compatibility.
  * @param valueName - The name of the value for the error message. Defaults to 'value'.
- * @throws {@link TypeError} If the provided value is not iterable.
+ * @throws {@link !TypeError} If the provided value is not iterable.
+ * @category Assertions
  */
 export function assertIterable(
   value: unknown,
@@ -70,8 +72,9 @@ export function assertIterable(
  *
  * @param ctor - A constructor function to check against.
  * @returns A type predicate function that narrows the value type to an instance of the constructor.
- * @throws {@link TypeError} If `ctor` is not a function.
+ * @throws {@link !TypeError} If `ctor` is not a function.
  * @typeParam T - The type of instances produced by the constructor.
+ * @category Checks
  */
 export const ofType = <T>(ctor: Constructor<T>): TypePredicate<unknown, T> => {
   assertFunction(ctor, 'ctor');
@@ -89,8 +92,9 @@ export const ofType = <T>(ctor: Constructor<T>): TypePredicate<unknown, T> => {
  * @param ctor - A constructor function to check against.
  * @param value - The value to be verified as an instance of the constructor.
  * @param name - The name of the value for the error message. Defaults to 'value'.
- * @throws {@link TypeError} If `ctor` is not a function or if the value is not an instance of the constructor.
+ * @throws {@link !TypeError} If `ctor` is not a function or if the value is not an instance of the constructor.
  * @typeParam T - The type of instances produced by the constructor.
+ * @category Assertions
  */
 export function assertOfType<T>(
   ctor: Constructor<T>,
@@ -104,7 +108,7 @@ export function assertOfType<T>(
 
 /* ────────────────────────────────── Some ────────────────────────────────── */
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/** @ignore */
 export function somePredicate<TGuards extends readonly TypePredicate[]>(
   ...predicates: TGuards
 ): TypePredicate<
@@ -118,6 +122,7 @@ export function somePredicate<TGuards extends readonly TypePredicate[]>(
  * @param predicates - A list of predicate functions to evaluate.
  * @returns A predicate function that checks if any predicate matches.
  * @typeParam TPredicates - The type of the list of predicates.
+ * @category Checks
  */
 export function somePredicate<TPredicates extends readonly Predicate[]>(
   ...predicates: TPredicates
@@ -134,7 +139,23 @@ export function somePredicate(
   return describeComplexPredicate(compositePredicate, false, ...predicates);
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * Asserts that a value satisfies at least one of the provided predicates.
+ *
+ * If none of the predicates are satisfied, a {@link !TypeError} is thrown **with default value name**.
+ * When type predicates are used, the value is narrowed to the union of their narrowed types.
+ *
+ * @param value - The value to validate against the predicates.
+ * @param predicates - One or more predicate functions to check. At least one must return true.
+ * @returns void.
+ * @throws {TypeError} in the following cases:
+ * - If the value does not satisfy any of the provided predicates.
+ * - If any of the predicates is not a function
+ * - If `valueName` is not a string.
+ * @typeParam TGuards - The type of the list of type predicates.
+ * {@label DEFAULT_NAME}
+ * @category Assertions
+ */
 export function assertSome<TGuards extends readonly TypePredicate[]>(
   value: ArrayItemsIntersection<PredicatesListArg<TGuards>>,
   ...predicates: TGuards
@@ -143,7 +164,7 @@ export function assertSome<TGuards extends readonly TypePredicate[]>(
 /**
  * Asserts that a value satisfies at least one of the provided predicates.
  *
- * If none of the predicates are satisfied, a {@link TypeError} is thrown with the specified value name.
+ * If none of the predicates are satisfied, a {@link !TypeError} is thrown **with the specified value name**.
  * When type predicates are used, the value is narrowed to the union of their narrowed types.
  *
  * @param value - The value to validate against the predicates.
@@ -155,6 +176,8 @@ export function assertSome<TGuards extends readonly TypePredicate[]>(
  * - If any of the predicates is not a function
  * - If `valueName` is not a string.
  * @typeParam TGuards - The type of the list of type predicates.
+ * {@label CUSTOM_NAME}
+ * @category Assertions
  */
 export function assertSome<TGuards extends readonly TypePredicate[]>(
   value: ArrayItemsIntersection<PredicatesListArg<TGuards>>,
@@ -194,13 +217,13 @@ export function assertSome(
 
 /* ───────────────────────────────── Every ────────────────────────────────── */
 
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function everyPredicate<TGuards extends readonly TypePredicate[]>(
-  ...predicates: TGuards
+/** @ignore */
+export function everyPredicate<TPredicates extends readonly TypePredicate[]>(
+  ...predicates: TPredicates
 ): TypePredicate<
-  ArrayItemsIntersection<PredicatesListArg<TGuards>>,
-  ArrayItemsIntersection<PredicatesListNarrowed<TGuards>> &
-    ArrayItemsIntersection<PredicatesListArg<TGuards>>
+  ArrayItemsIntersection<PredicatesListArg<TPredicates>>,
+  ArrayItemsIntersection<PredicatesListNarrowed<TPredicates>> &
+    ArrayItemsIntersection<PredicatesListArg<TPredicates>>
 >;
 
 /**
@@ -209,6 +232,7 @@ export function everyPredicate<TGuards extends readonly TypePredicate[]>(
  * @param predicates - A list of predicate functions to evaluate.
  * @returns A predicate function that checks if every predicate matches.
  * @typeParam TPredicates - The type of the list of predicates.
+ * @category Checks
  */
 export function everyPredicate<TPredicates extends readonly Predicate[]>(
   ...predicates: readonly Predicate[]
@@ -225,16 +249,33 @@ export function everyPredicate(
   return describeComplexPredicate(compositePredicate, true, ...predicates);
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * Asserts that a value satisfies all the provided predicates.
+ *
+ * If any predicate fails, a {@link !TypeError} is thrown **with default name**.
+ * When type predicates are used, the value is narrowed to the intersection of their narrowed types.
+ *
+ * @param value - The value to validate against the predicates.
+ * @param rest - Either predicates only, or a value name followed by predicates. All predicates must return true.
+ * @returns void.
+ * @throws {TypeError} If the value does not satisfy all of the provided predicates.
+ * @typeParam TPredicates - The type of the list of predicates.
+ * @example
+ * ```typescript
+ * assertEvery(value, isObject, hasName); // value must be object AND have name
+ * assertEvery(value, 'config', isObject, hasName); // with custom name
+ * ```
+ * @category Assertions
+ */
 export function assertEvery<TPredicates extends readonly Predicate[]>(
   value: ArrayItemsIntersection<PredicatesListArg<TPredicates>>,
   ...rest: TPredicates
 ): asserts value is ArrayItemsIntersection<PredicatesListNarrowed<TPredicates>>;
 
 /**
- * Asserts that a value satisfies all of the provided predicates.
+ * Asserts that a value satisfies all the provided predicates.
  *
- * If any predicate fails, a {@link TypeError} is thrown.
+ * If any predicate fails, a {@link !TypeError} is thrown **with the specified value name**.
  * When type predicates are used, the value is narrowed to the intersection of their narrowed types.
  *
  * @param value - The value to validate against the predicates.
@@ -248,6 +289,7 @@ export function assertEvery<TPredicates extends readonly Predicate[]>(
  * assertEvery(value, isObject, hasName); // value must be object AND have name
  * assertEvery(value, 'config', isObject, hasName); // with custom name
  * ```
+ * @category Assertions
  */
 export function assertEvery<TPredicates extends readonly Predicate[]>(
   value: ArrayItemsIntersection<PredicatesListArg<TPredicates>>,
@@ -293,6 +335,7 @@ export function assertEvery(
  *   console.log("It\'s a color!");
  * }
  * ```
+ * @category Checks
  */
 export const anyOf = <TValues extends readonly unknown[]>(
   ...values: TValues
@@ -318,6 +361,7 @@ export const anyOf = <TValues extends readonly unknown[]>(
  * @typeParam TValues - A tuple of allowed values to assert against.
  * @remarks This function accepts values as iterable argument, not as `...rest` argument,
  * because there's no way to distinguish between `valueName` and `values` when using `...rest`.
+ * @category Assertions
  */
 export function assertAnyOf<TValues extends Iterable<unknown>>(
   values: TValues,

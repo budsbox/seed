@@ -38,14 +38,14 @@ import {
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ hasProp ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/** @ignore */
 export function hasProp(
   source: Nil,
   prop: PropertyKey,
   ...rest: HasPropRest
 ): source is never;
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/** @ignore */
 export function hasProp(
   source: unknown,
   prop: ProtectedKey,
@@ -67,6 +67,7 @@ export function hasProp(
  * @typeParam TKey - The property key type.
  * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
  * {@label NO_PREDICATE}
+ * @category Checks
  */
 export function hasProp<TSource, TKey extends PropertyKey>(
   source: TSource,
@@ -110,10 +111,10 @@ export function hasProp<
 /**
  * Checks if a property exists on the provided source and optionally passes a test.
  *
- * This overload doesn't narrow the type,
+ * This overload doesn't narrow a type,
  * because the predicate may reject valid property values without invalidating their existence,
  * which would cause incorrect type elimination in the `else` branch.
- * If you need type narrowing for the property value, use the {@link hasProp:TYPE_GUARD type guard} overload instead.
+ * If you need type narrowing for the property value, use the type guard overload instead.
  * Alternatively, you can split the checks: `hasProp(source, key) && test(source[key])`.
  *
  * @param source - The object to check.
@@ -179,14 +180,14 @@ export function hasProp(
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ assertProp ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/** @ignore */
 export function assertProp(
   source: Nil,
   key: PropertyKey,
   ...rest: AssertPropRest
 ): never;
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/** @ignore */
 export function assertProp(
   source: unknown,
   key: ProtectedKey,
@@ -210,6 +211,7 @@ export function assertProp(
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
  * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
+ * @category Assertions
  */
 export function assertProp<TSource, TKey extends StrictKey<TSource>>(
   source: TSource,
@@ -240,6 +242,7 @@ export function assertProp<TSource, TKey extends StrictKey<TSource>>(
  * @typeParam TKey - The property key type.
  * @typeParam TGuard - The type guard type.
  * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
+ * @category Assertions
  */
 export function assertProp<
   TSource,
@@ -272,6 +275,7 @@ export function assertProp<
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
  * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
+ * @category Assertions
  */
 export function assertProp<TSource, TKey extends StrictKey<TSource>>(
   source: TSource,
@@ -330,6 +334,7 @@ export function assertProp(
  * @typeParam TKey - The property key type.
  * @typeParam TGuard - The type guard type.
  * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
+ * @category Assertions
  */
 export function assertOptionalProp<
   TSource,
@@ -362,6 +367,7 @@ export function assertOptionalProp<
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
  * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
+ * @category Assertions
  */
 export function assertOptionalProp<TSource, TKey extends PropertyKey>(
   source: TSource,

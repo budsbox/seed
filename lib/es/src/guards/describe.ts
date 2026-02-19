@@ -1,5 +1,7 @@
 import type { Predicate } from '@budsbox/lib-types';
 
+import type { PredicateDescriptor } from './types.js';
+
 const descriptionSymbol = Symbol.for(
   '@budsbox/lib-es/guards#predicateDescription',
 );
@@ -56,12 +58,3 @@ export const getPredicateDescriptor = (
 
   return;
 };
-
-/**
- * Represents a descriptor for a predicate.
- */
-export type PredicateDescriptor =
-  | { and: readonly Predicate[] }
-  | { condition: string }
-  | { or: readonly Predicate[] }
-  | { type: string };

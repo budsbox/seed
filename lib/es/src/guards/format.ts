@@ -1,4 +1,19 @@
+/**
+ * This module provides utilities for formatting error messages and values related to predicate checks.
+ *
+ * @module
+ * @categoryDescription Formatting
+ * Utilities for formatting error messages and values related to predicate checks.
+ */
+
 import type { Predicate } from '@budsbox/lib-types';
+
+import type {
+  FormatDebugValueFn,
+  FormatErrorFn,
+  FormatOptions,
+  FormatPredicateExpectedMessageFn,
+} from './types.js';
 
 import { entries } from '#object';
 
@@ -21,36 +36,24 @@ import {
 import { getPredicateDescriptor } from './describe.js';
 
 /**
- * Creates an expected message string for a given predicate, value, and value name.
+ * {@link FormatPredicateExpectedMessageFn} implementation.
  *
- * This function validates that the predicate is a valid function and constructs
- * an informative error message describing what was expected of the `value` in
- * terms of the `predicate`'s description or descriptor. This message integrates
- * details about the provided `value` to aid debugging.
- *
- * @internal
- * @param predicate - The predicate function used to test the value. Must be a valid function.
- * @param value - The value being evaluated against the predicate.
- * @param valueName - The name of the value being tested. Defaults to `'value'`.
- * @returns A formatted string message describing the expected value and its type.
- * @throws {TypeError} if the `predicate` is not a function.
+ * @inheritDoc {@link FormatPredicateExpectedMessageFn}
+ * @ignore
  */
-export const formatPredicateExpectedMessage = (
-  predicate: Predicate,
-  value: unknown,
-  valueName = 'value',
-): string => {
-  const { condition, isType, isValue } = getPredicateConditions(predicate);
+export const formatPredicateExpectedMessage: FormatPredicateExpectedMessageFn =
+  (predicate: Predicate, value: unknown, valueName = 'value'): string => {
+    const { condition, isType, isValue } = getPredicateConditions(predicate);
 
-  const formattedType = isType ? formatDebugType(value) : '';
-  const formattedValue = isValue ? formatDebugValue(value) : '';
-  return `Expected ${valueName} ${condition}, got${isType ? ` ${formatDebugType(value)}` : ''}${
-    isValue && formattedValue !== formattedType ?
-      isType ? [' (', formatDebugValue(value), ')'].join('')
-      : ` ${formatDebugValue(value)}`
-    : ''
-  } instead`;
-};
+    const formattedType = isType ? formatDebugType(value) : '';
+    const formattedValue = isValue ? formatDebugValue(value) : '';
+    return `Expected ${valueName} ${condition}, got${isType ? ` ${formatDebugType(value)}` : ''}${
+      isValue && formattedValue !== formattedType ?
+        isType ? [' (', formatDebugValue(value), ')'].join('')
+        : ` ${formatDebugValue(value)}`
+      : ''
+    } instead`;
+  };
 
 /**
  * Generates a description of the conditions associated with a given predicate.
@@ -64,6 +67,7 @@ export const formatPredicateExpectedMessage = (
  * - `isType`: A boolean indicating whether the predicate is a type guard.
  * - `isValue`: A boolean indicating whether the predicate checks a value.
  * @typeParam Predicate - The expected type of the predicate parameter.
+ * @category Formatting
  */
 export const getPredicateConditions = (
   predicate: Predicate,
@@ -124,7 +128,7 @@ export const getPredicateConditions = (
 };
 
 /**
- * Determines the type description of a given value in a human-readable format.
+ * Provides a human-readable description of a value's type.
  *
  * - If the value is `null`, `undefined`, or a `Symbol`, it will return the string representation.
  * - If the value is a primitive type (e.g., `number`, `string`, `boolean`), it will return the result of `typeof value`.
@@ -134,6 +138,7 @@ export const getPredicateConditions = (
  *
  * @param value - The value whose type needs to be determined.
  * @returns A string representation of the value's type.
+ * @category Formatting
  */
 export const formatDebugType = (value: unknown): string => {
   if (isNil(value) || isSymbol(value)) return String(value);
@@ -151,20 +156,14 @@ export const formatDebugType = (value: unknown): string => {
 };
 
 /**
- * Formats a value into a human-readable debug string representation.
+ * {@link FormatDebugValueFn} implementation.
  *
- * Handles primitives, arrays, objects, functions, dates, errors, maps, sets,
- * and objects with custom `toString` methods. Circular references are detected
- * and marked as `[Circular]` for arrays or `{Circular}` for objects.
- *
- * @internal
- * @param value - The value to format for debugging purposes.
- * @param options - Optional formatting configuration via {@link FormatOptions}.
- * @returns A string representation suitable for debug output.
+ * @inheritDoc {@link FormatDebugValueFn}
+ * @category Formatting
  */
-export const formatDebugValue = (
-  value: unknown,
-  options: FormatOptions = {},
+export const formatDebugValue: FormatDebugValueFn = (
+  value,
+  options = {},
 ): string => {
   const {
     maxLength,
@@ -248,17 +247,12 @@ export const formatDebugValue = (
 };
 
 /**
- * Formats an {@link Error} object into a concise debug string.
+ * {@link FormatErrorFn} implementation.
  *
- * Includes the error's name, message, optional `code` and `cause` properties,
- * and a truncated stack trace. Nested values are formatted using {@link formatDebugValue}.
- *
- * @internal
- * @param error - The error to format.
- * @param options - Optional formatting configuration via {@link FormatOptions}.
- * @returns A formatted string representation of the error.
+ * @inheritDoc {@link FormatErrorFn}
+ * @category Formatting
  */
-export const formatError = (
+export const formatError: FormatErrorFn = (
   error: Error,
   options: FormatOptions = {},
 ): string => {
@@ -338,6 +332,7 @@ export const formatAccessString = (
  *
  * @param value - The input value from which the object tag will be extracted.
  * @returns The name of the internal `[[Class]]` corresponding to the input value.
+ * @category Formatting
  */
 export const shortObjectTag = (value: unknown): string =>
   Object.prototype.toString.call(value).slice(8, -1);
@@ -351,6 +346,7 @@ export const shortObjectTag = (value: unknown): string =>
  *
  * @param value - The value to extract the tag from.
  * @returns A string describing the object's type and tag.
+ * @category Formatting
  */
 export const objectTag = (value: unknown): string => {
   if (isObject(value)) {
@@ -381,6 +377,7 @@ const clamp = (str: string, maxLength: number): string =>
  * @param items - An array of strings to be joined. If the array is empty, an empty string is returned.
  * @param conjunction - A word or phrase to be used as the conjunction between the last two items.
  * @returns A formatted string where the items are separated by commas and the conjunction is added before the final item.
+ * @category Formatting
  */
 export const joinWithConjunction = (
   items: string[],
@@ -391,37 +388,6 @@ export const joinWithConjunction = (
   if (items.length === 2) return `${items[0]!} ${conjunction} ${items[1]!}`;
   return `${items.slice(0, -1).join(', ')}, ${conjunction} ${items[items.length - 1]!}`;
 };
-
-/**
- * Configuration options for debug formatting functions.
- */
-export interface FormatOptions {
-  /**
-   * Maximum recursion depth for nested structures.
-   *
-   * @defaultValue `2`
-   */
-  readonly maxDepth?: number;
-
-  /**
-   * Maximum number of items to display in arrays.
-   *
-   * @defaultValue `5`
-   */
-  readonly maxItems?: number;
-
-  /**
-   * Maximum string length before truncation.
-   *
-   * @defaultValue `15`
-   */
-  readonly maxLength?: number;
-
-  /**
-   * Set of already-seen objects for circular reference detection.
-   */
-  readonly seen?: WeakSet<object>;
-}
 
 const defaultOptions = {
   maxDepth: 2,

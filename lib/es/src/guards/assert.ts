@@ -1,6 +1,8 @@
 /**
  * @module
  * Provides assertion functions for runtime type checking and validation.
+ * @categoryDescription Assertions
+ * Assertion functions for runtime type checking and validation.
  */
 
 import type { Primitive } from 'type-fest';
@@ -16,7 +18,11 @@ import type {
   WithFallback,
 } from '@budsbox/lib-types';
 
-import type { NormalizedOptionalRest } from './types.js';
+import type {
+  InvariantFn,
+  InvariantPredicateFn,
+  NormalizedOptionalRest,
+} from './types.js';
 
 import {
   isArray,
@@ -48,91 +54,36 @@ import {
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ GENERAL ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /**
- * Asserts that a given condition is true. Throws an error if the condition is false.
- * The error message can be a string or a lazily evaluated function that returns a string.
+ * {@link InvariantFn} implementation.
  *
- * @internal
- * @param condition - A boolean expression that is expected to evaluate to true.
- * @param message - An optional error message or a function that generates the error message
- *                if the condition evaluates to false. Defaults to 'Expected condition to be true'.
- * @throws {TypeError} If the condition evaluates to false.
+ * @inheritDoc {@link InvariantFn}
  */
-export function invariant(
+export const invariant: InvariantFn = (
   condition: boolean,
   message: string | (() => string) = formatPredicateExpectedMessage(
     isTrue,
     false,
     'condition',
   ),
-): asserts condition is true {
+) => {
   if (!isTrue(condition))
     throw new TypeError(isFunction(message) ? message() : message);
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function invariantPredicate<TNarrowed>(
-  predicate: TypePredicate<unknown, TNarrowed>,
-  value: unknown,
-  valueName?: string,
-): asserts value is TNarrowed;
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function invariantPredicate<
-  TValue extends TGuardInput,
-  TGuardInput,
-  TNarrowed extends TGuardInput,
->(
-  predicate: TypePredicate<TGuardInput, TNarrowed>,
-  value: TValue,
-  valueName?: string,
-): asserts value is TValue extends TNarrowed ? TValue : never;
+};
 
 /**
- * Asserts that the given value satisfies the specified predicate function. If the value
- * does not satisfy the predicate, an error will be thrown. If the predicate is a type guard,
- * the value will be narrowed accordingly.
+ * {@link InvariantPredicateFn} implementation.
  *
- * @internal
- * @param predicate - A predicate function used to validate the value. Optionally, the predicate
- * may act as a type guard and narrow the type of the value.
- * @param value - The value to be verified against the predicate.
- * @param valueName - The name of the value for the error message. Defaults to 'value'.
- * @throws {TypeError} - if the value does not meet the requirements defined by the predicate.
- * @typeParam TValue - The type of the value being checked.
+ * @inheritDoc {@link InvariantPredicateFn}
  */
-export function invariantPredicate<TValue>(
-  predicate: Predicate<TValue>,
-  value: TValue,
-  valueName?: string,
-): void;
-
-export function invariantPredicate(
+export const invariantPredicate: InvariantPredicateFn = (
   predicate: Predicate,
   value: unknown,
   valueName = 'value',
-): void {
+) => {
   invariant(callPredicate(predicate, value), () =>
     formatPredicateExpectedMessage(predicate, value, valueName),
   );
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function callPredicate<TNarrowed>(
-  predicate: TypePredicate<unknown, TNarrowed>,
-  value: unknown,
-  predicateName?: string,
-): value is TNarrowed;
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function callPredicate<
-  TValue extends TGuardInput,
-  TGuardInput,
-  TNarrowed extends TGuardInput,
->(
-  predicate: TypePredicate<TGuardInput, TNarrowed>,
-  value: TValue,
-  predicateName?: string,
-): value is WithFallback<Extract<TValue, TNarrowed>, TValue & TNarrowed>;
+};
 
 /**
  * Evaluates a given predicate function with the specified value and an optional predicate name.
@@ -146,12 +97,32 @@ export function callPredicate<
  * - If the provided `predicate` is not a function.
  * - If the predicate function does not return a boolean.
  * @typeParam TValue - The type of the value to be tested by the predicate.
+ * @typeParam TGuardInput - The type of the input to the predicate in case it's a type guard.
+ * @typeParam TNarrowed - The narrowed type of the value if the predicate is a type guard.
+ * @category Other
  */
+export function callPredicate<TNarrowed>(
+  predicate: TypePredicate<unknown, TNarrowed>,
+  value: unknown,
+  predicateName?: string,
+): value is TNarrowed;
+
+export function callPredicate<
+  TValue extends TGuardInput,
+  TGuardInput,
+  TNarrowed extends TGuardInput,
+>(
+  predicate: TypePredicate<TGuardInput, TNarrowed>,
+  value: TValue,
+  predicateName?: string,
+): value is WithFallback<Extract<TValue, TNarrowed>, TValue & TNarrowed>;
+
 export function callPredicate<TValue>(
   predicate: Predicate<TValue>,
   value: TValue,
   predicateName?: string,
 ): boolean;
+
 export function callPredicate(
   predicate: Predicate,
   value: unknown,
@@ -171,8 +142,8 @@ export function callPredicate(
 }
 
 /*
- * This function defined here, because it required for some internal use cases,
- * such as in `assertProp` or `assertArray`. It's an internal implementation,
+ * This function defined here, because it's required for some internal use cases,
+ * such as in `assertProp` or `assertArray`. It's the internal implementation,
  * but it's reexported in `@budsbox/lib-es/function` for external use (with assertion checks).
  */
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -233,6 +204,7 @@ export function normalizeOptionalRest(
  * @param name - An optional name or description of the value included in the error message if the assertion fails.
  * @throws {TypeError} If the value is undefined.
  * @typeParam T - The type of the value being asserted.
+ * @category Assertions
  */
 export function assertDef<T>(
   value: T,
@@ -247,6 +219,7 @@ export function assertDef<T>(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is null or undefined.
+ * @category Assertions
  */
 export function assertNotNil(
   value: unknown,
@@ -261,6 +234,7 @@ export function assertNotNil(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a string.
+ * @category Assertions
  */
 export function assertString(
   value: unknown,
@@ -276,6 +250,7 @@ export function assertString(
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a number or NaN.
  * @remarks Throws a {@link TypeError} if the value is NaN.
+ * @category Assertions
  */
 export function assertNumber(
   value: unknown,
@@ -290,6 +265,7 @@ export function assertNumber(
  * @param value - The value to be checked.
  * @param name - An optional name for the value, used in the error message if the assertion fails. Defaults to 'value'.
  * @throws {TypeError} If the value is not a symbol.
+ * @category Assertions
  */
 export function assertSymbol(
   value: unknown,
@@ -304,6 +280,7 @@ export function assertSymbol(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a valid property key.
+ * @category Assertions
  */
 export function assertPropKey(
   value: unknown,
@@ -318,6 +295,7 @@ export function assertPropKey(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a boolean.
+ * @category Assertions
  */
 export function assertBoolean(
   value: unknown,
@@ -332,6 +310,7 @@ export function assertBoolean(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a primitive type.
+ * @category Assertions
  */
 export function assertPrimitive(
   value: unknown,
@@ -346,6 +325,7 @@ export function assertPrimitive(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not an object.
+ * @category Assertions
  */
 export function assertObject(
   value: unknown,
@@ -362,6 +342,7 @@ export function assertObject(
  * @returns void
  * @throws {TypeError} If the value is not an array.
  * @typeParam T - The type of elements in the array.
+ * @category Assertions
  */
 export function assertArray<T>(
   value: T,
@@ -418,6 +399,7 @@ export function assertArray(
  * @returns void
  * @throws {TypeError} If the value is not a function.
  * @typeParam T - The type being checked.
+ * @category Assertions
  */
 export function assertFunction<T>(
   value: T,
@@ -438,6 +420,7 @@ export function assertFunction(value: unknown, name?: string): void {
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a Date object.
+ * @category Assertions
  */
 export function assertDate(
   value: unknown,
@@ -452,6 +435,7 @@ export function assertDate(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a RegExp object.
+ * @category Assertions
  */
 export function assertRegExp(
   value: unknown,
@@ -466,6 +450,7 @@ export function assertRegExp(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not an Error object.
+ * @category Assertions
  */
 export function assertError(
   value: unknown,
@@ -480,6 +465,7 @@ export function assertError(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a Map object.
+ * @category Assertions
  */
 export function assertMap(
   value: unknown,
@@ -494,6 +480,7 @@ export function assertMap(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a Set object.
+ * @category Assertions
  */
 export function assertSet(
   value: unknown,
@@ -508,6 +495,7 @@ export function assertSet(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a WeakMap object.
+ * @category Assertions
  */
 export function assertWeakMapLike(
   value: unknown,
@@ -522,6 +510,7 @@ export function assertWeakMapLike(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @throws {TypeError} If the value is not a WeakSet object.
+ * @category Assertions
  */
 export function assertWeakSetLike(
   value: unknown,
