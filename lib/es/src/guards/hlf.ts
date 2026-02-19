@@ -148,7 +148,7 @@ export function somePredicate(
  * @param value - The value to validate against the predicates.
  * @param predicates - One or more predicate functions to check. At least one must return true.
  * @returns void.
- * @throws {TypeError} in the following cases:
+ * @throws {@link !TypeError} in the following cases:
  * - If the value does not satisfy any of the provided predicates.
  * - If any of the predicates is not a function
  * - If `valueName` is not a string.
@@ -171,7 +171,7 @@ export function assertSome<TGuards extends readonly TypePredicate[]>(
  * @param valueName - Optional name of the value for the error message.
  * @param predicates - One or more predicate functions to check. At least one must return true.
  * @returns void.
- * @throws {TypeError} in the following cases:
+ * @throws {@link !TypeError} in the following cases:
  * - If the value does not satisfy any of the provided predicates.
  * - If any of the predicates is not a function
  * - If `valueName` is not a string.
@@ -258,7 +258,7 @@ export function everyPredicate(
  * @param value - The value to validate against the predicates.
  * @param rest - Either predicates only, or a value name followed by predicates. All predicates must return true.
  * @returns void.
- * @throws {TypeError} If the value does not satisfy all of the provided predicates.
+ * @throws {@link !TypeError} If the value does not satisfy all of the provided predicates.
  * @typeParam TPredicates - The type of the list of predicates.
  * @example
  * ```typescript
@@ -282,7 +282,7 @@ export function assertEvery<TPredicates extends readonly Predicate[]>(
  * @param valueName - Optional name of the value to be used in error messages.
  * @param rest - Either predicates only, or a value name followed by predicates. All predicates must return true.
  * @returns void.
- * @throws {TypeError} If the value does not satisfy all of the provided predicates.
+ * @throws {@link !TypeError} If the value does not satisfy all of the provided predicates.
  * @typeParam TPredicates - The type of the list of predicates.
  * @example
  * ```typescript

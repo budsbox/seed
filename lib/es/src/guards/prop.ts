@@ -61,8 +61,8 @@ export function hasProp(
  * @param key - The property key to verify.
  * @param checkProto - Whether to check the prototype chain.
  * @returns Boolean indicating whether the property exists.
- * @throws {@link TypeError} If the provided key is not a valid property key.
- * @throws {@link TypeError} If the provided checkProto flag is not a boolean.
+ * @throws {@link !TypeError} If the provided key is not a valid property key.
+ * @throws {@link !TypeError} If the provided checkProto flag is not a boolean.
  * @typeParam TSource - The source object type.
  * @typeParam TKey - The property key type.
  * @remarks The `__proto__` and `constructor` keys are always considered non-existent.
@@ -86,7 +86,7 @@ export function hasProp<TSource, TKey extends PropertyKey>(
  * Accepts the property value as the only parameter.
  * @param checkProto - Whether to check the prototype chain.
  * @returns Boolean indicating whether the property exists and satisfies the type guard.
- * @throws {@link TypeError} In the following cases:
+ * @throws {@link !TypeError} In the following cases:
  * - If the provided `key` is not a valid property key.
  * - If the provided `checkProto` flag is not a boolean.
  * - If the provided type guard is not a function.
@@ -123,7 +123,7 @@ export function hasProp<
  * Accepts the property value as the only parameter.
  * @param checkProto - Whether to check the prototype chain.
  * @returns Boolean indicating whether the property exists and satisfies the test.
- * @throws {@link TypeError} In the following cases:
+ * @throws {@link !TypeError} In the following cases:
  * - If the provided key is not a valid property key.
  * - If the provided checkProto flag is not a boolean.
  * - If the provided predicate is not a function.
@@ -204,7 +204,7 @@ export function assertProp(
  * @param rest - Optional parameters: checkProto flag and sourceName for error messages.
  * @returns void if the assertion succeeds, otherwise throws an error.
  * {@label NO_PREDICATE}
- * @throws {@link TypeError} In the following cases:
+ * @throws {@link !TypeError} In the following cases:
  * - If the source is nil.
  * - If the provided key is not a valid property key.
  * - If the property does not exist.
@@ -231,7 +231,7 @@ export function assertProp<TSource, TKey extends StrictKey<TSource>>(
  * @param rest - Optional parameters: `checkProto` flag and `sourceName` for error messages.
  * @returns void if the assertion succeeds, otherwise throws an error.
  * {@label TYPE_GUARD}
- * @throws {@link TypeError} In the following cases:
+ * @throws {@link !TypeError} In the following cases:
  * - If the source is nil.
  * - If the provided key is not a valid property key.
  * - If the property does not exist.
@@ -265,7 +265,7 @@ export function assertProp<
  * @param rest - Optional parameters: checkProto flag and sourceName for error messages.
  * @returns void if the assertion succeeds, otherwise throws an error.
  * {@label PREDICATE}
- * @throws {@link TypeError} In the following cases:
+ * @throws {@link !TypeError} In the following cases:
  * - If the source is nil.
  * - If the provided key is not a valid property key.
  * - If the property does not exist.
@@ -325,7 +325,7 @@ export function assertProp(
  * @param rest - Optional parameters: `checkProto` flag and `sourceName` for error messages.
  * @returns void.
  * {@label TYPE_GUARD}
- * @throws {@link TypeError} In the following cases:
+ * @throws {@link !TypeError} In the following cases:
  * - If the provided key is not a valid property key.
  * - If the provided type guard is not a function.
  * - If the provided type guard does not return a boolean.
@@ -359,7 +359,7 @@ export function assertOptionalProp<
  * @param rest - Optional parameters: `checkProto` flag and `sourceName` for error messages.
  * @returns void.
  * {@label PREDICATE}
- * @throws {@link TypeError} In the following cases:
+ * @throws {@link !TypeError} In the following cases:
  * - If the provided key is not a valid property key.
  * - If the provided predicate is not a function.
  * - If the provided predicate does not return a boolean.

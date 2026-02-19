@@ -33,7 +33,7 @@ export class ROMap<K, V> extends Map<K, V> implements ReadonlyMap<K, V> {
    *
    * @param args - The arguments to be passed to the `Map.set` method.
    * @returns This method does not return a value.
-   * @throws {TypeError} Indeed: map is read-only.
+   * @throws {@link !TypeError} Indeed: map is read-only.
    * @privateRemarks It works as original `Map#set` when invoked from the constructor.
    */
   public override set(...args: readonly [key: K, value: V]): never {
@@ -51,7 +51,7 @@ export class ROMap<K, V> extends Map<K, V> implements ReadonlyMap<K, V> {
    * Throws a `TypeError` exception because the map is read-only.
    *
    * @param key - The key of the element to remove from the map.
-   * @throws {TypeError} Indeed: map is read-only.
+   * @throws {@link !TypeError} Indeed: map is read-only.
    */
   public override delete(key: K): never {
     throw new TypeError(`Cannot delete key ${String(key)}: map is read-only`);
@@ -60,7 +60,7 @@ export class ROMap<K, V> extends Map<K, V> implements ReadonlyMap<K, V> {
   /**
    * Throws a `TypeError` exception because the map is read-only.
    *
-   * @throws {TypeError} Indeed: map is read-only.
+   * @throws {@link !TypeError} Indeed: map is read-only.
    */
   public override clear(): never {
     throw new TypeError('Cannot clear map: map is read-only');

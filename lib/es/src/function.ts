@@ -119,8 +119,8 @@ export function createCachedFn(
  *                   arguments are part of a larger parameter list. Defaults to 0.
  * @returns A tuple where each element is either the matched argument value or `undefined` if no match was found
  *         at that position. The length matches the predicate sequence length.
- * @throws {TypeError} If more arguments are provided than predicates in the sequence.
- * @throws {TypeError} If an argument doesn't match any of the remaining predicates in the sequence.
+ * @throws {@link !TypeError} If more arguments are provided than predicates in the sequence.
+ * @throws {@link !TypeError} If an argument doesn't match any of the remaining predicates in the sequence.
  * @typeParam TPredicateSequence - a tuple of predicate types.
  * @remarks For this function to work, a predicate sequence has to be tuple. Use `as const` to convert array to tuple.
  * @example

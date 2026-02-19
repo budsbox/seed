@@ -52,7 +52,7 @@ export function ensureArray(value: unknown): unknown[] {
  * @param n - The desired array length.
  * @param value - The fill value or a function that receives the index and returns the element value. Defaults to `null`.
  * @returns A tuple of length N with all elements set to the value or computed result.
- * @throws {@link TypeError} if `n` is not a non-negative integer.
+ * @throws {@link !TypeError} if `n` is not a non-negative integer.
  * @typeParam N - The array length.
  * @typeParam T - The element type.
  */
@@ -79,7 +79,7 @@ export function nArray(n: number, value: unknown = null): unknown[] {
  *
  * @param items - The array to deduplicate.
  * @returns A new array with unique elements in their original order.
- * @throws {@link TypeError} if `items` is not an array.
+ * @throws {@link !TypeError} if `items` is not an array.
  * @typeParam T - The element type.
  */
 export const dedupe = <T>(items: readonly T[]): T[] => {
@@ -129,7 +129,7 @@ export function intersection<T>(
  * @param source - The source array.
  * @param excludes - Arrays of elements to exclude.
  * @returns A new array with excluded elements removed.
- * @throws {@link TypeError} if `source` is not an array or `excludes` contains non-array elements.
+ * @throws {@link !TypeError} if `source` is not an array or `excludes` contains non-array elements.
  * @typeParam T - The element type.
  */
 export function diff<T>(

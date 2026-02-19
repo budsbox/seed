@@ -98,7 +98,7 @@ export class ROSet<T> extends Set<T> implements ReadonlySet<T> {
    *
    * @param value - The value to add to set.
    * @returns This method does not return a value.
-   * @throws {TypeError} Indeed: set is read-only.
+   * @throws {@link !TypeError} Indeed: set is read-only.
    */
   public override add(value: T): never {
     if (createdSets.has(this)) {
@@ -114,7 +114,7 @@ export class ROSet<T> extends Set<T> implements ReadonlySet<T> {
    * Throws a `TypeError` exception because set is read-only.
    *
    * @param value - The value to remove from set.
-   * @throws {TypeError} Indeed: set is read-only.
+   * @throws {@link !TypeError} Indeed: set is read-only.
    */
   public override delete(value: T): never {
     throw new TypeError(
@@ -125,7 +125,7 @@ export class ROSet<T> extends Set<T> implements ReadonlySet<T> {
   /**
    * Throws a `TypeError` exception because set is read-only.
    *
-   * @throws {TypeError} Indeed: set is read-only.
+   * @throws {@link !TypeError} Indeed: set is read-only.
    */
   public override clear(): never {
     throw new TypeError('Cannot clear set: set is read-only');

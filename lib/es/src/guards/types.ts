@@ -129,7 +129,7 @@ type OptionalsTuple<TTuple extends readonly unknown[]> =
  * @param condition - A boolean expression that is expected to evaluate to true.
  * @param message - An optional error message or a function that generates the error message
  *                if the condition evaluates to false. Defaults to 'Expected condition to be true'.
- * @throws {@link TypeError} in the following cases:
+ * @throws {@link !TypeError} in the following cases:
  * - if the condition evaluates to false
  * - if the condition is not a boolean
  * - if the message is not a string or a function that returns a string
@@ -151,7 +151,7 @@ export type InvariantFn = (
  * may act as a type guard and narrow the type of the value.
  * @param value - The value to be verified against the predicate.
  * @param valueName - The name of the value for the error message. Defaults to 'value'.
- * @throws {TypeError} - if the value does not meet the requirements defined by the predicate.
+ * @throws {@link !TypeError} - if the value does not meet the requirements defined by the predicate.
  * @typeParam TValue - The type of the value being checked.
  * @typeParam TGuardInput - The type of the input to the predicate.
  * @typeParam TNarrowed - The narrowed type of the value if the predicate is a type guard.
@@ -201,7 +201,7 @@ export type PredicateDescriptor =
  * a specific type.
  * @param typeDescription - A string description of the type that the `predicate` validates.
  * @returns The original predicate, with the description attached.
- * @throws {TypeError} If `typeGuard` is not a function or `typeDescription` is not a string.
+ * @throws {@link !TypeError} If `typeGuard` is not a function or `typeDescription` is not a string.
  * @category Describing
  */
 export type DescribeTypePredicateFn = <TPredicate extends Predicate>(
@@ -216,7 +216,7 @@ export type DescribeTypePredicateFn = <TPredicate extends Predicate>(
  * @param predicate - The predicate function to associate with a description. Must be a valid function.
  * @param conditionDescription - A description explaining the condition represented by the predicate. Must be a string.
  * @returns The original predicate function, with the description attached.
- * @throws {TypeError} If `predicate` is not a function or `conditionDescription` is not a string.
+ * @throws {@link !TypeError} If `predicate` is not a function or `conditionDescription` is not a string.
  * @category Describing
  */
 export type DescribePredicateFn = <TPredicate extends Predicate>(
@@ -230,7 +230,7 @@ export type DescribePredicateFn = <TPredicate extends Predicate>(
  * @internal
  * @param predicate - A predicate function to retrieve the descriptor from.
  * @returns The `PredicateDescriptor` associated with the predicate, or `undefined` if not present.
- * @throws {TypeError} If the provided `predicate` is not a function.
+ * @throws {@link !TypeError} If the provided `predicate` is not a function.
  * @category Describing
  */
 export type GetPredicateDescriptorFn = (
@@ -246,7 +246,7 @@ export type GetPredicateDescriptorFn = (
  * @param value - The value that failed to satisfy the predicate.
  * @param valueName - The name of the value for the error message. Defaults to 'value'.
  * @returns A formatted error message describing what was expected.
- * @throws {TypeError} If `predicate` is not a function or `valueName` is not a string.
+ * @throws {@link !TypeError} If `predicate` is not a function or `valueName` is not a string.
  * @category Formatting
  */
 export type FormatPredicateExpectedMessageFn = (
@@ -264,7 +264,7 @@ export type FormatPredicateExpectedMessageFn = (
  * @param error - The error to format.
  * @param options - Optional formatting configuration via {@link FormatOptions}.
  * @returns A formatted string representation of the error.
- * @throws {TypeError} If `error` is not an instance of {@link Error}.
+ * @throws {@link !TypeError} If `error` is not an instance of {@link Error}.
  * @category Formatting
  */
 export type FormatErrorFn = (error: Error, options?: FormatOptions) => string;
@@ -279,7 +279,7 @@ export type FormatErrorFn = (error: Error, options?: FormatOptions) => string;
  * @param value - The value to format for debugging purposes.
  * @param options - Optional formatting configuration via {@link FormatOptions}.
  * @returns A string representation suitable for debug output.
- * @throws {@link TypeError} in the following cases:
+ * @throws {@link !TypeError} in the following cases:
  * - `options` is not an object or `undefined`.
  * - `options` has a `maxDepth` property that is not a positive integer.
  * - `options` has a `maxArrayLength` property that is not a positive integer.

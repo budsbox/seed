@@ -93,7 +93,7 @@ export const invariantPredicate: InvariantPredicateFn = (
  * @param value - The value to be passed to the predicate function.
  * @param predicateName - An optional name for the predicate, used for identification or debugging purposes.
  * @returns Returns `true` if the predicate function evaluates the value as valid, otherwise `false`.
- * @throws {@link TypeError} in the following cases:
+ * @throws {@link !TypeError} in the following cases:
  * - If the provided `predicate` is not a function.
  * - If the predicate function does not return a boolean.
  * @typeParam TValue - The type of the value to be tested by the predicate.
@@ -202,7 +202,7 @@ export function normalizeOptionalRest(
  *
  * @param value - The value to be checked for being defined.
  * @param name - An optional name or description of the value included in the error message if the assertion fails.
- * @throws {TypeError} If the value is undefined.
+ * @throws {@link !TypeError} If the value is undefined.
  * @typeParam T - The type of the value being asserted.
  * @category Assertions
  */
@@ -218,7 +218,7 @@ export function assertDef<T>(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is null or undefined.
+ * @throws {@link !TypeError} If the value is null or undefined.
  * @category Assertions
  */
 export function assertNotNil(
@@ -233,7 +233,7 @@ export function assertNotNil(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a string.
+ * @throws {@link !TypeError} If the value is not a string.
  * @category Assertions
  */
 export function assertString(
@@ -248,8 +248,8 @@ export function assertString(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a number or NaN.
- * @remarks Throws a {@link TypeError} if the value is NaN.
+ * @throws {@link !TypeError} If the value is not a number or NaN.
+ * @remarks Throws a {@link !TypeError} if the value is NaN.
  * @category Assertions
  */
 export function assertNumber(
@@ -264,7 +264,7 @@ export function assertNumber(
  *
  * @param value - The value to be checked.
  * @param name - An optional name for the value, used in the error message if the assertion fails. Defaults to 'value'.
- * @throws {TypeError} If the value is not a symbol.
+ * @throws {@link !TypeError} If the value is not a symbol.
  * @category Assertions
  */
 export function assertSymbol(
@@ -279,7 +279,7 @@ export function assertSymbol(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a valid property key.
+ * @throws {@link !TypeError} If the value is not a valid property key.
  * @category Assertions
  */
 export function assertPropKey(
@@ -294,7 +294,7 @@ export function assertPropKey(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a boolean.
+ * @throws {@link !TypeError} If the value is not a boolean.
  * @category Assertions
  */
 export function assertBoolean(
@@ -309,7 +309,7 @@ export function assertBoolean(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a primitive type.
+ * @throws {@link !TypeError} If the value is not a primitive type.
  * @category Assertions
  */
 export function assertPrimitive(
@@ -324,7 +324,7 @@ export function assertPrimitive(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not an object.
+ * @throws {@link !TypeError} If the value is not an object.
  * @category Assertions
  */
 export function assertObject(
@@ -340,7 +340,7 @@ export function assertObject(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @returns void
- * @throws {TypeError} If the value is not an array.
+ * @throws {@link !TypeError} If the value is not an array.
  * @typeParam T - The type of elements in the array.
  * @category Assertions
  */
@@ -397,7 +397,7 @@ export function assertArray(
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
  * @returns void
- * @throws {TypeError} If the value is not a function.
+ * @throws {@link !TypeError} If the value is not a function.
  * @typeParam T - The type being checked.
  * @category Assertions
  */
@@ -419,7 +419,7 @@ export function assertFunction(value: unknown, name?: string): void {
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a Date object.
+ * @throws {@link !TypeError} If the value is not a Date object.
  * @category Assertions
  */
 export function assertDate(
@@ -434,7 +434,7 @@ export function assertDate(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a RegExp object.
+ * @throws {@link !TypeError} If the value is not a RegExp object.
  * @category Assertions
  */
 export function assertRegExp(
@@ -449,7 +449,7 @@ export function assertRegExp(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not an Error object.
+ * @throws {@link !TypeError} If the value is not an Error object.
  * @category Assertions
  */
 export function assertError(
@@ -464,7 +464,7 @@ export function assertError(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a Map object.
+ * @throws {@link !TypeError} If the value is not a Map object.
  * @category Assertions
  */
 export function assertMap(
@@ -479,7 +479,7 @@ export function assertMap(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a Set object.
+ * @throws {@link !TypeError} If the value is not a Set object.
  * @category Assertions
  */
 export function assertSet(
@@ -494,7 +494,7 @@ export function assertSet(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a WeakMap object.
+ * @throws {@link !TypeError} If the value is not a WeakMap object.
  * @category Assertions
  */
 export function assertWeakMapLike(
@@ -509,7 +509,7 @@ export function assertWeakMapLike(
  *
  * @param value - The value to check.
  * @param name - The name of the value for the error message.
- * @throws {TypeError} If the value is not a WeakSet object.
+ * @throws {@link !TypeError} If the value is not a WeakSet object.
  * @category Assertions
  */
 export function assertWeakSetLike(
