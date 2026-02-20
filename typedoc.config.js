@@ -4,9 +4,11 @@ import { load as loadImportTarget } from 'typedoc-plugin-import-target';
 import { load as loadMdnLinks } from 'typedoc-plugin-mdn-links';
 import { load as loadGithubTheme } from 'typedoc-github-theme';
 
+import { OptionDefaults } from 'typedoc';
+
 /** @type {Partial<import("typedoc").TypeDocOptions>} */
 const config = {
-  entryPoints: ['./lib/es'],
+  entryPoints: ['./lib/es', './lib/types'],
   entryPointStrategy: 'packages',
   outputs: [
     {
@@ -14,20 +16,26 @@ const config = {
       path: './.ignored/docs',
     },
   ],
-  // excludeNotDocumented: true,
-  // excludeNotDocumentedKinds: ['Function'],
+  navigation: {
+    includeCategories: true,
+    includeFolders: false,
+  },
+  exclude: ['**/package.json'],
   plugin: [loadImportTarget, loadMdnLinks, loadGithubTheme],
   packageOptions: {
     includeVersion: true,
-  },
-  externalSymbolLinkMappings: {
-    global: {
-      TypeError:
-        'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError',
-    },
-    typescript: {
-      TypeError:
-        'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError',
+    blockTags: [...OptionDefaults.blockTags, '@importTarget'],
+    // some strange empty category...
+    excludeCategories: ['Type'],
+    externalSymbolLinkMappings: {
+      global: {
+        TypeError:
+          'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError',
+      },
+      typescript: {
+        TypeError:
+          'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/TypeError',
+      },
     },
   },
 };
