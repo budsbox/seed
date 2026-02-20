@@ -1554,6 +1554,7 @@ __metadata:
     typed-scss-modules: "npm:^8.1.1"
     typedoc: "npm:^0.28.17"
     typedoc-github-theme: "npm:^0.4.0"
+    typedoc-plugin-dt-links: "npm:^2.0.42"
     typedoc-plugin-import-target: "npm:^1.4.0"
     typedoc-plugin-mdn-links: "npm:^5.1.1"
     typescript: "npm:^5.9.3"
@@ -13126,6 +13127,15 @@ __metadata:
   peerDependencies:
     typedoc: ~0.28.0
   checksum: 10c0/cde6c8ca1c4b65ed863858f386cab1795e68fba8476a63e3623f9786a5a04d7951d6973e52acc29e88a584142f00e8772ca968fc26b413b7b851a2b83e9c6524
+  languageName: node
+  linkType: hard
+
+"typedoc-plugin-dt-links@npm:^2.0.42":
+  version: 2.0.42
+  resolution: "typedoc-plugin-dt-links@npm:2.0.42"
+  peerDependencies:
+    typedoc: 0.28.x
+  checksum: 10c0/515f1272a4d11a4518170628bf81d994c5b056f30633d69f9b8ff90b94ee341da154eca83fd75d74c8a7eb8044fed2ddbcf2928dace6244224aa2e4b6f9902ff
   languageName: node
   linkType: hard
 

@@ -318,3 +318,6 @@ GitHub.sublime-settings
 
 # test files for Peggy parsers
 .peggy-test.txt
+
+# auto-generated docs
+docs/

@@ -1,6 +1,7 @@
 /// <reference types="./typedoc-plugins.d.ts" />
 
 import { load as loadImportTarget } from 'typedoc-plugin-import-target';
+import { load as loadDtLinks } from 'typedoc-plugin-dt-links';
 import { load as loadMdnLinks } from 'typedoc-plugin-mdn-links';
 import { load as loadGithubTheme } from 'typedoc-github-theme';
 
@@ -13,15 +14,14 @@ const config = {
   outputs: [
     {
       name: 'html',
-      path: './.ignored/docs',
+      path: './docs',
     },
   ],
   navigation: {
     includeCategories: true,
     includeFolders: false,
   },
-  exclude: ['**/package.json'],
-  plugin: [loadImportTarget, loadMdnLinks, loadGithubTheme],
+  plugin: [loadImportTarget, loadMdnLinks, loadDtLinks, loadGithubTheme],
   packageOptions: {
     includeVersion: true,
     blockTags: [...OptionDefaults.blockTags, '@importTarget'],

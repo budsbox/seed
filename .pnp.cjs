@@ -315,6 +315,7 @@ const RAW_RUNTIME_STATE =
           ["typed-scss-modules", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:8.1.1"],\
           ["typedoc", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.28.17"],\
           ["typedoc-github-theme", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.4.0"],\
+          ["typedoc-plugin-dt-links", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:2.0.42"],\
           ["typedoc-plugin-import-target", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:1.4.0"],\
           ["typedoc-plugin-mdn-links", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:5.1.1"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
@@ -5779,6 +5780,7 @@ const RAW_RUNTIME_STATE =
           ["typed-scss-modules", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:8.1.1"],\
           ["typedoc", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.28.17"],\
           ["typedoc-github-theme", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.4.0"],\
+          ["typedoc-plugin-dt-links", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:2.0.42"],\
           ["typedoc-plugin-import-target", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:1.4.0"],\
           ["typedoc-plugin-mdn-links", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:5.1.1"],\
           ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
@@ -20108,6 +20110,28 @@ const RAW_RUNTIME_STATE =
           ["@types/typedoc", null],\
           ["typedoc", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.28.17"],\
           ["typedoc-github-theme", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.4.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/typedoc",\
+          "typedoc"\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["typedoc-plugin-dt-links", [\
+      ["npm:2.0.42", {\
+        "packageLocation": "./.yarn/cache/typedoc-plugin-dt-links-npm-2.0.42-16dcc9a62e-515f1272a4.zip/node_modules/typedoc-plugin-dt-links/",\
+        "packageDependencies": [\
+          ["typedoc-plugin-dt-links", "npm:2.0.42"]\
+        ],\
+        "linkType": "SOFT"\
+      }],\
+      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:2.0.42", {\
+        "packageLocation": "./.yarn/__virtual__/typedoc-plugin-dt-links-virtual-fa7a27a89b/0/cache/typedoc-plugin-dt-links-npm-2.0.42-16dcc9a62e-515f1272a4.zip/node_modules/typedoc-plugin-dt-links/",\
+        "packageDependencies": [\
+          ["@types/typedoc", null],\
+          ["typedoc", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.28.17"],\
+          ["typedoc-plugin-dt-links", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:2.0.42"]\
         ],\
         "packagePeers": [\
           "@types/typedoc",\
