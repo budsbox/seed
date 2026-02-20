@@ -1,3 +1,10 @@
+/**
+ * This module provides utility types for working with arrays and tuples.
+ *
+ * @module
+ * @importTarget .
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   IsNever,
@@ -19,6 +26,7 @@ import type {
  * - Keep in mind that the **number of subsets grows exponentially**
  * with the size of the input tuple (e.g., for a 10-tuple, there will be 1024 subsets.),
  * so use it with caution for large tuples.
+ * @category Array
  */
 export type PowerSet<T extends UnknownArray> =
   T extends readonly [infer THead, ...infer TRest] ?
@@ -36,6 +44,7 @@ export type PowerSet<T extends UnknownArray> =
  * - If `N` is not a fixed finite number, the type resolves to an array of `T[]`.
  * @example
  * You can use `TupleN` to define a tuple of a fixed size with elements of a specific type.
+ * @category Array
  */
 export type TupleN<N extends number, T = unknown> =
   // this is to distribute a numbers union, so `TupleN<2 | 3 | 4>` becomes `TupleN<2> | TupleN<3> | TupleN<4>``
@@ -57,6 +66,7 @@ type _TupleN<T, N extends number, R extends unknown[]> =
  * in the provided array or tuple type `TArray`. If `TArray` is empty, it defaults to `never`.
  *
  * @typeParam TArray - A tuple or array type whose item types will be intersected.
+ * @category Array
  */
 export type ArrayItemsIntersection<TArray extends readonly any[]> =
   TArray extends readonly [infer TLeft, ...infer TRight] ?

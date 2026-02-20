@@ -1,3 +1,10 @@
+/**
+ * This module provides extended definitions for the ECMAScript standard library.
+ * @remarks This is very opinionated and not recommended for general use.
+ * @module
+ * @internal
+ */
+
 /* eslint-disable @typescript-eslint/method-signature-style */
 
 /* ------ Extends ES interfaces ------ */
@@ -48,7 +55,13 @@ interface ReadonlyArray<T> {
 }
 
 interface Crypto {
-  // it's the only method of `Crypto` available in a non-secure context
+  /**
+   * Get cryptographically strong random values.
+   * @param array - The array to fill with random values.
+   * @returns The filled array.
+   * @see {@link !Crypto.getRandomValues Crypto.getRandomValues} (MDN)
+   * @remarks This method is the only one from Crypto API that can be used in non-secure contexts.
+   */
   getRandomValues<T extends ArrayBufferView | null>(array: T): T;
 }
 

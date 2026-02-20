@@ -1,3 +1,12 @@
+/**
+ * This module provides utility types for most common TypeScript programming tasks.
+ *
+ * @module
+ * @importTarget .
+ * @categoryDescription Core
+ * Utility types for most common TypeScript programming tasks.
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IsNever } from 'type-fest';
 
@@ -9,6 +18,7 @@ import type { IsNever } from 'type-fest';
  * from the provided type parameter.
  *
  * @typeParam T - The original type from which `undefined` and `void` will be excluded.
+ * @category Core
  */
 // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 export type Def<T> = Exclude<T, undefined | void>;
@@ -17,11 +27,14 @@ export type Def<T> = Exclude<T, undefined | void>;
  * A utility type that represents a value of the specified type `T` or `undefined`.
  *
  * @typeParam T - The type of the value. Defaults to `never` if not specified.
+ * @category Core
  */
 export type Undef<T = never> = T | undefined;
 
 /**
  * Represents a value that can either be `null` or `undefined`.
+ *
+ * @category Core
  */
 export type Nil = null | undefined;
 
@@ -30,6 +43,7 @@ export type Nil = null | undefined;
  * or a `Nil` type, where `Nil` typically represents `null` or `undefined`.
  *
  * @typeParam T - The type of the value that might be present.
+ * @category Core
  */
 export type Maybe<T = never> = Nil | T;
 
@@ -40,6 +54,7 @@ export type Maybe<T = never> = Nil | T;
  * making the resulting type strictly non-nil.
  *
  * @typeParam T - The type to be filtered to exclude `null` and `undefined`. Defaults to `unknown` if not provided.
+ * @category Core
  */
 export type NonNil<T = unknown> = NonNullable<T>;
 
@@ -51,6 +66,7 @@ export type NonNil<T = unknown> = NonNullable<T>;
  * allowing the caller to process them uniformly.
  *
  * @typeParam T - The type of the value, whether synchronous or asynchronous.
+ * @category Core
  */
 export type Awaitable<T> = Promise<T> | T;
 
@@ -66,6 +82,8 @@ export type Awaitable<T> = Promise<T> | T;
  *
  * This type is useful for cases where you need to explicitly represent or handle values
  * that JavaScript considers as falsy during logical operations.
+ *
+ * @category Core
  */
 export type Falsy = 0 | '' | false | Nil;
 
@@ -80,6 +98,7 @@ export type Falsy = 0 | '' | false | Nil;
  * @remarks The utility has limitations, e.g. `Truthy<string>` would still be `string`, so it works with literals only.
  * @typeParam T - The type from which falsy values are filtered out.
  * @typeParam T - The input type that will be evaluated to exclude falsy members.
+ * @category Core
  */
 export type Truthy<T = unknown> = T extends Falsy ? never : T;
 
@@ -87,6 +106,7 @@ export type Truthy<T = unknown> = T extends Falsy ? never : T;
  * A type alias representing a set that can hold values of any type.
  *
  * @typeParam T - The type of elements in the set. Defaults to `any`.
+ * @category Core
  */
 export type AnySet<T = any> = Set<T>;
 
@@ -94,6 +114,7 @@ export type AnySet<T = any> = Set<T>;
  * Represents a set that can be either a mutable `Set` or an immutable `ReadonlySet`.
  *
  * @typeParam T - The type of elements contained in the set. Defaults to `any`.
+ * @category Core
  */
 export type AnyReadableSet<T = any> = ReadonlySet<T> | Set<T>;
 
@@ -103,6 +124,7 @@ export type AnyReadableSet<T = any> = ReadonlySet<T> | Set<T>;
  *
  * @typeParam K - The type of keys in the map. Defaults to `any`.
  * @typeParam V - The type of values in the map. Defaults to `any`.
+ * @category Core
  */
 export type AnyMap<K = any, V = any> = Map<K, V>;
 
@@ -112,6 +134,7 @@ export type AnyMap<K = any, V = any> = Map<K, V>;
  *
  * @typeParam K - The type of keys in the map.
  * @typeParam V - The type of values in the map.
+ * @category Core
  */
 export type AnyReadableMap<K = any, V = any> = Map<K, V> | ReadonlyMap<K, V>;
 
@@ -121,6 +144,7 @@ export type AnyReadableMap<K = any, V = any> = Map<K, V> | ReadonlyMap<K, V>;
  * otherwise it resolves to `false`.
  *
  * @typeParam TValue - The type to be checked against `Nil`.
+ * @category Core
  */
 export type IsNil<TValue> = [TValue] extends [Nil] ? true : false;
 
@@ -130,6 +154,7 @@ export type IsNil<TValue> = [TValue] extends [Nil] ? true : false;
  *
  * @typeParam T - The primary type to evaluate.
  * @typeParam TFallbackType - The fallback type to use if `T` is `never`. Defaults to `unknown`.
+ * @category Core
  */
 export type WithFallback<T, TFallbackType = unknown> =
   IsNever<T> extends true ? TFallbackType : T;

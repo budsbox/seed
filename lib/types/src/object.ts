@@ -1,3 +1,10 @@
+/**
+ * This module provides utility types for working with objects and records.
+ *
+ * @module
+ * @importTarget .
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   ArrayTail,
@@ -23,10 +30,10 @@ import type { IsNil } from './core.js';
  * ```typescript
  * // a tip for Foo would be like { bla: string } & { bla?: string; lol?: string; }
  * type Foo = { bla: string } & { bla?: string; lol?: string; };
- *
  * // {bla: string; lol?: string}
  * type Bla = InferObj<Foo>;
  * ```
+ * @category Object
  */
 export type InferObject<TObject extends object> = {
   foo: {
@@ -42,6 +49,7 @@ export type InferObject<TObject extends object> = {
  *
  * @typeParam T1 - The first object type.
  * @typeParam T2 - The second object type.
+ * @category Object
  */
 export type Diff<T1 extends object, T2 extends object> = InferObject<
   Omit<T1, keyof T2 & keyof T1>
@@ -54,6 +62,7 @@ export type Diff<T1 extends object, T2 extends object> = InferObject<
  *
  * @typeParam TKey - The type of the property keys. Defaults to `PropertyKey`.
  * @typeParam TValue - The type of the property values. Defaults to `any`.
+ * @category Object
  */
 export type AnyRecord<
   TKey extends PropertyKey = PropertyKey,
@@ -71,6 +80,7 @@ export type AnyRecord<
  * @typeParam TPartial - When `true`, makes literal keys optional using {@link ConditionalPartial}. Defaults to `false`.
  * @typeParam TReadOnly - When `true`, makes all properties readonly using {@link ConditionalReadonly}. Defaults to `false`.
  * @see {@link AnyRecord} for a specialized version with both partial and readonly behavior.
+ * @category Object
  */
 export type CustomRecord<
   TKey extends PropertyKey = PropertyKey,
@@ -92,6 +102,7 @@ export type CustomRecord<
  * @typeParam TSource - The source type to potentially make partial.
  * @typeParam TPartial - When `true`, applies partial behavior to literal keys. Defaults to `false`.
  * @see {@link LiteralKeysPartial} for the underlying transformation logic.
+ * @category Object
  */
 export type ConditionalPartial<TSource, TPartial extends boolean = false> =
   TPartial extends true ? LiteralKeysPartial<TSource> : TSource;
@@ -115,6 +126,7 @@ export type ConditionalPartial<TSource, TPartial extends boolean = false> =
  * // Result: { foo?: string; bar?: number; [x: string]: string | number }
  * type Result = LiteralKeysPartial<Example>;
  * ```
+ * @category Object
  */
 export type LiteralKeysPartial<TSource> = InferObject<
   {
@@ -132,6 +144,7 @@ export type LiteralKeysPartial<TSource> = InferObject<
  *
  * @typeParam T - The type to potentially make readonly.
  * @typeParam TReadOnly - When `true`, makes all properties readonly. Defaults to `false`.
+ * @category Object
  */
 export type ConditionalReadonly<T, TReadOnly extends boolean = false> =
   TReadOnly extends true ? Readonly<T> : T;
@@ -149,6 +162,7 @@ export type ConditionalReadonly<T, TReadOnly extends boolean = false> =
  * So if `T` is `{ a: number; b: string }`, then `EntryUnion<T>` will resolve to `[ "a", number ] | [ "b", string ]`,
  * while `Entry<T>` will resolve to `[ 'a' | 'b', number | string ]`.
  * Also, it's intended to work with objects only, not with arrays, Maps or Sets. Use `Entry<T>` for those cases.
+ * @category Object
  */
 export type EntryUnion<T extends object> =
   T extends object ?
@@ -160,6 +174,8 @@ export type EntryUnion<T extends object> =
 /**
  * Represents a general type of object where the first item is a key of type `PropertyKey`
  * and the second item is an associated value of any type.
+ *
+ * @category Object
  */
 export type UnknownEntry = readonly [key: PropertyKey, value: unknown];
 
@@ -169,6 +185,8 @@ export type UnknownEntry = readonly [key: PropertyKey, value: unknown];
  *
  * This is useful for representing data structures such as hierarchical
  * keys or paths paired with a corresponding value.
+ *
+ * @category Object
  */
 export type UnknownNestedEntry = readonly [
   key: readonly PropertyKey[],
@@ -191,6 +209,7 @@ export type UnknownNestedEntry = readonly [
  *   - If `TKey` is an array of key parts (`TKeyParts`), `TPrefix` will be prepended to an array of keys,
  *      resulting in a new tuple `[[...TPrefix, ...TKeyParts[]], TValue]`.
  *   - Otherwise (if `TKey` is a single key), `TPrefix` will be prepended to a single key, resulting in a new tuple `[[...TPrefix, TKey], TValue]`.
+ * @category Object
  */
 export type PrependEntryKey<
   TEntry extends UnknownEntry | UnknownNestedEntry,
@@ -252,6 +271,7 @@ type _ExpandedEntry<
  *
  * @typeParam T - The base object type to define the entries from.
  * @typeParam TMaxDepth - The maximum depth to which the entries are expanded. Defaults to 4.
+ * @category Object
  */
 export type EntryDeep<
   T extends object,
@@ -268,6 +288,7 @@ export type EntryDeep<
  * generate `never` values for specific keys.
  *
  * @typeParam T - The object type to process and omit `never` properties from.
+ * @category Object
  */
 export type OmitNeverProps<T extends object> =
   T extends unknown ?
@@ -278,6 +299,7 @@ export type OmitNeverProps<T extends object> =
  * A utility type that omits properties from an object type where the property type can resolve to `Nil`, i.e., `null` or `undefined`
  *
  * @typeParam T - The object type to process for excluding `Nil` properties.
+ * @category Object
  */
 export type OmitNilProps<T extends object> =
   T extends unknown ?
@@ -310,6 +332,7 @@ export type OmitNilProps<T extends object> =
  * // Resolves to: number (undefined stripped)
  * type IndexValueStripped = DistributedPropValue<WithIndex, 'anyKey', true>;
  * ```
+ * @category Object
  */
 export type DistributedPropValue<
   TSource,
@@ -347,6 +370,7 @@ type ValueOfPartial<TSource, TKey extends keyof TSource> =
  *
  * @typeParam T - The object type to evaluate as an empty object.
  * @remarks It's superior to `type-fest`'s `IsEmptyObject<T>` because it handles `Record<symbol, never>` correctly.
+ * @category Object
  */
 export type IsEmptyObject<T> =
   T extends Record<PropertyKey, never> ? IsNever<keyof T> : false;

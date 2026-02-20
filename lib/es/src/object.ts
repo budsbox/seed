@@ -8,11 +8,7 @@
 
 import type { ValueOf } from 'type-fest';
 
-import type {
-  AnyRecord,
-  EntryUnion,
-  OmitNilProps,
-} from '@budsbox/lib-types/object';
+import type { AnyRecord, EntryUnion, OmitNilProps } from '@budsbox/lib-types';
 
 import { isNotNil } from '#guards';
 

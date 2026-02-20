@@ -32,12 +32,6 @@
   },
   "exports": {
     "./package.json": "./package.json",
-    "./core": {
-      "types": "./dist/core.d.ts"
-    },
-    "./object": {
-      "types": "./dist/object.d.ts"
-    },
     "./es.d.ts": {
       "types": "./es.d.ts"
     },
