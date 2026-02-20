@@ -2,7 +2,14 @@
 <module type="WEB_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
+      <excludeFolder url="file://$MODULE_DIR$/.idea/dictionaries" />
+      <excludeFolder url="file://$MODULE_DIR$/.ignored" />
       <excludeFolder url="file://$MODULE_DIR$/.yarn" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/es/.ignored" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/mime/.ignored" />
+      <excludeFolder url="file://$MODULE_DIR$/lib/yarn/.ignored" />
+      <excludeFolder url="file://$MODULE_DIR$/lint/eslint/.ignored" />
+      <excludeFolder url="file://$MODULE_DIR$/ui/components/merge-2/.ignored" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
