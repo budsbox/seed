@@ -146,7 +146,12 @@ export type AnyReadableMap<K = any, V = any> = Map<K, V> | ReadonlyMap<K, V>;
  * @typeParam TValue - The type to be checked against `Nil`.
  * @category Core
  */
-export type IsNil<TValue> = [TValue] extends [Nil] ? true : false;
+export type IsNil<TValue> =
+  IsNever<TValue> extends false ?
+    [TValue] extends [Nil] ?
+      true
+    : false
+  : false;
 
 /**
  * A utility type that evaluates to the fallback type `TFallbackType` if `T` is determined to be `never`.
