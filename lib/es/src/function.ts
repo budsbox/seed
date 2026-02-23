@@ -45,7 +45,12 @@ type DefaultCacheKey<TFn extends AnyFunction> =
 
 type CachedFn<TFn extends AnyFunction, TKey = DefaultCacheKey<TFn>> =
   TFn extends (...args: infer TArgs) => infer TReturn ?
-    (cacheMap: Map<TKey, TReturn>, ...args: TArgs) => TReturn
+    (
+      cacheMap:
+        | (TKey extends WeakKey ? WeakMap<TKey, TReturn> : never)
+        | Map<TKey, TReturn>,
+      ...args: TArgs
+    ) => TReturn
   : never;
 
 /**
