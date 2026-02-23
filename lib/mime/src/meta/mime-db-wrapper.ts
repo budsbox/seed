@@ -38,9 +38,11 @@ export type MimeDbSource = 'apache' | 'iana' | 'nginx';
 /**
  * A record representing a MIME type entry with normalized optional fields.
  *
+ * @interface
+ * @remarks This interface actually is inferred type.
  * This type normalizes the union of all possible MIME type records from the database,
  * converting properties that may be {@link undefined} into optional properties.
- *
+ * It's a **readonly** type, though TypeDoc may not display it correctly.
  * @example
  * ```typescript
  * const record: MimeDbRecord = {

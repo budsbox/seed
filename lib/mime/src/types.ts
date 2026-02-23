@@ -89,6 +89,29 @@ export interface UpdateFn {
   ): OutputType<TInput>;
 }
 
+/**
+ * Function interface for retrieving a parameter value from a MIME type input.
+ *
+ * @param input - MIME type input from which to get the parameter.
+ * @param name - Name of the parameter to retrieve.
+ * @param throwIfMissing - Whether to throw an error if the parameter is missing. Defaults to `false`.
+ * @returns The parameter value, or {@link null} if not found and `throwIfMissing` is `false`.
+ * @throws When `throwIfMissing` is `true` and the parameter is not found.
+ * @typeParam TInput - The input shape to query.
+ * @typeParam TThrow - Whether the function should throw when the parameter is missing.
+ * @example
+ * ```typescript
+ * const value = getParameter('text/html; charset=utf-8', 'charset');
+ * // value: 'utf-8'
+ * ```
+ * @example
+ * ```typescript
+ * const value = getParameter('text/html', 'charset');
+ * // value: null
+ * const valueThrow = getParameter('text/html', 'charset', true);
+ * // throws error
+ * ```
+ */
 export interface GetParameterFn {
   <TInput extends MimeTypeInput, TThrow extends boolean = false>(
     input: TInput,
@@ -193,6 +216,17 @@ export type WellKnownSubtype =
     : never
   : never;
 
+/**
+ * Union of all MIME type suffixes (like `+json`, `+xml`) found in {@link WellKnownMimeType}.
+ *
+ * These suffixes indicate the underlying format or structure of a MIME type.
+ *
+ * @example
+ * ```typescript
+ * const suffix: WellKnownSuffixes = '+json';
+ * const xmlSuffix: WellKnownSuffixes = '+xml';
+ * ```
+ */
 export type WellKnownSuffixes =
   | '+csv'
   | '+jws'
@@ -233,6 +267,15 @@ export type MimeTypeRecord<
 
 /* ───────────────────────── Functions Type Helpers ───────────────────────── */
 
+/**
+ * A string representing any MIME type, with autocompletion for well-known types.
+ *
+ * @example
+ * ```typescript
+ * const mime1: MimeTypeStringInput = 'application/json'; // well-known
+ * const mime2: MimeTypeStringInput = 'application/custom'; // custom
+ * ```
+ */
 export type MimeTypeStringInput = LiteralUnion<string, WellKnownMimeType>;
 
 /**
@@ -243,6 +286,15 @@ export type MimeTypeStringInput = LiteralUnion<string, WellKnownMimeType>;
  */
 export type TopLevelTypeInput = LiteralUnion<string, WellKnownTopLevelType>;
 
+/**
+ * A string representing a MIME subtype, with autocompletion for well-known subtypes.
+ *
+ * @example
+ * ```typescript
+ * const subtype1: SubtypeInput = 'json'; // well-known
+ * const subtype2: SubtypeInput = 'custom-format'; // custom
+ * ```
+ */
 export type SubtypeInput = LiteralUnion<string, WellKnownSubtype>;
 
 /**
@@ -313,6 +365,14 @@ export type OutputType<TInput extends MimeTypeInput = MimeTypeInput> =
   : TInput extends MimeTypeStringContainer ? string
   : MimeTypeRecord<MultiParameter<TInput>>;
 
+/**
+ * Extracts the multi-parameter handling strategy from a {@link MimeTypeInput}.
+ *
+ * Defaults to `'keep-first'` if not explicitly specified in the input options.
+ *
+ * @internal
+ * @typeParam TInput - The input shape from which to extract the multi-parameter option.
+ */
 type MultiParameter<TInput extends MimeTypeInput = MimeTypeInput> =
   TInput extends { readonly multiParameter?: infer TMultiParameter } ?
     TMultiParameter & MultiParameterOption
@@ -330,6 +390,11 @@ export type UpdateKey = Extract<keyof MimeTypeRecord, keyof UpdateValueMap>;
  */
 export type UpdateValue<TKey extends UpdateKey> = UpdateValueMap[TKey];
 
+/**
+ * Maps update keys to their corresponding value types for the {@link UpdateFn `update` function}.
+ *
+ * @internal
+ */
 interface UpdateValueMap {
   essence: MimeTypeEssence;
   parameters: ParametersUpdateInput;
@@ -346,12 +411,51 @@ interface UpdateValueMap {
  */
 export type ParametersUpdateInput = string | SerializableParameters<true>;
 
+/**
+ * A dictionary mapping MIME type essences to their alternative forms or aliases.
+ *
+ * Used during MIME type resolution to handle equivalent representations.
+ *
+ * @example
+ * ```typescript
+ * const aliases: EssenceAliasesMap = {
+ *   'application/javascript': ['text/javascript', 'application/x-javascript']
+ * };
+ * ```
+ */
 export interface EssenceAliasesMap {
   readonly [essence: MimeTypeEssence]: Readonly<Arrayable<MimeTypeEssence>>;
 }
 
+/**
+ * Configuration options for resolving MIME types with additional metadata.
+ *
+ * @example
+ * ```typescript
+ * const options: ResolveOptions = {
+ *   db: customMimeDb,
+ *   noDefaultCharset: true,
+ *   aliases: {
+ *     'text/javascript': 'application/javascript'
+ *   }
+ * };
+ * ```
+ */
 export interface ResolveOptions {
+  /**
+   * Custom essence aliases to use during resolution.
+   */
   readonly aliases?: EssenceAliasesMap;
+
+  /**
+   * Custom MIME database to use instead of the default.
+   */
   readonly db?: MimeDb;
+
+  /**
+   * When `true`, prevents adding default charset parameters during resolution.
+   *
+   * @defaultValue `false`
+   */
   readonly noDefaultCharset?: boolean;
 }
