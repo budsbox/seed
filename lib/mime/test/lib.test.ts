@@ -1,712 +1,360 @@
+import { describe, expect, test } from 'vitest';
 import {
-  normalize,
-  parse,
-  produceOutput,
   getParameter,
+  normalize,
+  normalizeInput,
+  parse,
   removeParameter,
   serialize,
   setParameter,
-  normalizeInput,
   update,
 } from '#lib';
-import { describe, expect, test } from 'vitest';
 
-describe.concurrent('MIME Type Library', () => {
-  describe('parse', () => {
-    describe('positive cases', () => {
-      test('should create MimeTypeRecord from string MIME type', () => {
-        const result = parse('text/html; charset=utf-8');
-        expect(result).toStrictEqual({
-          essence: 'text/html',
-          type: 'text',
-          subtype: 'html',
-          subtypeTokens: { tree: null, name: 'html', suffix: null },
-          parameters: new Map([['charset', 'utf-8']]),
-        });
-      });
+import { ROMap } from '@budsbox/lib-es/map';
 
-      test('should create MimeTypeRecord from simple MIME type without parameters', () => {
-        const result = parse('application/json');
-        expect(result).toStrictEqual({
-          essence: 'application/json',
-          type: 'application',
-          subtype: 'json',
-          subtypeTokens: { tree: null, name: 'json', suffix: null },
-          parameters: new Map(),
-        });
-      });
-
-      test('should return same MimeTypeRecord if input is already a MimeTypeRecord', () => {
-        const input = parse('text/plain');
-        const result = parse(input);
-        expect(result).toBe(input);
-      });
-
-      test('should handle MIME types with multiple parameters', () => {
-        const result = parse(
-          'multipart/form-data; boundary=----WebKitFormBoundary; charset=utf-8',
-        );
-        expect(result).toStrictEqual({
-          essence: 'multipart/form-data',
-          type: 'multipart',
-          subtype: 'form-data',
-          subtypeTokens: { tree: null, name: 'form-data', suffix: null },
-          parameters: new Map([
-            ['boundary', '----WebKitFormBoundary'],
-            ['charset', 'utf-8'],
-          ]),
-        });
-      });
-
-      test('should handle case-insensitive MIME types', () => {
-        const result = parse('TEXT/HTML');
-        expect(result).toStrictEqual({
-          essence: 'text/html',
-          type: 'text',
-          subtype: 'html',
-          subtypeTokens: { tree: null, name: 'html', suffix: null },
-          parameters: new Map(),
-        });
-      });
-
-      test('should handle MIME types with quoted parameter values', () => {
-        const result = parse('text/plain; name="file.txt"');
-        expect(result.parameters.get('name')).toBe('file.txt');
-      });
-
-      test('should handle MIME types with quoted parameter values (with a quote in it)', () => {
-        const result = parse('text/plain; foo="bar \\" baz"');
-        expect(result.parameters.get('foo')).toBe('bar " baz');
-      });
-    });
-
-    describe('negative cases', () => {
-      test('should throw SyntaxError for invalid MIME type string', () => {
-        expect(() => parse('invalid')).toThrow();
-      });
-
-      test('should throw SyntaxError for malformed MIME type', () => {
-        expect(() => parse('text/')).toThrow();
-      });
-
-      test('should throw SyntaxError for MIME type with invalid characters', () => {
-        expect(() => parse('text<html')).toThrow();
-      });
-    });
-  });
-
-  describe('update', () => {
-    describe('essence', () => {
-      describe('positive cases', () => {
-        test('should update essence of existing MIME type', () => {
-          const original = parse('text/html; charset=utf-8');
-          const result = update(original, 'essence', 'application/json');
-          expect(result).toStrictEqual({
-            essence: 'application/json',
-            type: 'application',
-            subtype: 'json',
-            subtypeTokens: { tree: null, name: 'json', suffix: null },
-            parameters: new Map([['charset', 'utf-8']]),
-          });
-        });
-
-        test('should update essence from string input', () => {
-          const result = update('text/html', 'essence', 'application/xml');
-          expect(result).toBe('application/xml');
-        });
-
-        test('should preserve existing parameters when updating essence', () => {
-          const original = parse('text/html; charset=utf-8; boundary=abc123');
-          const result = update(original, 'essence', 'image/png');
-          expect(result.parameters.get('charset')).toBe('utf-8');
-          expect(result.parameters.get('boundary')).toBe('abc123');
-        });
-      });
-
-      describe('negative cases', () => {
-        test('should throw SyntaxError for invalid essence', () => {
-          expect(() => update('text/html', 'essence', 'invalid')).toThrow(
-            `Failed to parse essence: expected "/" or restricted-name char ([a-z0-9"!#$&-^_"]i) but end of input found.
- --> <input>:1:8
-  |
-1 | invalid
-  |        ^`,
-          );
-        });
-
-        test('should throw SyntaxError for empty type in essence', () => {
-          expect(() => update('text/html', 'essence', '/json')).toThrow(
-            'Failed to parse essence',
-          );
-        });
-
-        test('should throw SyntaxError for empty subtype in essence', () => {
-          expect(() => update('text/html', 'essence', 'application/')).toThrow(
-            'Failed to parse essence',
-          );
-        });
-      });
-    });
-
-    describe('parameters', () => {
-      describe('positive cases', () => {
-        test('should update parameters with string input', () => {
-          const result = update(
-            'text/html',
-            'parameters',
-            'charset=utf-8; boundary=abc',
-          );
-          expect(result).toBe('text/html;charset=utf-8;boundary=abc');
-        });
-
-        test('should update parameters from Map', () => {
-          const params = new Map([['charset', 'utf-8']]);
-          const result = update(parse('text/html'), 'parameters', params);
-          expect(result.parameters.get('charset')).toBe('utf-8');
-        });
-
-        test('should update parameters from array of entries', () => {
-          const original = parse('text/html');
-          const params = [
-            ['charset', 'utf-8'],
-            ['boundary', '123'],
-          ] as const;
-          const result = update(original, 'parameters', params);
-          expect(result.parameters).toStrictEqual(new Map(params));
-        });
-
-        test('should replace existing parameters', () => {
-          const original = parse('text/html; charset=iso-8859-1');
-          const result = update(original, 'parameters', 'charset=utf-8');
-          expect(result.parameters.get('charset')).toBe('utf-8');
-        });
-
-        test('should handle empty parameter string', () => {
-          const original = parse('text/html; charset=utf-8');
-          const result = update(original, 'parameters', '');
-          expect(result.parameters.size).toBe(0);
-        });
-      });
-
-      describe('negative cases', () => {
-        test('should throw SyntaxError for invalid parameter string', () => {
-          expect(() => update('text/html', 'parameters', 'invalid@@@')).toThrow(
-            'Failed to parse parameters',
-          );
-        });
-
-        test('should throw SyntaxError for malformed parameter syntax', () => {
-          expect(() =>
-            update('text/html', 'parameters', 'charset=='),
-          ).toThrow();
-        });
-      });
-    });
-
-    describe('type', () => {
-      describe('positive cases', () => {
-        test('should update type component', () => {
-          const original = parse('text/html');
-          const result = update(original, 'type', 'application');
-          expect(result).toStrictEqual({
-            essence: 'application/html',
-            type: 'application',
-            subtype: 'html',
-            subtypeTokens: { tree: null, name: 'html', suffix: null },
-            parameters: new Map(),
-          });
-        });
-
-        test('should update type from string input', () => {
-          const result = update('text/html; charset=utf-8', 'type', 'image');
-          expect(result).toBe('image/html;charset=utf-8');
-        });
-      });
-
-      describe('negative cases', () => {
-        test('should throw SyntaxError for invalid type', () => {
-          expect(() => update('text/html', 'type', 'invalid<>')).toThrow();
-        });
-
-        test('should throw SyntaxError for empty type', () => {
-          expect(() => update('text/html', 'type', '')).toThrow();
-        });
-      });
-    });
-
-    describe('subtype', () => {
-      describe('positive cases', () => {
-        test('should update subtype component', () => {
-          const original = parse('text/html');
-          const result = update(original, 'subtype', 'plain');
-          expect(result).toStrictEqual({
-            essence: 'text/plain',
-            type: 'text',
-            subtype: 'plain',
-            subtypeTokens: { tree: null, name: 'plain', suffix: null },
-            parameters: new Map(),
-          });
-        });
-
-        test('should preserve parameters when updating subtype', () => {
-          const original = parse('text/html; charset=utf-8');
-          const result = update(original, 'subtype', 'xml');
-          expect(result).toStrictEqual({
-            essence: 'text/xml',
-            type: 'text',
-            subtype: 'xml',
-            subtypeTokens: { tree: null, name: 'xml', suffix: null },
-            parameters: new Map([['charset', 'utf-8']]),
-          });
-        });
-
-        test('should handle subtype with tree prefix and suffix', () => {
-          const result = update(
-            parse('application/json'),
-            'subtype',
-            'vnd.example+xml',
-          );
-          expect(result.subtypeTokens.tree).toBe('vnd.');
-          expect(result.subtypeTokens.suffix).toBe('+xml');
-        });
-      });
-
-      describe('negative cases', () => {
-        test('should throw SyntaxError for invalid subtype', () => {
-          expect(() => update('text/html', 'subtype', 'invalid<>')).toThrow();
-        });
-
-        test('should throw SyntaxError for empty subtype', () => {
-          expect(() => update('text/html', 'subtype', '')).toThrow();
-        });
-      });
-    });
-  });
-
-  describe('getParameter', () => {
-    describe('positive cases', () => {
-      test('should get existing parameter from record', () => {
-        const rec = parse('text/html; charset=utf-8; boundary=abc');
-        const charset = getParameter(rec, 'charset');
-        const boundary = getParameter(rec, 'boundary');
-        expect(charset).toBe('utf-8');
-        expect(boundary).toBe('abc');
-      });
-
-      test('should get existing parameter from string input', () => {
-        const charset = getParameter('text/html; charset=utf-8', 'charset');
-        expect(charset).toBe('utf-8');
-      });
-
-      test('should be case-insensitive for parameter name', () => {
-        const rec = parse('text/plain; FoO=bar');
-        expect(getParameter(rec, 'foo')).toBe('bar');
-        expect(getParameter(rec, 'FOO')).toBe('bar');
-      });
-
-      test('should return null for missing parameter by default', () => {
-        const rec = parse('text/html; charset=utf-8');
-        const v = getParameter(rec, 'boundary');
-        expect(v).toBeNull();
-      });
-
-      test('should respect multi-parameter strategy: keep-first (default)', () => {
-        const v = getParameter({ mimeType: 'text/html; q=0.5; q=0.8' }, 'q');
-        expect(v).toBe('0.5');
-      });
-
-      test('should respect multi-parameter strategy: keep-last', () => {
-        const v = getParameter(
-          { mimeType: 'text/html; q=0.5; q=0.8', multiParameter: 'keep-last' },
-          'q',
-        );
-        expect(v).toBe('0.8');
-      });
-
-      test('should respect multi-parameter strategy: list returns array', () => {
-        const v = getParameter(
-          { mimeType: 'text/html; q=0.5; q=0.8', multiParameter: 'list' },
-          'q',
-        );
-        expect(v).toStrictEqual(['0.5', '0.8']);
-      });
-    });
-
-    describe('negative cases', () => {
-      test('should throw when parameter is missing and throwOnMissing is true', () => {
-        expect(() =>
-          getParameter('text/html; charset=utf-8', 'boundary', true),
-        ).toThrow(
-          'Parameter "boundary" is not found in MIME type "text/html;charset=utf-8"',
-        );
-      });
-    });
-  });
-
-  describe('setParameter', () => {
-    describe('set new parameter', () => {
-      test('should set new string parameter', () => {
-        const original = parse('text/html');
-        const result = setParameter(original, 'charset', 'utf-8');
-        expect(result.parameters).toStrictEqual(
-          new Map([['charset', 'utf-8']]),
-        );
-      });
-
-      test('should set numeric parameter as string', () => {
-        const original = parse('text/html');
-        const result = setParameter(original, 'quality', 0.8);
-        expect(result.parameters.get('quality')).toBe('0.8');
-      });
-
-      test('should set parameter on string input', () => {
-        const result = setParameter('text/html', 'charset', 'utf-8');
-        expect(result).toBe('text/html;charset=utf-8');
-      });
-
-      test('should set parameter without removing existing parameters', () => {
-        const original = parse('text/html; boundary=abc');
-        const result = setParameter(original, 'charset', 'utf-8');
-        expect(result).toStrictEqual({
-          essence: 'text/html',
-          type: 'text',
-          subtype: 'html',
-          subtypeTokens: { tree: null, name: 'html', suffix: null },
-          parameters: new Map([
-            ['boundary', 'abc'],
-            ['charset', 'utf-8'],
-          ]),
-        });
-      });
-    });
-
-    describe('update existing parameter', () => {
-      test('should update existing parameter value', () => {
-        const original = parse('text/html; charset=iso-8859-1');
-        const result = setParameter(original, 'charset', 'utf-8');
-        expect(result.parameters.get('charset')).toBe('utf-8');
-      });
-
-      test('should preserve other parameters when updating', () => {
-        const original = parse('text/html; charset=iso-8859-1; boundary=abc');
-        const result = setParameter(original, 'charset', 'utf-8');
-        expect(result.parameters).toStrictEqual(
-          new Map([
-            ['charset', 'utf-8'],
-            ['boundary', 'abc'],
-          ]),
-        );
-      });
-    });
-
-    describe('remove parameter with nil/empty values', () => {
-      test('should remove parameter when value is null', () => {
-        const original = parse('text/html; charset=utf-8');
-        const result = setParameter(original, 'charset', null);
-        expect(result.parameters.has('charset')).toBe(false);
-      });
-
-      test('should remove parameter when value is undefined', () => {
-        const original = parse('text/html; charset=utf-8');
-        const result = setParameter(original, 'charset', undefined);
-        expect(result.parameters.has('charset')).toBe(false);
-      });
-
-      test('should remove parameter when value is empty string', () => {
-        const original = parse('text/html; charset=utf-8');
-        const result = setParameter(original, 'charset', '');
-        expect(result.parameters.has('charset')).toBe(false);
-      });
-    });
-
-    describe('negative cases', () => {
-      test('should throw error for invalid MIME type input', () => {
-        expect(() => setParameter('invalid', 'charset', 'utf-8')).toThrow();
-      });
-    });
-  });
-
-  describe('removeParameter', () => {
-    describe('positive cases', () => {
-      test('should remove existing parameter', () => {
-        const original = parse('text/html; charset=utf-8; boundary=abc');
-        const result = removeParameter(original, 'charset');
-        expect(result.parameters).toStrictEqual(new Map([['boundary', 'abc']]));
-      });
-
-      test('should return same record when removing non-existent parameter', () => {
-        const original = parse('text/html; charset=utf-8');
-        const result = removeParameter(original, 'nonexistent');
-        expect(result).toBe(original);
-      });
-
-      test('should remove parameter from string input', () => {
-        const result = removeParameter(
-          'text/html; charset=utf-8; boundary=abc',
-          'charset',
-        );
-        expect(result).toBe('text/html;boundary=abc');
-      });
-
-      test('should handle case-insensitive parameter removal', () => {
-        const original = parse('text/html; CHARSET=utf-8');
-        const result = removeParameter(original, 'charset');
-        expect(result.parameters.has('charset')).toBe(false);
-      });
-
-      test('should remove parameter from MIME type with single parameter', () => {
-        const original = parse('text/html; charset=utf-8');
-        const result = removeParameter(original, 'charset');
-        expect(result.parameters.size).toBe(0);
-        expect(serialize(result)).toBe('text/html');
-      });
-    });
-
-    describe('negative cases', () => {
-      test('should throw error for invalid MIME type input', () => {
-        expect(() => removeParameter('invalid', 'param')).toThrow();
-      });
-    });
-  });
-
-  describe('serialize', () => {
-    describe('positive cases', () => {
-      test('should serialize MimeTypeRecord without parameters', () => {
-        const record = parse('text/html');
-        const result = serialize(record);
-        expect(result).toBe('text/html');
-      });
-
-      test('should serialize MimeTypeRecord with multiple parameters', () => {
-        const record = parse('text/html; charset=utf-8; boundary=abc123');
-        const result = serialize(record);
-        expect(result).toBe('text/html;charset=utf-8;boundary=abc123');
-      });
-
-      test('should serialize multipart/form-data with boundary', () => {
-        const record = parse('multipart/form-data; boundary=----WebKit');
-        const result = serialize(record);
-        expect(result).toBe('multipart/form-data;boundary=----WebKit');
-      });
-
-      test('should serialize MIME type with quoted parameter value', () => {
-        const record = parse('text/plain; filename="my \\"quoted\\" file.txt"');
-        const result = serialize(record);
-        expect(result).toBe('text/plain;filename="my \\"quoted\\" file.txt"');
-      });
-
-      test('should serialize MIME type with subtype tree and suffix', () => {
-        const record = parse('application/vnd.example+xml');
-        const result = serialize(record);
-        expect(result).toBe('application/vnd.example+xml');
-      });
-    });
-  });
-
-  describe('normalize', () => {
-    describe('positive cases', () => {
-      test('should normalize mixed-case MIME type string', () => {
-        const result = normalize('TEXT/HTML; Charset=UTF-8');
-        expect(result).toBe('text/html;charset=utf-8');
-      });
-    });
-
-    describe('negative cases', () => {
-      test('should throw error for invalid MIME type string', () => {
-        expect(() => normalize('invalid')).toThrow('Failed to sniff MIME type');
-      });
-
-      test('should throw error for malformed MIME type', () => {
-        expect(() => normalize('text/')).toThrow('Failed to sniff MIME type');
-      });
-    });
-  });
-
-  describe('internal utilities', () => {
-    describe('normalizeInput', () => {
-      describe('input shapes', () => {
-        test('should unwrap from raw string without options', () => {
-          const [record, options] = normalizeInput('TEXT/HTML; CHARSET=UTF-8');
-          expect(options).toStrictEqual({ keepCharsetCase: false });
-          expect(record).toStrictEqual({
-            essence: 'text/html',
-            type: 'text',
-            subtype: 'html',
-            subtypeTokens: { tree: null, name: 'html', suffix: null },
-            parameters: new Map([['charset', 'utf-8']]),
-          });
-        });
-
-        test('should return the same record instance and no options for MimeTypeRecord input', () => {
-          const input = parse('text/plain; charset=UTF-8');
-          const [record, options] = normalizeInput(input);
-          expect(record).toBe(input);
-          expect(options).toStrictEqual({ keepCharsetCase: false });
-        });
-
-        test('should separate options from { mimeType } container', () => {
-          const [record, options] = normalizeInput({
-            mimeType: 'text/html; charset=UTF-8',
-          });
-          expect(serialize(record)).toBe('text/html;charset=utf-8');
-          expect(options).toStrictEqual({ keepCharsetCase: false });
-        });
-
-        test('should keep provided options for { mimeType, ...options }', () => {
-          const [record, options] = normalizeInput({
-            mimeType: 'text/html; charset=UTF-8',
-            serialize: true,
-            keepCharsetCase: true,
-            multiParameter: 'keep-last',
-          });
-          expect(serialize(record)).toBe('text/html;charset=UTF-8');
-          expect(options).toStrictEqual({
-            serialize: true,
-            keepCharsetCase: true,
-            multiParameter: 'keep-last',
-          });
-        });
-
-        test('should build record from serializable object and return its options', () => {
-          const [record, options] = normalizeInput({
-            type: 'text',
-            subtype: 'html',
-            serialize: false,
-            multiParameter: 'keep-first',
-          } as const);
-          expect(serialize(record)).toBe('text/html');
-          expect(options).toStrictEqual({
-            keepCharsetCase: false,
-            serialize: false,
-            multiParameter: 'keep-first',
-          });
-        });
-
-        test('should honor serialize option presence in returned options for serializable object', () => {
-          const [record, options] = normalizeInput({
-            type: 'application',
-            subtype: 'json',
-            serialize: true,
-          } as const);
-          expect(serialize(record)).toBe('application/json');
-          expect(options).toStrictEqual({
-            keepCharsetCase: false,
-            serialize: true,
-          });
-        });
-      });
-    });
-
-    describe('produceOutput', () => {
-      describe('output type resolution', () => {
-        test('should produce string for raw string input', () => {
-          const rec = parse('text/html; charset=utf-8');
-          const out = produceOutput('text/plain', rec);
-          expect(out).toBe('text/html;charset=utf-8');
-        });
-
-        test('should produce string for { mimeType } input container', () => {
-          const rec = parse('image/png');
-          const out = produceOutput({ mimeType: 'text/plain' }, rec);
-          expect(out).toBe('image/png');
-        });
-
-        test('should produce record for { mimeType, serialize: false }', () => {
-          const rec = parse('application/xml');
-          const out = produceOutput(
-            { mimeType: 'text/plain', serialize: false },
-            rec,
-          );
-          expect(out).toBe(rec);
-          expect(parse(out)).toBe(out);
-        });
-
-        test('should produce record for serializable object input (no serialize flag)', () => {
-          const rec = parse('text/css');
-          const out = produceOutput({ type: 'text', subtype: 'html' }, rec);
-          expect(out).toBe(rec);
-          expect(parse(out)).toBe(out);
-        });
-
-        test('should produce string for serializable object with serialize: true', () => {
-          const rec = parse('multipart/form-data; boundary=abc');
-          const out = produceOutput(
-            { type: 'text', subtype: 'html', serialize: true },
-            rec,
-          );
-          expect(out).toBe('multipart/form-data;boundary=abc');
-        });
-
-        test('should produce record for MimeTypeRecord input', () => {
-          const input = parse('text/plain');
-          // create a fresh object to ensure it gets registered by produceOutput
-          const updated = {
-            ...input,
-            parameters: new Map(input.parameters),
-          } as typeof input;
-          const out = produceOutput(input, updated);
-          expect(out).not.toBe(input);
-          expect(parse(out)).toBe(out);
-          expect(serialize(out)).toBe('text/plain');
-        });
-      });
-    });
-  });
-
-  describe('Integration Tests', () => {
-    test('should chain multiple operations', () => {
-      let result = parse('text/html');
-      result = setParameter(result, 'charset', 'UTF-8');
-      result = setParameter(result, 'boundary', 'boundary123');
-      result = update(result, 'type', 'application');
-
+describe.concurrent('MIME type library', () => {
+  describe.concurrent('parse', () => {
+    test('should parse a basic MIME type string', () => {
+      const result = parse('text/html');
       expect(result).toStrictEqual({
-        essence: 'application/html',
-        type: 'application',
+        type: 'text',
         subtype: 'html',
-        subtypeTokens: { tree: null, name: 'html', suffix: null },
-        parameters: new Map([
+        essence: 'text/html',
+        parameters: new ROMap(),
+      });
+    });
+
+    test('should parse a MIME type with parameters', () => {
+      const result = parse('application/json; charset=utf-8; q=0.8');
+      expect(result).toStrictEqual({
+        type: 'application',
+        subtype: 'json',
+        essence: 'application/json',
+        parameters: new ROMap([
           ['charset', 'utf-8'],
-          ['boundary', 'boundary123'],
+          ['q', '0.8'],
         ]),
       });
-      expect(serialize(result)).toBe(
-        'application/html;charset=utf-8;boundary=boundary123',
-      );
     });
 
-    test('should handle complex MIME type operations', () => {
-      const result = serialize(
-        update(
-          parse('TEXT/HTML; CHARSET=UTF-8; boundary=----WebKit'),
-          'subtype',
-          'xml',
-        ),
-      );
-
-      expect(result).toBe('text/xml;charset=utf-8;boundary=----WebKit');
+    test('should throw SyntaxError for invalid MIME type', () => {
+      expect(() => parse('invalid')).toThrow(SyntaxError);
+      expect(() => parse('text/')).toThrow(SyntaxError);
     });
   });
 
-  describe('Edge Cases', () => {
-    test('should handle MIME type with special characters in parameter values', () => {
-      const result = setParameter('text/html', 'filename', 'file (1).txt');
-      expect(result).toBe('text/html;filename="file (1).txt"');
+  describe.concurrent('update', () => {
+    test('should update type and return a string when input is string', () => {
+      const result = update('text/javascript', 'type', 'application');
+      expect(result).toBe('application/javascript');
     });
 
-    test('should handle repeated calls to create on same record', () => {
-      const first = parse('text/html');
-      const second = parse(first);
-      const third = parse(second);
-
-      expect(first).toBe(second);
-      expect(second).toBe(third);
+    test('should update type and return a new MimeTypeRecord when input is object', () => {
+      const result = update(
+        { type: 'text', subtype: 'javascript' },
+        'type',
+        'application',
+      );
+      expect(result).toStrictEqual({
+        type: 'application',
+        subtype: 'javascript',
+        essence: 'application/javascript',
+        parameters: new ROMap(),
+      });
     });
 
-    test('should handle updating to same value', () => {
-      const original = parse('text/html; charset=utf-8');
-      const result = update(original, 'type', 'text');
-      expect(result.type).toBe('text');
+    test('should update type and return a string when serialize option is true', () => {
+      const result = update(
+        { type: 'text', subtype: 'javascript', serialize: true },
+        'type',
+        'application',
+      );
+      expect(result).toBe('application/javascript');
+    });
+
+    test('should update type and return a new MimeTypeRecord when serialize option is false', () => {
+      const result = update(
+        { mimeType: 'text/javascript', serialize: false },
+        'type',
+        'application',
+      );
+      expect(result).toStrictEqual({
+        type: 'application',
+        subtype: 'javascript',
+        essence: 'application/javascript',
+        parameters: new ROMap(),
+      });
+    });
+
+    test('should update subtype and return a string when input is string', () => {
+      const result = update('text/html', 'subtype', 'plain');
+      expect(result).toBe('text/plain');
+    });
+
+    test('should update parameters via shorthand', () => {
+      const result = update('application/json', { charset: 'utf-8' });
+      expect(result).toBe('application/json;charset=utf-8');
+    });
+
+    test('should replace all parameters when updating "parameters" key', () => {
+      const result = update('text/html; a=1; b=2', 'parameters', 'c=3');
+      expect(result).toBe('text/html;c=3');
+    });
+
+    test('should update essence and reflect in type/subtype', () => {
+      const result = update('image/png; foo=bar', 'essence', 'application/pdf');
+      expect(result).toBe('application/pdf;foo=bar');
+    });
+
+    test('should handle empty parameters update', () => {
+      const result = update('text/html; charset=utf-8', []);
+      expect(result).toBe('text/html');
+    });
+
+    test('should throw when updating with invalid value', () => {
+      expect(() => update('text/html', 'subtype', 'invalid/subtype')).toThrow(
+        SyntaxError,
+      );
+    });
+  });
+
+  describe.concurrent('getParameter', () => {
+    test('should retrieve an existing parameter', () => {
+      expect(getParameter('text/html; charset=UTF-8', 'charset')).toBe('utf-8');
+    });
+
+    test('should return null for missing parameter by default', () => {
+      expect(getParameter('text/html', 'charset')).toBe(null);
+    });
+
+    test('should throw RangeError if throwIfMissing is true', () => {
+      expect(() => getParameter('text/html', 'charset', true)).toThrow(
+        RangeError,
+      );
+    });
+
+    test('should respect keepCharsetCase option', () => {
+      const input = {
+        mimeType: 'text/html; charset=UTF-8',
+        keepCharsetCase: true,
+      };
+      expect(getParameter(input, 'charset')).toBe('UTF-8');
+    });
+  });
+
+  describe.concurrent('setParameter', () => {
+    test('should add a new parameter', () => {
+      expect(setParameter('text/html', 'charset', 'utf-8')).toBe(
+        'text/html;charset=utf-8',
+      );
+    });
+
+    test('should update an existing parameter', () => {
+      expect(
+        setParameter('text/html; charset=iso-8859-1', 'charset', 'utf-8'),
+      ).toBe('text/html;charset=utf-8');
+    });
+
+    test('should remove parameter if value is empty string or null', () => {
+      expect(setParameter('text/html; charset=utf-8', 'charset', '')).toBe(
+        'text/html',
+      );
+      expect(setParameter('text/html; charset=utf-8', 'charset', null)).toBe(
+        'text/html',
+      );
+    });
+
+    test('should lowercase charset value by default', () => {
+      expect(setParameter('text/html', 'charset', 'UTF-8')).toBe(
+        'text/html;charset=utf-8',
+      );
+    });
+  });
+
+  describe.concurrent('removeParameter', () => {
+    test('should remove an existing parameter', () => {
+      expect(removeParameter('text/html; charset=utf-8', 'charset')).toBe(
+        'text/html',
+      );
+    });
+
+    test('should return unchanged if parameter does not exist', () => {
+      expect(removeParameter('text/html', 'charset')).toBe('text/html');
+    });
+  });
+
+  describe.concurrent('serialize', () => {
+    test('should return string as-is', () => {
+      const input = 'text/html; charset=UTF-8';
+      expect(serialize(input)).toBe(input);
+    });
+
+    test('should serialize a record-like object without parsing (e.g. no lowercasing and so on)', () => {
+      const input = { type: 'text', subtype: 'HTML' };
+      expect(serialize(input)).toBe('text/HTML');
+    });
+  });
+
+  describe.concurrent('normalize', () => {
+    test('should normalize case and spacing', () => {
+      expect(normalize('Text/HTML ; Charset=UTF-8')).toBe(
+        'text/html;charset=utf-8',
+      );
+    });
+
+    test('should normalize object input', () => {
+      expect(normalize({ type: 'IMAGE', subtype: 'PNG' })).toBe('image/png');
+    });
+  });
+
+  describe.concurrent('normalizeInput', () => {
+    test('should handle string input', () => {
+      const input = 'text/html; charset=utf-8';
+      const [record, options] = normalizeInput(input);
+
+      expect(record).toStrictEqual({
+        type: 'text',
+        subtype: 'html',
+        essence: 'text/html',
+        // this is not read-only, because it wasn't processed by produceOutput
+        parameters: new Map([['charset', 'utf-8']]),
+      });
+      expect(options).toStrictEqual({ keepCharsetCase: false });
+    });
+
+    test('should return a MimeTypeRecord instance as is', () => {
+      const record = parse('image/png');
+      const [resultRecord, options] = normalizeInput(record);
+
+      expect(resultRecord).toBe(record);
+      expect(options).toStrictEqual({ keepCharsetCase: false });
+    });
+
+    test('should handle object with mimeType string and options', () => {
+      const input = {
+        mimeType: 'TEXT/HTML; CHARSET=UTF-8',
+        keepCharsetCase: true,
+      };
+      const [record, options] = normalizeInput(input);
+
+      expect(record).toStrictEqual({
+        type: 'text',
+        subtype: 'html',
+        essence: 'text/html',
+        parameters: new Map([['charset', 'UTF-8']]),
+      });
+      expect(options).toStrictEqual({ keepCharsetCase: true });
+    });
+
+    test('should handle serializable record-like input', () => {
+      const input = {
+        type: 'application',
+        subtype: 'json',
+        parameters: new Map([['q', '0.8']]),
+        keepCharsetCase: true,
+      };
+      const [record, options] = normalizeInput(input);
+
+      expect(record).toStrictEqual({
+        type: 'application',
+        subtype: 'json',
+        essence: 'application/json',
+        parameters: new Map([['q', '0.8']]),
+      });
+      expect(options).toStrictEqual({ keepCharsetCase: true });
+    });
+
+    test('should prioritize mimeType over other fields', () => {
+      const input = {
+        mimeType: 'text/html; charset=utf-8',
+        type: 'application',
+        subtype: 'json',
+        parameters: new Map([['q', '0.8']]),
+      };
+      const [record] = normalizeInput(input);
+
+      expect(record).toStrictEqual({
+        type: 'text',
+        subtype: 'html',
+        essence: 'text/html',
+        parameters: new Map([['charset', 'utf-8']]),
+      });
+    });
+
+    test('should throw SyntaxError if input is invalid', () => {
+      const stringInput = 'invalid-mime-type';
+      const objectInput = {
+        type: 'invalid/',
+        subtype: 'type',
+      };
+
+      expect(() => normalizeInput(stringInput)).toThrow(SyntaxError);
+      expect(() => normalizeInput(objectInput)).toThrow(SyntaxError);
+    });
+
+    test('should apply default options when not provided in object input', () => {
+      const input = { mimeType: 'text/plain' };
+      const [, options] = normalizeInput(input);
+
+      expect(options).toStrictEqual({ keepCharsetCase: false });
+    });
+
+    test('should handle nullish input gracefully (negative case)', () => {
+      expect(() => normalizeInput(null as never)).toThrow(TypeError);
+      expect(() => normalizeInput(undefined as never)).toThrow(
+        'Expected input to be string or object, got undefined instead',
+      );
+      // @ts-expect-error testing runtime safety
+      expect(() => normalizeInput()).toThrow(TypeError);
+    });
+
+    test('should throw when input is not string or object', () => {
+      // @ts-expect-error testing runtime safety
+      expect(() => normalizeInput(123)).toThrow(TypeError);
+      expect(() => normalizeInput(true as never)).toThrow(
+        'Expected input to be string or object, got boolean instead',
+      );
+    });
+
+    test('should throw when mimeType is not a string', () => {
+      const input = { mimeType: 123 as never };
+      expect(() => normalizeInput(input)).toThrow(TypeError);
+      expect(() => normalizeInput(input)).toThrow(
+        'Expected input to have own property "type"',
+      );
+    });
+
+    test('should throw when serialize is not boolean', () => {
+      const input = { mimeType: 'text/plain', serialize: 'yes' as never };
+      expect(() => normalizeInput(input)).toThrow(TypeError);
+      expect(() => normalizeInput(input)).toThrow(
+        'Expected input.serialize to be boolean, got string instead',
+      );
+    });
+
+    test('should throw when type/subtype are missing or not strings', () => {
+      const missingType = { subtype: 'plain' } as never;
+      const badSubtype = { type: 'text', subtype: 123 as never };
+      expect(() => normalizeInput(missingType)).toThrow(TypeError);
+      expect(() => normalizeInput(missingType)).toThrow(
+        'Expected input to have own property "type"',
+      );
+      expect(() => normalizeInput(badSubtype)).toThrow(TypeError);
+      expect(() => normalizeInput(badSubtype)).toThrow(
+        'Expected input.subtype to be string, got number instead',
+      );
+    });
+
+    test('should throw when parameters are not object or iterable', () => {
+      const input = {
+        type: 'text',
+        subtype: 'plain',
+        parameters: 123 as never,
+      };
+      expect(() => normalizeInput(input)).toThrow(TypeError);
+      expect(() => normalizeInput(input)).toThrow(
+        'Expected source.parameters to be object or to be iterable, got number (123) instead',
+      );
     });
   });
 });
