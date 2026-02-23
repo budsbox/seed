@@ -5,13 +5,13 @@ import type { MimeTypeInput } from '#types';
 import { hasProp, isBoolean } from '@budsbox/lib-es/guards';
 
 import { parse } from '#lib';
-import { mimeDb } from '#mime-db';
 
 import {
   extraArchiveTypes,
   extraFontTypes,
   textDataSuffixes,
 } from './const.js';
+import { mimeDb } from './mime-db-wrapper.js';
 import { canonicalize, getMetaInfo, getSource } from './query.js';
 
 /* ═══════════════════════════════ By Source ════════════════════════════════ */

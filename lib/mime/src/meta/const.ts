@@ -8,7 +8,7 @@ import type { MetaResolveOptions, MimeTypeMeta } from './types.js';
 
 import { ROSet } from '@budsbox/lib-es/set';
 
-import { mimeDb } from '#mime-db';
+import { mimeDb } from './mime-db-wrapper.js';
 
 /**
  * Additional font MIME type essences that should be treated as fonts.

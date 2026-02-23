@@ -7,6 +7,7 @@ import type {
 
 import type { Infer, Nil } from '@budsbox/lib-types';
 
+import type { MimeDb, MimeDbKey } from '#meta';
 import type {
   ParseOptions as LowLevelParseOptions,
   MimeTypeEssence,
@@ -17,8 +18,6 @@ import type {
   SerializableMimeTypeRecord,
   SerializableParameters,
 } from '@budsbox/parse-mime';
-
-import type { MimeDb, MimeDbKey } from './mime-db.js';
 
 // Type exports
 export type {

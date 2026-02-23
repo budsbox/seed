@@ -1,4 +1,3 @@
-import type { MimeDbSource } from '#mime-db';
 import type {
   EssenceAliasesMap,
   MimeTypeEssence,
@@ -6,6 +5,7 @@ import type {
   OutputType,
 } from '#types';
 
+import type { MimeDbSource } from './mime-db-wrapper.js';
 import type {
   EssenceLookup,
   ResolveMetaInput as MergeMetaInput,
