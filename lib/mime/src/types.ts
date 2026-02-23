@@ -1,4 +1,9 @@
-import type { Except, LiteralUnion, OverrideProperties } from 'type-fest';
+import type {
+  Arrayable,
+  Except,
+  LiteralUnion,
+  OverrideProperties,
+} from 'type-fest';
 
 import type { Infer, Nil } from '@budsbox/lib-types';
 
@@ -13,7 +18,7 @@ import type {
   SerializableParameters,
 } from '@budsbox/parse-mime';
 
-import type { MimeDbKey } from './mime-db.js';
+import type { MimeDb, MimeDbKey } from './mime-db.js';
 
 // Type exports
 export type {
@@ -157,6 +162,7 @@ export interface SerializeFn {
  * whereas the `serialize` function simply serializes a MIME type record to a string.
  */
 export interface NormalizeFn {
+  (input: MimeTypeEssence): MimeTypeEssence;
   (input: MimeTypeInput): string;
 }
 
@@ -191,6 +197,7 @@ export type WellKnownSubtype =
 export type WellKnownSuffixes =
   | '+csv'
   | '+jws'
+  | '+zstd'
   | Exclude<
       WellKnownMimeType extends infer TMimeType ?
         TMimeType extends `${string}+${infer TSuffix}` ?
@@ -228,12 +235,6 @@ export type MimeTypeRecord<
 /* ───────────────────────── Functions Type Helpers ───────────────────────── */
 
 export type MimeTypeStringInput = LiteralUnion<string, WellKnownMimeType>;
-
-/**
- * A string representing the essence of a MIME type, i.e. `type/subtype` without parameters.
- * The template string combined with the `WellKnownMimeType` union for better autocomplete.
- */
-export type EssenceInput = LiteralUnion<MimeTypeEssence, WellKnownMimeType>;
 
 /**
  * A string representing a top-level MIME type category.
@@ -331,7 +332,7 @@ export type UpdateKey = Extract<keyof MimeTypeRecord, keyof UpdateValueMap>;
 export type UpdateValue<TKey extends UpdateKey> = UpdateValueMap[TKey];
 
 interface UpdateValueMap {
-  essence: EssenceInput;
+  essence: MimeTypeEssence;
   parameters: ParametersUpdateInput;
   subtype: string;
   type: TopLevelTypeInput;
@@ -345,3 +346,13 @@ interface UpdateValueMap {
  * - A structured set of {@link SerializableParameters serializable parameters}.
  */
 export type ParametersUpdateInput = string | SerializableParameters<true>;
+
+export interface EssenceAliasesMap {
+  readonly [essence: MimeTypeEssence]: Readonly<Arrayable<MimeTypeEssence>>;
+}
+
+export interface ResolveOptions {
+  readonly aliases?: EssenceAliasesMap;
+  readonly db?: MimeDb;
+  readonly noDefaultCharset?: boolean;
+}

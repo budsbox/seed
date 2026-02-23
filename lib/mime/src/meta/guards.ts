@@ -1,54 +1,18 @@
-import type { MimeTypeInput, OutputType } from './types.js';
+/* ════════════════════════════════ By Tree ═════════════════════════════════ */
 
-import { ensureArray } from '@budsbox/lib-es/array';
-import { hasProp } from '@budsbox/lib-es/guards';
+import type { MimeTypeInput } from '#types';
 
-import { parse, produceOutput, update } from '#lib';
-import { type MimeDbRecord, type MimeDbSource, mimeDb } from '#mime-db';
+import { hasProp, isBoolean } from '@budsbox/lib-es/guards';
+
+import { parse } from '#lib';
+import { mimeDb } from '#mime-db';
 
 import {
-  canonicalTypesMap,
   extraArchiveTypes,
   extraFontTypes,
   textDataSuffixes,
 } from './const.js';
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ UTILIIES ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
-export const canonicalize = <TInput extends MimeTypeInput>(
-  mimeInput: TInput,
-): OutputType<TInput> => {
-  const mimeType = parse(mimeInput);
-  const canonicalEssence =
-    canonicalTypesMap.get(mimeType.essence) ?? mimeType.essence;
-
-  return produceOutput(
-    mimeInput,
-    mimeType.essence === canonicalEssence ?
-      mimeType
-    : update(mimeType, 'essence', canonicalEssence),
-  );
-};
-
-export const getRecord = (mimeInput: MimeTypeInput): MimeDbRecord =>
-  mimeDb[parse(mimeInput).essence] ?? {};
-
-export const findCharset = (mimeInput: MimeTypeInput): string | null => {
-  const record = parse(mimeInput);
-  return (
-    ensureArray(record.parameters.get('charset'))[0] ??
-    getRecord(record).charset ??
-    getRecord(canonicalize(record)).charset ??
-    null
-  );
-};
-
-export const getSource = (mimeInput: MimeTypeInput): MimeDbSource | null => {
-  const { essence } = parse(mimeInput);
-  return getRecord(essence).source ?? null;
-};
-
-/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ TYPE GUARDS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
+import { canonicalize, getMetaInfo, getSource } from './query.js';
 
 /* ═══════════════════════════════ By Source ════════════════════════════════ */
 
@@ -69,34 +33,39 @@ export const isUnregistered = (mimeInput: MimeTypeInput): boolean =>
 
 /* ════════════════════════════════ By Tree ═════════════════════════════════ */
 
-// https://datatracker.ietf.org/doc/html/rfc6838#section-3.1
-export const isStandardTree = (mimeInput: MimeTypeInput): boolean => {
+/**
+ * Checks if the mime type is in the {@link https://datatracker.ietf.org/doc/html/rfc6838#section-3.1 Standards tree}.
+ *
+ * @param mimeInput - MIME input to check
+ * @returns true if type is in the Standards tree, false otherwise.
+ */
+export const isStandardsTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
-  return isIana(mimeType) && !hasProp(mimeType, 'facet');
+  return !hasProp(mimeType, 'facet');
 };
 
 // https://datatracker.ietf.org/doc/html/rfc6838#section-3.2
 export const isVendorTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
-  return (
-    isIana(mimeType) && hasProp(mimeType, 'facet', (facet) => facet === 'vnd.')
-  );
+  return hasProp(mimeType, 'facet', (facet) => facet === 'vnd.');
 };
 
 // https://datatracker.ietf.org/doc/html/rfc6838#section-3.3
 export const isPersonalTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
-  return (
-    isIana(mimeType) && hasProp(mimeType, 'facet', (facet) => facet === 'prs.')
-  );
+  return hasProp(mimeType, 'facet', (facet) => facet === 'prs.');
 };
 
 /* ════════════════════════════ By Content Type ═════════════════════════════ */
 
 /* ───────────────────────────────── Media ────────────────────────────────── */
 
-export const isImage = (mimeInput: MimeTypeInput): boolean =>
-  parse(mimeInput).type === 'image';
+export const isImage = (mimeInput: MimeTypeInput): boolean => {
+  const record = parse(mimeInput),
+    canonical = canonicalize(record);
+
+  return record.type === 'image' || canonical.type === 'image';
+};
 
 export const isSvg = (mimeInput: MimeTypeInput): boolean =>
   parse(mimeInput).essence === 'image/svg+xml';
@@ -110,20 +79,30 @@ export const isPng = (mimeInput: MimeTypeInput): boolean =>
 export const isGif = (mimeInput: MimeTypeInput): boolean =>
   parse(mimeInput).essence === 'image/gif';
 
-export const isAudio = (mimeInput: MimeTypeInput): boolean =>
-  parse(mimeInput).type === 'audio';
+export const isAudio = (mimeInput: MimeTypeInput): boolean => {
+  const mimeType = parse(mimeInput),
+    canonical = canonicalize(mimeType);
+  return mimeType.type === 'audio' || canonical.type === 'audio';
+};
 
-export const isVideo = (mimeInput: MimeTypeInput): boolean =>
-  parse(mimeInput).type === 'video';
+export const isVideo = (mimeInput: MimeTypeInput): boolean => {
+  const mimeType = parse(mimeInput),
+    canonical = canonicalize(mimeType);
+  return mimeType.type === 'video' || canonical.type === 'video';
+};
 
-export const isMultimedia = (mimeInput: MimeTypeInput): boolean => {
+export const isPlayable = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
-  return isVideo(mimeType) || mimeType.essence === 'application/ogg';
+  return (
+    isAudio(mimeType) ||
+    isVideo(mimeType) ||
+    mimeType.essence === 'application/ogg'
+  );
 };
 
 export const isMedia = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
-  return isImage(mimeType) || isAudio(mimeType) || isMultimedia(mimeType);
+  return isImage(mimeType) || isPlayable(mimeType);
 };
 
 /* ─────────────────────────────── Languages ──────────────────────────────── */
@@ -227,5 +206,16 @@ export const isTextData = (mimeInput: MimeTypeInput): boolean => {
 
 /* ═══════════════════════════════ By Feature ═══════════════════════════════ */
 
-export const isCompressible = (mimeInput: MimeTypeInput): boolean =>
-  getRecord(mimeInput).compressible === true;
+export const isCompressible = (
+  mimeInput: MimeTypeInput,
+  defaultValue = false,
+): boolean => {
+  const record = parse(mimeInput);
+  const { compressible } = getMetaInfo(record);
+  if (isBoolean(compressible)) return compressible;
+  if (isArchive(record)) return false;
+  if (isTextData(record)) return true;
+  if (isPlayable(record)) return false;
+
+  return defaultValue;
+};
