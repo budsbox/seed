@@ -11,6 +11,9 @@
  * - {@link .!serialize Serialize} and {@link .!normalize normalize} MIME types.
  * - Flexible {@link !.MimeTypeInput input}/{@link .!OutputType output} formats with automatic shape preservation
  *
+ * ### Quick Start Guide
+ * {@includeCode ./quick-start.ts#main}
+ *
  * @module .
  * @importTarget .
  * @showCategories

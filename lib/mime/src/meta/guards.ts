@@ -1,5 +1,3 @@
-/* ════════════════════════════════ By Tree ═════════════════════════════════ */
-
 import type { MimeTypeInput } from '#types';
 
 import { hasProp, isBoolean } from '@budsbox/lib-es/guards';
