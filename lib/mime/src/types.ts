@@ -1,3 +1,8 @@
+/**
+ * @module types
+ * This module provides type definitions and interfaces for working with MIME types.
+ */
+
 import type {
   Arrayable,
   Except,
@@ -5,7 +10,7 @@ import type {
   OverrideProperties,
 } from 'type-fest';
 
-import type { Infer, Nil } from '@budsbox/lib-types';
+import type { Infer } from '@budsbox/lib-types';
 
 import type { MimeDb, MimeDbKey } from '#meta';
 import type {
@@ -25,168 +30,6 @@ export type {
   SubtypeFacet as MimeTypeFacet,
   SubtypeSuffix as MimeTypeSuffix,
 } from '@budsbox/parse-mime';
-
-/* ─────────────────────────────── Functions ──────────────────────────────── */
-
-/* eslint-disable @typescript-eslint/prefer-function-type */
-
-/**
- * Function interface for parsing MIME type inputs into a structured MIME type record.
- *
- * @param input - MIME type input to parse.
- * @returns A string when `input.serialize` is `true`, otherwise a {@link MimeTypeRecord}.
- * @typeParam TInput - The input shape to parse. It can be a raw MIME type string
- * or an object that configures parsing and serialization behavior.
- * @inline
- * @see {@link MimeTypeInput} for more details on the input types.
- */
-export interface ParseFn {
-  <TInput extends MimeTypeInput>(
-    input: TInput,
-  ): MimeTypeRecord<MultiParameter<TInput>>;
-}
-
-/**
- * Function interface for updating MIME type inputs.
- *
- * The function supports two overloads:
- * - Updating a single top-level component (type, subtype, or essence).
- * - Updating the parameter collection as a whole.
- *
- * @remarks The JSDoc for each overload is defined on the corresponding
- * call signature below.
- */
-export interface UpdateFn {
-  /**
-   * Updates a single top-level component of a MIME type (type, subtype, or essence)
-   * and returns an output of the same structural kind as the input.
-   *
-   * @param input - MIME type input to update.
-   * @param key - The top-level component key to update.
-   * @param value - The new value for the specified component.
-   * @returns A normalized MIME type value with the requested update applied.
-   * @typeParam TInput - The input shape to update.
-   * @typeParam TKey - The name of the top-level component to update.
-   */
-  <TInput extends MimeTypeInput, TKey extends keyof UpdateValueMap>(
-    input: TInput,
-    key: TKey,
-    value: UpdateValue<TKey>,
-  ): OutputType<TInput>;
-
-  /**
-   * Updates the parameters of a MIME type and returns an output of the same
-   * structural kind as the input.
-   *
-   * @param input - MIME type input to update.
-   * @param value - Parameters to apply. Can be provided as a string or as a structured collection.
-   * @returns A normalized MIME type value with updated parameters.
-   * @typeParam TInput - The input shape to update.
-   */
-  <TInput extends MimeTypeInput>(
-    input: TInput,
-    value: ParametersUpdateInput,
-  ): OutputType<TInput>;
-}
-
-/**
- * Function interface for retrieving a parameter value from a MIME type input.
- *
- * @param input - MIME type input from which to get the parameter.
- * @param name - Name of the parameter to retrieve.
- * @param throwIfMissing - Whether to throw an error if the parameter is missing. Defaults to `false`.
- * @returns The parameter value, or {@link null} if not found and `throwIfMissing` is `false`.
- * @throws When `throwIfMissing` is `true` and the parameter is not found.
- * @typeParam TInput - The input shape to query.
- * @typeParam TThrow - Whether the function should throw when the parameter is missing.
- * @example
- * ```typescript
- * const value = getParameter('text/html; charset=utf-8', 'charset');
- * // value: 'utf-8'
- * ```
- * @example
- * ```typescript
- * const value = getParameter('text/html', 'charset');
- * // value: null
- * const valueThrow = getParameter('text/html', 'charset', true);
- * // throws error
- * ```
- */
-export interface GetParameterFn {
-  <TInput extends MimeTypeInput, TThrow extends boolean = false>(
-    input: TInput,
-    name: ParameterName,
-    throwIfMissing?: TThrow,
-  ):
-    | (TThrow extends true ? never : null)
-    | ParameterValue<MultiParameter<TInput>>;
-}
-
-/**
- * Function interface for removing a single parameter from a MIME type input.
- *
- * @param input - MIME type input from which to remove a parameter.
- * @param parameter - Name of the parameter to remove.
- * @returns A normalized MIME type value with the parameter removed, or the
- * unchanged value if the parameter was not present.
- * @typeParam TInput - The input shape to update.
- */
-export interface RemoveParameterFn {
-  <TInput extends MimeTypeInput>(
-    input: TInput,
-    name: ParameterName,
-  ): OutputType<TInput>;
-}
-
-/**
- * Function interface for setting or updating a single parameter on a MIME type input.
- *
- * If the value is `null`, `undefined`, an empty string, or omitted, the parameter is removed instead.
- *
- * @param input - MIME type input to update.
- * @param parameter - Name of the parameter to set.
- * @param value - New parameter value. Falsy values (except `0` and `false`) remove the parameter.
- * @returns A normalized MIME type value with the parameter set or removed.
- * @typeParam TInput - The input shape to update.
- */
-export interface SetParameterFn {
-  <TInput extends MimeTypeInput>(
-    input: TInput,
-    name: ParameterName,
-    value?: boolean | number | string | Nil,
-  ): OutputType<TInput>;
-}
-
-/**
- * Function interface for serializing arbitrary MIME type input into its string form.
- *
- * This does not normalize the MIME type; it simply returns the existing string,
- * the `mimeType` field of an object, or serializes a {@link MimeTypeRecord}-like object.
- *
- * @param input - MIME type input to serialize.
- * @returns A MIME type string representation of the input.
- */
-export interface SerializeFn {
-  (input: MimeTypeInput): string;
-}
-
-/**
- * Normalizes a MIME type into its canonical string representation.
- *
- * This function first parses the input (ensuring consistent casing and structure)
- * and then serializes it back to a string. In particular, type and subtype are
- * always lowercased and parameters are normalized according to the parser rules.
- *
- * @param input - MIME type string or record-like value to normalize.
- * @returns A normalized MIME type string.
- * @remarks The key difference from the `serialize` function is that this function
- * always returns a normalized (parsed and then serialized back) MIME type string,
- * whereas the `serialize` function simply serializes a MIME type record to a string.
- */
-export interface NormalizeFn {
-  (input: MimeTypeEssence): MimeTypeEssence;
-  (input: MimeTypeInput): string;
-}
 
 /* ───────────────────────── MIME Type Definitions ────────────────────────── */
 
@@ -373,29 +216,29 @@ export type OutputType<TInput extends MimeTypeInput = MimeTypeInput> =
  * @internal
  * @typeParam TInput - The input shape from which to extract the multi-parameter option.
  */
-type MultiParameter<TInput extends MimeTypeInput = MimeTypeInput> =
+export type MultiParameter<TInput extends MimeTypeInput = MimeTypeInput> =
   TInput extends { readonly multiParameter?: infer TMultiParameter } ?
     TMultiParameter & MultiParameterOption
   : 'keep-first';
 
 /**
- * Keys of a {@link MimeTypeRecord} that can be updated via the {@link UpdateFn `update` function}.
+ * Keys of a {@link MimeTypeRecord} that can be updated via the {@link update} function.
  */
 export type UpdateKey = Extract<keyof MimeTypeRecord, keyof UpdateValueMap>;
 
 /**
- * Value type accepted by the {@link UpdateFn `update` function} when updating a specific key.
+ * Value type accepted by the {@link `update`} function when updating a specific key.
  *
  * @typeParam TKey - Target key to update.
  */
 export type UpdateValue<TKey extends UpdateKey> = UpdateValueMap[TKey];
 
 /**
- * Maps update keys to their corresponding value types for the {@link UpdateFn `update` function}.
+ * Maps update keys to their corresponding value types for the {@link `update`} function.
  *
  * @internal
  */
-interface UpdateValueMap {
+export interface UpdateValueMap {
   essence: MimeTypeEssence;
   parameters: ParametersUpdateInput;
   subtype: string;

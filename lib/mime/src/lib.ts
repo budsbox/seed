@@ -1,23 +1,32 @@
+/**
+ * This module provides the core functionality for parsing, normalizing, and manipulating MIME types.
+ *
+ * @module
+ * @importTarget .
+ */
+
+import type { Nil } from '@budsbox/lib-types';
+
 import type {
-  GetParameterFn,
+  MimeTypeEssence,
   MimeTypeInput,
   MimeTypeOptions,
   MimeTypeRecord,
   MimeTypeSerializableInput,
+  MultiParameter,
   OutputType,
   ParametersUpdateInput,
-  ParseFn,
-  RemoveParameterFn,
-  SerializeFn,
-  SetParameterFn,
-  UpdateFn,
   UpdateKey,
+  UpdateValue,
+  UpdateValueMap,
 } from './types.js';
 
 import {
+  assertAnyOf,
   assertOptionalProp,
   assertProp,
   assertSome,
+  assertString,
   hasProp,
   isBoolean,
   isIterable,
@@ -35,6 +44,8 @@ import {
   type DefaultStartRule,
   type EssenceParsed,
   type MultiParameterOption,
+  type ParameterName,
+  type ParameterValue,
   type ParseOptions,
   SyntaxError as ParseSyntaxError,
   type RuleResult,
@@ -50,55 +61,57 @@ import {
  *
  * @param input - {@link MimeTypeInput MIME type input} to parse.
  * @returns Parsed MIME type as a record.
- * @see {@link ParseFn}
+ * @typeParam TInput - The input shape to parse. It can be a raw MIME type string
+ * or an object that configures parsing and serialization behavior.
+ * @see {@link MimeTypeInput} for more details on the input types.
  */
-export const parse: ParseFn = ((input) => {
+export function parse<TInput extends MimeTypeInput>(
+  input: TInput,
+): MimeTypeRecord<MultiParameter<TInput>> {
   const [mimeType] = normalizeInput(input);
-
-  return produceOutput(mimeType, mimeType);
-}) as ParseFn;
+  return produceOutput(mimeType, mimeType) as MimeTypeRecord<
+    MultiParameter<TInput>
+  >;
+}
 
 /**
- * Updates a MIME type value or its parameters.
- *
- * Usage:
- * - `update(input, 'parameters', value)` — replace parameters with {@link ParametersUpdateInput a string or an object}.
- * - `update(input, key, value)` — update a single part (for example, `type`, `subtype`, `essence`, etc.).
- * - `update(input, value)` — shorthand to update only parameters.
+ * Updates a single top-level component of a MIME type (type, subtype, or essence)
+ * and returns an output of the same structural kind as the input.
  *
  * @param input - {@link MimeTypeInput MIME type input} to update.
- * @param rest - Update instructions.
- * @returns A string if the input is a string or string container, or if the `serialize` option set to `true`;
- * otherwise returns a {@link MimeTypeRecord MIME type record}.
- * @remarks Keep in mind that `update(input, value)` and `update(input, 'parameters', value)`
- * both fully replace the parameters part. If you need to update a sinle parameter, please use {@link setParameter}.
- * @see {@link UpdateFn}
- * @example
- * ```ts
- * update('text/html; charset=UTF-8', 'parameters', 'charset=iso-8859-1');
- * // => 'text/html;charset=iso-8859-1'
- * ```
- * @example
- * ```ts
- * const res = parse({ mimeType: 'image/svg+xml' });
- * const res2 = update(rec, 'subtype', 'png');
- * // res2.type === 'image'; res2.subtype === 'png'
- * ```
- * @example
- * ```ts
- * update('application/json', { q: '0.9' }); // => 'application/json;q=0.9'
- * update('application/json', [['foo', 'bar']]); // => 'application/json;foo=bar'
- * update('application/json;q=0.9', []); // => 'application/json'
- * ```
+ * @param key - The top-level component key to update.
+ * @param value - The new value for the specified component.
+ * @returns A normalized MIME type value with the requested update applied.
+ * @typeParam TInput - The input shape to update.
+ * @typeParam TKey - The name of the top-level component to update.
  */
-export const update: UpdateFn = (
+export function update<
+  TInput extends MimeTypeInput,
+  TKey extends keyof UpdateValueMap,
+>(input: TInput, key: TKey, value: UpdateValue<TKey>): OutputType<TInput>;
+
+/**
+ * Updates the parameters of a MIME type and returns an output of the same
+ * structural kind as the input.
+ *
+ * @param input - {@link MimeTypeInput MIME type input} to update.
+ * @param value - Parameters to apply. Can be provided as a string or as a structured collection.
+ * @returns A normalized MIME type value with updated parameters.
+ * @typeParam TInput - The input shape to update.
+ */
+export function update<TInput extends MimeTypeInput>(
+  input: TInput,
+  value: ParametersUpdateInput,
+): OutputType<TInput>;
+export function update(
   input: MimeTypeInput,
   ...rest:
     | readonly [key: 'parameters', value: ParametersUpdateInput]
     | readonly [key: UpdateKey, value: string]
     | readonly [parameters: ParametersUpdateInput]
-): string | MimeTypeRecord => {
+): string | MimeTypeRecord {
   if (rest.length === 1) return update(input, 'parameters', rest[0]);
+  assertAnyOf(['parameters', 'type', 'subtype', 'essence'], rest[0], 'key');
 
   const [mimeRecord, options] = normalizeInput(input);
 
@@ -144,7 +157,7 @@ export const update: UpdateFn = (
       ...newEssence,
     });
   }
-};
+}
 
 /**
  * Gets a parameter value by name.
@@ -154,8 +167,9 @@ export const update: UpdateFn = (
  * @param name - Parameter name to look up.
  * @param throwIfMissing - If true, throws when the parameter is missing.
  * @returns Parameter value or null.
- * @throws {RangeError} when the parameter is missing and `throwOnMissing` is true.
- * @see {@link SetParameterFn}
+ * @throws {@link TypeError} when the parameter is missing and `throwOnMissing` is true.
+ * @typeParam TInput - the type of the {@link MimeTypeInput MIME type input} to get parameter from.
+ * @typeParam TThrow - whether to throw if the parameter is missing.
  * @example
  * ```ts
  * getParameter('text/html; charset=UTF-8', 'charset'); // 'utf-8'
@@ -168,19 +182,33 @@ export const update: UpdateFn = (
  * getParameter(rec, 'q'); // '0.8'
  * ```
  */
-export const getParameter: GetParameterFn = ((input, name, throwIfMissing) => {
+export function getParameter<
+  TInput extends MimeTypeInput,
+  TThrow extends boolean = false,
+>(
+  input: TInput,
+  name: ParameterName,
+  throwIfMissing?: TThrow,
+):
+  | (TThrow extends true ? never : null)
+  | ParameterValue<MultiParameter<TInput>>;
+export function getParameter(
+  input: MimeTypeInput,
+  name: string,
+  throwIfMissing = false,
+): ParameterValue | null {
   const [mimeType, options] = normalizeInput(input);
   const parameterName = parseParameterName(name, options);
   if (mimeType.parameters.has(parameterName)) {
-    return mimeType.parameters.get(parameterName)!;
+    return mimeType.parameters.get(parameterName) as string | string[];
   } else if (isTrue(throwIfMissing)) {
-    throw new RangeError(
+    throw new TypeError(
       `Parameter "${name}" is not found in MIME type "${serialize(mimeType)}"`,
     );
   }
 
   return null;
-}) as GetParameterFn;
+}
 
 /**
  * Sets a parameter on a MIME type. If the value is empty or nullish, the parameter is removed.
@@ -190,7 +218,7 @@ export const getParameter: GetParameterFn = ((input, name, throwIfMissing) => {
  * @param value - Parameter value to set.
  * @returns A string if the input is a string or string container, or if the `serialize` option set to `true`;
  * otherwise returns a {@link MimeTypeRecord MIME type record}.
- * @see {@link SetParameterFn}
+ * @typeParam TInput - The input shape to update.
  * @example
  * ```ts
  * setParameter('text/html', 'charset', 'UTF-8'); // => 'text/html;charset=utf-8'
@@ -207,7 +235,16 @@ export const getParameter: GetParameterFn = ((input, name, throwIfMissing) => {
  * // => 'image/png'
  * ```
  */
-export const setParameter: SetParameterFn = (input, name, value) => {
+export function setParameter<TInput extends MimeTypeInput>(
+  input: TInput,
+  name: ParameterName,
+  value?: boolean | number | string | Nil,
+): OutputType<TInput>;
+export function setParameter(
+  input: MimeTypeInput,
+  name: ParameterName,
+  value?: boolean | number | string | Nil,
+): string | MimeTypeRecord {
   if (isNil(value) || value === '') {
     return removeParameter(input, name);
   }
@@ -224,7 +261,7 @@ export const setParameter: SetParameterFn = (input, name, value) => {
   const parameters = new Map(mimeType.parameters);
   parameters.set(parameterName, parameterValue);
   return produceOutput(input, { ...mimeType, parameters });
-};
+}
 
 /**
  * Removes a parameter from a MIME type.
@@ -235,7 +272,7 @@ export const setParameter: SetParameterFn = (input, name, value) => {
  * @param name - Parameter name to remove.
  * @returns A string if the input is a string or string container, or if the `serialize` option set to `true`;
  * otherwise returns a {@link MimeTypeRecord MIME type record}.
- * @see {@link RemoveParameterFn}
+ * @typeParam TInput - The input shape to remove parameter from.
  * @example
  * ```ts
  * removeParameter('text/html; charset=utf-8', 'charset');
@@ -253,7 +290,14 @@ export const setParameter: SetParameterFn = (input, name, value) => {
  * // => 'application/json'
  * ```
  */
-export const removeParameter: RemoveParameterFn = (input, name) => {
+export function removeParameter<TInput extends MimeTypeInput>(
+  input: TInput,
+  name: ParameterName,
+): OutputType<TInput>;
+export function removeParameter(
+  input: MimeTypeInput,
+  name: ParameterName,
+): OutputType {
   const [mimeType, options] = normalizeInput(input);
 
   const parameterName = parseParameterName(name, options);
@@ -266,17 +310,17 @@ export const removeParameter: RemoveParameterFn = (input, name) => {
   parameters.delete(name);
 
   return produceOutput(input, { ...mimeType, parameters });
-};
+}
 
 /**
- * Serializes a MIME type input to a string.
+ * Serializes a {@link MimeTypeInput MIME type input} to a string.
  *
  * If the input is already a string, it is returned unchanged.
  *
  * @param input - {@link MimeTypeInput MIME type input} to serialize.
  * @returns MIME type string.
- * @remarks Keep in mind that this function doesn't _normalize_ it's input by design (doesn't lowercase and so on).
- * Use {@link normalize} if you need normalization.
+ * @remarks Keep in mind that **this function doesn't {@link normalize} it's input** by design (doesn't lowercase and so on).
+ * Use {@link normalize} if you need normalization (indeed).
  * @example
  * ```ts
  * serialize('application/json; charset=utf-8'); // 'application/json; charset=utf-8'
@@ -287,10 +331,13 @@ export const removeParameter: RemoveParameterFn = (input, name) => {
  * serialize(rec); // 'text/html;charset=utf-8'
  * ```
  */
-export const serialize: SerializeFn = (input: MimeTypeInput): string =>
+export const serialize = (input: MimeTypeInput): string =>
   isString(input) ? input
   : hasProp(input, 'mimeType', isString) ? input.mimeType
   : serializeMimeType(input as MimeTypeSerializableInput);
+
+/** @ignore */
+export function normalize(input: MimeTypeEssence): MimeTypeEssence;
 
 /**
  * Produces a canonical MIME type string from the input.
@@ -308,8 +355,10 @@ export const serialize: SerializeFn = (input: MimeTypeInput): string =>
  * normalize({ type: 'IMAGE', subtype: 'PNG' }); // 'image/png'
  * ```
  */
-export const normalize = (input: MimeTypeInput): string =>
-  serializeMimeType(parse(input));
+export function normalize(input: MimeTypeInput): string;
+export function normalize(input: MimeTypeInput): string {
+  return serializeMimeType(parse(input));
+}
 
 /* ────────────────────────── Optimization Helpers ────────────────────────── */
 
@@ -343,7 +392,7 @@ const isMimeRecord = (value: unknown): value is MimeTypeRecord =>
  * - serializable record-like input → serialize to a string, sniff-parse using `options`,
  *   return `[record, options]`.
  *
- * @param input - Any supported MIME type input shape (string, record, or object with options).
+ * @param input - Any supported {@link MimeTypeInput MIME type input} shape (string, record, or object with options).
  * @returns A tuple of `[mimeTypeRecord, options?]`, where `options` are present only when provided on input objects.
  * @throws {SyntaxError} If the MIME type cannot be parsed/sniffed.
  */
@@ -427,6 +476,7 @@ const customParse = <
   options: ParseOptions<TRule, TMultiParameter> | undefined,
   errorPrefix: string = `Failed to parse ${delimCase(options?.startRule ?? defaultStartRule, ' ')}`,
 ): RuleResult<TMultiParameter>[TRule] => {
+  assertString(input);
   const source = '<input>';
 
   try {

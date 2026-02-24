@@ -127,9 +127,11 @@ describe.concurrent('MIME type library', () => {
       expect(getParameter('text/html', 'charset')).toBe(null);
     });
 
-    test('should throw RangeError if throwIfMissing is true', () => {
+    test('should throw TypeError if throwIfMissing is true', () => {
       expect(() => getParameter('text/html', 'charset', true)).toThrow(
-        RangeError,
+        new TypeError(
+          'Parameter "charset" is not found in MIME type "text/html"',
+        ),
       );
     });
 
