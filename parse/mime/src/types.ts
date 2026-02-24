@@ -1,11 +1,13 @@
 /**
- * @module @budsbox/parse-mime/types
- * @file Type definitions for MIME type parsing functionality.
+ * Type definitions for MIME type parsing functionality.
+ *
  *
  * This module provides TypeScript type definitions for a MIME type parser generated with Peggy.
  * The parser implementation is imported from '#parser' and this file provides a type-safe
  * interface for working with MIME type parsing operations, including parsing options,
  * parse results, and structured representations of MIME types.
+ *
+ * @module
  */
 
 import type { IterableElement, Merge } from 'type-fest';
@@ -23,6 +25,7 @@ export type { Parser };
  *
  * @typeParam TRule - The start rule to use for parsing.
  * @typeParam TMultiParameter - Strategy for handling duplicate parameters.
+ * @inline
  */
 export interface ParseOptions<
   TRule extends StartRuleNames = StartRuleNames,
@@ -100,6 +103,24 @@ export interface ParseOptions<
    * @remarks it applies only when the start rule is 'mimeType'.
    */
   readonly trim?: boolean;
+}
+
+/**
+ * Represents configuration options for sniff parsing.
+ * Extends the basic `ParseOptions` interface.
+ *
+ * @typeParam T - Optional generic type that may be used in extending scenarios.
+ * @typeParam TRule - The start rule to use for parsing.
+ * @typeParam TMultiParameter - Strategy for handling duplicate parameters.
+ */
+export interface SniffOptions<
+  TRule extends StartRuleNames = StartRuleNames,
+  TMultiParameter extends MultiParameterOption = MultiParameterOption,
+> extends ParseOptions<TRule, TMultiParameter> {
+  /**
+   * {@inheritDoc}
+   */
+  readonly sniff?: true;
 }
 
 /**
