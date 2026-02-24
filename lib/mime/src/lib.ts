@@ -64,6 +64,8 @@ import {
  * @typeParam TInput - The input shape to parse. It can be a raw MIME type string
  * or an object that configures parsing and serialization behavior.
  * @see {@link MimeTypeInput} for more details on the input types.
+ * @example
+ * {@includeCode ./examples.ts#parse}
  */
 export function parse<TInput extends MimeTypeInput>(
   input: TInput,
@@ -84,6 +86,8 @@ export function parse<TInput extends MimeTypeInput>(
  * @returns A normalized MIME type value with the requested update applied.
  * @typeParam TInput - The input shape to update.
  * @typeParam TKey - The name of the top-level component to update.
+ * @example
+ * {@includeCode ./examples.ts#update.full}
  */
 export function update<
   TInput extends MimeTypeInput,
@@ -98,11 +102,14 @@ export function update<
  * @param value - Parameters to apply. Can be provided as a string or as a structured collection.
  * @returns A normalized MIME type value with updated parameters.
  * @typeParam TInput - The input shape to update.
+ * @example
+ * {@includeCode ./examples.ts#update.short}
  */
 export function update<TInput extends MimeTypeInput>(
   input: TInput,
   value: ParametersUpdateInput,
 ): OutputType<TInput>;
+
 export function update(
   input: MimeTypeInput,
   ...rest:
@@ -171,16 +178,7 @@ export function update(
  * @typeParam TInput - the type of the {@link MimeTypeInput MIME type input} to get parameter from.
  * @typeParam TThrow - whether to throw if the parameter is missing.
  * @example
- * ```ts
- * getParameter('text/html; charset=UTF-8', 'charset'); // 'utf-8'
- * getParameter({ mimeType: 'text/html; charset=UTF-8', keepCharsetCase: true }, 'charset'); // 'UTF-8'
- * getParameter('application/xml', 'charset'); // null
- * ```
- * @example
- * ```ts
- * const rec = parse({ mimeType: 'application/json; q=0.8' });
- * getParameter(rec, 'q'); // '0.8'
- * ```
+ * {@includeCode ./examples.ts#getParameter}
  */
 export function getParameter<
   TInput extends MimeTypeInput,
@@ -220,20 +218,7 @@ export function getParameter(
  * otherwise returns a {@link MimeTypeRecord MIME type record}.
  * @typeParam TInput - The input shape to update.
  * @example
- * ```ts
- * setParameter('text/html', 'charset', 'UTF-8'); // => 'text/html;charset=utf-8'
- * setParameter({ mimeType: 'text/html', keepCharsetCase: true }, 'charset', 'UTF-8'); // 'text/html;charset=UTF-8'
- * ```
- * @example
- * ```ts
- * const rec = parse({ mimeType: 'application/json; q=0.5', serialize: false });
- * const next = setParameter(rec, 'q', '0.9'); // serialize(next) === 'application/json;q=0.9'
- * ```
- * @example
- * ```ts
- * setParameter('image/png; q=0.7', 'q');
- * // => 'image/png'
- * ```
+ * {@includeCode ./examples.ts#setParameter}
  */
 export function setParameter<TInput extends MimeTypeInput>(
   input: TInput,
@@ -274,21 +259,7 @@ export function setParameter(
  * otherwise returns a {@link MimeTypeRecord MIME type record}.
  * @typeParam TInput - The input shape to remove parameter from.
  * @example
- * ```ts
- * removeParameter('text/html; charset=utf-8', 'charset');
- * // => 'text/html'
- * ```
- * @example
- * ```ts
- * const rec = parse({ mimeType: 'image/webp; q=0.8', serialize: false });
- * const next = removeParameter(rec, 'q');
- * // serialize(next) === 'image/webp'
- * ```
- * @example
- * ```ts
- * removeParameter('application/json', 'charset');
- * // => 'application/json'
- * ```
+ * {@includeCode ./examples.ts#removeParameter}
  */
 export function removeParameter<TInput extends MimeTypeInput>(
   input: TInput,
@@ -322,14 +293,7 @@ export function removeParameter(
  * @remarks Keep in mind that **this function doesn't {@link normalize} it's input** by design (doesn't lowercase and so on).
  * Use {@link normalize} if you need normalization (indeed).
  * @example
- * ```ts
- * serialize('application/json; charset=utf-8'); // 'application/json; charset=utf-8'
- * ```
- * @example
- * ```ts
- * const rec = parse({ mimeType: 'text/html; Charset=UTF-8', serialize: false });
- * serialize(rec); // 'text/html;charset=utf-8'
- * ```
+ * {@includeCode ./examples.ts#serialize}
  */
 export const serialize = (input: MimeTypeInput): string =>
   isString(input) ? input
@@ -347,13 +311,7 @@ export function normalize(input: MimeTypeEssence): MimeTypeEssence;
  * @param input - {@link MimeTypeInput MIME type input} to normalize.
  * @returns Canonical MIME type string.
  * @example
- * ```ts
- * normalize('Text/HTML; Charset=UTF-8'); // 'text/html;charset=utf-8'
- * ```
- * @example
- * ```ts
- * normalize({ type: 'IMAGE', subtype: 'PNG' }); // 'image/png'
- * ```
+ * {@includeCode ./examples.ts#normalize}
  */
 export function normalize(input: MimeTypeInput): string;
 export function normalize(input: MimeTypeInput): string {
