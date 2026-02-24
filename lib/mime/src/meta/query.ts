@@ -1,3 +1,10 @@
+/**
+ * @module
+ *
+ * Provides utilities for querying and resolving MIME type metadata, including
+ * canonicalization, charset resolution, and structured data type detection.
+ */
+
 import type {
   EssenceAliasesMap,
   MimeTypeEssence,
@@ -27,10 +34,27 @@ import {
   suffixToMediaTypeLookup,
 } from './const.js';
 
+/** @ignore */
 export function canonicalize(
   essence: MimeTypeEssence,
   options?: MetaResolveOptions & { noDefaultCharset: true },
 ): MimeTypeEssence;
+
+/**
+ * Resolves a MIME type to its canonical form, optionally adding a default charset.
+ *
+ * @param mimeInput - The MIME type to canonicalize
+ * @param options - Resolution options including alias mappings and charset behavior
+ * @returns The canonical MIME type in the same format as the input
+ * @typeParam TInput - The input MIME type format (string or {@link MimeType} object)
+ * @example
+ * ```typescript
+ * canonicalize('application/javascript');
+ * // => 'text/javascript;charset=utf-8'
+ * canonicalize('application/x-gzip');
+ * // => 'application/gzip'
+ * ```
+ */
 export function canonicalize<TInput extends MimeTypeInput>(
   mimeInput: TInput,
   options?: MetaResolveOptions,

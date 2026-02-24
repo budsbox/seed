@@ -18,10 +18,7 @@ import mimeDbRaw from 'mime-db/db.json' with { type: 'json' };
 /**
  * A valid MIME type key from the mime-db database.
  *
- * @example
- * ```typescript
- * const key: MimeDbKey = 'application/json';
- * ```
+ * @internal
  */
 export type MimeDbKey = keyof typeof mimeDbRaw;
 
@@ -39,18 +36,12 @@ export type MimeDbSource = 'apache' | 'iana' | 'nginx';
  * A record representing a MIME type entry with normalized optional fields.
  *
  * @interface
+ * @internal
  * @remarks This interface actually is inferred type.
  * This type normalizes the union of all possible MIME type records from the database,
  * converting properties that may be {@link undefined} into optional properties.
  * It's a **readonly** type, though TypeDoc may not display it correctly.
- * @example
- * ```typescript
- * const record: MimeDbRecord = {
- *   source: 'iana',
- *   compressible: true,
- *   extensions: ['json']
- * };
- * ```
+ * @see @{link https://github.com/jshttp/mime-db?tab=readme-ov-file#data-structure Data structure descrition} in `mime-db` package.
  */
 export type MimeDbRecord = Infer<
   Readonly<

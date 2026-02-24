@@ -9,7 +9,7 @@
  * - {@link .!update Update} individual components (type, subtype, essence, parameters)
  * - {@link .!getParameter Get}, {@link .!setParameter set}, {@link .!removeParameter remove} individual parameters
  * - {@link .!serialize Serialize} and {@link .!normalize normalize} MIME types.
- * - Flexible {@link !.MimeTypeInput input}/{@link .!OutputType output} formats with automatic shape preservation
+ * - Flexible {@link .!MimeTypeInput input} and {@link .!OutputType output} formats with automatic shape preservation
  *
  * ### Quick Start Guide
  * {@includeCode ./quick-start.ts#main}
