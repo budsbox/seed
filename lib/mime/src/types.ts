@@ -113,6 +113,7 @@ export type MimeTypeRecord<
 /**
  * A string representing any MIME type, with autocompletion for well-known types.
  *
+ * @preventInline
  * @example
  * ```typescript
  * const mime1: MimeTypeStringInput = 'application/json'; // well-known
@@ -165,7 +166,7 @@ export type MimeTypeOptions = Infer<
     /**
      * Whether to return a string instead of a {@link MimeTypeRecord}.
      *
-     * When `true`, helper functions like {@link UpdateFn `update`} or {@link SetParameterFn `setParameter`}
+     * When `true`, helper functions like {@link .!update `update`} or {@link .!setParameter `setParameter`}
      * will return a serialized MIME type string.
      *
      * @defaultValue `false`
@@ -178,6 +179,8 @@ export type MimeTypeOptions = Infer<
  * Object shape that carries a MIME type string under the `mimeType` property.
  *
  * Used to pass additional parsing options alongside the raw MIME type.
+ *
+ * @preventInline
  */
 export interface MimeTypeStringContainer {
   /**
@@ -190,6 +193,7 @@ export interface MimeTypeStringContainer {
  * Serializable object input for MIME type operations.
  *
  * @interface
+ * @preventInline
  */
 export type MimeTypeSerializableInput = SerializableMimeTypeRecord<true>;
 
@@ -227,14 +231,14 @@ export type MultiParameter<TInput extends MimeTypeInput = MimeTypeInput> =
 export type UpdateKey = Extract<keyof MimeTypeRecord, keyof UpdateValueMap>;
 
 /**
- * Value type accepted by the {@link `update`} function when updating a specific key.
+ * Value type accepted by the {@link update} function when updating a specific key.
  *
  * @typeParam TKey - Target key to update.
  */
 export type UpdateValue<TKey extends UpdateKey> = UpdateValueMap[TKey];
 
 /**
- * Maps update keys to their corresponding value types for the {@link `update`} function.
+ * Maps update keys to their corresponding value types for the {@link update} function.
  *
  * @internal
  */
