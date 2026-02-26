@@ -12,7 +12,6 @@ import type {
   OutputType,
 } from '#types';
 
-import type { MimeDbSource } from './mime-db-wrapper.js';
 import type {
   EssenceLookup,
   ResolveMetaInput as MergeMetaInput,
@@ -33,6 +32,7 @@ import {
   defaultResolveOptions,
   suffixToMediaTypeLookup,
 } from './const.js';
+import { type MimeDbSource, mimeDb } from './mime-db-wrapper.js';
 
 /** @ignore */
 export function canonicalize(
@@ -86,6 +86,27 @@ export function canonicalize(
   }
 }
 
+/**
+ * Retrieves complete metadata information for a MIME type.
+ *
+ * Returns metadata including file extensions, compressibility, charset, and source database.
+ * By default, this function merges metadata from canonical forms and aliases. Set
+ * `options.noMerge` to `true` to retrieve only direct database metadata.
+ *
+ * @param mimeInput - {@link MimeTypeInput MIME type} to query (string or object)
+ * @param options - Resolution options controlling metadata merging and alias handling
+ * @returns Complete metadata object for the MIME type
+ * @example
+ * ```typescript
+ * getMetaInfo('application/json');
+ * // {
+ * // extensions: ReadonlySet(2) { 'json', 'map' },
+ * // source: 'iana',
+ * // charset: 'UTF-8',
+ * // compressible: true
+ * // }
+ * ```
+ */
 export function getMetaInfo(
   mimeInput: MimeTypeInput,
   options?: MetaResolveOptions,
@@ -97,10 +118,52 @@ export function getMetaInfo(
     : getMergedMeta(mimeType.essence, normOptions);
 }
 
+/**
+ * Retrieves the source database of a MIME type entry.
+ *
+ * The source indicates which database originally defined the MIME type.
+ * Possible values are:
+ * - `'iana'` - Internet Assigned Numbers Authority
+ * - `'apache'` - Apache HTTP Server
+ * - `'nginx'` - nginx web server list
+ *
+ * @param mimeInput - The MIME type to query (string or object)
+ * @returns The source database identifier, or `null` if not found
+ * @example
+ * ```typescript
+ * getSource('application/json');
+ * // => 'iana'
+ *
+ * getSource('application/custom-type');
+ * // => null
+ * ```
+ */
 export function getSource(mimeInput: MimeTypeInput): MimeDbSource | null {
   return getMetaInfo(mimeInput, { noMerge: true }).source ?? null;
 }
 
+/**
+ * Resolves the charset for a MIME type.
+ *
+ * This function first checks for an explicit `charset` parameter in the MIME type.
+ * If not present, it falls back to the default charset from the metadata database.
+ * Text-based MIME types typically have a default charset (usually `utf-8`).
+ *
+ * @param mimeInput - The MIME type to query (string or object)
+ * @param options - Resolution options controlling metadata merging and alias handling
+ * @returns The charset string if available, otherwise `undefined`
+ * @example
+ * ```typescript
+ * getCharset('text/html;charset=iso-8859-1');
+ * // => 'iso-8859-1'
+ *
+ * getCharset('text/html');
+ * // => 'utf-8' (default from metadata)
+ *
+ * getCharset('image/png');
+ * // => undefined (binary types don't have charsets)
+ * ```
+ */
 export function getCharset(
   mimeInput: MimeTypeInput,
   options?: MetaResolveOptions,
@@ -112,6 +175,27 @@ export function getCharset(
   );
 }
 
+/**
+ * Determines the structured data type from a MIME type's suffix.
+ *
+ * Many MIME types use suffixes (like `+json`, `+xml`) to indicate the underlying
+ * structured format. This function extracts the base data type from such suffixes.
+ * If no recognized suffix is present, returns the original MIME type essence.
+ *
+ * @param mimeInput - The MIME type to analyze (string or object)
+ * @returns The essence of the underlying structured data format
+ * @example
+ * ```typescript
+ * getStructuredDataType('application/vnd.api+json');
+ * // => 'application/json'
+ *
+ * getStructuredDataType('application/atom+xml');
+ * // => 'application/xml'
+ *
+ * getStructuredDataType('application/json');
+ * // => 'application/json' (no suffix, returns original)
+ * ```
+ */
 export function getStructuredDataType(
   mimeInput: MimeTypeInput,
 ): MimeTypeEssence {
@@ -119,6 +203,63 @@ export function getStructuredDataType(
   return isString(suffix) && hasProp(suffixToMediaTypeLookup, suffix) ?
       (suffixToMediaTypeLookup[suffix] as MimeTypeEssence)
     : essence;
+}
+
+/**
+ * Retrieves all MIME types associated with a file extension.
+ *
+ * Returns an array of MIME type essences sorted by priority. Priority is determined
+ * by the source database (IANA types are prioritized) and the position in the
+ * extensions list for each MIME type.
+ *
+ * @param extOrName - File extension (with or without dot) or full filename
+ * @returns Array of MIME type essences sorted by priority, or empty array if none found
+ * @example
+ * ```typescript
+ * getMimesByExtension('json');
+ * // => ['application/json']
+ *
+ * getMimesByExtension('.txt');
+ * // => ['text/plain']
+ *
+ * getMimesByExtension('document.pdf');
+ * // => ['application/pdf']
+ * ```
+ */
+export function getMimesByExtension(extOrName: string): MimeTypeEssence[] {
+  const ext = extOrName.split('.').at(-1) ?? '';
+  return entries(defaultExtensionsLookup.get(ext) ?? {})
+    .toSorted(([, v1], [, v2]) => v2 - v1)
+    .map(([essence]) => essence);
+}
+
+/**
+ * Retrieves the primary MIME type for a file extension.
+ *
+ * Returns the highest priority MIME type associated with the given extension.
+ * This is a convenience function that returns the first element from {@link getMimesByExtension}.
+ *
+ * @param extOrName - File extension (with or without dot) or full filename
+ * @returns The primary MIME type essence, or `undefined` if no match found
+ * @example
+ * ```typescript
+ * getMimeByExtension('json');
+ * // => 'application/json'
+ *
+ * getMimeByExtension('.html');
+ * // => 'text/html'
+ *
+ * getMimeByExtension('document.zip');
+ * // => 'application/zip'
+ *
+ * getMimeByExtension('unknown');
+ * // => undefined
+ * ```
+ */
+export function getMimeByExtension(
+  extOrName: string,
+): MimeTypeEssence | undefined {
+  return getMimesByExtension(extOrName)[0];
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERNALS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -134,13 +275,19 @@ const getMergedMeta = (
       ([alias, canonical] as const)
     : [],
   );
+  typesToMerge.push(
+    canonicalize(typeEssence, { ...options, noDefaultCharset: true }),
+  );
 
-  return mergeMeta(...typesToMerge);
+  return mergeMeta(typesToMerge);
 };
 
-const mergeMeta = (...input: readonly MergeMetaInput[]): MimeTypeMeta => {
+const mergeMeta = (
+  input: readonly MergeMetaInput[],
+  options?: MetaResolveOptions,
+): MimeTypeMeta => {
   const info = input.reduce((meta, inputItem) => {
-    const typeMeta = resolveMeta(inputItem);
+    const typeMeta = resolveMeta(inputItem, options);
     return {
       ...meta,
       ...typeMeta,
@@ -203,11 +350,44 @@ const buildAliasLookup = (
     ),
   );
 
-const defaultLookup = buildAliasLookup(defaultAliasesMap);
-
 const normalizeOptions = (
   options: MetaResolveOptions = {},
 ): Required<MetaResolveOptions> => ({
   ...defaultResolveOptions,
   ...options,
 });
+
+const defaultLookup = buildAliasLookup(defaultAliasesMap);
+
+export const defaultsMeta = Object.keys(mimeDb).reduce<
+  Map<MimeTypeEssence, MimeTypeMeta>
+>((map, essence) => {
+  const canonical = canonicalize(essence);
+  if (!map.has(canonical)) {
+    map.set(canonical, getMetaInfo(canonical));
+  }
+
+  return map;
+}, new Map());
+
+const defaultExtensionsLookup = [...defaultsMeta]
+  .filter(([essence]) => essence !== 'application/octet-stream')
+  .flatMap(([essence, { extensions, source }]) => {
+    const sourceWt = source === 'iana' ? 100 : 0;
+    return [...extensions.keys()].map(
+      (ext, i) => [ext, essence, sourceWt + 5 - i] as const,
+    );
+  })
+  .reduce<Map<string, Record<MimeTypeEssence, number>>>(
+    (map, [ext, essence, shift]) => {
+      if (!map.has(ext)) map.set(ext, {});
+      const record = map.get(ext)!;
+
+      if (!(essence in record)) {
+        record[essence] = shift;
+      }
+
+      return map;
+    },
+    new Map(),
+  );

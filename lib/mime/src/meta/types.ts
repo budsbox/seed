@@ -12,6 +12,7 @@ import type { MimeDb, MimeDbRecord } from './mime-db-wrapper.js';
  * Merges {@link MimeDbRecord} properties with a strongly-typed extensions set.
  *
  * @interface
+ * @inline
  * @example
  * ```typescript
  * const meta: MimeTypeMeta = {
@@ -23,7 +24,13 @@ import type { MimeDb, MimeDbRecord } from './mime-db-wrapper.js';
  * ```
  */
 export type MimeTypeMeta = Infer<
-  Merge<MimeDbRecord, { readonly extensions: ReadonlySet<string> }>
+  Merge<
+    MimeDbRecord,
+    {
+      readonly extensions: ReadonlySet<string>;
+      readonly compressible?: boolean;
+    }
+  >
 >;
 
 /**
@@ -121,3 +128,8 @@ export type ResolveMetaInput =
   | MimeTypeEssence
   | MimeTypeMeta
   | Nil;
+
+/**
+ * Represents a mapping between file extensions and their corresponding MIME type essence.
+ */
+export type FileExtLookup = Map<string, MimeTypeEssence>;
