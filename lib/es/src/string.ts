@@ -310,9 +310,10 @@ export function splitPath(path: string, keepEmptyChunks = false): string[] {
 export function camelCase<T extends string>(str: T): CamelCase<T>;
 export function camelCase(name: string): string {
   assertString(name, 'name');
-  return clampWS(name).replace(/[-_\s]+([^-_\s])/g, (_, suffix: string) =>
-    suffix.toUpperCase(),
-  );
+  return clampWS(name)
+    .replace(/[-_\s]+([^-_\s])/g, (_, suffix: string) => suffix.toUpperCase())
+    .replace(/^./, (char) => char.toLowerCase())
+    .replace(/[-_\s]+/g, '');
 }
 
 /**
@@ -325,7 +326,7 @@ export function camelCase(name: string): string {
  */
 export function pascalCase<T extends string>(str: T): PascalCase<T>;
 export function pascalCase(name: string): string {
-  return camelCase(name).replace(/^./, (c) => c.toUpperCase());
+  return camelCase(name).replace(/^./, (char) => char.toUpperCase());
 }
 
 /**
@@ -345,8 +346,18 @@ export function delimCase<T extends string, D extends string>(
 export function delimCase(name: string, delimiter = '-'): string {
   assertString(name, 'name');
   assertString(delimiter, 'delimiter');
-  return clampWS(name)
-    .replace(/(.)([A-Z])/g, `$1${delimiter}$2`)
+  const clamped = clampWS(name);
+  const chars: string[] = [];
+  for (let i = 0; i < clamped.length; i++) {
+    const char = clamped[i]!;
+    if (/^[A-Z]$/.test(char) && i !== 0) {
+      chars.push(delimiter);
+    }
+    chars.push(char);
+  }
+
+  return chars
+    .join('')
     .replace(/[-_\s]+/g, delimiter)
     .toLowerCase();
 }

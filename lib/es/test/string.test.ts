@@ -2,13 +2,18 @@
 import { describe, expect, test } from 'vitest';
 
 import {
+  camelCase,
   clampWS,
+  delimCase,
   formatPackageName,
   joinPath,
   joinWithConjunction,
+  kebabCase,
   parsePackageName,
+  pascalCase,
   resolvePackageName,
   serializePackageName,
+  snakeCase,
   splitPath,
 } from '#string';
 
@@ -743,6 +748,368 @@ describe.concurrent('joinWithConjunction', () => {
       joinWithConjunction(['foo', 'bar'], null as never),
     ).toThrowError(
       new TypeError('Expected conjunction to be string, got null instead'),
+    );
+  });
+});
+
+describe.concurrent('camelCase', () => {
+  test('converts dash-separated string to camelCase', (): void => {
+    expect(camelCase('foo-bar-baz')).toBe('fooBarBaz');
+  });
+
+  test('converts underscore-separated string to camelCase', (): void => {
+    expect(camelCase('foo_bar_baz')).toBe('fooBarBaz');
+  });
+
+  test('converts space-separated string to camelCase', (): void => {
+    expect(camelCase('foo bar baz')).toBe('fooBarBaz');
+  });
+
+  test('converts mixed separators to camelCase', (): void => {
+    expect(camelCase('foo-bar_baz qux')).toBe('fooBarBazQux');
+  });
+
+  test('handles PascalCase input', (): void => {
+    expect(camelCase('FooBar')).toBe('fooBar');
+  });
+
+  test('handles already camelCase input', (): void => {
+    expect(camelCase('fooBar')).toBe('fooBar');
+  });
+
+  test('handles single word', (): void => {
+    expect(camelCase('foo')).toBe('foo');
+  });
+
+  test('handles empty string', (): void => {
+    expect(camelCase('')).toBe('');
+  });
+
+  test('handles multiple consecutive separators', (): void => {
+    expect(camelCase('foo---bar___baz')).toBe('fooBarBaz');
+  });
+
+  test('handles leading and trailing whitespace', (): void => {
+    expect(camelCase('  foo bar  ')).toBe('fooBar');
+  });
+
+  test('handles multiple whitespace characters', (): void => {
+    expect(camelCase('foo  \t\n  bar')).toBe('fooBar');
+  });
+
+  test('handles string with only separators', (): void => {
+    expect(camelCase('---___   ')).toBe('');
+  });
+
+  test('preserves uppercase letters not following separators', (): void => {
+    expect(camelCase('fooBAR')).toBe('fooBAR');
+  });
+
+  test('handles numbers in string', (): void => {
+    expect(camelCase('foo-123-bar')).toBe('foo123Bar');
+  });
+
+  test('throws TypeError for non-string input', (): void => {
+    expect(() => camelCase(123 as never)).toThrowError(
+      new TypeError('Expected name to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for null input', (): void => {
+    expect(() => camelCase(null as never)).toThrowError(
+      new TypeError('Expected name to be string, got null instead'),
+    );
+  });
+
+  test('throws TypeError for undefined input', (): void => {
+    expect(() => camelCase(undefined as never)).toThrowError(
+      new TypeError('Expected name to be string, got undefined instead'),
+    );
+  });
+});
+
+describe.concurrent('pascalCase', () => {
+  test('converts dash-separated string to PascalCase', (): void => {
+    expect(pascalCase('foo-bar-baz')).toBe('FooBarBaz');
+  });
+
+  test('converts underscore-separated string to PascalCase', (): void => {
+    expect(pascalCase('foo_bar_baz')).toBe('FooBarBaz');
+  });
+
+  test('converts space-separated string to PascalCase', (): void => {
+    expect(pascalCase('foo bar baz')).toBe('FooBarBaz');
+  });
+
+  test('converts mixed separators to PascalCase', (): void => {
+    expect(pascalCase('foo-bar_baz qux')).toBe('FooBarBazQux');
+  });
+
+  test('handles camelCase input', (): void => {
+    expect(pascalCase('fooBar')).toBe('FooBar');
+  });
+
+  test('handles already PascalCase input', (): void => {
+    expect(pascalCase('FooBar')).toBe('FooBar');
+  });
+
+  test('handles single word', (): void => {
+    expect(pascalCase('foo')).toBe('Foo');
+  });
+
+  test('handles single lowercase letter', (): void => {
+    expect(pascalCase('f')).toBe('F');
+  });
+
+  test('handles single uppercase letter', (): void => {
+    expect(pascalCase('F')).toBe('F');
+  });
+
+  test('handles empty string', (): void => {
+    expect(pascalCase('')).toBe('');
+  });
+
+  test('handles multiple consecutive separators', (): void => {
+    expect(pascalCase('foo---bar___baz')).toBe('FooBarBaz');
+  });
+
+  test('handles leading and trailing whitespace', (): void => {
+    expect(pascalCase('  foo bar  ')).toBe('FooBar');
+  });
+
+  test('handles numbers in string', (): void => {
+    expect(pascalCase('foo-123-bar')).toBe('Foo123Bar');
+  });
+
+  test('throws TypeError for non-string input', (): void => {
+    expect(() => pascalCase(123 as never)).toThrowError(
+      new TypeError('Expected name to be string, got number instead'),
+    );
+    expect(() => pascalCase(null as never)).toThrowError(
+      new TypeError('Expected name to be string, got null instead'),
+    );
+    expect(() => pascalCase(undefined as never)).toThrowError(
+      new TypeError('Expected name to be string, got undefined instead'),
+    );
+  });
+});
+
+describe.concurrent('delimCase', () => {
+  test('converts camelCase to delimited case with custom delimiter', (): void => {
+    expect(delimCase('fooBarBaz', '_')).toBe('foo_bar_baz');
+  });
+
+  test('converts PascalCase to delimited case', (): void => {
+    expect(delimCase('FooBarBaz', '-')).toBe('foo-bar-baz');
+  });
+
+  test('converts space-separated string to delimited case', (): void => {
+    expect(delimCase('foo bar baz', '-')).toBe('foo-bar-baz');
+  });
+
+  test('converts underscore-separated string to dash-delimited', (): void => {
+    expect(delimCase('foo_bar_baz', '-')).toBe('foo-bar-baz');
+  });
+
+  test('converts dash-separated string to underscore-delimited', (): void => {
+    expect(delimCase('foo-bar-baz', '_')).toBe('foo_bar_baz');
+  });
+
+  test('handles already delimited string', (): void => {
+    expect(delimCase('foo-bar', '-')).toBe('foo-bar');
+  });
+
+  test('handles single word', (): void => {
+    expect(delimCase('foo', '-')).toBe('foo');
+  });
+
+  test('handles empty string', (): void => {
+    expect(delimCase('', '-')).toBe('');
+  });
+
+  test('handles multiple consecutive uppercase letters', (): void => {
+    expect(delimCase('fooBAR', '-')).toBe('foo-b-a-r');
+    expect(delimCase('BAR', '-')).toBe('b-a-r');
+  });
+
+  test('handles consecutive separators', (): void => {
+    expect(delimCase('foo---bar', '-')).toBe('foo-bar');
+  });
+
+  test('handles already properly delimited string', (): void => {
+    expect(delimCase('foo-bar', '-')).toBe('foo-bar');
+  });
+
+  test('handles leading and trailing whitespace', (): void => {
+    expect(delimCase('  foo bar  ', '-')).toBe('foo-bar');
+  });
+
+  test('handles mixed separators', (): void => {
+    expect(delimCase('foo-bar_baz qux', '.')).toBe('foo.bar.baz.qux');
+  });
+
+  test('handles custom delimiter', (): void => {
+    expect(delimCase('fooBarBaz', '.')).toBe('foo.bar.baz');
+  });
+
+  test('handles multi-character delimiter', (): void => {
+    expect(delimCase('fooBarBaz', '__')).toBe('foo__bar__baz');
+  });
+
+  test('handles numbers in string', (): void => {
+    expect(delimCase('foo123Bar', '-')).toBe('foo123-bar');
+  });
+
+  test('throws TypeError for non-string name', (): void => {
+    expect(() => delimCase(123 as never, '-')).toThrowError(
+      new TypeError('Expected name to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for non-string delimiter', (): void => {
+    expect(() => delimCase('foo', 123 as never)).toThrowError(
+      new TypeError('Expected delimiter to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for null name', (): void => {
+    expect(() => delimCase(null as never, '-')).toThrowError(
+      new TypeError('Expected name to be string, got null instead'),
+    );
+  });
+
+  test('throws TypeError for null delimiter', (): void => {
+    expect(() => delimCase('foo', null as never)).toThrowError(
+      new TypeError('Expected delimiter to be string, got null instead'),
+    );
+  });
+});
+
+describe.concurrent('kebabCase', () => {
+  test('converts camelCase to kebab-case', (): void => {
+    expect(kebabCase('fooBarBaz')).toBe('foo-bar-baz');
+  });
+
+  test('converts PascalCase to kebab-case', (): void => {
+    expect(kebabCase('FooBarBaz')).toBe('foo-bar-baz');
+  });
+
+  test('converts space-separated string to kebab-case', (): void => {
+    expect(kebabCase('foo bar baz')).toBe('foo-bar-baz');
+  });
+
+  test('converts underscore-separated string to kebab-case', (): void => {
+    expect(kebabCase('foo_bar_baz')).toBe('foo-bar-baz');
+  });
+
+  test('handles already kebab-case string', (): void => {
+    expect(kebabCase('foo-bar-baz')).toBe('foo-bar-baz');
+  });
+
+  test('handles single word', (): void => {
+    expect(kebabCase('foo')).toBe('foo');
+  });
+
+  test('handles empty string', (): void => {
+    expect(kebabCase('')).toBe('');
+  });
+
+  test('handles consecutive uppercase letters', (): void => {
+    expect(kebabCase('fooBAR')).toBe('foo-b-a-r');
+    expect(kebabCase('BAR')).toBe('b-a-r');
+  });
+
+  test('handles mixed separators', (): void => {
+    expect(kebabCase('foo_bar baz-qux')).toBe('foo-bar-baz-qux');
+  });
+
+  test('handles leading and trailing whitespace', (): void => {
+    expect(kebabCase('  foo bar  ')).toBe('foo-bar');
+  });
+
+  test('handles numbers in string', (): void => {
+    expect(kebabCase('foo123Bar')).toBe('foo123-bar');
+  });
+
+  test('throws TypeError for non-string input', (): void => {
+    expect(() => kebabCase(123 as never)).toThrowError(
+      new TypeError('Expected name to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for null input', (): void => {
+    expect(() => kebabCase(null as never)).toThrowError(
+      new TypeError('Expected name to be string, got null instead'),
+    );
+  });
+
+  test('throws TypeError for undefined input', (): void => {
+    expect(() => kebabCase(undefined as never)).toThrowError(
+      new TypeError('Expected name to be string, got undefined instead'),
+    );
+  });
+});
+
+describe.concurrent('snakeCase', () => {
+  test('converts camelCase to snake_case', (): void => {
+    expect(snakeCase('fooBarBaz')).toBe('foo_bar_baz');
+  });
+
+  test('converts PascalCase to snake_case', (): void => {
+    expect(snakeCase('FooBarBaz')).toBe('foo_bar_baz');
+  });
+
+  test('converts space-separated string to snake_case', (): void => {
+    expect(snakeCase('foo bar baz')).toBe('foo_bar_baz');
+  });
+
+  test('converts dash-separated string to snake_case', (): void => {
+    expect(snakeCase('foo-bar-baz')).toBe('foo_bar_baz');
+  });
+
+  test('handles already snake_case string', (): void => {
+    expect(snakeCase('foo_bar_baz')).toBe('foo_bar_baz');
+  });
+
+  test('handles single word', (): void => {
+    expect(snakeCase('foo')).toBe('foo');
+  });
+
+  test('handles empty string', (): void => {
+    expect(snakeCase('')).toBe('');
+  });
+
+  test('handles consecutive uppercase letters', (): void => {
+    expect(snakeCase('fooBAR')).toBe('foo_b_a_r');
+  });
+
+  test('handles mixed separators', (): void => {
+    expect(snakeCase('foo-bar baz_qux')).toBe('foo_bar_baz_qux');
+  });
+
+  test('handles leading and trailing whitespace', (): void => {
+    expect(snakeCase('  foo bar  ')).toBe('foo_bar');
+  });
+
+  test('handles numbers in string', (): void => {
+    expect(snakeCase('foo123Bar')).toBe('foo123_bar');
+  });
+
+  test('throws TypeError for non-string input', (): void => {
+    expect(() => snakeCase(123 as never)).toThrowError(
+      new TypeError('Expected name to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for null input', (): void => {
+    expect(() => snakeCase(null as never)).toThrowError(
+      new TypeError('Expected name to be string, got null instead'),
+    );
+  });
+
+  test('throws TypeError for undefined input', (): void => {
+    expect(() => snakeCase(undefined as never)).toThrowError(
+      new TypeError('Expected name to be string, got undefined instead'),
     );
   });
 });
