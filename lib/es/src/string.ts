@@ -80,7 +80,7 @@ function normalizePackageName(
     assertOptionalProp(ident, 'scope', somePredicate(isString, isNil));
     return {
       ...ident,
-      scope: null,
+      scope: ident.scope ?? null,
     };
   }
 
@@ -178,13 +178,13 @@ export function formatPackageName(
   assertString(base, 'base');
   assertObject(options, 'options');
   (['root', 'parent'] as const).forEach((key) => {
-    assertOptionalProp(options, key, somePredicate(isNil, isString), 'options');
+    assertOptionalProp(options, key, somePredicate(isString, isNil), 'options');
   });
   (['relCwd', 'pathDelimiter', 'nameDelimiter'] as const).forEach((key) => {
     assertOptionalProp(
       options,
       key,
-      somePredicate(isUndef, isString),
+      somePredicate(isString, isUndef),
       'options',
     );
   });
