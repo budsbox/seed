@@ -3,13 +3,12 @@
 import { load as loadImportTarget } from 'typedoc-plugin-import-target';
 import { load as loadDtLinks } from 'typedoc-plugin-dt-links';
 import { load as loadMdnLinks } from 'typedoc-plugin-mdn-links';
-import { load as loadGithubTheme } from 'typedoc-github-theme';
 
 import { OptionDefaults } from 'typedoc';
 
 /** @type {Partial<import("typedoc").TypeDocOptions>} */
 const config = {
-  entryPoints: ['./lib/es', './lib/types'],
+  entryPoints: ['./lib/es', './lib/types', './lib/mime', './parse/mime'],
   entryPointStrategy: 'packages',
   outputs: [
     {
@@ -21,12 +20,19 @@ const config = {
     includeCategories: true,
     includeFolders: false,
   },
-  plugin: [loadImportTarget, loadMdnLinks, loadDtLinks, loadGithubTheme],
+  plugin: [loadImportTarget, loadMdnLinks, loadDtLinks],
   packageOptions: {
     includeVersion: true,
     blockTags: [...OptionDefaults.blockTags, '@importTarget'],
     // some strange empty category...
     excludeCategories: ['Type'],
+    navigation: {
+      includeCategories: true,
+      includeFolders: false,
+    },
+    jsDocCompatibility: {
+      exampleTag: false,
+    },
     externalSymbolLinkMappings: {
       global: {
         TypeError:

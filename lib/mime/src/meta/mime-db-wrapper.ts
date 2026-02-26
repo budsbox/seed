@@ -65,13 +65,6 @@ export type MimeDb = Record<`${string}/${string}` | MimeDbKey, MimeDbRecord>;
  *
  * This object maps MIME type strings to their corresponding {@link MimeDbRecord} entries,
  * including information about file extensions, compressibility, character sets, and sources.
- *
- * @example
- * ```typescript
- * // Look up a MIME type
- * const jsonType = mimeDb['application/json'];
- * console.log(jsonType?.extensions); // ['json']
- * ```
  */
 export const mimeDb = mimeDbRaw as MimeDb;
 
