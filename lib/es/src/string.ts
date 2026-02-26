@@ -293,7 +293,7 @@ export function joinPath(
 export function splitPath(path: string, keepEmptyChunks = false): string[] {
   assertString(path, 'path');
   assertBoolean(keepEmptyChunks, 'keepEmptyChunks');
-  const splitted = path.split(/\/+/);
+  const splitted = path.split(keepEmptyChunks ? '/' : /\/+/);
   return keepEmptyChunks ? splitted : (
       splitted.filter((chunk) => chunk.length > 0)
     );

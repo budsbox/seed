@@ -1,10 +1,15 @@
+/* eslint-disable @typescript-eslint/consistent-type-assertions */
 import { describe, expect, test } from 'vitest';
 
 import {
+  clampWS,
   formatPackageName,
+  joinPath,
+  joinWithConjunction,
   parsePackageName,
   resolvePackageName,
   serializePackageName,
+  splitPath,
 } from '#string';
 
 describe.concurrent('parsePackageName', () => {
@@ -430,6 +435,314 @@ describe.concurrent('formatPackageName', () => {
       new TypeError(
         'Expected excludePathChunks[0] to be string, got number instead',
       ),
+    );
+  });
+});
+
+describe.concurrent('clampWS', () => {
+  test('trims leading whitespace', () => {
+    expect(clampWS('   hello')).toBe('hello');
+  });
+
+  test('trims trailing whitespace', () => {
+    expect(clampWS('hello   ')).toBe('hello');
+  });
+
+  test('trims both leading and trailing whitespace', () => {
+    expect(clampWS('   hello   ')).toBe('hello');
+  });
+
+  test('collapses multiple spaces into single space', () => {
+    expect(clampWS('hello    world')).toBe('hello world');
+  });
+
+  test('collapses multiple whitespace characters including tabs and newlines', () => {
+    expect(clampWS('hello  \t\n  world')).toBe('hello world');
+  });
+
+  test('handles string with no whitespace', () => {
+    expect(clampWS('hello')).toBe('hello');
+  });
+
+  test('handles empty string', () => {
+    expect(clampWS('')).toBe('');
+  });
+
+  test('handles string with only whitespace', () => {
+    expect(clampWS('   \t\n   ')).toBe('');
+  });
+
+  test('handles string with multiple words', () => {
+    expect(clampWS('  one   two  \t three\n  four  ')).toBe(
+      'one two three four',
+    );
+  });
+
+  test('throws TypeError for non-string input', () => {
+    expect(() => clampWS(123 as never)).toThrowError(
+      new TypeError('Expected str to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for null input', () => {
+    expect(() => clampWS(null as never)).toThrowError(
+      new TypeError('Expected str to be string, got null instead'),
+    );
+  });
+
+  test('throws TypeError for undefined input', () => {
+    expect(() => clampWS(undefined as never)).toThrowError(
+      new TypeError('Expected str to be string, got undefined instead'),
+    );
+  });
+});
+
+describe.concurrent('joinPath', () => {
+  test('joins two path parts', () => {
+    expect(joinPath('foo', 'bar')).toBe('foo/bar');
+  });
+
+  test('joins multiple path parts', () => {
+    expect(joinPath('foo', 'bar', 'baz')).toBe('foo/bar/baz');
+  });
+
+  test('removes trailing slashes from parts', () => {
+    expect(joinPath('foo/', 'bar')).toBe('foo/bar');
+  });
+
+  test('removes leading slashes from parts', () => {
+    expect(joinPath('foo', '/bar')).toBe('foo/bar');
+  });
+
+  test('removes both leading and trailing slashes', () => {
+    expect(joinPath('foo/', '/bar')).toBe('foo/bar');
+  });
+
+  test('removes multiple consecutive slashes', () => {
+    expect(joinPath('foo///', '///bar')).toBe('foo/bar');
+  });
+
+  test('ignores empty strings', () => {
+    expect(joinPath('foo', '', 'bar')).toBe('foo/bar');
+  });
+
+  test('ignores first part being empty', () => {
+    expect(joinPath('', 'foo', 'bar')).toBe('foo/bar');
+  });
+
+  test('handles number parts', () => {
+    expect(joinPath('foo', 42, 'bar')).toBe('foo/42/bar');
+  });
+
+  test('handles boolean parts', () => {
+    expect(joinPath('foo', true, 'bar', false)).toBe('foo/true/bar/false');
+  });
+
+  test('ignores null parts', () => {
+    expect(joinPath('foo', null, 'bar')).toBe('foo/bar');
+  });
+
+  test('ignores undefined parts', () => {
+    expect(joinPath('foo', undefined, 'bar')).toBe('foo/bar');
+  });
+
+  test('handles mixed null and undefined parts', () => {
+    expect(joinPath('foo', null, undefined, 'bar')).toBe('foo/bar');
+  });
+
+  test('handles only null and undefined parts', () => {
+    expect(joinPath(null, undefined)).toBe('');
+  });
+
+  test('handles no arguments', () => {
+    expect(joinPath()).toBe('');
+  });
+
+  test('handles single part', () => {
+    expect(joinPath('foo')).toBe('foo');
+  });
+
+  test('handles absolute path as first part', () => {
+    expect(joinPath('/root', 'foo', 'bar')).toBe('/root/foo/bar');
+  });
+
+  test('throws TypeError for invalid part type', () => {
+    expect(() => joinPath('foo', {} as never)).toThrowError(
+      new TypeError(
+        'Expected parts[1] to be string, number, boolean, or null or undefined, got object instead',
+      ),
+    );
+  });
+
+  test('throws TypeError for array part', () => {
+    expect(() => joinPath('foo', [] as never)).toThrowError(
+      new TypeError(
+        'Expected parts[1] to be string, number, boolean, or null or undefined, got array instead',
+      ),
+    );
+  });
+});
+
+describe.concurrent('splitPath', () => {
+  test('splits path by forward slash', () => {
+    expect(splitPath('foo/bar/baz')).toStrictEqual(['foo', 'bar', 'baz']);
+  });
+
+  test('splits path with single part', () => {
+    expect(splitPath('foo')).toStrictEqual(['foo']);
+  });
+
+  test('removes empty chunks by default', () => {
+    expect(splitPath('foo//bar')).toStrictEqual(['foo', 'bar']);
+  });
+
+  test('removes multiple consecutive slashes', () => {
+    expect(splitPath('foo///bar////baz')).toStrictEqual(['foo', 'bar', 'baz']);
+  });
+
+  test('removes leading slash', () => {
+    expect(splitPath('/foo/bar')).toStrictEqual(['foo', 'bar']);
+  });
+
+  test('removes trailing slash', () => {
+    expect(splitPath('foo/bar/')).toStrictEqual(['foo', 'bar']);
+  });
+
+  test('removes both leading and trailing slashes', () => {
+    expect(splitPath('/foo/bar/')).toStrictEqual(['foo', 'bar']);
+  });
+
+  test('handles empty string', () => {
+    expect(splitPath('')).toStrictEqual([]);
+  });
+
+  test('handles only slashes', () => {
+    expect(splitPath('///')).toStrictEqual([]);
+  });
+
+  test('keeps empty chunks when keepEmptyChunks is true', () => {
+    expect(splitPath('foo//bar', true)).toStrictEqual(['foo', '', 'bar']);
+  });
+
+  test('keeps leading empty chunk when keepEmptyChunks is true', () => {
+    expect(splitPath('/foo/bar', true)).toStrictEqual(['', 'foo', 'bar']);
+  });
+
+  test('keeps trailing empty chunk when keepEmptyChunks is true', () => {
+    expect(splitPath('foo/bar/', true)).toStrictEqual(['foo', 'bar', '']);
+  });
+
+  test('keeps all empty chunks when keepEmptyChunks is true', () => {
+    expect(splitPath('foo///bar', true)).toStrictEqual(['foo', '', '', 'bar']);
+  });
+
+  test('returns single empty string for empty path with keepEmptyChunks', () => {
+    expect(splitPath('', true)).toStrictEqual(['']);
+  });
+
+  test('keeps empty chunks for only slashes when keepEmptyChunks is true', () => {
+    expect(splitPath('///', true)).toStrictEqual(['', '', '', '']);
+  });
+
+  test('handles single slash', () => {
+    expect(splitPath('/')).toStrictEqual([]);
+  });
+
+  test('handles single slash with keepEmptyChunks', () => {
+    expect(splitPath('/', true)).toStrictEqual(['', '']);
+  });
+
+  test('throws TypeError for non-string path', () => {
+    expect(() => splitPath(123 as never)).toThrowError(
+      new TypeError('Expected path to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for null path', () => {
+    expect(() => splitPath(null as never)).toThrowError(
+      new TypeError('Expected path to be string, got null instead'),
+    );
+  });
+
+  test('throws TypeError for non-boolean keepEmptyChunks', () => {
+    expect(() => splitPath('foo/bar', 'invalid' as never)).toThrowError(
+      new TypeError(
+        'Expected keepEmptyChunks to be boolean, got string instead',
+      ),
+    );
+  });
+});
+
+describe.concurrent('joinWithConjunction', () => {
+  test('joins two items with conjunction', () => {
+    expect(joinWithConjunction(['foo', 'bar'], 'and')).toBe('foo and bar');
+  });
+
+  test('joins three items with conjunction', () => {
+    expect(joinWithConjunction(['foo', 'bar', 'baz'], 'and')).toBe(
+      'foo, bar, and baz',
+    );
+  });
+
+  test('joins multiple items with conjunction', () => {
+    expect(joinWithConjunction(['a', 'b', 'c', 'd'], 'and')).toBe(
+      'a, b, c, and d',
+    );
+  });
+
+  test('uses "or" as conjunction', () => {
+    expect(joinWithConjunction(['foo', 'bar', 'baz'], 'or')).toBe(
+      'foo, bar, or baz',
+    );
+  });
+
+  test('handles single item', () => {
+    expect(joinWithConjunction(['foo'], 'and')).toBe('foo');
+  });
+
+  test('handles empty array', () => {
+    expect(joinWithConjunction([], 'and')).toBe('');
+  });
+
+  test('handles custom conjunction', () => {
+    expect(joinWithConjunction(['foo', 'bar', 'baz'], 'nor')).toBe(
+      'foo, bar, nor baz',
+    );
+  });
+
+  test('throws TypeError for non-array items', () => {
+    expect(() => joinWithConjunction('invalid' as never, 'and')).toThrowError(
+      new TypeError('Expected items to be array, got string instead'),
+    );
+  });
+
+  test('throws TypeError for array with non-string elements', () => {
+    expect(() => joinWithConjunction([123] as never, 'and')).toThrowError(
+      new TypeError('Expected items[0] to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for array with mixed types', () => {
+    expect(() =>
+      joinWithConjunction(['foo', null] as never, 'and'),
+    ).toThrowError(
+      new TypeError('Expected items[1] to be string, got null instead'),
+    );
+  });
+
+  test('throws TypeError for non-string conjunction', () => {
+    expect(() =>
+      joinWithConjunction(['foo', 'bar'], 123 as never),
+    ).toThrowError(
+      new TypeError('Expected conjunction to be string, got number instead'),
+    );
+  });
+
+  test('throws TypeError for null conjunction', () => {
+    expect(() =>
+      joinWithConjunction(['foo', 'bar'], null as never),
+    ).toThrowError(
+      new TypeError('Expected conjunction to be string, got null instead'),
     );
   });
 });
