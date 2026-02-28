@@ -8,26 +8,22 @@ describe('canonicalize', () => {
   test.for(entries(defaultAliasesMap))(
     'canonicalize aliases of %s',
     ([key, value]) => {
-      expect(canonicalize(key, { noDefaultCharset: true })).toBe(key);
-      value.forEach((v) =>
-        expect(canonicalize(v, { noDefaultCharset: true })).toBe(key),
-      );
+      expect(canonicalize(key)).toBe(key);
+      value.forEach((v) => expect(canonicalize(v)).toBe(key));
     },
   );
 
-  test('canonicalize with custom alias', () => {
+  test('canonicalize with custom direct alias', () => {
     expect(
       canonicalize('application/livescript', {
-        noDefaultCharset: true,
         aliases: { 'application/javascript': 'application/livescript' },
       }),
     ).toBe('application/javascript');
   });
 
-  test('canonicalize with custom canonical alias', () => {
+  test('canonicalize with custom alias for canonical', () => {
     expect(
       canonicalize('application/livescript', {
-        noDefaultCharset: true,
         aliases: { 'application/javascript': 'text/javascript' },
       }),
     ).toBe('application/javascript');
@@ -36,7 +32,7 @@ describe('canonicalize', () => {
   test('canonicalize with default charset', () => {
     expect(
       canonicalize('application/livescript', {
-        noDefaultCharset: false,
+        setCharset: true,
       }),
     ).toBe('text/javascript;charset=utf-8');
   });

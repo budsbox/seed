@@ -37,7 +37,7 @@ import { type MimeDbSource, mimeDb } from './mime-db-wrapper.js';
 /** @ignore */
 export function canonicalize(
   essence: MimeTypeEssence,
-  options?: MetaResolveOptions & { noDefaultCharset: true },
+  options?: MetaResolveOptions & { setCharset?: false },
 ): MimeTypeEssence;
 
 /**
@@ -47,12 +47,20 @@ export function canonicalize(
  * @param options - Resolution options including alias mappings and charset behavior
  * @returns The canonical MIME type in the same format as the input
  * @typeParam TInput - The input MIME type format (string or {@link MimeType} object)
+ * @see {@link defaultAliasesMap defaultAliasesMap} — for default canonical to aliases mapping.
  * @example
  * ```typescript
+ * // default canonicalization
  * canonicalize('application/javascript');
- * // => 'text/javascript;charset=utf-8'
- * canonicalize('application/x-gzip');
- * // => 'application/gzip'
+ * // => 'text/javascript'
+ *
+ * // set alias for the type
+ * canonicalize('application/javascript', {aliases: {'text/ecmascript': 'application/javascript'}});
+ * // => 'text/ecmascript'
+ *
+ * // override the default canonical type
+ * canonicalize('application/javascript', {aliases: {'application/ecmascript': 'text/javascript'}});
+ * // => 'application/ecmascript'
  * ```
  */
 export function canonicalize<TInput extends MimeTypeInput>(
@@ -64,17 +72,14 @@ export function canonicalize(
   options: MetaResolveOptions = {},
 ): OutputType {
   const mimeType = parse(mimeInput);
-  const { aliases, noDefaultCharset } = normalizeOptions(options);
+  const { aliases, setCharset } = normalizeOptions(options);
   const lookup = buildExtendedLookup(aliases);
-
   const resolvedEssence = lookup.get(mimeType.essence) ?? mimeType.essence;
   const resolvedMimeType =
     resolvedEssence === mimeType.essence ?
       mimeType
     : update(mimeType, 'essence', resolvedEssence);
-  if (noDefaultCharset || mimeType.parameters.has('charset')) {
-    return produceOutput(mimeInput, resolvedMimeType);
-  } else {
+  if (setCharset && !mimeType.parameters.has('charset')) {
     const { charset } = getMergedMeta(resolvedEssence, options);
 
     return produceOutput(
@@ -84,6 +89,8 @@ export function canonicalize(
       : resolvedMimeType,
     );
   }
+
+  return produceOutput(mimeInput, resolvedMimeType);
 }
 
 /**
@@ -276,7 +283,7 @@ const getMergedMeta = (
     : [],
   );
   typesToMerge.push(
-    canonicalize(typeEssence, { ...options, noDefaultCharset: true }),
+    canonicalize(typeEssence, { ...options, setCharset: false }),
   );
 
   return mergeMeta(typesToMerge);

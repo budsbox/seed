@@ -91,6 +91,15 @@ export type EssenceLookup = Map<MimeTypeEssence, MimeTypeEssence>;
 export interface MetaResolveOptions {
   /**
    * Custom mapping of canonical MIME type essences to their aliases.
+   *
+   * `aliases` lets you **override what counts as canonical** for specific MIME values.
+   * Think of it as: “when you see this alias, canonicalize it to that preferred type.”
+   * The object key is the preferred result, and the value is one alias (or many aliases) that should collapse to that key.
+   * During canonicalization, your custom aliases are applied together with the {@link meta!defaultAliasesMap defaults},
+   * but your entries can redirect resolution (including aliases already known by default).
+   * So you can either add support for new alias strings or change which canonical type an existing alias resolves to.
+   *
+   * @see {@link meta!defaultAliasesMap defaultAliasesMap} — for default canonical to aliases mapping.
    */
   readonly aliases?: EssenceAliasesMap;
 
@@ -100,14 +109,14 @@ export interface MetaResolveOptions {
   readonly db?: MimeDb;
 
   /**
-   * If `true`, disables the behavior when MIME type extended with its default charset, if possible.
-   */
-  readonly noDefaultCharset?: boolean;
-
-  /**
    * If `true`, aliased records won't be merged into the result (only the record of a given type will be returned).
    */
   readonly noMerge?: boolean;
+
+  /**
+   * Specifies whether a `charset` parameter should be set to default value (if present in `mime-db`).
+   */
+  readonly setCharset?: boolean;
 }
 
 /**

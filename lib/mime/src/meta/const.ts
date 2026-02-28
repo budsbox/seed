@@ -223,13 +223,19 @@ export const defaultAliasesMap: Readonly<
 
 [defaultAliasesMap, ...Object.values(defaultAliasesMap)].forEach(Object.freeze);
 
+/**
+ * Immutable object containing default metadata for MIME types.
+ */
 export const defaultMeta = Object.freeze({
   extensions: new ROSet(),
 } as const satisfies MimeTypeMeta);
 
+/**
+ * Immutable default options used for resolving metadata.
+ */
 export const defaultResolveOptions = Object.freeze({
   aliases: Object.freeze({}),
-  noDefaultCharset: false,
+  setCharset: false,
   noMerge: false,
   db: mimeDb,
 } as const satisfies Required<MetaResolveOptions>);
