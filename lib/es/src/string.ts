@@ -40,11 +40,15 @@ import {
   isNotNil,
   isNumber,
   isObject,
+  isPropKey,
   isString,
   isUndef,
   somePredicate,
 } from '#guards';
-import { joinWithConjunction as _joinWithConjunction } from '#guards/format';
+import {
+  joinWithConjunction as _joinWithConjunction,
+  formatAccessString,
+} from '#guards/format';
 
 export type { PackageNameFormatOptions, ParsedPackageName };
 
@@ -403,4 +407,27 @@ export function joinWithConjunction(
   assertString(conjunction, 'conjunction');
 
   return _joinWithConjunction(items, conjunction);
+}
+
+/**
+ * Constructs a dot-notation or bracket-notation string representation
+ * for accessing nested properties of an object based on the provided keys.
+ *
+ * @internal
+ * @param sourceName - The base name of the object or source from which properties are being accessed.
+ * @param keys - A variadic list of property keys representing the nested path.
+ * Each key will be used to generate the accessor string.
+ * @returns A string representing the accessor path in dot-notation for valid identifiers
+ * or bracket-notation for non-identifier keys.
+ * @remarks This function considers "valid" for identifiers only alphanumeric characters,
+ * underscores, and dollar signs.
+ */
+export function formatPropAccessor(
+  sourceName: string,
+  ...keys: readonly PropertyKey[]
+): string {
+  assertString(sourceName, 'sourceName');
+  assertArray(keys, isPropKey, 'keys');
+
+  return formatAccessString(sourceName, ...keys);
 }
