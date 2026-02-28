@@ -235,7 +235,8 @@ export const defaultMeta = Object.freeze({
  */
 export const defaultResolveOptions = Object.freeze({
   aliases: Object.freeze({}),
-  setCharset: false,
-  noMerge: false,
   db: mimeDb,
+  keepCharsetCase: false,
+  noMerge: false,
+  setCharset: false,
 } as const satisfies Required<MetaResolveOptions>);

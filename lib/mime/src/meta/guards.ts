@@ -10,7 +10,7 @@ import {
   textDataSuffixes,
 } from './const.js';
 import { mimeDb } from './mime-db-wrapper.js';
-import { canonicalize, getMetaInfo, getSource } from './query.js';
+import { canonicalize, getMeta, getSource } from './query.js';
 
 /* ═══════════════════════════════ By Source ════════════════════════════════ */
 
@@ -502,7 +502,7 @@ export const isCompressible = (
   defaultValue = false,
 ): boolean => {
   const record = parse(mimeInput);
-  const { compressible } = getMetaInfo(record);
+  const { compressible } = getMeta(record);
   if (isBoolean(compressible)) return compressible;
   if (isArchive(record)) return false;
   if (isTextData(record)) return true;

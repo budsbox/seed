@@ -20,9 +20,17 @@ import type {
 } from './types.js';
 
 import { ensureArray } from '@budsbox/lib-es/array';
-import { hasProp, isString } from '@budsbox/lib-es/guards';
+import {
+  assertSome,
+  assertString,
+  hasProp,
+  isMap,
+  isObject,
+  isString,
+} from '@budsbox/lib-es/guards';
 import { entries } from '@budsbox/lib-es/object';
 import { ROSet, union } from '@budsbox/lib-es/set';
+import { formatPropAccessor } from '@budsbox/lib-es/string';
 
 import { parse, produceOutput, setParameter, update } from '#lib';
 
@@ -105,7 +113,7 @@ export function canonicalize(
  * @returns Complete metadata object for the MIME type
  * @example
  * ```typescript
- * getMetaInfo('application/json');
+ * getMeta('application/json');
  * // {
  * // extensions: ReadonlySet(2) { 'json', 'map' },
  * // source: 'iana',
@@ -114,14 +122,14 @@ export function canonicalize(
  * // }
  * ```
  */
-export function getMetaInfo(
+export function getMeta(
   mimeInput: MimeTypeInput,
   options?: MetaResolveOptions,
 ): MimeTypeMeta {
   const mimeType = parse(mimeInput);
   const normOptions = normalizeOptions(options);
   return normOptions.noMerge ?
-      resolveMeta(mimeType.essence)
+      resolveMeta(mimeType.essence, normOptions)
     : getMergedMeta(mimeType.essence, normOptions);
 }
 
@@ -146,7 +154,7 @@ export function getMetaInfo(
  * ```
  */
 export function getSource(mimeInput: MimeTypeInput): MimeDbSource | null {
-  return getMetaInfo(mimeInput, { noMerge: true }).source ?? null;
+  return getMeta(mimeInput, { noMerge: true }).source ?? null;
 }
 
 /**
@@ -178,7 +186,7 @@ export function getCharset(
   const mimeType = parse(mimeInput);
   return (
     ensureArray(mimeType.parameters.get('charset'))[0] ??
-    getMetaInfo(mimeType, options).charset
+    getMeta(mimeType, options).charset
   );
 }
 
@@ -220,7 +228,9 @@ export function getStructuredDataType(
  * extensions list for each MIME type.
  *
  * @param extOrName - File extension (with or without dot) or full filename
- * @returns Array of MIME type essences sorted by priority, or empty array if none found
+ * @param customMap - A lookup from extension to mime type (essence). Overrides the default lookup.
+ * @returns Array of MIME type essences sorted by priority, or empty array if none found.
+ * @remarks This function **always** returns {@link defaultAliasesMap canonical types}, though you can override them using `customMap`.
  * @example
  * ```typescript
  * getMimesByExtension('json');
@@ -229,12 +239,35 @@ export function getStructuredDataType(
  * getMimesByExtension('.txt');
  * // => ['text/plain']
  *
- * getMimesByExtension('document.pdf');
- * // => ['application/pdf']
+ * getMimesByExtension('index.js', {js: 'application/javascript'});
+ * // => ['application/javascript']
+ *
+ * getMimeByExtension('')
  * ```
  */
-export function getMimesByExtension(extOrName: string): MimeTypeEssence[] {
+export function getMimesByExt(
+  extOrName: string,
+  customMap?:
+    | Map<string, MimeTypeEssence>
+    | { readonly [x: string]: MimeTypeEssence },
+): MimeTypeEssence[] {
+  assertString(extOrName, 'extOrName');
+  assertSome(customMap, 'customMap', isMap, isObject);
+
   const ext = extOrName.split('.').at(-1) ?? '';
+
+  if (isMap(customMap) && customMap.has(ext)) {
+    const value = customMap.get(ext);
+    assertString(value, 'customMap.get("${ext}")');
+    return [value];
+  } else if (hasProp(customMap, ext)) {
+    const value = customMap[ext];
+    assertString(value, formatPropAccessor('customMap', ext));
+    return [value];
+  }
+
+  if (ext === '') return ['application/octet-stream'];
+
   return entries(defaultExtensionsLookup.get(ext) ?? {})
     .toSorted(([, v1], [, v2]) => v2 - v1)
     .map(([essence]) => essence);
@@ -244,9 +277,10 @@ export function getMimesByExtension(extOrName: string): MimeTypeEssence[] {
  * Retrieves the primary MIME type for a file extension.
  *
  * Returns the highest priority MIME type associated with the given extension.
- * This is a convenience function that returns the first element from {@link getMimesByExtension}.
+ * This is a convenience function that returns the first element from {@link getMimesByExt}.
  *
  * @param extOrName - File extension (with or without dot) or full filename
+ * @param customMap - Custom lookup of file extensions to MIME types.
  * @returns The primary MIME type essence, or `undefined` if no match found
  * @example
  * ```typescript
@@ -263,10 +297,13 @@ export function getMimesByExtension(extOrName: string): MimeTypeEssence[] {
  * // => undefined
  * ```
  */
-export function getMimeByExtension(
+export function getMimeByExt(
   extOrName: string,
+  customMap?:
+    | Map<string, MimeTypeEssence>
+    | { readonly [x: string]: MimeTypeEssence },
 ): MimeTypeEssence | undefined {
-  return getMimesByExtension(extOrName)[0];
+  return getMimesByExt(extOrName, customMap)[0];
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERNALS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
@@ -312,7 +349,7 @@ const resolveMeta = (
   essenceOrDbRecord?: MergeMetaInput,
   options: MetaResolveOptions = {},
 ): MimeTypeMeta => {
-  const { db } = normalizeOptions(options);
+  const { db, keepCharsetCase } = normalizeOptions(options);
 
   const dbRecord =
     isString(essenceOrDbRecord) ? db[essenceOrDbRecord] : essenceOrDbRecord;
@@ -320,6 +357,9 @@ const resolveMeta = (
   return {
     ...defaultMeta,
     ...dbRecord,
+    ...(!keepCharsetCase && hasProp(dbRecord, 'charset') ?
+      { charset: dbRecord.charset.toLowerCase() }
+    : undefined),
     extensions: new ROSet(dbRecord?.extensions ?? defaultMeta.extensions),
   };
 };
@@ -371,18 +411,20 @@ export const defaultsMeta = Object.keys(mimeDb).reduce<
 >((map, essence) => {
   const canonical = canonicalize(essence);
   if (!map.has(canonical)) {
-    map.set(canonical, getMetaInfo(canonical));
+    map.set(canonical, getMeta(canonical));
   }
 
   return map;
 }, new Map());
 
 const defaultExtensionsLookup = [...defaultsMeta]
-  .filter(([essence]) => essence !== 'application/octet-stream')
   .flatMap(([essence, { extensions, source }]) => {
+    // prioritize iana
     const sourceWt = source === 'iana' ? 100 : 0;
+    // deprioritize application/octet-stream
+    const octetStreamWt = essence === 'application/octet-stream' ? -50 : 0;
     return [...extensions.keys()].map(
-      (ext, i) => [ext, essence, sourceWt + 5 - i] as const,
+      (ext, i) => [ext, essence, sourceWt + octetStreamWt + 5 - i] as const,
     );
   })
   .reduce<Map<string, Record<MimeTypeEssence, number>>>(
