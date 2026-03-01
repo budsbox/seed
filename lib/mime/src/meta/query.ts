@@ -24,9 +24,11 @@ import {
   assertSome,
   assertString,
   hasProp,
+  isKeyOf,
   isMap,
   isObject,
   isString,
+  isUndef,
 } from '@budsbox/lib-es/guards';
 import { entries } from '@budsbox/lib-es/object';
 import { ROSet, union } from '@budsbox/lib-es/set';
@@ -220,8 +222,8 @@ export function getStructuredDataType(
   mimeInput: MimeTypeInput,
 ): MimeTypeEssence {
   const { suffix, essence } = parse(mimeInput);
-  return isString(suffix) && hasProp(suffixToMediaTypeLookup, suffix) ?
-      (suffixToMediaTypeLookup[suffix] as MimeTypeEssence)
+  return isString(suffix) && isKeyOf(suffix, suffixToMediaTypeLookup) ?
+      suffixToMediaTypeLookup[suffix]
     : essence;
 }
 
@@ -258,7 +260,7 @@ export function getMimesByExt(
     | { readonly [x: string]: MimeTypeEssence },
 ): MimeTypeEssence[] {
   assertString(extOrName, 'extOrName');
-  assertSome(customMap, 'customMap', isMap, isObject);
+  assertSome(customMap, 'customMap', isMap, isObject, isUndef);
 
   const ext = extOrName.split('.').at(-1) ?? '';
 
@@ -405,11 +407,15 @@ const buildAliasLookup = (
   );
 
 const normalizeOptions = (
-  options: MetaResolveOptions = {},
-): Required<MetaResolveOptions> => ({
-  ...defaultResolveOptions,
-  ...options,
-});
+  options?: MetaResolveOptions,
+): Required<MetaResolveOptions> => {
+  assertSome(options, 'options', isObject, isUndef);
+
+  return {
+    ...defaultResolveOptions,
+    ...options,
+  };
+};
 
 const defaultLookup = buildAliasLookup(defaultAliasesMap);
 
