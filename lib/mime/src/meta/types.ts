@@ -22,6 +22,7 @@ import type { MimeDb, MimeDbRecord } from './mime-db-wrapper.js';
  *   source: 'iana'
  * };
  * ```
+ * @category General
  */
 export type MimeTypeMeta = Infer<
   Merge<
@@ -51,6 +52,7 @@ export type MimeTypeMeta = Infer<
  *   'text/html': 'text/x-html'
  * };
  * ```
+ * @category General
  */
 export interface EssenceAliasesMap {
   readonly [essence: MimeTypeEssence]: Readonly<Arrayable<MimeTypeEssence>>;
@@ -78,6 +80,7 @@ export type EssenceLookup = Map<MimeTypeEssence, MimeTypeEssence>;
  * Controls alias resolution, database selection, charset behavior, and metadata merging.
  *
  * @inline
+ * @category General
  */
 export interface MetaResolveOptions {
   /**

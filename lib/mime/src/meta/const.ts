@@ -12,6 +12,8 @@ import { mimeDb } from './mime-db-wrapper.js';
 
 /**
  * Additional font MIME type essences that should be treated as fonts.
+ *
+ * @category General
  */
 export const extraFontTypes = new ROSet<MimeTypeEssence>([
   'application/vnd.ms-fontobject',
@@ -19,6 +21,8 @@ export const extraFontTypes = new ROSet<MimeTypeEssence>([
 
 /**
  * Additional archive MIME type essences that should be treated as archives.
+ *
+ * @category General
  */
 export const extraArchiveTypes = new ROSet<MimeTypeEssence>([
   'application/x-bzip',
@@ -29,6 +33,8 @@ export const extraArchiveTypes = new ROSet<MimeTypeEssence>([
 
 /**
  * MIME type suffixes that typically indicate text-friendly structured data.
+ *
+ * @category General
  */
 export const textDataSuffixes = new ROSet<MimeTypeSuffix>([
   '+json',
@@ -40,6 +46,14 @@ export const textDataSuffixes = new ROSet<MimeTypeSuffix>([
   '+csv',
 ]);
 
+/**
+ * This object provides a standardized way to associate well-known suffixes with their media type string representations.
+ *
+ * @remarks
+ * - The suffixes are prefixed with a plus sign (`+`) to denote specific encoding or format extensions.
+ * - The mapping is read-only
+ * @category General
+ */
 export const suffixToMediaTypeLookup = Object.freeze({
   '+cbor': 'application/cbor',
   '+cbor-seq': 'application/cbor-seq',
@@ -80,6 +94,8 @@ export const suffixToMediaTypeLookup = Object.freeze({
  * - {@link https://gist.github.com/fnagel/259567/85859f9685e8fb1abe12d2e869831a615317e7f6}
  * - {@link https://github.com/fnagel/pluploadfe/blob/64eab6f483bdc5907dd868c73d1bac6bae3bf982/Classes/Statics/MimeTypes.php}
  * - {@link https://github.com/jshttp/mime-db `mime-db`} package
+ *
+ * @category General
  */
 export const defaultAliasesMap: Readonly<
   Record<MimeTypeEssence, MimeTypeEssence[]>

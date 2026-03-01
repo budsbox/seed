@@ -1,8 +1,8 @@
 /**
- * @module
- *
  * Provides utilities for querying and resolving MIME type metadata, including
  * canonicalization, charset resolution, and structured data type detection.
+ *
+ * @module
  */
 
 import type {
@@ -70,6 +70,7 @@ export function canonicalize(
  * canonicalize('application/javascript', {aliases: {'application/ecmascript': 'text/javascript'}});
  * // => 'application/ecmascript'
  * ```
+ * @category General
  */
 export function canonicalize<TInput extends MimeTypeInput>(
   mimeInput: TInput,
@@ -121,6 +122,7 @@ export function canonicalize(
  * // compressible: true
  * // }
  * ```
+ * @category General
  */
 export function getMeta(
   mimeInput: MimeTypeInput,
@@ -152,6 +154,7 @@ export function getMeta(
  * getSource('application/custom-type');
  * // => null
  * ```
+ * @category General
  */
 export function getSource(mimeInput: MimeTypeInput): MimeDbSource | null {
   return getMeta(mimeInput, { noMerge: true }).source ?? null;
@@ -178,6 +181,7 @@ export function getSource(mimeInput: MimeTypeInput): MimeDbSource | null {
  * getCharset('image/png');
  * // => undefined (binary types don't have charsets)
  * ```
+ * @category General
  */
 export function getCharset(
   mimeInput: MimeTypeInput,
@@ -210,6 +214,7 @@ export function getCharset(
  * getStructuredDataType('application/json');
  * // => 'application/json' (no suffix, returns original)
  * ```
+ * @category General
  */
 export function getStructuredDataType(
   mimeInput: MimeTypeInput,
@@ -244,6 +249,7 @@ export function getStructuredDataType(
  *
  * getMimeByExtension('')
  * ```
+ * @category General
  */
 export function getMimesByExt(
   extOrName: string,
@@ -296,6 +302,7 @@ export function getMimesByExt(
  * getMimeByExtension('unknown');
  * // => undefined
  * ```
+ * @category General
  */
 export function getMimeByExt(
   extOrName: string,

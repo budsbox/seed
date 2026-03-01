@@ -21,6 +21,7 @@ import { canonicalize, getMeta, getSource } from './query.js';
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME input is found in the database; otherwise, `false`.
+ * @category Checks
  */
 export const isWellKnown = (mimeInput: MimeTypeInput): boolean =>
   hasProp(mimeDb, parse(mimeInput).essence);
@@ -32,6 +33,7 @@ export const isWellKnown = (mimeInput: MimeTypeInput): boolean =>
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type input's source is "iana", otherwise `false`.
+ * @category Checks
  */
 export const isIana = (mimeInput: MimeTypeInput): boolean =>
   getSource(mimeInput) === 'iana';
@@ -43,6 +45,7 @@ export const isIana = (mimeInput: MimeTypeInput): boolean =>
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type input's source is "apache", otherwise `false`.
+ * @category Checks
  */
 export const isApache = (mimeInput: MimeTypeInput): boolean =>
   getSource(mimeInput) === 'apache';
@@ -54,6 +57,7 @@ export const isApache = (mimeInput: MimeTypeInput): boolean =>
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type input's source is "nginx", otherwise `false`.
+ * @category Checks
  */
 export const isNginx = (mimeInput: MimeTypeInput): boolean =>
   getSource(mimeInput) === 'nginx';
@@ -67,6 +71,7 @@ export const isNginx = (mimeInput: MimeTypeInput): boolean =>
  *
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked.
  * @returns `true` if the {@link MimeTypeInput MIME type input} is unregistered, otherwise `false`.
+ * @category Checks
  */
 export const isUnregistered = (mimeInput: MimeTypeInput): boolean =>
   !isIana(mimeInput);
@@ -78,6 +83,7 @@ export const isUnregistered = (mimeInput: MimeTypeInput): boolean =>
  *
  * @param mimeInput - {@link MimeTypeInput MIME type input} to check
  * @returns true if type is in the Standards tree, false otherwise.
+ * @category Checks
  */
 export const isStandardsTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -89,6 +95,7 @@ export const isStandardsTree = (mimeInput: MimeTypeInput): boolean => {
  *
  * @param mimeInput - {@link MimeTypeInput MIME type input} to check
  * @returns true if type is in the Vendor tree, false otherwise.
+ * @category Checks
  */
 export const isVendorTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -100,6 +107,7 @@ export const isVendorTree = (mimeInput: MimeTypeInput): boolean => {
  *
  * @param mimeInput - {@link MimeTypeInput MIME type input} to check.
  * @returns true if type is in the Personal tree, false otherwise.
+ * @category Checks
  */
 export const isPersonalTree = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -116,6 +124,7 @@ export const isPersonalTree = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns A boolean indicating whether the MIME type is categorized as an image.
+ * @category Checks
  */
 export const isImage = (mimeInput: MimeTypeInput): boolean => {
   const record = parse(mimeInput),
@@ -130,6 +139,7 @@ export const isImage = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type is `image/svg+xml`, otherwise `false`.
+ * @category Checks
  */
 export const isSvg = (mimeInput: MimeTypeInput): boolean =>
   parse(mimeInput).essence === 'image/svg+xml';
@@ -140,6 +150,7 @@ export const isSvg = (mimeInput: MimeTypeInput): boolean =>
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type is `image/jpeg`, otherwise `false`.
+ * @category Checks
  */
 export const isJpeg = (mimeInput: MimeTypeInput): boolean =>
   parse(mimeInput).essence === 'image/jpeg';
@@ -150,6 +161,7 @@ export const isJpeg = (mimeInput: MimeTypeInput): boolean =>
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type is `image/png`, otherwise `false`.
+ * @category Checks
  */
 export const isPng = (mimeInput: MimeTypeInput): boolean =>
   parse(mimeInput).essence === 'image/png';
@@ -160,6 +172,7 @@ export const isPng = (mimeInput: MimeTypeInput): boolean =>
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type is `image/gif`, otherwise `false`.
+ * @category Checks
  */
 export const isGif = (mimeInput: MimeTypeInput): boolean =>
   parse(mimeInput).essence === 'image/gif';
@@ -173,6 +186,7 @@ export const isGif = (mimeInput: MimeTypeInput): boolean =>
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type is identified as an audio type, otherwise `false`.
+ * @category Checks
  */
 export const isAudio = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput),
@@ -189,6 +203,7 @@ export const isAudio = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type is a video type, otherwise `false`.
+ * @category Checks
  */
 export const isVideo = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput),
@@ -202,6 +217,7 @@ export const isVideo = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type corresponds to a playable audio or video format, or if it is identified as `application/ogg`.
+ * @category Checks
  */
 export const isPlayable = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -221,6 +237,7 @@ export const isPlayable = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type corresponds to a media type (image or playable), otherwise `false`.
+ * @category Checks
  */
 export const isMedia = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -238,6 +255,7 @@ export const isMedia = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type represents an XML format; otherwise, `false`.
+ * @category Checks
  */
 export const isXml = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -255,6 +273,7 @@ export const isXml = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns A boolean value indicating whether the MIME type corresponds to HTML.
+ * @category Checks
  */
 export const isHtml = (mimeInput: MimeTypeInput): boolean =>
   parse(mimeInput).essence === 'text/html';
@@ -268,6 +287,7 @@ export const isHtml = (mimeInput: MimeTypeInput): boolean =>
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type corresponds to JSON, otherwise `false`.
+ * @category Checks
  */
 export const isJson = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -285,6 +305,7 @@ export const isJson = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type represents a JSON Sequence; otherwise, `false`.
+ * @category Checks
  */
 export const isJsonSequence = (mimeInput: MimeTypeInput): boolean => {
   const { essence, suffix } = parse(mimeInput);
@@ -301,6 +322,7 @@ export const isJsonSequence = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type represents a YAML content type, otherwise `false`.
+ * @category Checks
  */
 export const isYaml = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -321,6 +343,7 @@ export const isYaml = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type corresponds to a CSV file, otherwise `false`.
+ * @category Checks
  */
 export const isCsv = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -340,12 +363,15 @@ export const isCsv = (mimeInput: MimeTypeInput): boolean => {
  * accepted by the {@link parse} function.
  * @returns A boolean indicating whether the input represents JavaScript.
  * @remarks Has alias `isJs`.
+ * @category Checks
  */
 export const isJavaScript = (mimeInput: MimeTypeInput): boolean =>
   canonicalize(parse(mimeInput)).essence === 'text/javascript';
 
 /**
  * Alias for {@link isJavaScript}.
+ *
+ * @category Checks
  */
 export const isJs = isJavaScript;
 
@@ -361,6 +387,7 @@ export const isJs = isJavaScript;
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type is identified as a ZIP format, otherwise `false`.
+ * @category Checks
  */
 export const isZip = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -379,6 +406,7 @@ export const isZip = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type indicates gzip compression, otherwise `false`.
+ * @category Checks
  */
 export const isGzip = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -397,6 +425,7 @@ export const isGzip = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns A boolean indicating whether the MIME type is an archive format.
+ * @category Checks
  */
 export const isArchive = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput);
@@ -420,6 +449,7 @@ export const isArchive = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type corresponds to a font type; otherwise `false`.
+ * @category Checks
  */
 export const isFont = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = canonicalize(parse(mimeInput));
@@ -435,6 +465,7 @@ export const isFont = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the type or subtype of the MIME type is 'example', otherwise `false`.
+ * @category Checks
  */
 export const isExample = (mimeInput: MimeTypeInput): boolean => {
   const { type, subtype } = parse(mimeInput);
@@ -449,6 +480,7 @@ export const isExample = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns `true` if the MIME type represents a CBOR type, otherwise `false`.
+ * @category Checks
  */
 export const isCbor = (mimeInput: MimeTypeInput): boolean => {
   const { suffix, essence } = parse(mimeInput);
@@ -467,6 +499,7 @@ export const isCbor = (mimeInput: MimeTypeInput): boolean => {
  * @param mimeInput - The {@link MimeTypeInput MIME type input} to be checked. It can be a string or object
  * accepted by the {@link parse} function.
  * @returns A boolean indicating whether the input is text-based data.
+ * @category Checks
  */
 export const isTextData = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput),
@@ -496,6 +529,7 @@ export const isTextData = (mimeInput: MimeTypeInput): boolean => {
  * accepted by the {@link parse} function.
  * @param defaultValue - The value to return when compressibility cannot be determined. Defaults to `false`.
  * @returns A boolean indicating whether the MIME type is compressible.
+ * @category Checks
  */
 export const isCompressible = (
   mimeInput: MimeTypeInput,
