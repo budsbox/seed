@@ -1,5 +1,13 @@
-import { canonicalize, getMeta, getCharset, getSource } from '#meta';
-import { defaultAliasesMap } from '#meta/const';
+import {
+  canonicalize,
+  getMeta,
+  getCharset,
+  getSource,
+  getStructuredDataType,
+  getMimesByExt,
+  getMimeByExt,
+} from '#meta';
+import { defaultAliasesMap, suffixToMediaTypeLookup } from '#meta/const';
 
 import { expect, describe, test } from 'vitest';
 import { entries } from '@budsbox/lib-es/object';
@@ -8,7 +16,7 @@ import { ROSet } from '@budsbox/lib-es/set';
 describe.concurrent('canonicalize', () => {
   describe('default canonicals', () => {
     test.concurrent.for(entries(defaultAliasesMap))(
-      'canonicalize aliases of %s',
+      'correctly canonicalizes aliases of %s',
       ([key, value]) => {
         expect(canonicalize(key)).toBe(key);
         value.forEach((v) => expect(canonicalize(v)).toBe(key));
@@ -296,6 +304,220 @@ describe.concurrent('getCharset', () => {
     test('returns explicit charset parameter even on an alias', () => {
       expect(getCharset('application/javascript;charset=iso-8859-1')).toBe(
         'iso-8859-1',
+      );
+    });
+  });
+});
+
+describe.concurrent('getStructuredDataType', () => {
+  describe('known suffixes', () => {
+    test.concurrent.for(Object.entries(suffixToMediaTypeLookup))(
+      'returns correct essence for example/example%s',
+      ([suffix, essence]) => {
+        expect(getStructuredDataType(`example/example${suffix}`)).toBe(essence);
+        expect(
+          getStructuredDataType({
+            type: 'example',
+            subtype: `example${suffix}`,
+          }),
+        ).toBe(essence);
+      },
+    );
+  });
+
+  describe('known suffixes with parameters', () => {
+    test.concurrent.for(Object.entries(suffixToMediaTypeLookup))(
+      'returns correct essence for example/example%s; q=0.9',
+      ([suffix, essence]) => {
+        expect(getStructuredDataType(`example/example${suffix}; q=0.9`)).toBe(
+          essence,
+        );
+      },
+    );
+  });
+
+  test('returns essence of a type w/o suffix', () => {
+    expect(getStructuredDataType('application/json')).toBe('application/json');
+    expect(getStructuredDataType('text/html; charset=utf-8')).toBe('text/html');
+  });
+
+  test('returns essence of a type with unknown suffix', () => {
+    expect(getStructuredDataType('example/example+example')).toBe(
+      'example/example+example',
+    );
+  });
+});
+
+describe.concurrent('getMimesByExt', () => {
+  describe.concurrent('basic extension lookup', () => {
+    test('returns MIME types for json', () => {
+      expect(getMimesByExt('json')).toStrictEqual(['application/json']);
+    });
+
+    test('returns MIME types for html', () => {
+      const result = getMimesByExt('html');
+      expect(result[0]).toBe('text/html');
+    });
+
+    test('returns MIME types for txt', () => {
+      const result = getMimesByExt('txt');
+      expect(result[0]).toBe('text/plain');
+    });
+
+    test('returns MIME types for js', () => {
+      const result = getMimesByExt('js');
+      expect(result[0]).toBe('text/javascript');
+    });
+  });
+
+  describe.concurrent('dot-prefixed extensions', () => {
+    test('resolves .json via last segment after dot', () => {
+      expect(getMimesByExt('.json')).toStrictEqual(['application/json']);
+    });
+
+    test('resolves .html', () => {
+      const result = getMimesByExt('.html');
+      expect(result[0]).toBe('text/html');
+    });
+  });
+
+  describe.concurrent('full filenames', () => {
+    test('extracts extension from filename', () => {
+      expect(getMimesByExt('document.pdf')[0]).toBe('application/pdf');
+    });
+
+    test('extracts extension from filename with multiple dots', () => {
+      expect(getMimesByExt('archive.tar.gz')[0]).toBe('application/gzip');
+    });
+
+    test('extracts extension from deeply nested path-like name', () => {
+      expect(getMimesByExt('some.config.json')).toStrictEqual([
+        'application/json',
+      ]);
+    });
+  });
+
+  describe.concurrent('empty and unknown extensions', () => {
+    test('returns application/octet-stream for empty string', () => {
+      expect(getMimesByExt('')).toStrictEqual(['application/octet-stream']);
+    });
+
+    test('returns empty array for unknown extension', () => {
+      expect(getMimesByExt('zzzzunknownext')).toStrictEqual([]);
+    });
+  });
+
+  describe.concurrent('custom map as plain object', () => {
+    test('returns custom MIME type when extension matches', () => {
+      expect(
+        getMimesByExt('myext', { myext: 'application/x-custom' }),
+      ).toStrictEqual(['application/x-custom']);
+    });
+
+    test('falls back to default lookup when extension not in custom map', () => {
+      expect(
+        getMimesByExt('json', { myext: 'application/x-custom' }),
+      ).toStrictEqual(['application/json']);
+    });
+  });
+
+  describe.concurrent('custom map as Map', () => {
+    test('returns custom MIME type when extension matches', () => {
+      const customMap = new Map([['myext', 'application/x-custom']] as const);
+      expect(getMimesByExt('myext', customMap)).toStrictEqual([
+        'application/x-custom',
+      ]);
+    });
+
+    test('falls back to default lookup when extension not in Map', () => {
+      const customMap = new Map([['myext', 'application/x-custom']] as const);
+      expect(getMimesByExt('json', customMap)).toStrictEqual([
+        'application/json',
+      ]);
+    });
+  });
+
+  describe.concurrent('invalid arguments', () => {
+    test('throws on non-string extOrName', () => {
+      expect(() => getMimesByExt(123 as never)).toThrowError(TypeError);
+    });
+
+    test('throws on null extOrName', () => {
+      expect(() => getMimesByExt(null as never)).toThrowError(TypeError);
+    });
+
+    test('throws on invalid customMap type', () => {
+      expect(() => getMimesByExt('json', 42 as never)).toThrowError(TypeError);
+    });
+  });
+});
+
+describe.concurrent('getMimeByExt', () => {
+  describe.concurrent('basic extension lookup', () => {
+    test('returns primary MIME type for json', () => {
+      expect(getMimeByExt('json')).toBe('application/json');
+    });
+
+    test('returns primary MIME type for html', () => {
+      expect(getMimeByExt('html')).toBe('text/html');
+    });
+
+    test('returns primary MIME type for png', () => {
+      expect(getMimeByExt('png')).toBe('image/png');
+    });
+  });
+
+  describe.concurrent('dot-prefixed and filenames', () => {
+    test('resolves .css', () => {
+      expect(getMimeByExt('.css')).toBe('text/css');
+    });
+
+    test('resolves filename with extension', () => {
+      expect(getMimeByExt('index.html')).toBe('text/html');
+    });
+
+    test('resolves filename with multiple dots', () => {
+      expect(getMimeByExt('app.bundle.js')).toBe('text/javascript');
+    });
+  });
+
+  describe.concurrent('empty and unknown extensions', () => {
+    test('returns application/octet-stream for empty string', () => {
+      expect(getMimeByExt('')).toBe('application/octet-stream');
+    });
+
+    test('returns undefined for unknown extension', () => {
+      expect(getMimeByExt('zzzzunknownext')).toBeUndefined();
+    });
+  });
+
+  describe.concurrent('custom map', () => {
+    test('returns custom MIME type from plain object', () => {
+      expect(getMimeByExt('myext', { myext: 'text/x-mine' })).toBe(
+        'text/x-mine',
+      );
+    });
+
+    test('returns custom MIME type from Map', () => {
+      const customMap = new Map([['myext', 'text/x-mine']] as const);
+      expect(getMimeByExt('myext', customMap)).toBe('text/x-mine');
+    });
+
+    test('falls back to default when extension not in custom map', () => {
+      expect(getMimeByExt('json', { myext: 'text/x-mine' })).toBe(
+        'application/json',
+      );
+    });
+  });
+
+  describe.concurrent('invalid arguments', () => {
+    test('throws on non-string extOrName', () => {
+      expect(() => getMimeByExt(undefined as never)).toThrowError(TypeError);
+    });
+
+    test('throws on invalid customMap type', () => {
+      expect(() => getMimeByExt('json', 'bad' as never)).toThrowError(
+        TypeError,
       );
     });
   });
