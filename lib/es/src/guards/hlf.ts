@@ -32,6 +32,23 @@ import {
 import { formatDebugValue, joinWithConjunction } from './format.js';
 import { assertProp, hasProp } from './prop.js';
 
+/**
+ * Determines whether the provided key is a valid property key of the given source object.
+ *
+ * @param key - The property key to check for existence within the source object.
+ * @param source - The object in which to check for the property key.
+ * @param checkProto - Determines whether the prototype chain should also be checked. Defaults to `false`.
+ * @returns A boolean indicating whether the key is a valid property key of the source object.
+ * @typeParam TSource - The type of the source object to inspect.
+ */
+export const isKeyOf = <TSource>(
+  key: PropertyKey,
+  source: TSource,
+  checkProto = false,
+): key is keyof TSource => {
+  return hasProp(source, key, checkProto);
+};
+
 /* ──────────────────────────────── Iterable ──────────────────────────────── */
 
 /**
