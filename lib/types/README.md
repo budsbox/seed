@@ -4,4 +4,4 @@ This package contains a large number of utilities for working efficiently with t
 
 It also includes types that are used in almost all packages in the monorepo (mostly types from `Core` and `General` categories), such as {@link .!Nil Nil}. These are considered the canonical choices for use in the relevant places of this monorepo (specifically, `Nil` is used instead of `null | undefined`).
 
-This package is splitted into categories for easier navigation.
+This package is split into categories for easier navigation.
