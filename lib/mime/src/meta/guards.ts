@@ -1,6 +1,6 @@
 import type { MimeTypeInput } from '#types';
 
-import { hasProp, isBoolean } from '@budsbox/lib-es/guards';
+import { hasProp, isBoolean, isString } from '@budsbox/lib-es/guards';
 
 import { parse } from '#lib';
 
@@ -428,7 +428,7 @@ export const isGzip = (mimeInput: MimeTypeInput): boolean => {
  * @category Checks
  */
 export const isArchive = (mimeInput: MimeTypeInput): boolean => {
-  const mimeType = parse(canonicalize(mimeInput));
+  const mimeType = canonicalize(parse(mimeInput));
   return (
     isZip(mimeType) ||
     isGzip(mimeType) ||
@@ -504,14 +504,16 @@ export const isCbor = (mimeInput: MimeTypeInput): boolean => {
 export const isTextData = (mimeInput: MimeTypeInput): boolean => {
   const mimeType = parse(mimeInput),
     canonical = canonicalize(mimeType);
-  return [mimeType, canonical].some(
-    (mime) =>
-      mime.type === 'text' ||
-      hasProp(mime, 'suffix', (suffix) => textDataSuffixes.has(suffix)) ||
-      isXml(mime) ||
-      isJson(mime) ||
-      isYaml(mime) ||
-      isJsonSequence(mime),
+  return (
+    [mimeType, canonical].some(
+      (mime) =>
+        mime.type === 'text' ||
+        hasProp(mime, 'suffix', (suffix) => textDataSuffixes.has(suffix)) ||
+        isXml(mime) ||
+        isJson(mime) ||
+        isYaml(mime) ||
+        isJsonSequence(mime),
+    ) || isString(getMeta(canonical).charset)
   );
 };
 

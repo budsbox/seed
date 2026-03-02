@@ -147,6 +147,8 @@ export type FileExtLookup = Map<string, MimeTypeEssence>;
 /**
  * A lowercased identifier of MIME type group according to
  * {@link https://mimesniff.spec.whatwg.org/#mime-type-groups Mime Sniffing Standard}.
+ *
+ * @category MIME Sniffing Standard
  */
 export type MimeGroup =
   | 'archive'
