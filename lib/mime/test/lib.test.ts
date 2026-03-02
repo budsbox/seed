@@ -11,6 +11,10 @@ import {
 } from '#lib';
 
 import { ROMap } from '@budsbox/lib-es/map';
+import handCraftedTestData from '@budsbox/gen-mime-sniff-test-data/hand-crafted' with { type: 'json' };
+import generatedTestData from '@budsbox/gen-mime-sniff-test-data/generated' with { type: 'json' };
+
+import { isNotNil } from '@budsbox/lib-es/guards';
 
 describe.concurrent('MIME type library', () => {
   describe.concurrent('parse', () => {
@@ -206,6 +210,23 @@ describe.concurrent('MIME type library', () => {
 
     test('should normalize object input', () => {
       expect(normalize({ type: 'IMAGE', subtype: 'PNG' })).toBe('image/png');
+    });
+
+    test('should pass MIME Sniffing Standard tests', () => {
+      const testData = [...handCraftedTestData, ...generatedTestData];
+      for (const { input, output } of testData) {
+        if (isNotNil(output)) {
+          expect(
+            normalize({
+              mimeType: input,
+              // the only deviation from MIME Sniffing Standard — this library lowercases charset parameter by default
+              keepCharsetCase: true,
+            }),
+          ).toBe(output);
+        } else {
+          expect(() => normalize(input)).toThrow(SyntaxError);
+        }
+      }
     });
   });
 
