@@ -1,8 +1,7 @@
 /**
  * This library provides utility types for various common TypeScript programming tasks.
  *
- * @module
- * @mergeModuleWith <project>
+ * @module .
  * @importTarget .
  * @showCategories
  */
