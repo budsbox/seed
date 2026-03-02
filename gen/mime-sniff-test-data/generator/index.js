@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { mkdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { cwd } from 'node:process';
+
+import { isObject } from '@budsbox/lib-es/guards';
 
 const links = {
   generated:
@@ -16,10 +19,19 @@ const links = {
 const outputDir = join(cwd(), 'dist');
 await mkdir(outputDir, { recursive: true });
 
+/**
+ * All the non-object test cases are comments.
+ *
+ * @param {readonly unknown[]} array
+ * @returns {object[]}
+ */
+const stripComments = (array) => array.filter(isObject);
+
 const entries = Object.entries(links);
 for (const [name, link] of entries) {
   const response = await fetch(link);
-  const json = await response.json();
+
+  const json = stripComments(/** @type {unknown[]} */ (await response.json()));
   await writeFile(
     join(outputDir, `${name}.json`),
     JSON.stringify(json, null, 2),
