@@ -993,6 +993,26 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@budsbox/gen-mime-sniff-test-data@workspace:^, @budsbox/gen-mime-sniff-test-data@workspace:gen/mime-sniff-test-data":
+  version: 0.0.0-use.local
+  resolution: "@budsbox/gen-mime-sniff-test-data@workspace:gen/mime-sniff-test-data"
+  dependencies:
+    "@budsbox/eslint": "workspace:^"
+    "@budsbox/eslint_presets-node-lib": "workspace:^"
+    "@budsbox/eslint_presets-tools": "workspace:^"
+    "@budsbox/lib-es": "workspace:^"
+    "@budsbox/lib-types": "workspace:^"
+    "@budsbox/tsconfigs": "workspace:^"
+    "@types/eslint": "npm:^9.6.1"
+    "@types/node": "npm:^22.19.1"
+    eslint: "npm:^9.39.1"
+    tslib: "npm:^2.8.1"
+    type-fest: "npm:^5.3.1"
+    typescript: "npm:^5.9.3"
+    vitest: "npm:^4.0.15"
+  languageName: unknown
+  linkType: soft
+
 "@budsbox/iso-utils@workspace:^, @budsbox/iso-utils@workspace:packages/iso-utils":
   version: 0.0.0-use.local
   resolution: "@budsbox/iso-utils@workspace:packages/iso-utils"
@@ -1480,6 +1500,7 @@ __metadata:
     "@budsbox/eslint_presets-lib": "workspace:^"
     "@budsbox/eslint_presets-node-lib": "workspace:^"
     "@budsbox/eslint_presets-tools": "workspace:^"
+    "@budsbox/gen-mime-sniff-test-data": "workspace:^"
     "@budsbox/iso-utils": "workspace:^"
     "@budsbox/lib-class-name": "workspace:^"
     "@budsbox/lib-data-uri": "workspace:^"

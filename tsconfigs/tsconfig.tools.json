@@ -15,7 +15,8 @@
     "${configDir}/vitest.config.js",
     "${configDir}/vitest.config.ts",
     "${configDir}/yarn.config.cjs",
-    "${configDir}/exec-dependencies"
+    "${configDir}/exec-dependencies",
+    "${configDir}/generator"
   ],
   "compilerOptions": {
     "rootDir": "${configDir}",

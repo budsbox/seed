@@ -33,7 +33,8 @@
     "./tsconfigs",
     "./packages/*",
     "./ui/components/*",
-    "./parse/*"
+    "./parse/*",
+    "./gen/*"
   ],
   "scripts": {
     "autotag-all-since": "YARN_CHANGESET_BASE_REFS=$0 yarn workspaces foreach --parallel --since --no-private run p:autotag",
@@ -119,6 +120,7 @@
     "@budsbox/eslint_presets-lib": "workspace:^",
     "@budsbox/eslint_presets-node-lib": "workspace:^",
     "@budsbox/eslint_presets-tools": "workspace:^",
+    "@budsbox/gen-mime-sniff-test-data": "workspace:^",
     "@budsbox/iso-utils": "workspace:^",
     "@budsbox/lib-class-name": "workspace:^",
     "@budsbox/lib-data-uri": "workspace:^",

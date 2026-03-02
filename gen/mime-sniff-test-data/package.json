@@ -1,0 +1,55 @@
+{
+  "name": "@budsbox/gen-mime-sniff-test-data",
+  "version": "0.0.0",
+  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "bugs": {
+    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+  },
+  "repository": "gitlab:budsbox/fe/seed",
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#package.json": "./package.json",
+    "#generated": "./dist/generated.json",
+    "#groups": "./dist/groups.json",
+    "#minimized": "./dist/minimized.json",
+    "#hand-crafted": "./dist/handCrafted.json"
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    "./generated": "./dist/generated.json",
+    "./groups": "./dist/groups.json",
+    "./minimized": "./dist/minimized.json",
+    "./hand-crafted": "./dist/handCrafted.json"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.cjs",
+    "dist/**/*.d.ts",
+    "dist/**/*.json"
+  ],
+  "scripts": {
+    "name": "echo $npm_package_name",
+    "prepack": "node generator/index.js"
+  },
+  "dependencies": {
+    "@budsbox/lib-es": "workspace:^",
+    "@budsbox/lib-types": "workspace:^",
+    "@types/node": "^22.19.1",
+    "tslib": "^2.8.1",
+    "type-fest": "^5.3.1"
+  },
+  "devDependencies": {
+    "@budsbox/eslint": "workspace:^",
+    "@budsbox/eslint_presets-node-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
+    "@budsbox/tsconfigs": "workspace:^",
+    "@types/eslint": "^9.6.1",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.15"
+  },
+  "packageManager": "yarn@4.9.2"
+}
