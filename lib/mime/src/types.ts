@@ -94,19 +94,19 @@ export type WellKnownSuffixes =
  * @typeParam TMultiParameter - Strategy for handling duplicate parameters.
  * See {@link MultiParameterOption} for more details on the available options.
  */
-export type MimeTypeRecord<
+export interface MimeTypeRecord<
   TMultiParameter extends MultiParameterOption = MultiParameterOption,
-> = Readonly<
-  OverrideProperties<
-    MimeTypeParsed,
-    {
-      parameters: ReadonlyMap<
-        ParameterName,
-        Readonly<ParameterValue<TMultiParameter>>
-      >;
-    }
-  >
->;
+> extends Readonly<
+    OverrideProperties<
+      MimeTypeParsed,
+      {
+        parameters: ReadonlyMap<
+          ParameterName,
+          Readonly<ParameterValue<TMultiParameter>>
+        >;
+      }
+    >
+  > {}
 
 /* ───────────────────────── Functions Type Helpers ───────────────────────── */
 
@@ -161,19 +161,20 @@ export type MimeTypeInput =
  *
  * @interface
  */
-export type MimeTypeOptions = Infer<
-  Except<LowLevelParseOptions<never>, 'grammarSource' | 'startRule'> & {
-    /**
-     * Whether to return a string instead of a {@link MimeTypeRecord}.
-     *
-     * When `true`, helper functions like {@link .!update `update`} or {@link .!setParameter `setParameter`}
-     * will return a serialized MIME type string.
-     *
-     * @defaultValue `false`
-     */
-    readonly serialize?: boolean;
-  }
->;
+export interface MimeTypeOptions
+  extends Infer<
+    Except<LowLevelParseOptions<never>, 'grammarSource' | 'startRule'> & {
+      /**
+       * Whether to return a string instead of a {@link MimeTypeRecord}.
+       *
+       * When `true`, helper functions like {@link .!update `update`} or {@link .!setParameter `setParameter`}
+       * will return a serialized MIME type string.
+       *
+       * @defaultValue `false`
+       */
+      readonly serialize?: boolean;
+    }
+  > {}
 
 /**
  * Object shape that carries a MIME type string under the `mimeType` property.

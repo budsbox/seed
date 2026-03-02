@@ -220,7 +220,7 @@ export const isVideo = (mimeInput: MimeTypeInput): boolean => {
  * @category Checks
  */
 export const isPlayable = (mimeInput: MimeTypeInput): boolean => {
-  const mimeType = parse(mimeInput);
+  const mimeType = canonicalize(parse(mimeInput));
   return (
     isAudio(mimeType) ||
     isVideo(mimeType) ||
@@ -428,7 +428,7 @@ export const isGzip = (mimeInput: MimeTypeInput): boolean => {
  * @category Checks
  */
 export const isArchive = (mimeInput: MimeTypeInput): boolean => {
-  const mimeType = parse(mimeInput);
+  const mimeType = parse(canonicalize(mimeInput));
   return (
     isZip(mimeType) ||
     isGzip(mimeType) ||

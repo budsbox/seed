@@ -17,6 +17,7 @@ import { mimeDb } from './mime-db-wrapper.js';
  */
 export const extraFontTypes = new ROSet<MimeTypeEssence>([
   'application/vnd.ms-fontobject',
+  'application/font-off',
 ]);
 
 /**
@@ -29,6 +30,7 @@ export const extraArchiveTypes = new ROSet<MimeTypeEssence>([
   'application/x-bzip2',
   'application/x-tar',
   'application/x-7z-compressed',
+  'application/vnd.rar',
 ]);
 
 /**

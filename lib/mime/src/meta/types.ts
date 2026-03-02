@@ -143,3 +143,19 @@ export type ResolveMetaInput =
  * Represents a mapping between file extensions and their corresponding MIME type essence.
  */
 export type FileExtLookup = Map<string, MimeTypeEssence>;
+
+/**
+ * A lowercased identifier of MIME type group according to
+ * {@link https://mimesniff.spec.whatwg.org/#mime-type-groups Mime Sniffing Standard}.
+ */
+export type MimeGroup =
+  | 'archive'
+  | 'audio or video'
+  | 'font'
+  | 'html'
+  | 'image'
+  | 'javascript'
+  | 'json'
+  | 'scriptable'
+  | 'xml'
+  | 'zip-based';

@@ -67,6 +67,7 @@
     "@budsbox/eslint": "workspace:^",
     "@budsbox/eslint_presets-lib": "workspace:^",
     "@budsbox/eslint_presets-tools": "workspace:^",
+    "@budsbox/gen-mime-sniff-test-data": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "eslint": "^9.39.1",
