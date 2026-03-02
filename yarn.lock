@@ -1175,6 +1175,7 @@ __metadata:
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint_presets-lib": "workspace:^"
     "@budsbox/eslint_presets-tools": "workspace:^"
+    "@budsbox/gen-mime-sniff-test-data": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/parse-mime": "workspace:^"

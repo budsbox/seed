@@ -4704,6 +4704,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint"],\
           ["@budsbox/eslint_presets-lib", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
+          ["@budsbox/gen-mime-sniff-test-data", "workspace:gen/mime-sniff-test-data"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-mime", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/mime"],\
           ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
@@ -4731,6 +4732,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint"],\
           ["@budsbox/eslint_presets-lib", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
+          ["@budsbox/gen-mime-sniff-test-data", "workspace:gen/mime-sniff-test-data"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-mime", "workspace:lib/mime"],\
           ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
