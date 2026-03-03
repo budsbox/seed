@@ -3,16 +3,11 @@
  * This module provides type definitions and interfaces for working with MIME types.
  */
 
-import type {
-  Arrayable,
-  Except,
-  LiteralUnion,
-  OverrideProperties,
-} from 'type-fest';
+import type { Arrayable, Except, LiteralUnion } from 'type-fest';
 
 import type { Infer } from '@budsbox/lib-types';
 
-import type { MimeDb, MimeDbKey } from '#meta';
+import type { MimeDbKey } from '#meta';
 import type {
   ParseOptions as LowLevelParseOptions,
   MimeTypeEssence,
@@ -25,6 +20,10 @@ import type {
 } from '@budsbox/parse-mime';
 
 // Type exports
+
+/**
+ * @category General
+ */
 export type {
   MimeTypeEssence,
   SubtypeFacet as MimeTypeFacet,
@@ -84,29 +83,48 @@ export type WellKnownSuffixes =
     >;
 
 /**
- * An immutable, high-level representation of a parsed MIME type.
+ * Immutable representation of a fully parsed MIME type with all its components.
  *
- * The structure is based on {@link MimeTypeParsed} but:
- * - Uses a `ReadonlyMap` for `parameters` with read-only values.
- * - Exposes `subtypeTokens` as a read-only record.
+ * Extends {@link MimeTypeParsed} with readonly guarantees, making it suitable for
+ * use as return type from parsing and manipulation functions. The {@link MimeTypeParsed.parameters parameters}
+ * are stored in a {@link ReadonlyMap} to prevent mutations.
  *
- * @interface
- * @typeParam TMultiParameter - Strategy for handling duplicate parameters.
- * See {@link MultiParameterOption} for more details on the available options.
+ * @typeParam TMultiParameter - Strategy for handling duplicate parameter names.
+ * Defaults to {@link MultiParameterOption}, allowing any strategy.
+ * @see {@link MimeTypeParsed} — the base parsed MIME type structure.
+ * @see {@link MultiParameterOption} — available strategies for duplicate parameters.
+ * @example
+ * ```typescript
+ * // Basic MimeTypeRecord with default multi-parameter handling
+ * const record: MimeTypeRecord = {
+ *   essence: 'text/html',
+ *   type: 'text',
+ *   subtype: 'html',
+ *   parameters: new Map([['charset', 'utf-8']]),
+ * };
+ * console.log(record.essence); // 'text/html'
+ * console.log(record.parameters.get('charset')); // 'utf-8'
+ * ```
+ * @example
+ * ```typescript
+ * // MimeTypeRecord with 'list' strategy for collecting duplicate parameters
+ * const listRecord: MimeTypeRecord<'list'> = {
+ *   essence: 'multipart/form-data',
+ *   type: 'multipart',
+ *   subtype: 'form-data',
+ *   parameters: new Map([['boundary', ['----first', '----second']]]),
+ * };
+ * ```
+ * @category General
  */
 export interface MimeTypeRecord<
   TMultiParameter extends MultiParameterOption = MultiParameterOption,
-> extends Readonly<
-    OverrideProperties<
-      MimeTypeParsed,
-      {
-        parameters: ReadonlyMap<
-          ParameterName,
-          Readonly<ParameterValue<TMultiParameter>>
-        >;
-      }
-    >
-  > {}
+> extends Readonly<Omit<MimeTypeParsed, 'parameters'>> {
+  parameters: ReadonlyMap<
+    ParameterName,
+    Readonly<ParameterValue<TMultiParameter>>
+  >;
+}
 
 /* ───────────────────────── Functions Type Helpers ───────────────────────── */
 
@@ -119,6 +137,8 @@ export interface MimeTypeRecord<
  * const mime1: MimeTypeStringInput = 'application/json'; // well-known
  * const mime2: MimeTypeStringInput = 'application/custom'; // custom
  * ```
+ *
+ * Category Type Helpers
  */
 export type MimeTypeStringInput = LiteralUnion<string, WellKnownMimeType>;
 
@@ -158,8 +178,6 @@ export type MimeTypeInput =
  * Represents the options for handling MIME types during parsing and manipulation.
  * This is mostly a subset of {@link LowLevelParseOptions} without the `grammarSource` and `startRule` fields.
  * Additionally, it allows specifying whether to return a string instead of a {@link MimeTypeRecord}.
- *
- * @interface
  */
 export interface MimeTypeOptions
   extends Infer<
@@ -273,37 +291,4 @@ export type ParametersUpdateInput = string | SerializableParameters<true>;
  */
 export interface EssenceAliasesMap {
   readonly [essence: MimeTypeEssence]: Readonly<Arrayable<MimeTypeEssence>>;
-}
-
-/**
- * Configuration options for resolving MIME types with additional metadata.
- *
- * @example
- * ```typescript
- * const options: ResolveOptions = {
- *   db: customMimeDb,
- *   noDefaultCharset: true,
- *   aliases: {
- *     'text/javascript': 'application/javascript'
- *   }
- * };
- * ```
- */
-export interface ResolveOptions {
-  /**
-   * Custom essence aliases to use during resolution.
-   */
-  readonly aliases?: EssenceAliasesMap;
-
-  /**
-   * Custom MIME database to use instead of the default.
-   */
-  readonly db?: MimeDb;
-
-  /**
-   * When `true`, prevents adding default charset parameters during resolution.
-   *
-   * @defaultValue `false`
-   */
-  readonly noDefaultCharset?: boolean;
 }

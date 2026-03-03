@@ -37,18 +37,17 @@ console.log(cleaned); // 'text/plain'
 const updated = update('application/json', 'type', 'text');
 console.log(updated); // 'text/json'
 
-// Serialize a record back to string (useful after parsing with serialize: false)
-const record = parse({ mimeType: 'video/mp4', serialize: false });
+// Serialize a record back to string
+const record = parse('video/mp4');
+console.log(record); // { type: 'video', subtype: 'mp4', ... }
 const str = serialize(record);
 console.log(str); // 'video/mp4'
 
 // Chaining example: parse → update parameters → add parameter → serialize
-const result = serialize(
-  setParameter(
-    update('text/plain', 'parameters', 'charset=utf-8'),
-    'version',
-    '1.0',
-  ),
+const result = setParameter(
+  update('text/plain', 'charset=utf-8'),
+  'version',
+  '1.0',
 );
 console.log(result); // 'text/plain;charset=utf-8;version=1.0'
 

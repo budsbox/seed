@@ -66,6 +66,7 @@ import {
  * @see {@link MimeTypeInput} for more details on the input types.
  * @example
  * {@includeCode ./examples.ts#parse}
+ * @category General
  */
 export function parse<TInput extends MimeTypeInput>(
   input: TInput,
@@ -88,6 +89,7 @@ export function parse<TInput extends MimeTypeInput>(
  * @typeParam TKey - The name of the top-level component to update.
  * @example
  * {@includeCode ./examples.ts#update.full}
+ * @category General
  */
 export function update<
   TInput extends MimeTypeInput,
@@ -99,15 +101,16 @@ export function update<
  * structural kind as the input.
  *
  * @param input - {@link MimeTypeInput MIME type input} to update.
- * @param value - Parameters to apply. Can be provided as a string or as a structured collection.
+ * @param parametersValue - Parameters to apply. Can be provided as a string or as a structured collection.
  * @returns A normalized MIME type value with updated parameters.
  * @typeParam TInput - The input shape to update.
  * @example
  * {@includeCode ./examples.ts#update.short}
+ * @category General
  */
 export function update<TInput extends MimeTypeInput>(
   input: TInput,
-  value: ParametersUpdateInput,
+  parametersValue: ParametersUpdateInput,
 ): OutputType<TInput>;
 
 export function update(
@@ -179,6 +182,7 @@ export function update(
  * @typeParam TThrow - whether to throw if the parameter is missing.
  * @example
  * {@includeCode ./examples.ts#getParameter}
+ * @category General
  */
 export function getParameter<
   TInput extends MimeTypeInput,
@@ -219,6 +223,7 @@ export function getParameter(
  * @typeParam TInput - The input shape to update.
  * @example
  * {@includeCode ./examples.ts#setParameter}
+ * @category General
  */
 export function setParameter<TInput extends MimeTypeInput>(
   input: TInput,
@@ -260,6 +265,7 @@ export function setParameter(
  * @typeParam TInput - The input shape to remove parameter from.
  * @example
  * {@includeCode ./examples.ts#removeParameter}
+ * @category General
  */
 export function removeParameter<TInput extends MimeTypeInput>(
   input: TInput,
@@ -294,6 +300,7 @@ export function removeParameter(
  * Use {@link normalize} if you need normalization (indeed).
  * @example
  * {@includeCode ./examples.ts#serialize}
+ * @category General
  */
 export const serialize = (input: MimeTypeInput): string =>
   isString(input) ? input
@@ -312,6 +319,7 @@ export function normalize(input: MimeTypeEssence): MimeTypeEssence;
  * @returns Canonical MIME type string.
  * @example
  * {@includeCode ./examples.ts#normalize}
+ * @category General
  */
 export function normalize(input: MimeTypeInput): string;
 export function normalize(input: MimeTypeInput): string {
