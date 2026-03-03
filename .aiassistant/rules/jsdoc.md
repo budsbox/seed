@@ -10,7 +10,7 @@ instructions: apply it when writing documentation or JSDoc
 -   Use TypeDoc flavor of JSDoc.
 -   Make it clear and concise.
 -   Prefer @module to @packageDocumentation.
--   Add an @typeParam tag for each generic argument exclusively when the entity for which you are writing documentation is a generic type alias, a generic function, or a generic class.
+-   WHEN the entity you write documentation for is the generic type alias, function, interface, or class, add a `@typeParam` tag for each generic argument.
 -   Write at least one example for every exported "simple" (in common sense) function, method, or generic type, and two for "complex" (again, in common sense) functions, methods, and generic types.
 -   Wrap references of ecmascript built-ins with `{@link <reference>}` tag. Do not wrap `true`, `false`, numbers and string. Wrap built-ins in jsdoc (`JSON` become `{@link JSON}`, and so on).
 -   IF a function throws an error, mention it in JSDoc using the @throws tag.
