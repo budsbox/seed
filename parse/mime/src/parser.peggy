@@ -5,7 +5,7 @@
 
 {
   assertString(input, 'input');
-  assertObject(options, 'options')
+  assertObject(options, 'options');
   const booleanProps = ['sniff', 'trim', 'restrictNames', 'keepCharsetCase'];
   booleanProps.forEach((key) => {
     assertOptionalProp(options, key, isBoolean, 'options');
@@ -49,7 +49,7 @@ essence
  * https://datatracker.ietf.org/doc/html/rfc9110#media.type
  */
 type
-  = type:nameToken
+  = nameToken
 
 /**
  * https://datatracker.ietf.org/doc/html/rfc9110#media.type
