@@ -284,7 +284,7 @@ export function removeParameter(
   }
 
   const parameters = new Map(mimeType.parameters);
-  parameters.delete(name);
+  parameters.delete(parameterName);
 
   return produceOutput(input, { ...mimeType, parameters });
 }

@@ -266,7 +266,7 @@ export function getMimesByExt(
 
   if (isMap(customMap) && customMap.has(ext)) {
     const value = customMap.get(ext);
-    assertString(value, 'customMap.get("${ext}")');
+    assertString(value, `customMap.get("${ext}")`);
     return [value];
   } else if (hasProp(customMap, ext)) {
     const value = customMap[ext];

@@ -120,7 +120,7 @@ export type WellKnownSuffixes =
 export interface MimeTypeRecord<
   TMultiParameter extends MultiParameterOption = MultiParameterOption,
 > extends Readonly<Omit<MimeTypeParsed, 'parameters'>> {
-  parameters: ReadonlyMap<
+  readonly parameters: ReadonlyMap<
     ParameterName,
     Readonly<ParameterValue<TMultiParameter>>
   >;
