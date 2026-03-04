@@ -131,7 +131,6 @@ export interface MimeTypeRecord<
 /**
  * A string representing any MIME type, with autocompletion for well-known types.
  *
- * @preventInline
  * @example
  * ```typescript
  * const mime1: MimeTypeStringInput = 'application/json'; // well-known
@@ -199,7 +198,6 @@ export interface MimeTypeOptions
  *
  * Used to pass additional parsing options alongside the raw MIME type.
  *
- * @preventInline
  */
 export interface MimeTypeStringContainer {
   /**
@@ -212,7 +210,6 @@ export interface MimeTypeStringContainer {
  * Serializable object input for MIME type operations.
  *
  * @interface
- * @preventInline
  */
 export type MimeTypeSerializableInput = SerializableMimeTypeRecord<true>;
 
