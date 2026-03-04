@@ -163,7 +163,6 @@ export type ParameterName = string;
  * @typeParam TMultiParameter - Strategy for handling duplicate parameters
  * - When `TMultiParameter` is `'list'`: can be a single string or array of strings
  * - When `TMultiParameter` is not `'list'`: always a string
- * @typeParam TReadOnly - Whether the value should be marked as readonly (useful in function signatures). Defaults to `false`.
  * @see {@link MultiParameterOption}
  * — for more details on the different strategies
  * @see {@link https://datatracker.ietf.org/doc/html/rfc9110#name-parameters RFC 9110: Parameters}

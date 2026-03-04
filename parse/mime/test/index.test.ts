@@ -34,7 +34,7 @@ const parseFormatted: ParseFunction = (input, options) => {
 
 const sniffFormatted: ParseFunction = (input, options) => {
   try {
-    return sniff(input, { ...options, grammarSource });
+    return sniff(input, { ...options, grammarSource, sniff: true });
   } catch (err) {
     throw formatSyntaxError(input, err);
   }
