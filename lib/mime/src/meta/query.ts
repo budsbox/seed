@@ -240,16 +240,16 @@ export function getStructuredDataType(
  * @remarks This function **always** returns {@link defaultAliasesMap canonical types}, though you can override them using `customMap`.
  * @example
  * ```typescript
- * getMimesByExtension('json');
+ * getMimesByExt('json');
  * // => ['application/json']
  *
- * getMimesByExtension('.txt');
+ * getMimesByExt('.txt');
  * // => ['text/plain']
  *
- * getMimesByExtension('index.js', {js: 'application/javascript'});
+ * getMimesByExt('index.js', {js: 'application/javascript'});
  * // => ['application/javascript']
  *
- * getMimeByExtension('')
+ * getMimesByExt('')
  * ```
  * @category General
  */
@@ -263,22 +263,18 @@ export function getMimesByExt(
   assertSome(customMap, 'customMap', isMap, isObject, isUndef);
 
   const ext = extOrName.split('.').at(-1) ?? '';
-
+  const customEssences: MimeTypeEssence[] = [];
   if (isMap(customMap) && customMap.has(ext)) {
     const value = customMap.get(ext);
     assertString(value, `customMap.get("${ext}")`);
-    return [value];
+    customEssences.push(value);
   } else if (hasProp(customMap, ext)) {
     const value = customMap[ext];
     assertString(value, formatPropAccessor('customMap', ext));
-    return [value];
+    customEssences.push(value);
   }
 
-  if (ext === '') return ['application/octet-stream'];
-
-  return entries(defaultExtensionsLookup.get(ext) ?? {})
-    .toSorted(([, v1], [, v2]) => v2 - v1)
-    .map(([essence]) => essence);
+  return [...customEssences, ...lookupExtensions(ext)];
 }
 
 /**
@@ -292,16 +288,16 @@ export function getMimesByExt(
  * @returns The primary MIME type essence, or `undefined` if no match found
  * @example
  * ```typescript
- * getMimeByExtension('json');
+ * getMimeByExt('json');
  * // => 'application/json'
  *
- * getMimeByExtension('.html');
+ * getMimeByExt('.html');
  * // => 'text/html'
  *
- * getMimeByExtension('document.zip');
+ * getMimeByExt('document.zip');
  * // => 'application/zip'
  *
- * getMimeByExtension('unknown');
+ * getMimeByExt('unknown');
  * // => undefined
  * ```
  * @category General
@@ -430,26 +426,48 @@ export const defaultsMeta = Object.keys(mimeDb).reduce<
   return map;
 }, new Map());
 
-const defaultExtensionsLookup = [...defaultsMeta]
-  .flatMap(([essence, { extensions, source }]) => {
-    // prioritize iana
-    const sourceWt = source === 'iana' ? 100 : 0;
-    // deprioritize application/octet-stream
-    const octetStreamWt = essence === 'application/octet-stream' ? -50 : 0;
-    return [...extensions.keys()].map(
-      (ext, i) => [ext, essence, sourceWt + octetStreamWt + 5 - i] as const,
-    );
-  })
-  .reduce<Map<string, Record<MimeTypeEssence, number>>>(
-    (map, [ext, essence, shift]) => {
-      if (!map.has(ext)) map.set(ext, {});
-      const record = map.get(ext)!;
+type DefaultExtensionsLookup = Map<string, readonly MimeTypeEssence[]>;
 
-      if (!(essence in record)) {
-        record[essence] = shift;
-      }
+let defaultExtensionsLookup: DefaultExtensionsLookup | undefined;
 
-      return map;
-    },
-    new Map(),
-  );
+const lookupExtensions = (ext: string): readonly MimeTypeEssence[] => {
+  if (isUndef(defaultExtensionsLookup)) {
+    const weightsMap = [...defaultsMeta]
+      .flatMap(([essence, { extensions, source }]) => {
+        // prioritize iana
+        const sourceWt = source === 'iana' ? 100 : 0;
+        // deprioritize application/octet-stream
+        const octetStreamWt = essence === 'application/octet-stream' ? -50 : 0;
+        return [...extensions.keys()].map(
+          (extension, i) =>
+            [extension, essence, sourceWt + octetStreamWt + 5 - i] as const,
+        );
+      })
+      .reduce<Map<string, Record<MimeTypeEssence, number>>>(
+        (map, [extension, essence, weight]) => {
+          if (!map.has(extension)) map.set(extension, {});
+          const record = map.get(extension)!;
+
+          if (!(essence in record)) {
+            record[essence] = weight;
+          }
+
+          return map;
+        },
+        new Map(),
+      );
+
+    defaultExtensionsLookup = new Map();
+
+    for (const [extension, essenceMap] of weightsMap) {
+      defaultExtensionsLookup.set(
+        extension,
+        entries(essenceMap)
+          .toSorted(([, v1], [, v2]) => v2 - v1)
+          .map(([essence]) => essence),
+      );
+    }
+  }
+
+  return defaultExtensionsLookup.get(ext) ?? [];
+};

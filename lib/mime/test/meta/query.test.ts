@@ -398,8 +398,8 @@ describe.concurrent('getMimesByExt', () => {
   });
 
   describe.concurrent('empty and unknown extensions', () => {
-    test('returns application/octet-stream for empty string', () => {
-      expect(getMimesByExt('')).toStrictEqual(['application/octet-stream']);
+    test('returns empty array for empty string', () => {
+      expect(getMimesByExt('')).toStrictEqual([]);
     });
 
     test('returns empty array for unknown extension', () => {
@@ -482,8 +482,8 @@ describe.concurrent('getMimeByExt', () => {
   });
 
   describe.concurrent('empty and unknown extensions', () => {
-    test('returns application/octet-stream for empty string', () => {
-      expect(getMimeByExt('')).toBe('application/octet-stream');
+    test('returns undefined for empty string', () => {
+      expect(getMimeByExt('')).toBe(undefined);
     });
 
     test('returns undefined for unknown extension', () => {
