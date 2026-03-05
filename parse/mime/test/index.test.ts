@@ -877,15 +877,16 @@ describe.sequential('MIME Parser test suite', () => {
     });
 
     test('throws when serializeParameters receives invalid input', () => {
-      expect(() => serializeParameters('x' as never)).toThrowError(TypeError);
       expect(() => serializeParameters('x' as never)).toThrowError(
-        'Expected parameter to be array, got string instead',
+        new TypeError(
+          'Expected parameter_entry to be a tuple [string,to be string or array], got "x" instead',
+        ),
       );
+
       expect(() => serializeParameters([['a', 1]] as never)).toThrowError(
-        TypeError,
-      );
-      expect(() => serializeParameters([['a', 1]] as never)).toThrowError(
-        'Expected parameter_value to be string, got number instead',
+        new TypeError(
+          'Expected parameter_entry to be a tuple [string,to be string or array], got ["a",1] instead',
+        ),
       );
       expect(() =>
         serializeParameters([['a', ['b', 2]]] as never),

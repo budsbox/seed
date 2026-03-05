@@ -144,7 +144,7 @@ httpQuotedString 'semantic quoted string'
  * https://datatracker.ietf.org/doc/html/rfc9110#quoted.strings
  */
 httpQuotedPair
-  = '\\' @([ \t\u0020-\u007e\u0080-\u00FF])
+  = '\\' @([\t\u0020-\u007e\u0080-\u00FF])
 
 /**
  * https://mimesniff.spec.whatwg.org/#http-quoted-string-token-code-point

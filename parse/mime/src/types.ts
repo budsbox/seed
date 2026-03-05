@@ -384,28 +384,6 @@ export interface RuleResult<
   subtype: SubtypeParsed;
 
   /**
-   * Result when parsing with the `subtypeName` start rule.
-   * Returns only the base name of the subtype.
-   */
-  subtypeName: string;
-
-  /**
-   * Result when parsing with the `subtypeSuffix` start rule.
-   * Returns only the suffix portion of the subtype (e.g., `'+xml'`).
-   *
-   * @see {@link SubtypeSuffix}
-   */
-  subtypeSuffix: SubtypeSuffix;
-
-  /**
-   * Result when parsing with the 'tree' start rule.
-   * Returns only the tree prefix of the subtype (e.g., `'vnd.'`).
-   *
-   * @see {@link SubtypeFacet}
-   */
-  tree: SubtypeFacet;
-
-  /**
    * Result when parsing with the 'type' start rule.
    * Returns only the top-level type category.
    */

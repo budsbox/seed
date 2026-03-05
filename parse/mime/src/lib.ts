@@ -24,6 +24,7 @@ import {
   assertProp,
   assertSome,
   assertString,
+  assertTuple,
   isArray,
   isIterable,
   isObject,
@@ -204,7 +205,12 @@ export const serializeParameters = (
   const result: string[] = [];
   while (queue.length) {
     const parameter = queue.shift();
-    assertArray(parameter, 'parameter');
+    assertTuple(
+      parameter,
+      'parameter_entry',
+      isString,
+      somePredicate(isString, isArray),
+    );
 
     const [name, value] = parameter;
     assertString(name, 'parameter_name');
@@ -251,7 +257,7 @@ export const serializeParameters = (
  * const mimeType: MimeTypeParsed = {
  *   type: 'application',
  *   subtype: 'json',
- *   parameters: [[['charset', 'utf-8']]]
+ *   parameters: [['charset', 'utf-8']]
  * };
  * const result = serializeMimeType(mimeType);
  * // result === 'application/json;charset=utf-8'
