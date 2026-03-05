@@ -201,10 +201,10 @@ export const serializeParameters = (
   assertSome(parameters, 'parameters', isObject, isIterable);
   const queue = [
     ...(isIterable(parameters) ? parameters : Object.entries(parameters)),
-  ];
+  ].reverse();
   const result: string[] = [];
   while (queue.length) {
-    const parameter = queue.shift();
+    const parameter = queue.pop();
     assertTuple(
       parameter,
       'parameter_entry',
@@ -216,7 +216,10 @@ export const serializeParameters = (
     assertString(name, 'parameter_name');
     if (isArray(value)) {
       assertArray(value, isString, 'parameter_value');
-      queue.unshift(...value.map((v): [string, string] => [name, v]));
+      for (let i = value.length - 1; i >= 0; i--) {
+        const singleValue = value[i]!;
+        queue.push([name, singleValue]);
+      }
     } else {
       assertString(value, 'parameter_value');
       result.push(

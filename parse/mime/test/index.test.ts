@@ -642,6 +642,9 @@ describe.sequential('MIME Parser test suite', () => {
         expect(res.parameters).toStrictEqual(
           new Map([['foo', ['bar', 'baz', 'qux']]]),
         );
+        expect(serializeParameters(res.parameters)).toBe(
+          ';foo=bar;foo=baz;foo=qux',
+        );
 
         const resSniff = sniffFormatted(
           'text/plain; foo=bar; foo=baz; foo=qux',
