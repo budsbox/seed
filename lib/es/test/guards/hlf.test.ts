@@ -11,8 +11,10 @@ import {
   assertIterable,
   assertOfType,
   assertSome,
+  assertTuple,
   everyPredicate,
   isIterable,
+  isTuple,
   ofType,
   somePredicate,
 } from '#guards/hlf';
@@ -1137,6 +1139,183 @@ describe.concurrent('assertAnyOf', () => {
       expect(() => void assertAnyOf(['red', 'green'], 'yellow')).toThrow(
         /yellow/,
       );
+    });
+  });
+});
+
+describe.concurrent('isTuple', () => {
+  describe('positive cases', () => {
+    test('returns true for a matching single-element tuple', () => {
+      const isStrTuple = isTuple(isString);
+
+      expect(isStrTuple(['hello'])).toBe(true);
+    });
+
+    test('returns true for a matching multi-element tuple', () => {
+      const isPoint = isTuple(isNumber, isNumber);
+
+      expect(isPoint([1, 2])).toBe(true);
+    });
+
+    test('returns true for a mixed-type tuple', () => {
+      const isPair = isTuple(isString, isNumber);
+
+      expect(isPair(['hello', 42])).toBe(true);
+    });
+
+    test('returns true for an empty tuple', () => {
+      const isEmpty = isTuple();
+
+      expect(isEmpty([])).toBe(true);
+    });
+  });
+
+  describe('negative cases', () => {
+    test('returns false when an element fails its predicate', () => {
+      const isPoint = isTuple(isNumber, isNumber);
+
+      expect(isPoint([1, 'x'])).toBe(false);
+      expect(isPoint(['x', 1])).toBe(false);
+    });
+
+    test('returns false when array is too short', () => {
+      const isPoint = isTuple(isNumber, isNumber);
+
+      expect(isPoint([1])).toBe(false);
+      expect(isPoint([])).toBe(false);
+    });
+
+    test('returns false when array is too long', () => {
+      const isPoint = isTuple(isNumber, isNumber);
+
+      expect(isPoint([1, 2, 3])).toBe(false);
+    });
+
+    test('returns false for non-array values', () => {
+      const isPair = isTuple(isString, isNumber);
+
+      expect(isPair(null)).toBe(false);
+      expect(isPair(undefined)).toBe(false);
+      expect(isPair({})).toBe(false);
+      expect(isPair('hello')).toBe(false);
+      expect(isPair(42)).toBe(false);
+    });
+
+    test('returns false for non-empty array when no predicates given', () => {
+      const isEmpty = isTuple();
+
+      expect(isEmpty([1])).toBe(false);
+      expect(isEmpty(['anything'])).toBe(false);
+    });
+  });
+
+  describe('error cases', () => {
+    test('throws TypeError when predicates contain non-function values', () => {
+      expect(() => isTuple(isString, 42 as never)).toThrow(TypeError);
+      expect(() => isTuple(null as never)).toThrow(TypeError);
+      expect(() => isTuple(isString, undefined as never)).toThrow(TypeError);
+    });
+  });
+});
+
+describe.concurrent('assertTuple', () => {
+  describe('positive cases', () => {
+    test('does not throw for a valid single-element tuple', () => {
+      expect(() => void assertTuple(['hello'], isString)).not.toThrow();
+    });
+
+    test('does not throw for a valid multi-element tuple', () => {
+      expect(() => void assertTuple([1, 2], isNumber, isNumber)).not.toThrow();
+    });
+
+    test('does not throw for a valid mixed-type tuple', () => {
+      expect(
+        () => void assertTuple(['hello', 42], isString, isNumber),
+      ).not.toThrow();
+    });
+
+    test('does not throw for an empty tuple w/o predicates', () => {
+      expect(() => void assertTuple([])).not.toThrow();
+    });
+
+    test('does not throw with a custom value name', () => {
+      expect(
+        () => void assertTuple([1, 2], 'point', isNumber, isNumber),
+      ).not.toThrow();
+    });
+  });
+
+  describe('negative cases', () => {
+    test('throws TypeError when an element fails its predicate', () => {
+      expect(() => void assertTuple([1, 'x'], isNumber, isNumber)).toThrowError(
+        new TypeError(
+          'Expected value to be a tuple [number,number], got [1,"x"] instead',
+        ),
+      );
+      expect(() => void assertTuple(['x', 1], isNumber, isNumber)).toThrow(
+        TypeError,
+      );
+    });
+
+    test('throws TypeError when array is too short', () => {
+      expect(() => void assertTuple([1], isNumber, isNumber)).toThrowError(
+        new TypeError(
+          'Expected value to be a tuple [number,number], got [1] instead',
+        ),
+      );
+      expect(() => void assertTuple([], isNumber, isNumber)).toThrow(TypeError);
+    });
+
+    test('throws TypeError when array is too long', () => {
+      expect(() => void assertTuple([1, 2, 3], isNumber, isNumber)).toThrow(
+        TypeError,
+      );
+    });
+
+    test('throws TypeError for non-array values', () => {
+      expect(() => void assertTuple(null, isString)).toThrowError(
+        new TypeError(
+          'Expected value to be a tuple [string], got null instead',
+        ),
+      );
+      expect(() => void assertTuple(undefined, isString)).toThrow(TypeError);
+      expect(() => void assertTuple({}, isString)).toThrow(TypeError);
+      expect(() => void assertTuple('hello', isString)).toThrow(TypeError);
+      expect(() => void assertTuple(42, isNumber)).toThrow(TypeError);
+    });
+
+    test('throws TypeError with custom name in error message', () => {
+      expect(
+        () => void assertTuple([1, 'x'], 'point', isNumber, isNumber),
+      ).toThrowError(
+        new TypeError(
+          'Expected point to be a tuple [number,number], got [1,"x"] instead',
+        ),
+      );
+      expect(
+        () => void assertTuple([1, 'x'], 'point', isNumber, isNumber),
+      ).toThrow(/point/);
+    });
+
+    test('uses default value name when not provided', () => {
+      expect(() => void assertTuple('bad', isString)).toThrow(/value/);
+    });
+  });
+
+  describe('error cases', () => {
+    test('throws TypeError when predicates contain non-function values', () => {
+      expect(() => void assertTuple(['hello'], isString, 42 as never)).toThrow(
+        TypeError,
+      );
+      expect(() => void assertTuple(['hello'], null as never)).toThrow(
+        TypeError,
+      );
+    });
+
+    test('throws TypeError when predicates contain non-function values with custom name', () => {
+      expect(
+        () => void assertTuple(['hello'], 'myVal', isString, 42 as never),
+      ).toThrow(TypeError);
     });
   });
 });

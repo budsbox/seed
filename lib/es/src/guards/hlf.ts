@@ -23,13 +23,18 @@ import {
   callPredicate,
   invariantPredicate,
 } from './assert.js';
-import { isFunction, isString, sameValueZero } from './check.js';
+import { isArray, isFunction, isString, sameValueZero } from './check.js';
 import {
   describeComplexPredicate,
   describePredicate,
   describeTypePredicate,
+  getPredicateDescriptor,
 } from './describe.js';
-import { formatDebugValue, joinWithConjunction } from './format.js';
+import {
+  formatDebugValue,
+  getPredicateConditions,
+  joinWithConjunction,
+} from './format.js';
 import { assertProp, hasProp } from './prop.js';
 
 /**
@@ -407,6 +412,126 @@ export function assertAnyOf(
       'or',
     )}, got ${formatDebugValue(value)} instead.`,
   );
+}
+
+/* ───────────────────────────────── Tuples ───────────────────────────────── */
+
+/**
+ * Creates a type predicate that checks whether a value is a tuple matching the provided predicates.
+ *
+ * The value must be an {@link !Array array} with exactly the same length as the number of predicates,
+ * and each element must satisfy the corresponding predicate.
+ *
+ * @param predicates - A list of predicates, one per expected tuple element.
+ * @returns A type predicate that narrows the value to a tuple type inferred from the predicates.
+ * @throws {@link !TypeError} If `predicates` contain non-predicate elements.
+ * @typeParam TPredicates - The tuple type of the provided predicates.
+ * @example
+ * ```typescript
+ * const isPoint = isTuple(isNumber, isNumber);
+ * isPoint([1, 2]); // true
+ * isPoint([1, 'x']); // false
+ * isPoint([1]); // false
+ * ```
+ * @category Checks
+ */
+export function isTuple<TPredicates extends readonly Predicate[]>(
+  ...predicates: TPredicates
+): TypePredicate<unknown, PredicatesListNarrowed<TPredicates>>;
+export function isTuple(
+  ...predicates: readonly Predicate[]
+): Predicate<unknown> {
+  assertPredicates(predicates);
+
+  return describePredicate(
+    (value) => {
+      return (
+        isArray(value) &&
+        value.length === predicates.length &&
+        predicates.every((predicate, index) => predicate(value[index]))
+      );
+    },
+    `to be a tuple [${predicates
+      .map((predicate) => {
+        const descriptor = getPredicateDescriptor(predicate);
+        return hasProp(descriptor, 'type') ?
+            descriptor.type
+          : getPredicateConditions(predicate).condition;
+      })
+      .join(',')}]`,
+  );
+}
+
+/**
+ * Asserts that the value is a tuple matching the provided predicates, using a custom value name in error messages.
+ *
+ * The value must be an {@link !Array} with exactly the same length as the number of predicates,
+ * and each element must satisfy the corresponding predicate.
+ *
+ * @param value - The value to assert as a tuple.
+ * @param valueName - The name of the value to use in the error message.
+ * @param predicates - A tuple of predicates, one per expected element.
+ * @returns void.
+ * @throws {@link !TypeError} If the value does not match the expected tuple shape.
+ * @typeParam TPredicates - The tuple type of the provided predicates.
+ * {@label CUSTOM_NAME}
+ * @example
+ * ```typescript
+ * assertTuple(payload, 'payload', [isString, isNumber]);
+ * // payload is narrowed to [string, number]
+ * ```
+ * @category Assertions
+ */
+export function assertTuple<TPredicates extends readonly Predicate[]>(
+  value: unknown,
+  valueName: string,
+  ...predicates: TPredicates
+): asserts value is PredicatesListNarrowed<TPredicates>;
+
+/**
+ * Asserts that the value is a tuple matching the provided predicates, using the default value name.
+ *
+ * The value must be an {@link !Array} with exactly the same length as the number of predicates,
+ * and each element must satisfy the corresponding predicate.
+ *
+ * @param value - The value to assert as a tuple.
+ * @param predicates - A tuple of predicates, one per expected element.
+ * @returns void.
+ * @throws {@link !TypeError} In the following cases:
+ * - If the `value` does not match the expected tuple shape.
+ * - If `predicates` contain non-predicate elements.
+ * @typeParam TPredicates - The tuple type of the provided predicates.
+ * {@label DEFAULT_NAME}
+ * @example
+ * ```typescript
+ * assertTuple(value, [isString, isNumber]);
+ * // value is narrowed to [string, number]
+ * ```
+ * @category Assertions
+ */
+export function assertTuple<TPredicates extends readonly Predicate[]>(
+  value: unknown,
+  ...predicates: TPredicates
+): asserts value is PredicatesListNarrowed<TPredicates>;
+
+export function assertTuple(
+  value: unknown,
+  ...rest:
+    | readonly [valueName: string, ...predicates: Predicate[]]
+    | readonly Predicate[]
+): void {
+  let valueName = 'value',
+    predicates: Predicate[];
+
+  if (isString(rest[0])) {
+    valueName = rest[0];
+    predicates = rest.slice(1) as Predicate[];
+  } else {
+    predicates = rest as Predicate[];
+  }
+
+  assertPredicates(predicates);
+  invariantPredicate(isTuple(...predicates), value, valueName);
 }
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ INTERNALS ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
