@@ -23,7 +23,6 @@ import {
   assertOptionalProp,
   assertProp,
   assertSome,
-  assertString,
   assertTuple,
   isArray,
   isIterable,
@@ -213,7 +212,6 @@ export const serializeParameters = (
     );
 
     const [name, value] = parameter;
-    assertString(name, 'parameter_name');
     if (isArray(value)) {
       assertArray(value, isString, 'parameter_value');
       for (let i = value.length - 1; i >= 0; i--) {
@@ -221,7 +219,6 @@ export const serializeParameters = (
         queue.push([name, singleValue]);
       }
     } else {
-      assertString(value, 'parameter_value');
       result.push(
         `;${name}=${
           isHttpToken(value) ? value : (
