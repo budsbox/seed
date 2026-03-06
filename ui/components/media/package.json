@@ -15,26 +15,26 @@
   "type": "module",
   "imports": {
     "#types": {
-      "@budsbox/": "./src/types.d.ts",
+      "budsbox": "./src/types.d.ts",
       "types": "./dist/types.d.ts"
     },
     "#lib": {
       "import": {
-        "@budsbox/": "./src/lib.ts",
+        "budsbox": "./src/lib.ts",
         "types": "./dist/lib.d.ts",
         "default": "./dist/index.mjs"
       }
     },
     "#model": {
       "import": {
-        "@budsbox/": "./src/model/index.ts",
+        "budsbox": "./src/model/index.ts",
         "types": "./dist/model/index.d.ts",
         "default": "./dist/index.mjs"
       }
     },
     "#ui": {
       "import": {
-        "@budsbox/": "./src/ui/index.ts",
+        "budsbox": "./src/ui/index.ts",
         "types": "./dist/ui/index.d.ts",
         "default": "./dist/ui/index.js"
       }
@@ -46,12 +46,12 @@
     ".": {
       "import": {
         "types": "./dist/index.d.ts",
-        "@budsbox/": "./src/index.ts",
+        "budsbox": "./src/index.ts",
         "default": "./dist/index.mjs"
       },
       "require": {
         "types": "./dist/index.d.ts",
-        "@budsbox/": "./src/index.ts",
+        "budsbox": "./src/index.ts",
         "default": "./dist/index.cjs"
       }
     },
