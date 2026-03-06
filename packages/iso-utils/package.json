@@ -2,11 +2,11 @@
   "name": "@budsbox/iso-utils",
   "version": "1.2.0",
   "description": "isomorphic (aka runtime-agnostic/independent) utilities",
-  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "homepage": "https://github.com/budsbox/seed",
   "bugs": {
-    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+    "url": "https://github.com/budsbox/seed/issues"
   },
-  "repository": "gitlab:budsbox/fe/seed",
+  "repository": "git@github.com:budsbox/seed.git",
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "commonjs",

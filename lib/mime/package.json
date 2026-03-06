@@ -1,11 +1,11 @@
 {
   "name": "@budsbox/lib-mime",
   "version": "0.0.0",
-  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "homepage": "https://github.com/budsbox/seed",
   "bugs": {
-    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+    "url": "https://github.com/budsbox/seed/issues"
   },
-  "repository": "gitlab:budsbox/fe/seed",
+  "repository": "git@github.com:budsbox/seed.git",
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
