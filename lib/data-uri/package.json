@@ -11,7 +11,7 @@
   "type": "module",
   "imports": {
     "#types": {
-      "@budsbox/": "./src/types.d.ts",
+      "budsbox": "./src/types.d.ts",
       "types": "./dist/types.d.ts"
     },
     "#package.json": "./package.json"
@@ -20,7 +20,7 @@
     ".": {
       "import": {
         "types": "./dist/index.d.ts",
-        "@budsbox/": "./src/index.ts",
+        "budsbox": "./src/index.ts",
         "default": "./dist/index.js"
       }
     },
