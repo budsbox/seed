@@ -33,10 +33,10 @@ jobs:
         run: yarn run setup
 
       - name: Build Typings
-        run: YARN_CHANGESET_BASE_REFS=origin/${{ github.base_ref }} yarn workspaces foreach --since --parallel --topological --no-private run p:ts:build
+        run: yarn workspaces foreach --since --parallel --topological --no-private --exclude '@budsbox/{tsconfigs,gen-*,build}' run p:ts:build
 
       - name: Lint
-        run: YARN_CHANGESET_BASE_REFS=origin/${{ github.base_ref }} yarn workspaces foreach --since --parallel --no-private run p:eslint
+        run: yarn workspaces foreach --since --parallel --no-private --exclude '@budsbox/{tsconfigs,gen-*,build}' run p:eslint
 
       - name: Test
-        run: YARN_CHANGESET_BASE_REFS=origin/${{ github.base_ref }} yarn workspaces foreach --since --parallel --no-private run test
+        run: yarn workspaces foreach --since --parallel --no-private --exclude '@budsbox/{tsconfigs,gen-*,build}' run test
