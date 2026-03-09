@@ -1,0 +1,39 @@
+name: Pull Request
+
+on:
+  pull_request:
+    branches: [trunk]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Read .nvmrc
+        id: nvm
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Build Typings
+        run: YARN_CHANGESET_BASE_REFS=origin/${{ github.base_ref }} yarn workspaces foreach --since --parallel --topological --no-private run p:ts:build
+
+      - name: Lint
+        run: YARN_CHANGESET_BASE_REFS=origin/${{ github.base_ref }} yarn workspaces foreach --since --parallel --no-private run p:eslint
+
+      - name: Test
+        run: YARN_CHANGESET_BASE_REFS=origin/${{ github.base_ref }} yarn workspaces foreach --since --parallel --no-private run test
