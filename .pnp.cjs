@@ -5660,6 +5660,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint"],\
           ["@budsbox/eslint_presets-lib", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#workspace:lint/eslint/presets/tools"],\
+          ["@budsbox/gen-mime-sniff-test-data", "workspace:gen/mime-sniff-test-data"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-types", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:lib/types"],\
           ["@budsbox/parse-mime", "workspace:parse/mime"],\
@@ -5667,7 +5668,6 @@ const RAW_RUNTIME_STATE =
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:22.19.1"],\
           ["eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:9.39.1"],\
-          ["mime-sniff-test-data", "exec:./exec-dependencies/mime-sniff-test-data.cjs#./exec-dependencies/mime-sniff-test-data.cjs::hash=71c656&locator=%40budsbox%2Fparse-mime%40workspace%3Aparse%2Fmime"],\
           ["peggy", "npm:5.0.6"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:5.3.1"],\
@@ -16649,15 +16649,6 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "./.yarn/cache/mime-db-npm-1.54.0-82cccb9d70-8d907917bc.zip/node_modules/mime-db/",\
         "packageDependencies": [\
           ["mime-db", "npm:1.54.0"]\
-        ],\
-        "linkType": "HARD"\
-      }]\
-    ]],\
-    ["mime-sniff-test-data", [\
-      ["exec:./exec-dependencies/mime-sniff-test-data.cjs#./exec-dependencies/mime-sniff-test-data.cjs::hash=71c656&locator=%40budsbox%2Fparse-mime%40workspace%3Aparse%2Fmime", {\
-        "packageLocation": "./.yarn/cache/mime-sniff-test-data-exec-ddb864a16d-0ed58d715d.zip/node_modules/mime-sniff-test-data/",\
-        "packageDependencies": [\
-          ["mime-sniff-test-data", "exec:./exec-dependencies/mime-sniff-test-data.cjs#./exec-dependencies/mime-sniff-test-data.cjs::hash=71c656&locator=%40budsbox%2Fparse-mime%40workspace%3Aparse%2Fmime"]\
         ],\
         "linkType": "HARD"\
       }]\

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
-import generatedMimeSniffTests from 'mime-sniff-test-data/generated.json';
-import handCraftedMimeSniffTests from 'mime-sniff-test-data/hand-crafted.json';
 import { describe, expect, test } from 'vitest';
 
+import generatedTestData from '@budsbox/gen-mime-sniff-test-data/generated' with { type: 'json' };
+import handCraftedTestData from '@budsbox/gen-mime-sniff-test-data/hand-crafted' with { type: 'json' };
 import {
   type ParseFunction,
   SyntaxError as ParserSyntaxError,
@@ -821,8 +821,8 @@ describe.sequential('MIME Parser test suite', () => {
     /**
      * @see {@link https://raw.githubusercontent.com/web-platform-tests/wpt/refs/heads/master/mimesniff/mime-types/resources/generated-mime-types.json}
      */
-    test(`MIME Sniffing Standard generated tests (${String(generatedMimeSniffTests.length)})`, () => {
-      for (const { input, output } of generatedMimeSniffTests) {
+    test(`MIME Sniffing Standard generated tests (${String(generatedTestData.length)})`, () => {
+      for (const { input, output } of generatedTestData) {
         if (output === null) {
           expect.soft(() => sniffFormatted(input)).toThrowError('Expected');
         } else {
@@ -834,8 +834,8 @@ describe.sequential('MIME Parser test suite', () => {
       }
     });
 
-    describe('MIME Sniffing Standard hand-crafted tests', () => {
-      test.for(handCraftedMimeSniffTests)(
+    describe(`MIME Sniffing Standard hand-crafted tests (${String(handCraftedTestData.length)})`, () => {
+      test.for(handCraftedTestData)(
         'should correctly process $input',
         ({ input, output }) => {
           if (output === null) {

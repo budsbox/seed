@@ -1431,13 +1431,13 @@ __metadata:
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint_presets-lib": "workspace:^"
     "@budsbox/eslint_presets-tools": "workspace:^"
+    "@budsbox/gen-mime-sniff-test-data": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     eslint: "npm:^9.39.1"
-    mime-sniff-test-data: "exec:./exec-dependencies/mime-sniff-test-data.cjs"
     peggy: "npm:^5.0.6"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
@@ -10006,13 +10006,6 @@ __metadata:
   version: 1.54.0
   resolution: "mime-db@npm:1.54.0"
   checksum: 10c0/8d907917bc2a90fa2df842cdf5dfeaf509adc15fe0531e07bb2f6ab15992416479015828d6a74200041c492e42cce3ebf78e5ce714388a0a538ea9c53eece284
-  languageName: node
-  linkType: hard
-
-"mime-sniff-test-data@exec:./exec-dependencies/mime-sniff-test-data.cjs::locator=%40budsbox%2Fparse-mime%40workspace%3Aparse%2Fmime":
-  version: 2.0.0
-  resolution: "mime-sniff-test-data@exec:./exec-dependencies/mime-sniff-test-data.cjs#./exec-dependencies/mime-sniff-test-data.cjs::hash=71c656&locator=%40budsbox%2Fparse-mime%40workspace%3Aparse%2Fmime"
-  checksum: 10c0/0ed58d715d44d97b11ea10802ce7d563f15b28439fcf3a860b6966afe8bfb2703f7c41d8ab9b3c612e5a01d5be3f6a74ba2d0748356aba457fd27d58967a881a
   languageName: node
   linkType: hard
 

@@ -13,24 +13,20 @@
     "#parser": {
       "import": {
         "types": "./dist/parser.d.ts",
-        "default": "./dist/parser.js"
+        "development": "./dist/parser.js",
+        "production": "./dist/parser.min.js",
+        "default": "./dist/parser.min.js"
       }
     },
     "#types": {
-      "types": "./dist/types.d.ts",
-      "budsbox": "./src/types.ts"
+      "types": "./dist/types.d.ts"
     },
     "#package.json": "./package.json"
   },
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": {
-        "types": "./dist/index.d.ts",
-        "budsbox": "./src/index.ts",
-        "default": "./dist/index.js"
-      },
-      "require": "./dist/index.min.cjs"
+      "default": "./dist/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -59,10 +55,10 @@
     "@budsbox/eslint": "workspace:^",
     "@budsbox/eslint_presets-lib": "workspace:^",
     "@budsbox/eslint_presets-tools": "workspace:^",
+    "@budsbox/gen-mime-sniff-test-data": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "eslint": "^9.39.1",
-    "mime-sniff-test-data": "exec:./exec-dependencies/mime-sniff-test-data.cjs",
     "peggy": "^5.0.6",
     "typescript": "^5.9.3",
     "vitest": "^4.0.15"
