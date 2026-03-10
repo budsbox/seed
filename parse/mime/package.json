@@ -38,6 +38,7 @@
   ],
   "scripts": {
     "build": "run p:peggy:build; run p:ts:build",
+    "check:types": "run p:peggy:build; run p:ts:build",
     "name": "echo $npm_package_name",
     "prepack": "run p:peggy:prepack; run p:ts:prepack",
     "test": "vitest",
