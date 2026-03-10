@@ -40,7 +40,7 @@
   "scripts": {
     "name": "echo $npm_package_name",
     "prepack": "run p:ts:prepack",
-    "setup": "[ -f dist/dist.tsbuildinfo ] || run p:lib:setup",
+    "setup": "run p:lib:setup-worktree",
     "watch": "run p:ts:watch"
   },
   "dependencies": {

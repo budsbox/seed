@@ -56,6 +56,7 @@
   "scripts": {
     "name": "echo $npm_package_name",
     "prepack": "run p:ts:prepack",
+    "setup": "run p:lib:setup; run p:lib:setup-worktree;",
     "watch": "run p:ts:watch"
   },
   "dependencies": {
