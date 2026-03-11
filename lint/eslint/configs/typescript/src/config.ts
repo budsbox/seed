@@ -280,12 +280,29 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
         configs: [
           {
             files: matchIncludes({
-              lang: 'ts',
               sourceType,
               targetSourceType: 'commonjs',
             }),
             rules: {
               '@typescript-eslint/no-require-imports': 'off',
+            },
+          },
+        ],
+      }),
+
+      createConfig({
+        name: 'typescript/js',
+        level: 'recommended',
+        modifies: [
+          'typescript/recommended',
+          'typescript/strict',
+          'typescript/opinionated',
+        ],
+        configs: [
+          {
+            files: matchIncludes({ lang: 'js', jsx: true }),
+            rules: {
+              '@typescript-eslint/explicit-module-boundary-types': 'off',
             },
           },
         ],

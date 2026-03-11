@@ -4,7 +4,7 @@ import type { ConfigLevel } from '@budsbox/eslint';
 
 declare module '@budsbox/eslint' {
   interface ConfigNameSpace {
-    typescript: 'commonjs' | 'import' | ConfigLevel;
+    typescript: 'commonjs' | 'import' | 'js' | ConfigLevel;
   }
 }
 
@@ -13,6 +13,7 @@ declare module '@budsbox/eslint' {
  */
 export interface TypeScriptConfigFactoryOptions {
   /* eslint-disable jsdoc/informative-docs */
+
   /**
    * Extends a list of the allowed type specifiers for readonly parameters.
    *

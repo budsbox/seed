@@ -2,7 +2,7 @@ import type { ConfigLevel } from '@budsbox/eslint';
 
 declare module '@budsbox/eslint' {
   interface ConfigNameSpace {
-    react: ConfigLevel | 'jsx-runtime';
+    react: 'jsx-runtime' | ConfigLevel;
   }
 }
 
