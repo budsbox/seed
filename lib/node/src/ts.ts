@@ -104,8 +104,14 @@ export async function getTsConfig(
   return { path: tsconfigFilePath, json: tsconfig };
 }
 
-type SeparatedIncludeLike = Record<'files' | 'dirs', string[]>;
+type SeparatedIncludeLike = Record<'dirs' | 'files', string[]>;
 
+/**
+ * Separates a list of paths into files and directories based on the presence of file extensions.
+ *
+ * @param includes - A readonly array of strings representing file or directory paths to process.
+ * @returns An object containing two arrays: `files` for paths with a file extension and `dirs` for paths without.
+ */
 export function separateIncludes(
   includes: readonly string[],
 ): SeparatedIncludeLike {
