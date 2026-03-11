@@ -64,8 +64,8 @@ async function main(): Promise<void> {
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   const name = pathNameChunks.pop()!;
   const at = joinPath(cli.flags.at, ...pathNameChunks);
-  const force = !!cli.flags.force;
-  const dryRun = !!cli.flags.dryRun;
+  const force = cli.flags.force;
+  const dryRun = cli.flags.dryRun;
 
   log.info(chalk.bold('budsbox-create starting...'));
   log.info(`  archetype: ${chalk.yellow(archetype)}`);
@@ -75,12 +75,12 @@ async function main(): Promise<void> {
   if (force) log.info(chalk.gray('  force:     enabled'));
 
   const plan = await makePlan({
-    archetypes,
     archetype,
-    name,
-    from,
+    archetypes,
     at: at.length > 0 ? at : undefined,
     force,
+    from,
+    name,
   });
 
   const ok = await explainPlan(plan, { prompt: !force });

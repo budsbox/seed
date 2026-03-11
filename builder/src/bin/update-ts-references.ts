@@ -79,7 +79,9 @@ const updateTsconfigsReferences = async (
           absolutePaths: true,
           stupid: true,
         }),
-        JSON.parse(await fs.readFile(tsconfigPath, 'utf8')) as TsConfigJson,
+        fs
+          .readFile(tsconfigPath, 'utf8')
+          .then((content) => JSON.parse(content) as TsConfigJson),
       ]);
       const { references } = tsconfig.json;
       const currentSet = new Set(references?.map(({ path }) => path) ?? []);

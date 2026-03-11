@@ -54,9 +54,10 @@ export type Command =
       /**
        * A workspace name without an optional scope, specifying the context for execution.
        *
-       * @default the new workspace ident
+       * @defaultValue the new workspace ident
        */
       readonly workspace?: string;
+
       /**
        * The execution command to be run in the given workspace.
        */
@@ -77,17 +78,19 @@ export type Command =
  */
 export interface ResolvedCommand {
   /**
-   * Fully resolved workspace name, including scope if applicable.
+   * The current working directory of the command — the root of the workspace.
    */
-  readonly workspace: string;
+  readonly cwd: string;
+
   /**
    * The execution command to be run in the given workspace.
    */
   readonly exec: string;
+
   /**
-   * The current working directory of the command — the root of the workspace.
+   * Fully resolved workspace name, including scope if applicable.
    */
-  readonly cwd: string;
+  readonly workspace: string;
 
   /**
    * Represents the configuration options for a command.
@@ -121,7 +124,7 @@ export type ArchetypeManifest = Omit<
  * Represents the configuration settings for an archetype, which is a blueprint or template
  * used to create or extend workspaces, manage dependencies, and define custom operations.
  *
- * @typeParam Id - Extends `ArchetypeName` and denotes the specific archetype identifiers
+ * @typeParam TName - Extends `ArchetypeName` and denotes the specific archetype identifiers
  * used to extend or reference archetypes in the configuration.
  */
 export interface Archetype<TName extends ArchetypeName = ArchetypeName> {
@@ -132,32 +135,7 @@ export interface Archetype<TName extends ArchetypeName = ArchetypeName> {
    * Configurable with the `--at` flag.
    */
   readonly at?: string;
-  /**
-   * Set to `true` to prevent the creation of this archetype instances (marks it as "extend-only")
-   */
-  readonly internal?: boolean;
-  /**
-   * A list of archetypes to extend from.
-   */
-  readonly extends?: Readonly<Arrayable<Exclude<ArchetypeName, TName>>>;
-  /**
-   * A list of dependencies to install.
-   */
-  readonly dependencies?: ReadonlyArray<
-    LiteralUnion<string, ArchetypeExtendControlSymbol>
-  >;
-  /**
-   * A list of devDependencies to install.
-   */
-  readonly devDependencies?: ReadonlyArray<
-    LiteralUnion<string, ArchetypeExtendControlSymbol>
-  >;
-  /**
-   * A list of peerDependencies to install.
-   */
-  readonly peerDependencies?: ReadonlyArray<
-    LiteralUnion<string, ArchetypeExtendControlSymbol>
-  >;
+
   /**
    * A list of commands to run.
    */
@@ -166,9 +144,33 @@ export interface Archetype<TName extends ArchetypeName = ArchetypeName> {
   >;
 
   /**
+   * A list of dependencies to install.
+   */
+  readonly dependencies?: ReadonlyArray<
+    LiteralUnion<string, ArchetypeExtendControlSymbol>
+  >;
+
+  /**
+   * A list of devDependencies to install.
+   */
+  readonly devDependencies?: ReadonlyArray<
+    LiteralUnion<string, ArchetypeExtendControlSymbol>
+  >;
+
+  /**
+   * A list of archetypes to extend from.
+   */
+  readonly extends?: Readonly<Arrayable<Exclude<ArchetypeName, TName>>>;
+
+  /**
    * Map of files to create in the archetype workspace.
    */
-  files?: ArchetypeFiles;
+  readonly files?: ArchetypeFiles;
+
+  /**
+   * Set to `true` to prevent the creation of this archetype instances (marks it as "extend-only")
+   */
+  readonly internal?: boolean;
 
   /**
    * Represents a partial package manifest, excluding the dependencies,
@@ -180,10 +182,20 @@ export interface Archetype<TName extends ArchetypeName = ArchetypeName> {
    *
    */
   manifest?: ArchetypeManifest;
+
+  /**
+   * A list of peerDependencies to install.
+   */
+  readonly peerDependencies?: ReadonlyArray<
+    LiteralUnion<string, ArchetypeExtendControlSymbol>
+  >;
 }
 
 /**
  * Represents a type of fully resolved configuration for a specific archetype.
+ *
+ * @typeParam TName - Extends `ArchetypeName` and denotes the specific archetype identifiers
+ * used to extend or reference archetypes in the configuration.
  */
 export type ArchetypeResolved<TName extends ArchetypeName> = Omit<
   Required<Archetype<TName>>,
@@ -206,17 +218,19 @@ export type ArchetypeMap = {
  */
 export interface PlannedFile {
   /**
-   * An absolute path to the file
-   */
-  readonly path: string;
-  /**
    * A string representation of the file content
    */
   readonly content: string;
+
   /**
    * A flag indicating whether the file will be overwritten
    */
   readonly isOverwrite: boolean;
+
+  /**
+   * An absolute path to the file
+   */
+  readonly path: string;
 }
 
 /**
@@ -229,19 +243,14 @@ export interface Plan {
   readonly archetype: ArchetypeName;
 
   /**
-   * A name of the new workspace
-   */
-  readonly name: string;
-
-  /**
-   * A fully resolved workspace name, including scope if applicable.
-   */
-  readonly ident: string;
-
-  /**
    * A resolved value of the `at` option
    */
   readonly at: string;
+
+  /**
+   * A list of commands to run.
+   */
+  commands: readonly ResolvedCommand[];
 
   /**
    * A path to the new workspace
@@ -249,17 +258,22 @@ export interface Plan {
   readonly cwd: string;
 
   /**
-   * A flag indicating whether the directory for the new workspace will be created
-   */
-  readonly willCreateCwd: boolean;
-
-  /**
    * A list of files that will be created or overwritten during the creation of the workspace.
    */
   readonly files: readonly PlannedFile[];
 
   /**
-   * A list of commands to run.
+   * A fully resolved workspace name, including scope if applicable.
    */
-  commands: readonly ResolvedCommand[];
+  readonly ident: string;
+
+  /**
+   * A name of the new workspace
+   */
+  readonly name: string;
+
+  /**
+   * A flag indicating whether the directory for the new workspace will be created
+   */
+  readonly willCreateCwd: boolean;
 }

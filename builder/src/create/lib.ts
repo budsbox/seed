@@ -155,6 +155,7 @@ const overrideExports = (parent: Exports, children: Exports): Exports => {
  * @param name - The name of the archetype that is not recognized.
  * @param archetypes - A map containing all known archetypes.
  * @param parentChain - An optional set representing the chain of parent archetypes, if applicable.
+ * @throws {@link Error} when an unknown archetype is encountered.
  */
 export function throwUnknownArchetype(
   name: ArchetypeName,
@@ -177,6 +178,8 @@ export function throwUnknownArchetype(
  * @param archetypes - A map of archetype names to their corresponding properties and configuration.
  * @param name - The name of the archetype to resolve.
  * @returns The fully resolved archetype configuration for the specified archetype name.
+ * @typeParam TName - Extends `ArchetypeName` and denotes the specific archetype identifiers
+ * used to extend or reference archetypes in the configuration.
  */
 export function resolveArchetype<TName extends ArchetypeName>(
   archetypes: ArchetypeMap,
