@@ -1,5 +1,6 @@
-import { describe, test, expect, vi } from 'vitest';
-import { union, intersection, ROSet } from '#set';
+import { describe, expect, test, vi } from 'vitest';
+
+import { ROSet, intersection, union } from '#set';
 
 describe.concurrent('union', () => {
   test('should compute the union of multiple sets', () => {

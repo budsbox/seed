@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest';
+
 import { ROMap } from '#map';
 
 describe.concurrent('ROMap', () => {
@@ -16,7 +17,7 @@ describe.concurrent('ROMap', () => {
     });
 
     test('should initialize with provided entries', () => {
-      const entries: [string, number][] = [
+      const entries: Array<[string, number]> = [
         ['a', 1],
         ['b', 2],
       ];
@@ -117,7 +118,7 @@ describe.concurrent('ROMap', () => {
 
     test('Symbol.iterator should work (for...of support)', () => {
       const map = new ROMap([['a', 1]]);
-      const results: [string, number][] = [];
+      const results: Array<[string, number]> = [];
       for (const entry of map) {
         results.push(entry);
       }
