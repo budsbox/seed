@@ -36,7 +36,7 @@ jobs:
         run: yarn workspaces foreach --since --parallel --topological --no-private --exclude '{packages/*,linting,build}' run check:types
 
       - name: Lint
-        run: yarn workspaces foreach --since --parallel --no-private --exclude '@budsbox/{tsconfigs,gen-*,build}' run p:eslint
+        run: yarn workspaces foreach --since --parallel --no-private --exclude '{packages/*,linting,build}' run check:lint
 
       - name: Test
-        run: yarn workspaces foreach --since --parallel --no-private --exclude '@budsbox/{tsconfigs,gen-*,build}' run test
+        run: yarn workspaces foreach --since --parallel --no-private --exclude '{packages/*,linting,build}' run check:test
