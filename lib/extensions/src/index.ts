@@ -79,6 +79,7 @@ const leadingDotRegex = /^\.?/;
  *
  * @param extension - The extension string to process.
  * @returns The processed extension string that is guaranteed to start with a dot. If the input already starts with a dot, it will be returned unchanged.
+ * @typeParam TExtension - The type of the extension string, which can be any string.
  */
 export function prependDot<TExtension extends string>(
   extension: TExtension,
@@ -93,6 +94,7 @@ export function prependDot(extension: string): string {
  *
  * @param extension - The string input, which may or may not have a leading dot.
  * @returns The input string without a leading dot, or the original string if no leading dot was present.
+ * @typeParam TExtension - The type of the extension string, which can be any string.
  */
 export function removeDot<TExtension extends string>(
   extension: TExtension,
