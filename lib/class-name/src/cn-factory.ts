@@ -11,6 +11,7 @@ import { isArray, isFunction } from '@budsbox/lib-es/guards';
  * or functions that return class names when provided with arguments.
  * @returns A class name generator function that takes the same arguments as the provided
  * class name functions and returns the combined class names as a single string.
+ * @typeParam TArgs - The type of arguments accepted by the class name functions.
  */
 export function cnFactory<TArgs extends readonly unknown[] = []>(
   this: void,
