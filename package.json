@@ -40,7 +40,7 @@
     "autotag-all-since": "YARN_CHANGESET_BASE_REFS=$0 yarn workspaces foreach --parallel --since --no-private run p:autotag",
     "c": "run setup-constraints; yarn constraints",
     "cf": "yarn constraints --fix; yarn",
-    "check:types": "cd $INIT_CWD; [ -f ./tsconfig.json ] && npm run p:ts:build",
+    "check:types": "cd $INIT_CWD; [ -f ./tsconfig.json ] || exit 0; run p:ts:build",
     "format": "run format-manifests && prettier --write .",
     "format-manifests": "sort-package-json \"**/package.json\"",
     "postinstall": "run setup-builder; run relink; run setup-constraints",
