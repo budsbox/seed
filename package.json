@@ -137,7 +137,6 @@
     "@budsbox/linting": "workspace:^",
     "@budsbox/node-utils": "workspace:^",
     "@budsbox/parse-mime": "workspace:^",
-    "@budsbox/playground": "workspace:^",
     "@budsbox/sass-importers": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",

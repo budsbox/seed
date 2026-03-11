@@ -1203,7 +1203,6 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
@@ -1446,40 +1445,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/playground@workspace:^, @budsbox/playground@workspace:packages/playground":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/playground@workspace:packages/playground"
-  dependencies:
-    "@budsbox/build": "workspace:^"
-    "@budsbox/iso-utils": "workspace:^"
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/linting": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
-    "@types/node": "npm:^22.19.1"
-    "@types/react": "npm:^19.1.13"
-    "@types/react-dom": "npm:^19.1.9"
-    "@typescript-eslint/parser": "npm:^8.48.1"
-    "@vitejs/plugin-react": "npm:^5.1.1"
-    eslint: "npm:^9.39.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-jsdoc: "npm:^61.5.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    eslint-plugin-react-refresh: "npm:^0.4.24"
-    globals: "npm:^16.5.0"
-    react: "npm:^19.1.1"
-    react-dom: "npm:^19.1.1"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.48.1"
-    vite: "npm:^7.2.6"
-  languageName: unknown
-  linkType: soft
-
 "@budsbox/root@workspace:.":
   version: 0.0.0-use.local
   resolution: "@budsbox/root@workspace:."
@@ -1517,7 +1482,6 @@ __metadata:
     "@budsbox/linting": "workspace:^"
     "@budsbox/node-utils": "workspace:^"
     "@budsbox/parse-mime": "workspace:^"
-    "@budsbox/playground": "workspace:^"
     "@budsbox/sass-importers": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
