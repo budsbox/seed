@@ -11,28 +11,23 @@
   "type": "module",
   "imports": {
     "#package.json": "./package.json",
-    "#generated": "./dist/generated.json",
-    "#groups": "./dist/groups.json",
-    "#minimized": "./dist/minimized.json",
-    "#hand-crafted": "./dist/handCrafted.json"
+    "#generated": "./data/generated.json",
+    "#groups": "./data/groups.json",
+    "#minimized": "./data/minimized.json",
+    "#hand-crafted": "./data/handCrafted.json"
   },
   "exports": {
     "./package.json": "./package.json",
-    "./generated": "./dist/generated.json",
-    "./groups": "./dist/groups.json",
-    "./minimized": "./dist/minimized.json",
-    "./hand-crafted": "./dist/handCrafted.json"
+    "./generated": "./data/generated.json",
+    "./groups": "./data/groups.json",
+    "./minimized": "./data/minimized.json",
+    "./hand-crafted": "./data/handCrafted.json"
   },
   "files": [
-    "dist/**/*.js",
-    "dist/**/*.mjs",
-    "dist/**/*.cjs",
-    "dist/**/*.d.ts",
-    "dist/**/*.json"
+    "data/**/*.json"
   ],
   "scripts": {
-    "name": "echo $npm_package_name",
-    "prepack": "node generator/index.js"
+    "name": "echo $npm_package_name"
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",

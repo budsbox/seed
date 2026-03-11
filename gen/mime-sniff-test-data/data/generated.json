@@ -1,0 +1,3526 @@
+[
+  {
+    "input": "\u0000/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0000",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0000=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0000;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0000\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0001/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0001",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0001=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0001;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0001\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0002/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0002",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0002=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0002;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0002\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0003/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0003",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0003=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0003;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0003\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0004/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0004",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0004=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0004;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0004\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0005/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0005",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0005=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0005;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0005\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0006/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0006",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0006=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0006;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0006\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0007/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0007",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0007=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0007;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0007\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\b/x",
+    "output": null
+  },
+  {
+    "input": "x/\b",
+    "output": null
+  },
+  {
+    "input": "x/x;\b=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\b;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\b\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\t/x",
+    "output": null
+  },
+  {
+    "input": "x/\t",
+    "output": null
+  },
+  {
+    "input": "x/x;\t=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\n/x",
+    "output": null
+  },
+  {
+    "input": "x/\n",
+    "output": null
+  },
+  {
+    "input": "x/x;\n=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\n;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\n\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u000b/x",
+    "output": null
+  },
+  {
+    "input": "x/\u000b",
+    "output": null
+  },
+  {
+    "input": "x/x;\u000b=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u000b;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u000b\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\f/x",
+    "output": null
+  },
+  {
+    "input": "x/\f",
+    "output": null
+  },
+  {
+    "input": "x/x;\f=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\f;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\f\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\r/x",
+    "output": null
+  },
+  {
+    "input": "x/\r",
+    "output": null
+  },
+  {
+    "input": "x/x;\r=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\r;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\r\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u000e/x",
+    "output": null
+  },
+  {
+    "input": "x/\u000e",
+    "output": null
+  },
+  {
+    "input": "x/x;\u000e=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u000e;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u000e\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u000f/x",
+    "output": null
+  },
+  {
+    "input": "x/\u000f",
+    "output": null
+  },
+  {
+    "input": "x/x;\u000f=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u000f;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u000f\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0010/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0010",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0010=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0010;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0010\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0011/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0011",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0011=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0011;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0011\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0012/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0012",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0012=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0012;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0012\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0013/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0013",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0013=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0013;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0013\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0014/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0014",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0014=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0014;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0014\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0015/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0015",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0015=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0015;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0015\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0016/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0016",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0016=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0016;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0016\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0017/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0017",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0017=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0017;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0017\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0018/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0018",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0018=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0018;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0018\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u0019/x",
+    "output": null
+  },
+  {
+    "input": "x/\u0019",
+    "output": null
+  },
+  {
+    "input": "x/x;\u0019=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u0019;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u0019\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u001a/x",
+    "output": null
+  },
+  {
+    "input": "x/\u001a",
+    "output": null
+  },
+  {
+    "input": "x/x;\u001a=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u001a;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u001a\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u001b/x",
+    "output": null
+  },
+  {
+    "input": "x/\u001b",
+    "output": null
+  },
+  {
+    "input": "x/x;\u001b=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u001b;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u001b\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u001c/x",
+    "output": null
+  },
+  {
+    "input": "x/\u001c",
+    "output": null
+  },
+  {
+    "input": "x/x;\u001c=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u001c;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u001c\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u001d/x",
+    "output": null
+  },
+  {
+    "input": "x/\u001d",
+    "output": null
+  },
+  {
+    "input": "x/x;\u001d=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u001d;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u001d\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u001e/x",
+    "output": null
+  },
+  {
+    "input": "x/\u001e",
+    "output": null
+  },
+  {
+    "input": "x/x;\u001e=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u001e;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u001e\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\u001f/x",
+    "output": null
+  },
+  {
+    "input": "x/\u001f",
+    "output": null
+  },
+  {
+    "input": "x/x;\u001f=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\u001f;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\u001f\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": " /x",
+    "output": null
+  },
+  {
+    "input": "x/ ",
+    "output": null
+  },
+  {
+    "input": "x/x; =x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "\"/x",
+    "output": null
+  },
+  {
+    "input": "x/\"",
+    "output": null
+  },
+  {
+    "input": "x/x;\"=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "(/x",
+    "output": null
+  },
+  {
+    "input": "x/(",
+    "output": null
+  },
+  {
+    "input": "x/x;(=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=(;bonus=x",
+    "output": "x/x;x=\"(\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"(\";bonus=x",
+    "output": "x/x;x=\"(\";bonus=x"
+  },
+  {
+    "input": ")/x",
+    "output": null
+  },
+  {
+    "input": "x/)",
+    "output": null
+  },
+  {
+    "input": "x/x;)=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=);bonus=x",
+    "output": "x/x;x=\")\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\")\";bonus=x",
+    "output": "x/x;x=\")\";bonus=x"
+  },
+  {
+    "input": ",/x",
+    "output": null
+  },
+  {
+    "input": "x/,",
+    "output": null
+  },
+  {
+    "input": "x/x;,=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=,;bonus=x",
+    "output": "x/x;x=\",\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\",\";bonus=x",
+    "output": "x/x;x=\",\";bonus=x"
+  },
+  {
+    "input": "x/x;/=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=/;bonus=x",
+    "output": "x/x;x=\"/\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"/\";bonus=x",
+    "output": "x/x;x=\"/\";bonus=x"
+  },
+  {
+    "input": ":/x",
+    "output": null
+  },
+  {
+    "input": "x/:",
+    "output": null
+  },
+  {
+    "input": "x/x;:=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=:;bonus=x",
+    "output": "x/x;x=\":\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\":\";bonus=x",
+    "output": "x/x;x=\":\";bonus=x"
+  },
+  {
+    "input": ";/x",
+    "output": null
+  },
+  {
+    "input": "x/;",
+    "output": null
+  },
+  {
+    "input": "</x",
+    "output": null
+  },
+  {
+    "input": "x/<",
+    "output": null
+  },
+  {
+    "input": "x/x;<=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=<;bonus=x",
+    "output": "x/x;x=\"<\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"<\";bonus=x",
+    "output": "x/x;x=\"<\";bonus=x"
+  },
+  {
+    "input": "=/x",
+    "output": null
+  },
+  {
+    "input": "x/=",
+    "output": null
+  },
+  {
+    "input": "x/x;x==;bonus=x",
+    "output": "x/x;x=\"=\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"=\";bonus=x",
+    "output": "x/x;x=\"=\";bonus=x"
+  },
+  {
+    "input": ">/x",
+    "output": null
+  },
+  {
+    "input": "x/>",
+    "output": null
+  },
+  {
+    "input": "x/x;>=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=>;bonus=x",
+    "output": "x/x;x=\">\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\">\";bonus=x",
+    "output": "x/x;x=\">\";bonus=x"
+  },
+  {
+    "input": "?/x",
+    "output": null
+  },
+  {
+    "input": "x/?",
+    "output": null
+  },
+  {
+    "input": "x/x;?=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=?;bonus=x",
+    "output": "x/x;x=\"?\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"?\";bonus=x",
+    "output": "x/x;x=\"?\";bonus=x"
+  },
+  {
+    "input": "@/x",
+    "output": null
+  },
+  {
+    "input": "x/@",
+    "output": null
+  },
+  {
+    "input": "x/x;@=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=@;bonus=x",
+    "output": "x/x;x=\"@\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"@\";bonus=x",
+    "output": "x/x;x=\"@\";bonus=x"
+  },
+  {
+    "input": "[/x",
+    "output": null
+  },
+  {
+    "input": "x/[",
+    "output": null
+  },
+  {
+    "input": "x/x;[=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=[;bonus=x",
+    "output": "x/x;x=\"[\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"[\";bonus=x",
+    "output": "x/x;x=\"[\";bonus=x"
+  },
+  {
+    "input": "\\/x",
+    "output": null
+  },
+  {
+    "input": "x/\\",
+    "output": null
+  },
+  {
+    "input": "x/x;\\=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "]/x",
+    "output": null
+  },
+  {
+    "input": "x/]",
+    "output": null
+  },
+  {
+    "input": "x/x;]=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=];bonus=x",
+    "output": "x/x;x=\"]\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"]\";bonus=x",
+    "output": "x/x;x=\"]\";bonus=x"
+  },
+  {
+    "input": "{/x",
+    "output": null
+  },
+  {
+    "input": "x/{",
+    "output": null
+  },
+  {
+    "input": "x/x;{=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x={;bonus=x",
+    "output": "x/x;x=\"{\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"{\";bonus=x",
+    "output": "x/x;x=\"{\";bonus=x"
+  },
+  {
+    "input": "}/x",
+    "output": null
+  },
+  {
+    "input": "x/}",
+    "output": null
+  },
+  {
+    "input": "x/x;}=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=};bonus=x",
+    "output": "x/x;x=\"}\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"}\";bonus=x",
+    "output": "x/x;x=\"}\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "/x",
+    "output": null
+  },
+  {
+    "input": "x/",
+    "output": null
+  },
+  {
+    "input": "x/x;=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=;bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"\";bonus=x",
+    "output": "x/x;x=\"\";bonus=x"
+  },
+  {
+    "input": " /x",
+    "output": null
+  },
+  {
+    "input": "x/ ",
+    "output": null
+  },
+  {
+    "input": "x/x; =x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x= ;bonus=x",
+    "output": "x/x;x=\" \";bonus=x"
+  },
+  {
+    "input": "x/x;x=\" \";bonus=x",
+    "output": "x/x;x=\" \";bonus=x"
+  },
+  {
+    "input": "¡/x",
+    "output": null
+  },
+  {
+    "input": "x/¡",
+    "output": null
+  },
+  {
+    "input": "x/x;¡=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¡;bonus=x",
+    "output": "x/x;x=\"¡\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¡\";bonus=x",
+    "output": "x/x;x=\"¡\";bonus=x"
+  },
+  {
+    "input": "¢/x",
+    "output": null
+  },
+  {
+    "input": "x/¢",
+    "output": null
+  },
+  {
+    "input": "x/x;¢=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¢;bonus=x",
+    "output": "x/x;x=\"¢\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¢\";bonus=x",
+    "output": "x/x;x=\"¢\";bonus=x"
+  },
+  {
+    "input": "£/x",
+    "output": null
+  },
+  {
+    "input": "x/£",
+    "output": null
+  },
+  {
+    "input": "x/x;£=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=£;bonus=x",
+    "output": "x/x;x=\"£\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"£\";bonus=x",
+    "output": "x/x;x=\"£\";bonus=x"
+  },
+  {
+    "input": "¤/x",
+    "output": null
+  },
+  {
+    "input": "x/¤",
+    "output": null
+  },
+  {
+    "input": "x/x;¤=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¤;bonus=x",
+    "output": "x/x;x=\"¤\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¤\";bonus=x",
+    "output": "x/x;x=\"¤\";bonus=x"
+  },
+  {
+    "input": "¥/x",
+    "output": null
+  },
+  {
+    "input": "x/¥",
+    "output": null
+  },
+  {
+    "input": "x/x;¥=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¥;bonus=x",
+    "output": "x/x;x=\"¥\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¥\";bonus=x",
+    "output": "x/x;x=\"¥\";bonus=x"
+  },
+  {
+    "input": "¦/x",
+    "output": null
+  },
+  {
+    "input": "x/¦",
+    "output": null
+  },
+  {
+    "input": "x/x;¦=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¦;bonus=x",
+    "output": "x/x;x=\"¦\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¦\";bonus=x",
+    "output": "x/x;x=\"¦\";bonus=x"
+  },
+  {
+    "input": "§/x",
+    "output": null
+  },
+  {
+    "input": "x/§",
+    "output": null
+  },
+  {
+    "input": "x/x;§=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=§;bonus=x",
+    "output": "x/x;x=\"§\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"§\";bonus=x",
+    "output": "x/x;x=\"§\";bonus=x"
+  },
+  {
+    "input": "¨/x",
+    "output": null
+  },
+  {
+    "input": "x/¨",
+    "output": null
+  },
+  {
+    "input": "x/x;¨=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¨;bonus=x",
+    "output": "x/x;x=\"¨\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¨\";bonus=x",
+    "output": "x/x;x=\"¨\";bonus=x"
+  },
+  {
+    "input": "©/x",
+    "output": null
+  },
+  {
+    "input": "x/©",
+    "output": null
+  },
+  {
+    "input": "x/x;©=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=©;bonus=x",
+    "output": "x/x;x=\"©\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"©\";bonus=x",
+    "output": "x/x;x=\"©\";bonus=x"
+  },
+  {
+    "input": "ª/x",
+    "output": null
+  },
+  {
+    "input": "x/ª",
+    "output": null
+  },
+  {
+    "input": "x/x;ª=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ª;bonus=x",
+    "output": "x/x;x=\"ª\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ª\";bonus=x",
+    "output": "x/x;x=\"ª\";bonus=x"
+  },
+  {
+    "input": "«/x",
+    "output": null
+  },
+  {
+    "input": "x/«",
+    "output": null
+  },
+  {
+    "input": "x/x;«=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=«;bonus=x",
+    "output": "x/x;x=\"«\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"«\";bonus=x",
+    "output": "x/x;x=\"«\";bonus=x"
+  },
+  {
+    "input": "¬/x",
+    "output": null
+  },
+  {
+    "input": "x/¬",
+    "output": null
+  },
+  {
+    "input": "x/x;¬=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¬;bonus=x",
+    "output": "x/x;x=\"¬\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¬\";bonus=x",
+    "output": "x/x;x=\"¬\";bonus=x"
+  },
+  {
+    "input": "­/x",
+    "output": null
+  },
+  {
+    "input": "x/­",
+    "output": null
+  },
+  {
+    "input": "x/x;­=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=­;bonus=x",
+    "output": "x/x;x=\"­\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"­\";bonus=x",
+    "output": "x/x;x=\"­\";bonus=x"
+  },
+  {
+    "input": "®/x",
+    "output": null
+  },
+  {
+    "input": "x/®",
+    "output": null
+  },
+  {
+    "input": "x/x;®=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=®;bonus=x",
+    "output": "x/x;x=\"®\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"®\";bonus=x",
+    "output": "x/x;x=\"®\";bonus=x"
+  },
+  {
+    "input": "¯/x",
+    "output": null
+  },
+  {
+    "input": "x/¯",
+    "output": null
+  },
+  {
+    "input": "x/x;¯=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¯;bonus=x",
+    "output": "x/x;x=\"¯\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¯\";bonus=x",
+    "output": "x/x;x=\"¯\";bonus=x"
+  },
+  {
+    "input": "°/x",
+    "output": null
+  },
+  {
+    "input": "x/°",
+    "output": null
+  },
+  {
+    "input": "x/x;°=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=°;bonus=x",
+    "output": "x/x;x=\"°\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"°\";bonus=x",
+    "output": "x/x;x=\"°\";bonus=x"
+  },
+  {
+    "input": "±/x",
+    "output": null
+  },
+  {
+    "input": "x/±",
+    "output": null
+  },
+  {
+    "input": "x/x;±=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=±;bonus=x",
+    "output": "x/x;x=\"±\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"±\";bonus=x",
+    "output": "x/x;x=\"±\";bonus=x"
+  },
+  {
+    "input": "²/x",
+    "output": null
+  },
+  {
+    "input": "x/²",
+    "output": null
+  },
+  {
+    "input": "x/x;²=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=²;bonus=x",
+    "output": "x/x;x=\"²\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"²\";bonus=x",
+    "output": "x/x;x=\"²\";bonus=x"
+  },
+  {
+    "input": "³/x",
+    "output": null
+  },
+  {
+    "input": "x/³",
+    "output": null
+  },
+  {
+    "input": "x/x;³=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=³;bonus=x",
+    "output": "x/x;x=\"³\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"³\";bonus=x",
+    "output": "x/x;x=\"³\";bonus=x"
+  },
+  {
+    "input": "´/x",
+    "output": null
+  },
+  {
+    "input": "x/´",
+    "output": null
+  },
+  {
+    "input": "x/x;´=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=´;bonus=x",
+    "output": "x/x;x=\"´\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"´\";bonus=x",
+    "output": "x/x;x=\"´\";bonus=x"
+  },
+  {
+    "input": "µ/x",
+    "output": null
+  },
+  {
+    "input": "x/µ",
+    "output": null
+  },
+  {
+    "input": "x/x;µ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=µ;bonus=x",
+    "output": "x/x;x=\"µ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"µ\";bonus=x",
+    "output": "x/x;x=\"µ\";bonus=x"
+  },
+  {
+    "input": "¶/x",
+    "output": null
+  },
+  {
+    "input": "x/¶",
+    "output": null
+  },
+  {
+    "input": "x/x;¶=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¶;bonus=x",
+    "output": "x/x;x=\"¶\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¶\";bonus=x",
+    "output": "x/x;x=\"¶\";bonus=x"
+  },
+  {
+    "input": "·/x",
+    "output": null
+  },
+  {
+    "input": "x/·",
+    "output": null
+  },
+  {
+    "input": "x/x;·=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=·;bonus=x",
+    "output": "x/x;x=\"·\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"·\";bonus=x",
+    "output": "x/x;x=\"·\";bonus=x"
+  },
+  {
+    "input": "¸/x",
+    "output": null
+  },
+  {
+    "input": "x/¸",
+    "output": null
+  },
+  {
+    "input": "x/x;¸=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¸;bonus=x",
+    "output": "x/x;x=\"¸\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¸\";bonus=x",
+    "output": "x/x;x=\"¸\";bonus=x"
+  },
+  {
+    "input": "¹/x",
+    "output": null
+  },
+  {
+    "input": "x/¹",
+    "output": null
+  },
+  {
+    "input": "x/x;¹=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¹;bonus=x",
+    "output": "x/x;x=\"¹\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¹\";bonus=x",
+    "output": "x/x;x=\"¹\";bonus=x"
+  },
+  {
+    "input": "º/x",
+    "output": null
+  },
+  {
+    "input": "x/º",
+    "output": null
+  },
+  {
+    "input": "x/x;º=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=º;bonus=x",
+    "output": "x/x;x=\"º\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"º\";bonus=x",
+    "output": "x/x;x=\"º\";bonus=x"
+  },
+  {
+    "input": "»/x",
+    "output": null
+  },
+  {
+    "input": "x/»",
+    "output": null
+  },
+  {
+    "input": "x/x;»=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=»;bonus=x",
+    "output": "x/x;x=\"»\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"»\";bonus=x",
+    "output": "x/x;x=\"»\";bonus=x"
+  },
+  {
+    "input": "¼/x",
+    "output": null
+  },
+  {
+    "input": "x/¼",
+    "output": null
+  },
+  {
+    "input": "x/x;¼=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¼;bonus=x",
+    "output": "x/x;x=\"¼\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¼\";bonus=x",
+    "output": "x/x;x=\"¼\";bonus=x"
+  },
+  {
+    "input": "½/x",
+    "output": null
+  },
+  {
+    "input": "x/½",
+    "output": null
+  },
+  {
+    "input": "x/x;½=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=½;bonus=x",
+    "output": "x/x;x=\"½\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"½\";bonus=x",
+    "output": "x/x;x=\"½\";bonus=x"
+  },
+  {
+    "input": "¾/x",
+    "output": null
+  },
+  {
+    "input": "x/¾",
+    "output": null
+  },
+  {
+    "input": "x/x;¾=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¾;bonus=x",
+    "output": "x/x;x=\"¾\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¾\";bonus=x",
+    "output": "x/x;x=\"¾\";bonus=x"
+  },
+  {
+    "input": "¿/x",
+    "output": null
+  },
+  {
+    "input": "x/¿",
+    "output": null
+  },
+  {
+    "input": "x/x;¿=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=¿;bonus=x",
+    "output": "x/x;x=\"¿\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"¿\";bonus=x",
+    "output": "x/x;x=\"¿\";bonus=x"
+  },
+  {
+    "input": "À/x",
+    "output": null
+  },
+  {
+    "input": "x/À",
+    "output": null
+  },
+  {
+    "input": "x/x;À=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=À;bonus=x",
+    "output": "x/x;x=\"À\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"À\";bonus=x",
+    "output": "x/x;x=\"À\";bonus=x"
+  },
+  {
+    "input": "Á/x",
+    "output": null
+  },
+  {
+    "input": "x/Á",
+    "output": null
+  },
+  {
+    "input": "x/x;Á=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Á;bonus=x",
+    "output": "x/x;x=\"Á\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Á\";bonus=x",
+    "output": "x/x;x=\"Á\";bonus=x"
+  },
+  {
+    "input": "Â/x",
+    "output": null
+  },
+  {
+    "input": "x/Â",
+    "output": null
+  },
+  {
+    "input": "x/x;Â=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Â;bonus=x",
+    "output": "x/x;x=\"Â\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Â\";bonus=x",
+    "output": "x/x;x=\"Â\";bonus=x"
+  },
+  {
+    "input": "Ã/x",
+    "output": null
+  },
+  {
+    "input": "x/Ã",
+    "output": null
+  },
+  {
+    "input": "x/x;Ã=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ã;bonus=x",
+    "output": "x/x;x=\"Ã\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ã\";bonus=x",
+    "output": "x/x;x=\"Ã\";bonus=x"
+  },
+  {
+    "input": "Ä/x",
+    "output": null
+  },
+  {
+    "input": "x/Ä",
+    "output": null
+  },
+  {
+    "input": "x/x;Ä=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ä;bonus=x",
+    "output": "x/x;x=\"Ä\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ä\";bonus=x",
+    "output": "x/x;x=\"Ä\";bonus=x"
+  },
+  {
+    "input": "Å/x",
+    "output": null
+  },
+  {
+    "input": "x/Å",
+    "output": null
+  },
+  {
+    "input": "x/x;Å=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Å;bonus=x",
+    "output": "x/x;x=\"Å\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Å\";bonus=x",
+    "output": "x/x;x=\"Å\";bonus=x"
+  },
+  {
+    "input": "Æ/x",
+    "output": null
+  },
+  {
+    "input": "x/Æ",
+    "output": null
+  },
+  {
+    "input": "x/x;Æ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Æ;bonus=x",
+    "output": "x/x;x=\"Æ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Æ\";bonus=x",
+    "output": "x/x;x=\"Æ\";bonus=x"
+  },
+  {
+    "input": "Ç/x",
+    "output": null
+  },
+  {
+    "input": "x/Ç",
+    "output": null
+  },
+  {
+    "input": "x/x;Ç=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ç;bonus=x",
+    "output": "x/x;x=\"Ç\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ç\";bonus=x",
+    "output": "x/x;x=\"Ç\";bonus=x"
+  },
+  {
+    "input": "È/x",
+    "output": null
+  },
+  {
+    "input": "x/È",
+    "output": null
+  },
+  {
+    "input": "x/x;È=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=È;bonus=x",
+    "output": "x/x;x=\"È\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"È\";bonus=x",
+    "output": "x/x;x=\"È\";bonus=x"
+  },
+  {
+    "input": "É/x",
+    "output": null
+  },
+  {
+    "input": "x/É",
+    "output": null
+  },
+  {
+    "input": "x/x;É=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=É;bonus=x",
+    "output": "x/x;x=\"É\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"É\";bonus=x",
+    "output": "x/x;x=\"É\";bonus=x"
+  },
+  {
+    "input": "Ê/x",
+    "output": null
+  },
+  {
+    "input": "x/Ê",
+    "output": null
+  },
+  {
+    "input": "x/x;Ê=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ê;bonus=x",
+    "output": "x/x;x=\"Ê\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ê\";bonus=x",
+    "output": "x/x;x=\"Ê\";bonus=x"
+  },
+  {
+    "input": "Ë/x",
+    "output": null
+  },
+  {
+    "input": "x/Ë",
+    "output": null
+  },
+  {
+    "input": "x/x;Ë=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ë;bonus=x",
+    "output": "x/x;x=\"Ë\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ë\";bonus=x",
+    "output": "x/x;x=\"Ë\";bonus=x"
+  },
+  {
+    "input": "Ì/x",
+    "output": null
+  },
+  {
+    "input": "x/Ì",
+    "output": null
+  },
+  {
+    "input": "x/x;Ì=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ì;bonus=x",
+    "output": "x/x;x=\"Ì\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ì\";bonus=x",
+    "output": "x/x;x=\"Ì\";bonus=x"
+  },
+  {
+    "input": "Í/x",
+    "output": null
+  },
+  {
+    "input": "x/Í",
+    "output": null
+  },
+  {
+    "input": "x/x;Í=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Í;bonus=x",
+    "output": "x/x;x=\"Í\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Í\";bonus=x",
+    "output": "x/x;x=\"Í\";bonus=x"
+  },
+  {
+    "input": "Î/x",
+    "output": null
+  },
+  {
+    "input": "x/Î",
+    "output": null
+  },
+  {
+    "input": "x/x;Î=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Î;bonus=x",
+    "output": "x/x;x=\"Î\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Î\";bonus=x",
+    "output": "x/x;x=\"Î\";bonus=x"
+  },
+  {
+    "input": "Ï/x",
+    "output": null
+  },
+  {
+    "input": "x/Ï",
+    "output": null
+  },
+  {
+    "input": "x/x;Ï=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ï;bonus=x",
+    "output": "x/x;x=\"Ï\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ï\";bonus=x",
+    "output": "x/x;x=\"Ï\";bonus=x"
+  },
+  {
+    "input": "Ð/x",
+    "output": null
+  },
+  {
+    "input": "x/Ð",
+    "output": null
+  },
+  {
+    "input": "x/x;Ð=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ð;bonus=x",
+    "output": "x/x;x=\"Ð\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ð\";bonus=x",
+    "output": "x/x;x=\"Ð\";bonus=x"
+  },
+  {
+    "input": "Ñ/x",
+    "output": null
+  },
+  {
+    "input": "x/Ñ",
+    "output": null
+  },
+  {
+    "input": "x/x;Ñ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ñ;bonus=x",
+    "output": "x/x;x=\"Ñ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ñ\";bonus=x",
+    "output": "x/x;x=\"Ñ\";bonus=x"
+  },
+  {
+    "input": "Ò/x",
+    "output": null
+  },
+  {
+    "input": "x/Ò",
+    "output": null
+  },
+  {
+    "input": "x/x;Ò=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ò;bonus=x",
+    "output": "x/x;x=\"Ò\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ò\";bonus=x",
+    "output": "x/x;x=\"Ò\";bonus=x"
+  },
+  {
+    "input": "Ó/x",
+    "output": null
+  },
+  {
+    "input": "x/Ó",
+    "output": null
+  },
+  {
+    "input": "x/x;Ó=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ó;bonus=x",
+    "output": "x/x;x=\"Ó\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ó\";bonus=x",
+    "output": "x/x;x=\"Ó\";bonus=x"
+  },
+  {
+    "input": "Ô/x",
+    "output": null
+  },
+  {
+    "input": "x/Ô",
+    "output": null
+  },
+  {
+    "input": "x/x;Ô=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ô;bonus=x",
+    "output": "x/x;x=\"Ô\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ô\";bonus=x",
+    "output": "x/x;x=\"Ô\";bonus=x"
+  },
+  {
+    "input": "Õ/x",
+    "output": null
+  },
+  {
+    "input": "x/Õ",
+    "output": null
+  },
+  {
+    "input": "x/x;Õ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Õ;bonus=x",
+    "output": "x/x;x=\"Õ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Õ\";bonus=x",
+    "output": "x/x;x=\"Õ\";bonus=x"
+  },
+  {
+    "input": "Ö/x",
+    "output": null
+  },
+  {
+    "input": "x/Ö",
+    "output": null
+  },
+  {
+    "input": "x/x;Ö=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ö;bonus=x",
+    "output": "x/x;x=\"Ö\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ö\";bonus=x",
+    "output": "x/x;x=\"Ö\";bonus=x"
+  },
+  {
+    "input": "×/x",
+    "output": null
+  },
+  {
+    "input": "x/×",
+    "output": null
+  },
+  {
+    "input": "x/x;×=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=×;bonus=x",
+    "output": "x/x;x=\"×\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"×\";bonus=x",
+    "output": "x/x;x=\"×\";bonus=x"
+  },
+  {
+    "input": "Ø/x",
+    "output": null
+  },
+  {
+    "input": "x/Ø",
+    "output": null
+  },
+  {
+    "input": "x/x;Ø=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ø;bonus=x",
+    "output": "x/x;x=\"Ø\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ø\";bonus=x",
+    "output": "x/x;x=\"Ø\";bonus=x"
+  },
+  {
+    "input": "Ù/x",
+    "output": null
+  },
+  {
+    "input": "x/Ù",
+    "output": null
+  },
+  {
+    "input": "x/x;Ù=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ù;bonus=x",
+    "output": "x/x;x=\"Ù\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ù\";bonus=x",
+    "output": "x/x;x=\"Ù\";bonus=x"
+  },
+  {
+    "input": "Ú/x",
+    "output": null
+  },
+  {
+    "input": "x/Ú",
+    "output": null
+  },
+  {
+    "input": "x/x;Ú=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ú;bonus=x",
+    "output": "x/x;x=\"Ú\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ú\";bonus=x",
+    "output": "x/x;x=\"Ú\";bonus=x"
+  },
+  {
+    "input": "Û/x",
+    "output": null
+  },
+  {
+    "input": "x/Û",
+    "output": null
+  },
+  {
+    "input": "x/x;Û=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Û;bonus=x",
+    "output": "x/x;x=\"Û\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Û\";bonus=x",
+    "output": "x/x;x=\"Û\";bonus=x"
+  },
+  {
+    "input": "Ü/x",
+    "output": null
+  },
+  {
+    "input": "x/Ü",
+    "output": null
+  },
+  {
+    "input": "x/x;Ü=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ü;bonus=x",
+    "output": "x/x;x=\"Ü\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ü\";bonus=x",
+    "output": "x/x;x=\"Ü\";bonus=x"
+  },
+  {
+    "input": "Ý/x",
+    "output": null
+  },
+  {
+    "input": "x/Ý",
+    "output": null
+  },
+  {
+    "input": "x/x;Ý=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Ý;bonus=x",
+    "output": "x/x;x=\"Ý\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Ý\";bonus=x",
+    "output": "x/x;x=\"Ý\";bonus=x"
+  },
+  {
+    "input": "Þ/x",
+    "output": null
+  },
+  {
+    "input": "x/Þ",
+    "output": null
+  },
+  {
+    "input": "x/x;Þ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=Þ;bonus=x",
+    "output": "x/x;x=\"Þ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"Þ\";bonus=x",
+    "output": "x/x;x=\"Þ\";bonus=x"
+  },
+  {
+    "input": "ß/x",
+    "output": null
+  },
+  {
+    "input": "x/ß",
+    "output": null
+  },
+  {
+    "input": "x/x;ß=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ß;bonus=x",
+    "output": "x/x;x=\"ß\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ß\";bonus=x",
+    "output": "x/x;x=\"ß\";bonus=x"
+  },
+  {
+    "input": "à/x",
+    "output": null
+  },
+  {
+    "input": "x/à",
+    "output": null
+  },
+  {
+    "input": "x/x;à=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=à;bonus=x",
+    "output": "x/x;x=\"à\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"à\";bonus=x",
+    "output": "x/x;x=\"à\";bonus=x"
+  },
+  {
+    "input": "á/x",
+    "output": null
+  },
+  {
+    "input": "x/á",
+    "output": null
+  },
+  {
+    "input": "x/x;á=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=á;bonus=x",
+    "output": "x/x;x=\"á\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"á\";bonus=x",
+    "output": "x/x;x=\"á\";bonus=x"
+  },
+  {
+    "input": "â/x",
+    "output": null
+  },
+  {
+    "input": "x/â",
+    "output": null
+  },
+  {
+    "input": "x/x;â=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=â;bonus=x",
+    "output": "x/x;x=\"â\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"â\";bonus=x",
+    "output": "x/x;x=\"â\";bonus=x"
+  },
+  {
+    "input": "ã/x",
+    "output": null
+  },
+  {
+    "input": "x/ã",
+    "output": null
+  },
+  {
+    "input": "x/x;ã=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ã;bonus=x",
+    "output": "x/x;x=\"ã\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ã\";bonus=x",
+    "output": "x/x;x=\"ã\";bonus=x"
+  },
+  {
+    "input": "ä/x",
+    "output": null
+  },
+  {
+    "input": "x/ä",
+    "output": null
+  },
+  {
+    "input": "x/x;ä=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ä;bonus=x",
+    "output": "x/x;x=\"ä\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ä\";bonus=x",
+    "output": "x/x;x=\"ä\";bonus=x"
+  },
+  {
+    "input": "å/x",
+    "output": null
+  },
+  {
+    "input": "x/å",
+    "output": null
+  },
+  {
+    "input": "x/x;å=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=å;bonus=x",
+    "output": "x/x;x=\"å\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"å\";bonus=x",
+    "output": "x/x;x=\"å\";bonus=x"
+  },
+  {
+    "input": "æ/x",
+    "output": null
+  },
+  {
+    "input": "x/æ",
+    "output": null
+  },
+  {
+    "input": "x/x;æ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=æ;bonus=x",
+    "output": "x/x;x=\"æ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"æ\";bonus=x",
+    "output": "x/x;x=\"æ\";bonus=x"
+  },
+  {
+    "input": "ç/x",
+    "output": null
+  },
+  {
+    "input": "x/ç",
+    "output": null
+  },
+  {
+    "input": "x/x;ç=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ç;bonus=x",
+    "output": "x/x;x=\"ç\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ç\";bonus=x",
+    "output": "x/x;x=\"ç\";bonus=x"
+  },
+  {
+    "input": "è/x",
+    "output": null
+  },
+  {
+    "input": "x/è",
+    "output": null
+  },
+  {
+    "input": "x/x;è=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=è;bonus=x",
+    "output": "x/x;x=\"è\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"è\";bonus=x",
+    "output": "x/x;x=\"è\";bonus=x"
+  },
+  {
+    "input": "é/x",
+    "output": null
+  },
+  {
+    "input": "x/é",
+    "output": null
+  },
+  {
+    "input": "x/x;é=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=é;bonus=x",
+    "output": "x/x;x=\"é\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"é\";bonus=x",
+    "output": "x/x;x=\"é\";bonus=x"
+  },
+  {
+    "input": "ê/x",
+    "output": null
+  },
+  {
+    "input": "x/ê",
+    "output": null
+  },
+  {
+    "input": "x/x;ê=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ê;bonus=x",
+    "output": "x/x;x=\"ê\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ê\";bonus=x",
+    "output": "x/x;x=\"ê\";bonus=x"
+  },
+  {
+    "input": "ë/x",
+    "output": null
+  },
+  {
+    "input": "x/ë",
+    "output": null
+  },
+  {
+    "input": "x/x;ë=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ë;bonus=x",
+    "output": "x/x;x=\"ë\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ë\";bonus=x",
+    "output": "x/x;x=\"ë\";bonus=x"
+  },
+  {
+    "input": "ì/x",
+    "output": null
+  },
+  {
+    "input": "x/ì",
+    "output": null
+  },
+  {
+    "input": "x/x;ì=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ì;bonus=x",
+    "output": "x/x;x=\"ì\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ì\";bonus=x",
+    "output": "x/x;x=\"ì\";bonus=x"
+  },
+  {
+    "input": "í/x",
+    "output": null
+  },
+  {
+    "input": "x/í",
+    "output": null
+  },
+  {
+    "input": "x/x;í=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=í;bonus=x",
+    "output": "x/x;x=\"í\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"í\";bonus=x",
+    "output": "x/x;x=\"í\";bonus=x"
+  },
+  {
+    "input": "î/x",
+    "output": null
+  },
+  {
+    "input": "x/î",
+    "output": null
+  },
+  {
+    "input": "x/x;î=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=î;bonus=x",
+    "output": "x/x;x=\"î\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"î\";bonus=x",
+    "output": "x/x;x=\"î\";bonus=x"
+  },
+  {
+    "input": "ï/x",
+    "output": null
+  },
+  {
+    "input": "x/ï",
+    "output": null
+  },
+  {
+    "input": "x/x;ï=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ï;bonus=x",
+    "output": "x/x;x=\"ï\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ï\";bonus=x",
+    "output": "x/x;x=\"ï\";bonus=x"
+  },
+  {
+    "input": "ð/x",
+    "output": null
+  },
+  {
+    "input": "x/ð",
+    "output": null
+  },
+  {
+    "input": "x/x;ð=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ð;bonus=x",
+    "output": "x/x;x=\"ð\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ð\";bonus=x",
+    "output": "x/x;x=\"ð\";bonus=x"
+  },
+  {
+    "input": "ñ/x",
+    "output": null
+  },
+  {
+    "input": "x/ñ",
+    "output": null
+  },
+  {
+    "input": "x/x;ñ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ñ;bonus=x",
+    "output": "x/x;x=\"ñ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ñ\";bonus=x",
+    "output": "x/x;x=\"ñ\";bonus=x"
+  },
+  {
+    "input": "ò/x",
+    "output": null
+  },
+  {
+    "input": "x/ò",
+    "output": null
+  },
+  {
+    "input": "x/x;ò=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ò;bonus=x",
+    "output": "x/x;x=\"ò\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ò\";bonus=x",
+    "output": "x/x;x=\"ò\";bonus=x"
+  },
+  {
+    "input": "ó/x",
+    "output": null
+  },
+  {
+    "input": "x/ó",
+    "output": null
+  },
+  {
+    "input": "x/x;ó=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ó;bonus=x",
+    "output": "x/x;x=\"ó\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ó\";bonus=x",
+    "output": "x/x;x=\"ó\";bonus=x"
+  },
+  {
+    "input": "ô/x",
+    "output": null
+  },
+  {
+    "input": "x/ô",
+    "output": null
+  },
+  {
+    "input": "x/x;ô=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ô;bonus=x",
+    "output": "x/x;x=\"ô\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ô\";bonus=x",
+    "output": "x/x;x=\"ô\";bonus=x"
+  },
+  {
+    "input": "õ/x",
+    "output": null
+  },
+  {
+    "input": "x/õ",
+    "output": null
+  },
+  {
+    "input": "x/x;õ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=õ;bonus=x",
+    "output": "x/x;x=\"õ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"õ\";bonus=x",
+    "output": "x/x;x=\"õ\";bonus=x"
+  },
+  {
+    "input": "ö/x",
+    "output": null
+  },
+  {
+    "input": "x/ö",
+    "output": null
+  },
+  {
+    "input": "x/x;ö=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ö;bonus=x",
+    "output": "x/x;x=\"ö\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ö\";bonus=x",
+    "output": "x/x;x=\"ö\";bonus=x"
+  },
+  {
+    "input": "÷/x",
+    "output": null
+  },
+  {
+    "input": "x/÷",
+    "output": null
+  },
+  {
+    "input": "x/x;÷=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=÷;bonus=x",
+    "output": "x/x;x=\"÷\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"÷\";bonus=x",
+    "output": "x/x;x=\"÷\";bonus=x"
+  },
+  {
+    "input": "ø/x",
+    "output": null
+  },
+  {
+    "input": "x/ø",
+    "output": null
+  },
+  {
+    "input": "x/x;ø=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ø;bonus=x",
+    "output": "x/x;x=\"ø\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ø\";bonus=x",
+    "output": "x/x;x=\"ø\";bonus=x"
+  },
+  {
+    "input": "ù/x",
+    "output": null
+  },
+  {
+    "input": "x/ù",
+    "output": null
+  },
+  {
+    "input": "x/x;ù=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ù;bonus=x",
+    "output": "x/x;x=\"ù\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ù\";bonus=x",
+    "output": "x/x;x=\"ù\";bonus=x"
+  },
+  {
+    "input": "ú/x",
+    "output": null
+  },
+  {
+    "input": "x/ú",
+    "output": null
+  },
+  {
+    "input": "x/x;ú=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ú;bonus=x",
+    "output": "x/x;x=\"ú\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ú\";bonus=x",
+    "output": "x/x;x=\"ú\";bonus=x"
+  },
+  {
+    "input": "û/x",
+    "output": null
+  },
+  {
+    "input": "x/û",
+    "output": null
+  },
+  {
+    "input": "x/x;û=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=û;bonus=x",
+    "output": "x/x;x=\"û\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"û\";bonus=x",
+    "output": "x/x;x=\"û\";bonus=x"
+  },
+  {
+    "input": "ü/x",
+    "output": null
+  },
+  {
+    "input": "x/ü",
+    "output": null
+  },
+  {
+    "input": "x/x;ü=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ü;bonus=x",
+    "output": "x/x;x=\"ü\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ü\";bonus=x",
+    "output": "x/x;x=\"ü\";bonus=x"
+  },
+  {
+    "input": "ý/x",
+    "output": null
+  },
+  {
+    "input": "x/ý",
+    "output": null
+  },
+  {
+    "input": "x/x;ý=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ý;bonus=x",
+    "output": "x/x;x=\"ý\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ý\";bonus=x",
+    "output": "x/x;x=\"ý\";bonus=x"
+  },
+  {
+    "input": "þ/x",
+    "output": null
+  },
+  {
+    "input": "x/þ",
+    "output": null
+  },
+  {
+    "input": "x/x;þ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=þ;bonus=x",
+    "output": "x/x;x=\"þ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"þ\";bonus=x",
+    "output": "x/x;x=\"þ\";bonus=x"
+  },
+  {
+    "input": "ÿ/x",
+    "output": null
+  },
+  {
+    "input": "x/ÿ",
+    "output": null
+  },
+  {
+    "input": "x/x;ÿ=x;bonus=x",
+    "output": "x/x;bonus=x"
+  },
+  {
+    "input": "x/x;x=ÿ;bonus=x",
+    "output": "x/x;x=\"ÿ\";bonus=x"
+  },
+  {
+    "input": "x/x;x=\"ÿ\";bonus=x",
+    "output": "x/x;x=\"ÿ\";bonus=x"
+  }
+]

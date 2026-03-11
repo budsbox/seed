@@ -1,0 +1,452 @@
+[
+  {
+    "input": "text/html;charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "TEXT/HTML;CHARSET=GBK",
+    "output": "text/html;charset=GBK",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=gbk(",
+    "output": "text/html;charset=\"gbk(\"",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;x=(;charset=gbk",
+    "output": "text/html;x=\"(\";charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=gbk;charset=windows-1255",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=();charset=GBK",
+    "output": "text/html;charset=\"()\"",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset =gbk",
+    "output": "text/html",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html ;charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html; charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset= gbk",
+    "output": "text/html;charset=\" gbk\"",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset= \"gbk\"",
+    "output": "text/html;charset=\" \\\"gbk\\\"\"",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\u000bgbk",
+    "output": "text/html",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\fgbk",
+    "output": "text/html",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;\u000bcharset=gbk",
+    "output": "text/html",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;\fcharset=gbk",
+    "output": "text/html",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset='gbk'",
+    "output": "text/html;charset='gbk'",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset='gbk",
+    "output": "text/html;charset='gbk",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=gbk'",
+    "output": "text/html;charset=gbk'",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=';charset=GBK",
+    "output": "text/html;charset='",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;test;charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;test=;charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;';charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;\";charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html ; ; charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;;;;charset=gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset= \";charset=GBK",
+    "output": "text/html;charset=GBK",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\";charset=foo\";charset=GBK",
+    "output": "text/html;charset=GBK",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\"gbk\"",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\"gbk",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=gbk\"",
+    "output": "text/html;charset=\"gbk\\\"\"",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\" gbk\"",
+    "output": "text/html;charset=\" gbk\"",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\"gbk \"",
+    "output": "text/html;charset=\"gbk \"",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\"\\ gbk\"",
+    "output": "text/html;charset=\" gbk\"",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\"\\g\\b\\k\"",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\"gbk\"x",
+    "output": "text/html;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\"\";charset=GBK",
+    "output": "text/html;charset=\"\"",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset=\";charset=GBK",
+    "output": "text/html;charset=\";charset=GBK\"",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;charset={gbk}",
+    "output": "text/html;charset=\"{gbk}\"",
+    "navigable": true,
+    "encoding": null,
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789=x;charset=gbk",
+    "output": "text/html;0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789=x;charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789/0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789",
+    "output": "0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789/0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "text/html;a]=bar;b[=bar;c=bar",
+    "output": "text/html;c=bar",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;valid=\";\";foo=bar",
+    "output": "text/html;valid=\";\";foo=bar",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "text/html;in]valid=\";asd=foo\";foo=bar",
+    "output": "text/html;foo=bar",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz/!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz;!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz=!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    "output": "!#$%&'*+-.^_`|~0123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz/!#$%&'*+-.^_`|~0123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz;!#$%&'*+-.^_`|~0123456789abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyz=!#$%&'*+-.^_`|~0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x;x=\"\t !\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ\"",
+    "output": "x/x;x=\"\t !\\\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏÐÑÒÓÔÕÖ×ØÙÚÛÜÝÞßàáâãäåæçèéêëìíîïðñòóôõö÷øùúûüýþÿ\"",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x;test",
+    "output": "x/x",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x;test=\"\\",
+    "output": "x/x;test=\"\\\\\"",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x;x= ",
+    "output": "x/x",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x;x=\t",
+    "output": "x/x",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x\n\r\t ;x=x",
+    "output": "x/x;x=x",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "\n\r\t x/x;x=x\n\r\t ",
+    "output": "x/x;x=x",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x;\n\r\t x=x\n\r\t ;x=y",
+    "output": "x/x;x=x",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "text/html;test=ÿ;charset=gbk",
+    "output": "text/html;test=\"ÿ\";charset=gbk",
+    "navigable": true,
+    "encoding": "GBK",
+    "minimizedMIMEType": "text/html"
+  },
+  {
+    "input": "x/x;test=�;x=x",
+    "output": "x/x;x=x",
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "\u000bx/x",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "\fx/x",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x\u000b",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "x/x\f",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "\t",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "/",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "bogus",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "bogus/",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "bogus/ ",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "bogus/bogus/;",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "</>",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "(/)",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "ÿ/ÿ",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "text/html(;doesnot=matter",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "{/}",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "Ā/Ā",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "text /html",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "text/ html",
+    "output": null,
+    "minimizedMIMEType": ""
+  },
+  {
+    "input": "\"text/html\"",
+    "output": null,
+    "minimizedMIMEType": ""
+  }
+]

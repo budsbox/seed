@@ -16,7 +16,7 @@ const links = {
     'https://github.com/web-platform-tests/wpt/raw/14fb71ca173ec0e09c051c1378999dd19b897371/mimesniff/mime-types/resources/mime-types-minimized.json',
 };
 
-const outputDir = join(cwd(), 'dist');
+const outputDir = join(cwd(), 'data');
 await mkdir(outputDir, { recursive: true });
 
 /**
