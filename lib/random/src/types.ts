@@ -7,11 +7,6 @@ import type { Undef } from '@budsbox/lib-types';
  */
 export interface RNGOptions<TSeedSource extends SeedSource = SeedSource> {
   /**
-   * An optional seed source for the RNG, which can be a number, string, or undefined (then a random seed is generated).
-   */
-  readonly seed?: TSeedSource;
-
-  /**
    * Specifies the length for an identifier, should be a positive number if defined
    */
   readonly idLength?: number;
@@ -19,13 +14,18 @@ export interface RNGOptions<TSeedSource extends SeedSource = SeedSource> {
   /**
    * A custom pseudorandom number generator function.
    *
+   * @param seed - A numeric seed that initializes the pseudorandom number generator.
+   * @returns A function of type `RngNextFnStateless` that generates random numbers when invoked.
    * @remarks
    * This function takes a numeric seed as input and returns a function conforming to the `RngNextFnStateless` type.
    * It is used as a mechanism to generate deterministic random number sequences based on the provided seed.
-   * @param seed - A numeric seed that initializes the pseudorandom number generator.
-   * @returns A function of type `RngNextFnStateless` that generates random numbers when invoked.
    */
   readonly prngFn?: PRNGFn;
+
+  /**
+   * An optional seed source for the RNG, which can be a number, string, or undefined (then a random seed is generated).
+   */
+  readonly seed?: TSeedSource;
 }
 
 /**
@@ -45,23 +45,6 @@ export interface RNGStatefulMethods {
   readonly nextBool: (probability?: Undef<number>) => boolean;
 
   /**
-   * Fill an integer typed array with random values.
-   *
-   * @remarks Use with caution, as this method mutates the input array.
-   * @param array - The input integer array to be filled.
-   * @returns The same array instance filled with new values.
-   */
-  readonly nextIntArray: <TArray extends IntArray>(array: TArray) => TArray;
-
-  /**
-   * Generate a Uint8Array of the specified length filled with random values.
-   *
-   * @param length - The desired length of the Uint8Array.
-   * @returns A new Uint8Array filled with random values.
-   */
-  readonly nextUint8Array: (length: number) => Uint8Array;
-
-  /**
    * Generate a unique URL-safe identifier.
    *
    * @param length - Optional desired length of the identifier. Defaults to 10.
@@ -79,6 +62,24 @@ export interface RNGStatefulMethods {
   ) => TypeFromRange<TRange>;
 
   /**
+   * Generate a random integer within a range.
+   *
+   * @param max - Upper bound (exclusive). Defaults to `Number.MAX_SAFE_INTEGER`.
+   * @param min - Lower bound (inclusive). Defaults to `0`.
+   * @returns The random integer.
+   */
+  readonly nextInt: (max: number, min?: number) => number;
+
+  /**
+   * Fill an integer typed array with random values.
+   *
+   * @param array - The input integer array to be filled.
+   * @returns The same array instance filled with new values.
+   * @remarks Use with caution, as this method mutates the input array.
+   */
+  readonly nextIntArray: <TArray extends IntArray>(array: TArray) => TArray;
+
+  /**
    * Get a random item from an array. Empty values are ignored.
    *
    * @param items - array of items to select from.
@@ -87,21 +88,13 @@ export interface RNGStatefulMethods {
   readonly nextItem: <T>(...items: readonly T[]) => T;
 
   /**
-   * Shuffle an array without mutating the input.
+   * Generate a Uint8Array of the specified length filled with random values.
    *
-   * @param array - The input array to shuffle.
-   * @returns A new shuffled array.
+   * @param length - The desired length of the Uint8Array.
+   * @returns A new Uint8Array filled with random values.
    */
-  readonly shuffle: <T>(array: readonly T[]) => T[];
+  readonly nextUint8Array: (length: number) => Uint8Array;
 
-  /**
-   * Generate a random integer within a range.
-   *
-   * @param max - Upper bound (exclusive). Defaults to `Number.MAX_SAFE_INTEGER`.
-   * @param min - Lower bound (inclusive). Defaults to `0`.
-   * @returns The random integer.
-   */
-  readonly nextInt: (max: number, min?: number) => number;
   /**
    * Generate a random integer coerced to 32-bit unsigned integer.
    * `max` is clamped to `[0, 2 ** 32]`.
@@ -110,6 +103,14 @@ export interface RNGStatefulMethods {
    * @returns The random integer.
    */
   readonly nextUInt32: (max: number) => number;
+
+  /**
+   * Shuffle an array without mutating the input.
+   *
+   * @param array - The input array to shuffle.
+   * @returns A new shuffled array.
+   */
+  readonly shuffle: <T>(array: readonly T[]) => T[];
 }
 
 /**
@@ -161,26 +162,6 @@ export interface RNG<TSeedSource extends SeedSource = SeedSource> {
   ) => RNGResult<boolean, TSeedSource>;
 
   /**
-   * Fill an integer typed array with random values.
-   *
-   * @typeParam TArray - The type of the integer array to be processed.
-   * @param array - The input integer array to be filled.
-   * @returns Tuple, where first item is the same array instance filled with new values, and the second item is the updated RNG.
-   */
-  readonly nextIntArray: <TArray extends IntArray>(
-    array: TArray,
-  ) => RNGResult<TArray, TSeedSource>;
-
-  /**
-   * Generate a Uint8Array of the specified length.
-   *
-   * @param length - The desired length of the Uint8Array.
-   */
-  readonly nextUint8Array: (
-    length: number,
-  ) => RNGResult<Uint8Array, TSeedSource>;
-
-  /**
    * Generate a unique URL-safe identifier.
    *
    * @param length - Optional desired length of the identifier.
@@ -199,14 +180,6 @@ export interface RNG<TSeedSource extends SeedSource = SeedSource> {
   ) => RNGResult<TypeFromRange<TRange>, TSeedSource>;
 
   /**
-   * Shuffle an array without mutating the input.
-   *
-   * @param array - The input array to shuffle.
-   * @returns Tuple, where first item is a new shuffled array, and the second item is the updated RNG.
-   */
-  readonly shuffle: <T>(array: readonly T[]) => RNGResult<T[], TSeedSource>;
-
-  /**
    * Generate a random integer within a range.
    *
    * @param max - Upper bound (exclusive). Defaults to `Number.MAX_SAFE_INTEGER`.
@@ -219,12 +192,40 @@ export interface RNG<TSeedSource extends SeedSource = SeedSource> {
   ) => RNGResult<number, TSeedSource>;
 
   /**
+   * Fill an integer typed array with random values.
+   *
+   * @param array - The input integer array to be filled.
+   * @returns Tuple, where first item is the same array instance filled with new values, and the second item is the updated RNG.
+   * @typeParam TArray - The type of the integer array to be processed.
+   */
+  readonly nextIntArray: <TArray extends IntArray>(
+    array: TArray,
+  ) => RNGResult<TArray, TSeedSource>;
+
+  /**
+   * Generate a Uint8Array of the specified length.
+   *
+   * @param length - The desired length of the Uint8Array.
+   */
+  readonly nextUint8Array: (
+    length: number,
+  ) => RNGResult<Uint8Array, TSeedSource>;
+
+  /**
    * Generate a random integer coerced to 32-bit unsigned integer.
    * Max is clamped to `[0, 2 ** 32]`.
    *
    * @param max - Upper bound (exclusive). Defaults to `2 ** 32`.
    */
   readonly nextUInt32: (max?: number) => RNGResult<number, TSeedSource>;
+
+  /**
+   * Shuffle an array without mutating the input.
+   *
+   * @param array - The input array to shuffle.
+   * @returns Tuple, where first item is a new shuffled array, and the second item is the updated RNG.
+   */
+  readonly shuffle: <T>(array: readonly T[]) => RNGResult<T[], TSeedSource>;
 
   /**
    * Execute a function with the stateful methods of the RNG.
