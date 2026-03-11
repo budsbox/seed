@@ -28,21 +28,31 @@ import {
  */
 export interface CustomReactRichSvgOptions extends PluginOptions {
   /**
+   * Default SVGO configuration for the whole plugin.
+   */
+  svgoConfig?: NonNullable<PluginOptions['rawLoaderOptions']>['svgoConfig'];
+
+  /**
    * Enables/disables SVGO optimization for the whole plugin.
    * Defaults to `true` when `NODE_ENV` is `production`. May be overridden by sub-options (like `rawLoaderOptions.svgoEnabled`).
    */
   svgoEnabled?: boolean;
-
-  /**
-   * Default SVGO configuration for the whole plugin.
-   */
-  svgoConfig?: NonNullable<PluginOptions['rawLoaderOptions']>['svgoConfig'];
 }
 
 /**
  * Represents configuration options for plain configurations.
  */
 export interface PlainConfigOptions {
+  /**
+   * Whether to add the scope of the package to the conditions for module `exports` resolution.
+   */
+  addScopeToConditions?: boolean;
+
+  /**
+   * An array of strings representing the chunks to exclude from the path part when generating scoped names for CSS modules.
+   */
+  generateScopedNameExcludedPathChunks?: readonly string[];
+
   /**
    * The `import.meta` object.
    */
@@ -52,16 +62,6 @@ export interface PlainConfigOptions {
    * Whether the configuration is for a library.
    */
   lib?: boolean;
-
-  /**
-   * An array of strings representing the chunks to exclude from the path part when generating scoped names for CSS modules.
-   */
-  generateScopedNameExcludedPathChunks?: readonly string[];
-
-  /**
-   * Whether to add the scope of the package to the conditions for module `exports` resolution.
-   */
-  addScopeToConditions?: boolean;
 
   /**
    * Options for the `vite-plugin-react-rich-svg` plugin.

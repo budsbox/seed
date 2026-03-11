@@ -10,10 +10,10 @@ import type { Awaitable, Undef } from '@budsbox/lib-types';
 /**
  * Represents a custom user configuration function used to generate Vite configuration.
  *
- * @typeParam TOptions - The type of the custom options object, with a default to `object`.
  * @param viteEnv - A readonly object representing the Vite configuration environment.
  * @param options - An optional readonly object representing additional custom configuration options.
  * @returns A promise or value containing the generated Vite user configuration.
+ * @typeParam TOptions - The type of the custom options object, with a default to `object`.
  */
 export type CustomUserConfigFn<TOptions extends object = object> = (
   viteEnv: Readonly<ConfigEnv>,
@@ -36,6 +36,7 @@ export type ConfigFactory = (custom?: UserConfigExport) => UserConfigFnPromise;
  * to override or extend default configurations.
  * @param options - An optional object containing additional configuration options, specific to the factory.
  * @returns A function to be invoked by Vite to generate the final configuration object.
+ * @typeParam TOptions - The type of the custom options object, with a default to `object`.
  */
 export type ConfigFactoryWithOptions<TOptions extends object> = (
   custom?: UserConfigExport,
