@@ -33,19 +33,16 @@ export interface BaseContext {
   readonly importMeta: Readonly<ImportMeta>;
 
   /**
-   * An absolute path to the `package.json` file of the linted project.
-   */
-  readonly packageJsonPath: string;
-
-  /**
    * A parsed `package.json` file of the linted project.
    */
   readonly packageJson: PackageJson;
 
   /**
-   * An absolute path to the `tsconfig.json` file specified for the current lint entry.
+   * The value of the `type` property from the `package.json` file of the linted project: `module` or `commonjs`.
+   *
+   * @see {@link https://nodejs.org/docs/latest-v22.x/api/packages.html#type}
    */
-  readonly tsconfigPath: string;
+  readonly sourceType: JsSourceType;
 
   /**
    * A compiled (i.e. printed using `tsc --showConfig`) and parsed version of the referenced `tsconfig.json` file
@@ -54,11 +51,14 @@ export interface BaseContext {
   readonly tsconfig: TsConfigJson;
 
   /**
-   * The value of the `type` property from the `package.json` file of the linted project: `module` or `commonjs`.
-   *
-   * @see {@link https://nodejs.org/docs/latest-v22.x/api/packages.html#type}
+   * An absolute path to the `tsconfig.json` file specified for the current lint entry.
    */
-  readonly sourceType: JsSourceType;
+  readonly tsconfigPath: string;
+
+  /**
+   * An absolute path to the `package.json` file of the linted project.
+   */
+  readonly packageJsonPath: string;
 }
 
 /**
@@ -81,12 +81,10 @@ export type ConfigLevel = keyof typeof configLevels;
  * @see {@link https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces}
  */
 export interface ConfigNameSpace {
-  /* eslint-disable jsdoc/require-jsdoc */
   browser: ConfigLevel;
   builtin: ConfigLevel;
   core: 'core';
   node: 'node';
-  /* eslint-enable jsdoc/require-jsdoc */
 }
 
 /**
@@ -113,9 +111,21 @@ export type ModifiesKey = typeof wildcard | ConfigName;
  */
 export interface Config {
   /**
-   * A unique name for the configuration.
+   * An array of ESLint configuration objects.
    */
-  readonly name: ConfigName;
+  readonly configs: readonly Linter.Config[];
+
+  /**
+   * A non-enumerable symbol used to ensure that all the plugins use the same interface.
+   */
+  readonly [eslintSymbol]: true;
+
+  /**
+   * The level of the configuration.
+   *
+   * @see {@link ConfigLevel}
+   */
+  readonly level: ConfigLevel;
 
   /**
    * An array of configuration names that this configuration modifies.
@@ -127,21 +137,9 @@ export interface Config {
   readonly modifies: readonly ModifiesKey[];
 
   /**
-   * An array of ESLint configuration objects.
+   * A unique name for the configuration.
    */
-  readonly configs: readonly Linter.Config[];
-
-  /**
-   * The level of the configuration.
-   *
-   * @see {@link ConfigLevel}
-   */
-  readonly level: ConfigLevel;
-
-  /**
-   * A non-enumerable symbol used to ensure that all the plugins use the same interface.
-   */
-  readonly [eslintSymbol]: true;
+  readonly name: ConfigName;
 }
 
 /**
@@ -162,6 +160,15 @@ export type CreateConfigOptions = OverrideProperties<
  */
 export interface ConfigFactoryContext extends BaseContext {
   /**
+   * Creates a configuration object based on the provided options.
+   *
+   * @param options - An object containing the configuration parameters
+   *                  required to generate the resulting `Config` object.
+   * @returns The generated configuration object.
+   */
+  createConfig: (this: void, options: CreateConfigOptions) => Config;
+
+  /**
    * A function used to configure file matching logic based on TypeScript configuration settings.
    * This function processes the `tsconfig` object to determine include patterns, file extensions, and directories
    * relevant for file matching, then filters and resolves files and directories
@@ -177,15 +184,6 @@ export interface ConfigFactoryContext extends BaseContext {
     this: void,
     query: Readonly<QueryJsExtensionsParams>,
   ) => string[];
-
-  /**
-   * Creates a configuration object based on the provided options.
-   *
-   * @param options - An object containing the configuration parameters
-   *                  required to generate the resulting `Config` object.
-   * @returns The generated configuration object.
-   */
-  createConfig: (this: void, options: CreateConfigOptions) => Config;
 }
 
 /**
@@ -274,14 +272,14 @@ export interface CreateFlatConfigEntry {
   tsconfigFile: string;
 
   /**
-   * An array of preset factories to apply to the configuration.
-   */
-  presets?: PresetFactory[];
-
-  /**
    * An array of configuration factories to apply to the configuration.
    */
   configs?: ConfigFactory[];
+
+  /**
+   * An array of preset factories to apply to the configuration.
+   */
+  presets?: PresetFactory[];
 }
 
 /**
@@ -296,6 +294,11 @@ export type InspectConfigCallback = (configs: readonly Linter.Config[]) => void;
  */
 export interface CreateFlatConfigParams {
   /**
+   * Represents a collection of flat configuration entries.
+   */
+  entries: ReadonlyArray<Readonly<CreateFlatConfigEntry>>;
+
+  /**
    * An `import.meta` object of the `eslint.config.js` module.
    */
   importMeta: ImportMeta;
@@ -304,11 +307,6 @@ export interface CreateFlatConfigParams {
    * This option configures "global" ignores for the entire flat config.
    */
   ignores?: readonly string[];
-
-  /**
-   * Set it to `true` to enable linting of sub-workspaces.
-   */
-  lintWorkspaces?: boolean;
 
   /**
    * Optional configuration for customising the inspection behaviour.
@@ -327,7 +325,7 @@ export interface CreateFlatConfigParams {
     | Readonly<NonNil<Parameters<typeof console.dir>[1]>>;
 
   /**
-   * Represents a collection of flat configuration entries.
+   * Set it to `true` to enable linting of sub-workspaces.
    */
-  entries: ReadonlyArray<Readonly<CreateFlatConfigEntry>>;
+  lintWorkspaces?: boolean;
 }

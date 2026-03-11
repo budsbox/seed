@@ -70,6 +70,7 @@ export async function createFlatConfig({
       const factories: ConfigFactory[] = [
         coreConfigFactory,
         ...(isArray(entry.presets) ?
+          // eslint-disable-next-line @typescript-eslint/await-thenable
           await Promise.all(entry.presets.map((preset) => preset(baseContext)))
         : []
         ).flat(),
@@ -91,6 +92,7 @@ export async function createFlatConfig({
         ...sortConfigs(
           (
             await Promise.all(
+              // eslint-disable-next-line @typescript-eslint/await-thenable
               factories.map((factory) => factory(configFactoryContext)),
             )
           )
