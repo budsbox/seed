@@ -1,3 +1,9 @@
+/**
+ * @module
+ *
+ * This module contains utility functions and state checks for the Merge-2 game.
+ */
+
 import type { UnwrapTagged } from 'type-fest';
 
 import type { RNGStatefulMethods } from '@budsbox/lib-random';
@@ -33,6 +39,13 @@ import { isFalse, isFunction, isNil } from '@budsbox/lib-es/guards';
 import { fif, sure } from '@budsbox/lib-es/logical';
 import { type DataAttrsResolved, dataAttrs } from '@budsbox/lib-react';
 
+/**
+ * Checks if two entities (cells, tiles, etc.) have the same ID.
+ *
+ * @param a - The first entity to compare.
+ * @param b - The second entity to compare.
+ * @returns `true` if both entities have the same `id`, otherwise `false`.
+ */
 export const same = <T extends Cell | Tile | TileKind | TileModifier>(
   a: T,
   b: T,
@@ -40,6 +53,13 @@ export const same = <T extends Cell | Tile | TileKind | TileModifier>(
   return a.id === b.id;
 };
 
+/**
+ * Determines whether two cells are identical by comparing their reference, ID, position, and tile content.
+ *
+ * @param a - The first cell to compare.
+ * @param b - The second cell to compare.
+ * @returns `true` if the cells are identical, otherwise `false`.
+ */
 export const isIdenticalCells = (a: Cell, b: Cell): boolean => {
   // by ref
   if (a === b) return true;
@@ -62,16 +82,28 @@ export const isIdenticalCells = (a: Cell, b: Cell): boolean => {
  */
 export const sameKind = (a: Tile, b: Tile): boolean => a.kind.id === b.kind.id;
 
+/**
+ * Checks if two tiles have the same rank.
+ *
+ * @param a - The first tile.
+ * @param b - The second tile.
+ * @returns `true` if both tiles have the same rank, otherwise `false`.
+ */
 export const sameRank = (a: Tile, b: Tile): boolean => a.rank === b.rank;
 
+/**
+ * Checks if two grid positions are the same.
+ *
+ * @param a - The first position.
+ * @param b - The second position.
+ * @returns `true` if both positions have the same row and column, otherwise `false`.
+ */
 export const samePosition = (a: Position, b: Position): boolean =>
   a.every((v, i) => v === b[i]);
 
 /**
  * Creates a `Tile` object based on the specified predefined tile and provided mappings for kinds and modifiers.
  *
- * @typeParam TKindId - The type of the tile kind identifier.
- * @typeParam TModId - The type of the tile modifier identifier.
  * @param ctx - An immutable object containing maps for resolving tile kinds and tile modifiers.
  * @param ctx.kinds - A map where tile kind identifiers map to their respective `TileKind` definitions.
  * @param ctx.modifiers - A map where tile modifier identifiers map to their respective `TileModifier` definitions.
@@ -79,6 +111,8 @@ export const samePosition = (a: Position, b: Position): boolean =>
  * @returns A `Tile` object containing the tile ID, resolved kind, and resolved modifiers.
  * @throws TypeError If the specified kind in the predefined tile does not exist in the provided `kinds` map.
  * @throws TypeError If any of the specified modifiers in the predefined tile does not exist in the provided `modifiers` map.
+ * @typeParam TKindId - The type of the tile kind identifier.
+ * @typeParam TModId - The type of the tile modifier identifier.
  */
 export const createTile = (ctx: RNGContext, input: TileInput): Tile => {
   const { kinds, modifiers: modifierMap } = ctx.board;
@@ -120,6 +154,12 @@ export const genTileId = (
   predefinedId?: string,
 ): TileId => sure(predefinedId, (id) => id, rng.nextId) as TileId;
 
+/**
+ * Generates a unique Cell ID.
+ *
+ * @param rng - The random number generator to use.
+ * @returns A new unique {@link CellId}.
+ */
 export const genCellId = (rng: RNGStatefulMethods): CellId =>
   rng.nextId() as CellId;
 
@@ -145,16 +185,42 @@ export const castModifierId = <TModId extends UnwrapTagged<TileModifierId>>(
   modifierId: TModId,
 ): TileModifierId<TModId> => modifierId as TileModifierId<TModId>;
 
+/**
+ * Update an existing cell with an optional tile.
+ *
+ * @param cell - The original cell to update.
+ * @param tile - The tile to place in the cell, or `null` to empty it.
+ * @returns A new {@link Cell} instance.
+ */
 export const updateCell = (cell: Cell, tile: Tile | null = null): Cell => ({
   ...cell,
   tile,
 });
 
+/**
+ * Checks if a cell is empty.
+ *
+ * @param cell - The cell to check.
+ * @returns `true` if the cell has no tile, otherwise `false`.
+ */
 export const isCellEmpty = (cell: Cell): cell is EmptyCell => isNil(cell.tile);
 
+/**
+ * Checks if a cell is occupied by a tile.
+ *
+ * @param cell - The cell to check.
+ * @returns `true` if the cell has a tile, otherwise `false`.
+ */
 export const isCellOccupied = (cell: Cell): cell is OccupiedCell =>
   !isCellEmpty(cell);
 
+/**
+ * Updates the board with a new set of cells, recalculating grid and tile maps.
+ *
+ * @param board - The current board.
+ * @param cells - The new list of cells.
+ * @returns A new {@link Board} instance.
+ */
 export const updateBoardCells = (
   board: Board,
   cells: readonly Cell[],
@@ -174,6 +240,14 @@ export const updateBoardCells = (
   return newBoard;
 };
 
+/**
+ * Updates a single cell within a board grid.
+ *
+ * @param grid - The current grid.
+ * @param cell - The updated cell.
+ * @returns A new {@link BoardGrid} instance.
+ * @throws {@link Error} if the cell position is out of bounds.
+ */
 export const updateGrid = (grid: BoardGrid, cell: Cell): BoardGrid => {
   const {
     pos: [r, c],
@@ -194,6 +268,13 @@ export const updateGrid = (grid: BoardGrid, cell: Cell): BoardGrid => {
   );
 };
 
+/**
+ * Calculates the difference between two board states.
+ *
+ * @param a - The original board.
+ * @param b - The new board.
+ * @returns A {@link BoardsDiff} object describing the changes.
+ */
 export const boardsDiff = (a: Board, b: Board): BoardsDiff => {
   const aCellIds = [...a.cells.keys()];
   const bCellIds = [...a.cells.keys()];
@@ -235,6 +316,13 @@ export const boardsDiff = (a: Board, b: Board): BoardsDiff => {
   };
 };
 
+/**
+ * Checks if merging two tiles is allowed based on game rules and state.
+ *
+ * @param input - The merge rule input.
+ * @param ctx - The base context.
+ * @returns `true` if merge is allowed, otherwise `false`.
+ */
 export const isMergeAllowed = (
   input: Readonly<MergeRuleInput>,
   ctx: BaseContext,
@@ -251,6 +339,13 @@ export const isMergeAllowed = (
   );
 };
 
+/**
+ * Checks if a tile can move to a target cell.
+ *
+ * @param input - The move rule input.
+ * @param ctx - The base context.
+ * @returns `true` if the move is allowed, otherwise `false`.
+ */
 export const tileCanMove = (
   input: Readonly<MoveRuleInput>,
   ctx: BaseContext,
@@ -263,6 +358,12 @@ export const tileCanMove = (
   );
 };
 
+/**
+ * Checks if the game is over based on the event list.
+ *
+ * @param ctx - Object containing game events.
+ * @returns `true` if an 'end' event is present, otherwise `false`.
+ */
 export const gameIsOver = ({ events }: Pick<BaseContext, 'events'>): boolean =>
   events.some(({ type }) => type === 'end');
 
@@ -293,6 +394,13 @@ type CellDataAttrsInput = Readonly<
   }
 >;
 
+/**
+ * Formats tile information into data attributes for use in React components.
+ *
+ * @param tile - The tile information to be formatted.
+ * @param state - The calculated visual state of the tile.
+ * @returns A mapping of data attributes that can be spread onto a tile's DOM element.
+ */
 export const tileDataAttrs = (
   tile: Tile,
   state: TileComputedState,
@@ -300,6 +408,13 @@ export const tileDataAttrs = (
   return dataAttrs(tileDataAttrsInput(tile, state));
 };
 
+/**
+ * Formats cell information into data attributes for use in React components.
+ *
+ * @param cell - The cell information to be formatted.
+ * @param state - The calculated visual state of the cell.
+ * @returns A mapping of data attributes that can be spread onto a cell's DOM element.
+ */
 export const cellDataAttrs = (
   cell: Cell,
   state: CellComputedState,

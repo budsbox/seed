@@ -1,3 +1,9 @@
+/**
+ * @module
+ *
+ * This module contains the state management logic for the Merge-2 game, including the reducer and initial state creation.
+ */
+
 import type {
   Board,
   BoardEvent,
@@ -35,6 +41,12 @@ import {
 
 import { defaultSpawnRule } from './rules';
 
+/**
+ * Hook that manages the Merge-2 game state using a reducer.
+ *
+ * @param initContext - Context for initializing the state.
+ * @returns A tuple containing the current state and a dispatch function that returns the updated state.
+ */
 export const useMerge2State = (
   initContext: StateInitContext,
 ): [Merge2State, (action: Readonly<Merge2Action>) => Merge2State] => {

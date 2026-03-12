@@ -1,3 +1,9 @@
+/**
+ * @module
+ *
+ * This module defines the default game rules for Merge-2.
+ */
+
 import type { Cell, DefaultSpawnRuleOptions } from '#types';
 
 import type { RNGContext, TileModifierId } from './types';
@@ -6,6 +12,14 @@ import { sure } from '@budsbox/lib-es/logical';
 
 import { createTile, isCellEmpty, updateCell } from '#lib';
 
+/**
+ * The default spawn rule for the Merge-2 game.
+ * It fills empty cells with new tiles based on the provided options or randomly.
+ *
+ * @param ctx - The {@link RNGContext} providing board state and randomness.
+ * @param options - Configuration options for the spawn rule.
+ * @returns An array of updated cells with new tiles spawned.
+ */
 export const defaultSpawnRule = (
   ctx: RNGContext,
   options: DefaultSpawnRuleOptions = {},

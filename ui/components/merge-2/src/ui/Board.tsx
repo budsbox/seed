@@ -1,3 +1,9 @@
+/**
+ * @module
+ *
+ * This module provides the `Board` component for the Merge-2 game.
+ */
+
 import type { FC } from 'react';
 
 import type { CellId, TileId } from '#types';
@@ -15,6 +21,12 @@ import { Cell as CCell } from './Cell';
 import { useMerge2UiContext } from './context';
 import classes from './style.module.scss';
 
+/**
+ * The main board component that sets up the drag-and-drop context.
+ *
+ * @param props - Component props.
+ * @returns The board component with DnD context.
+ */
 export const Board: FC<BoardProps> = ({ children }) => {
   const { board, onTilePlace, onTilePick, onTileDrop } = useMerge2Context();
 
@@ -40,6 +52,12 @@ export const Board: FC<BoardProps> = ({ children }) => {
   );
 };
 
+/**
+ * Internal board component that renders the grid of cells.
+ *
+ * @param props - Component props.
+ * @returns The rendered grid of cells.
+ */
 export const BoardWithDnd: FC<BoardProps> = ({ children }) => {
   const ctx = useMerge2UiContext();
   const { board } = useMerge2Context();
