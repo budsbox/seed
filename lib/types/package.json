@@ -50,7 +50,7 @@
     "build": "run p:ts:build",
     "name": "echo $npm_package_name",
     "prepack": "run p:ts:prepack",
-    "test": "run p:vitest:watch"
+    "test": "run p:vitest"
   },
   "dependencies": {
     "tslib": "^2.8.1"
