@@ -7,24 +7,24 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    env:
+      YARN_GLOBAL_FOLDER: .yarn/global
+      COREPACK_TAR_FILE: corepack.tgz
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Read .nvmrc
-        id: nvm
-        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_OUTPUT
-
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
-          node-version: ${{ steps.nvm.outputs.NODE_VERSION }}
-          cache: 'yarn'
-
-      - name: Enable Corepack
-        run: corepack enable
+          node-version-file: .nvmrc
+          check-latest: true
+          cache: yarn
+          package-manager-cache: true
+          cache-dependency-path: yarn.lock
 
       - name: Install Dependencies
         run: yarn install --immutable
