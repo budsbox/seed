@@ -50,9 +50,10 @@
     "dist/**/*.d.ts"
   ],
   "scripts": {
+    "build": "run p:ts:build",
     "name": "echo $npm_package_name",
     "prepack": "run p:lib:iso:prepack",
-    "test": "vitest",
+    "test": "run p:vitest",
     "watch": "run p:ts:watch"
   },
   "dependencies": {

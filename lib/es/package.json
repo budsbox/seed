@@ -89,9 +89,10 @@
     "dist/**/*.js"
   ],
   "scripts": {
+    "build": "run p:ts:build",
     "name": "echo $npm_package_name",
     "prepack": "yarn p:ts:prepack",
-    "test": "run p:vitest:watch",
+    "test": "run p:vitest",
     "watch": "yarn p:ts:watch"
   },
   "dependencies": {
