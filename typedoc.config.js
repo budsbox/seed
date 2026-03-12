@@ -8,7 +8,13 @@ import { OptionDefaults } from 'typedoc';
 
 /** @type {Partial<import("typedoc").TypeDocOptions>} */
 const config = {
-  entryPoints: ['./lib/es', './lib/types', './lib/mime', './parse/mime'],
+  entryPoints: [
+    './lib/es',
+    './lib/types',
+    './lib/mime',
+    './parse/mime',
+    './ui/components/merge-2',
+  ],
   entryPointStrategy: 'packages',
   outputs: [
     {
