@@ -1,10 +1,10 @@
 # Budsbox
 
-Это [мой](https://github.com/trikadin) личный open source монорепозиторий для front-end, NodeJS и других JavaScript environments, в котором я разрабатываю всякие полезные и интересные мне штуки.
+This is [my](https://github.com/trikadin) personal open-source monorepo for front-end, Node.js, and other JavaScript environments, where I develop various useful and interesting things.
 
--   **Основной язык**: TypeScript,
--   **Пакетный менеджер**: [yarn](https://yarnpkg.com/);
--   **Предпочитаемый UI фреймворк**: [React](https://react.dev/).
+-   **Main language**: [TypeScript](https://www.typescriptlang.org/);
+-   **Package manager**: [yarn](https://yarnpkg.com/);
+-   **Preferred UI framework**: [React](https://react.dev/).
 
 ### Project Structure
 
@@ -83,7 +83,7 @@ The project uses Husky and lint-staged for pre-commit hooks:
 
 ### See also
 
-Некоторые принципы, которыми я руководствуюсь при развитии этого проекта:
+Some principles I follow while developing this project:
 
 -   [Zen of Python](https://peps.python.org/pep-0020/#the-zen-of-python)
 -   [SSOT](https://en.wikipedia.org/wiki/Single_source_of_truth)
