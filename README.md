@@ -87,3 +87,7 @@ The project uses Husky and lint-staged for pre-commit hooks:
 
 -   [Zen of Python](https://peps.python.org/pep-0020/#the-zen-of-python)
 -   [SSOT](https://en.wikipedia.org/wiki/Single_source_of_truth)
+
+## License
+
+[MIT](./LICENSE)
