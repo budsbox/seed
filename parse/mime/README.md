@@ -2,15 +2,16 @@
 
 A standards-compliant MIME type parser and serializer for JavaScript and TypeScript.
 
-Built on a [Peggy](https://peggyjs.org/)-generated PEG grammar, `@budsbox/parse-mime` provides both **strict (semantic)** parsing per IETF RFCs and a **lenient (sniffing)** mode following the [WHATWG MIME Sniffing Standard](https://mimesniff.spec.whatwg.org/). The parser produces richly-typed results — including essence, type, subtype, facet, suffix, and parameters — making it easy to inspect and reconstruct MIME types programmatically.
+Built on a [Peggy](https://peggyjs.org/)-generated PEG grammar, `@budsbox/parse-mime` provides both **strict (semantic)** parsing per IETF RFCs (primarily [RFC 9110 HTTP Semantics](https://datatracker.ietf.org/doc/html/rfc9110)) and a **lenient (sniffing)** mode following the [WHATWG MIME Sniffing Standard](https://mimesniff.spec.whatwg.org/). The parser produces richly typed results — including essence, type, subtype, facet, suffix, and parameters — making it easy to inspect and reconstruct MIME types programmatically.
 
 **Key features:**
 
--   🔬 **Dual-mode parsing** — strict RFC 9110 / RFC 6838 mode and lenient WHATWG sniffing mode
+-   🔬 **Dual-mode parsing** — strict [RFC 9110](https://datatracker.ietf.org/doc/html/rfc9110) / [RFC 6838](https://datatracker.ietf.org/doc/html/rfc6838) mode and lenient WHATWG sniffing mode
 -   🧩 **Structured output** — type, subtype, facet (`vnd.`), suffix (`+xml`), and parameters as a `Map`
 -   🔁 **Round-trip serialization** — parse a MIME string and serialize it back
 -   ⚙️ **Flexible options** — trimming, restricted names, charset case handling, and duplicate parameter strategies (`keep-first`, `keep-last`, `list`)
 -   🛡️ **Fully typed** — generic return types driven by the chosen start rule and options
+-   💯 **Thoroughly tested** — 100% code coverage, including all the MIME Sniffing test data of [web-platform-tests](https://github.com/web-platform-tests/wpt/tree/master/mimesniff)
 
 ## Installation
 
@@ -18,7 +19,7 @@ Built on a [Peggy](https://peggyjs.org/)-generated PEG grammar, `@budsbox/parse-
 # yarn
 yarn add @budsbox/parse-mime
 
-# npm
+# or npm
 npm install @budsbox/parse-mime
 ```
 
@@ -96,7 +97,7 @@ serializeMimeType(parsed); // 'text/html;charset=utf-8'
 serializeMimeType({
     type: 'application',
     subtype: 'json',
-    parameters: [['charset', 'utf-8']],
+    parameters: { charset: 'utf-8' },
 }); // 'application/json;charset=utf-8'
 
 // Serialize parameters only
@@ -109,3 +110,5 @@ serializeParameters(
 ```
 
 Values that aren't valid HTTP tokens are automatically quoted during serialization.
+
+## API Reference
