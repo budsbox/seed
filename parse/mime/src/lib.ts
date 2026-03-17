@@ -135,7 +135,6 @@ export type ParseFunction = typeof parse;
 /**
  * Checks whether a string is a valid HTTP token, according both to IETF and WHATWG standards.
  *
- * @internal
  * @param value - The string to validate
  * @returns `true` if the value is a valid HTTP token, `false` otherwise
  * @see @{link https://mimesniff.spec.whatwg.org/#http-token-code-point MIME Sniffing Standard: HTTP Token Code Point}
@@ -143,7 +142,7 @@ export type ParseFunction = typeof parse;
  * @see @{link https://datatracker.ietf.org/doc/html/rfc9110#name-tokens RFC 9110: Tokens}
  * — for the syntax of HTTP tokens as defined by IETF standards.
  */
-const isHttpToken = (value: string): boolean => {
+export const isHttpToken = (value: string): boolean => {
   try {
     return value === parse(value, { startRule: 'httpToken' });
   } catch (err) {
@@ -194,7 +193,7 @@ const isHttpToken = (value: string): boolean => {
  * ```
  */
 export const serializeParameters = (
-  parameters: SerializableParameters<true>,
+  parameters: SerializableParameters<true> | undefined,
 ): string => {
   if (isUndef(parameters)) return '';
   assertSome(parameters, 'parameters', isObject, isIterable);

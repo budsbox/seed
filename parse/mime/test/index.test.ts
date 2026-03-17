@@ -6,6 +6,7 @@ import handCraftedTestData from '@budsbox/gen-mime-sniff-test-data/hand-crafted'
 import {
   type ParseFunction,
   SyntaxError as ParserSyntaxError,
+  isHttpToken,
   parse,
   serializeMimeType,
   serializeParameters,
@@ -863,26 +864,6 @@ describe.sequential('MIME Parser test suite', () => {
       );
     });
 
-    test('throws when serializeParameters receives invalid input', () => {
-      expect(() => serializeParameters('x' as never)).toThrow(
-        new TypeError(
-          'Expected parameter_entry to be a tuple [string,to be string or array], got "x" instead',
-        ),
-      );
-
-      expect(() => serializeParameters([['a', 1]] as never)).toThrow(
-        new TypeError(
-          'Expected parameter_entry to be a tuple [string,to be string or array], got ["a",1] instead',
-        ),
-      );
-      expect(() => serializeParameters([['a', ['b', 2]]] as never)).toThrow(
-        TypeError,
-      );
-      expect(() => serializeParameters([['a', ['b', 2]]] as never)).toThrow(
-        'Expected parameter_value[1] to be string, got number instead',
-      );
-    });
-
     test('throws when serializeMimeType receives invalid record', () => {
       expect(() => serializeMimeType({} as never)).toThrow(TypeError);
       expect(() => serializeMimeType({} as never)).toThrow(
@@ -901,6 +882,112 @@ describe.sequential('MIME Parser test suite', () => {
           parameters: 'x',
         } as never),
       ).toThrow(TypeError);
+    });
+  });
+
+  describe('helpers', () => {
+    describe('serializeParameters', () => {
+      test('returns an empty string when input is undefined', () => {
+        expect(serializeParameters(undefined)).toBe('');
+      });
+
+      test('returns an empty string when input is an empty object, map, or array', () => {
+        expect(serializeParameters({})).toBe('');
+        expect(serializeParameters(new Map())).toBe('');
+        expect(serializeParameters([])).toBe('');
+      });
+
+      test('serializes a single parameter from Map, Object, or Array', () => {
+        const expected = ';charset=utf-8';
+        expect(serializeParameters(new Map([['charset', 'utf-8']]))).toBe(
+          expected,
+        );
+        expect(serializeParameters({ charset: 'utf-8' })).toBe(expected);
+        expect(serializeParameters([['charset', 'utf-8']])).toBe(expected);
+      });
+
+      test('serializes multiple parameters and preserves order from Map and Array', () => {
+        const params: Array<[string, string]> = [
+          ['a', '1'],
+          ['b', '2'],
+          ['c', '3'],
+        ];
+        const expected = ';a=1;b=2;c=3';
+        expect(serializeParameters(new Map(params))).toBe(expected);
+        expect(serializeParameters(params)).toBe(expected);
+      });
+
+      test('quotes values that are not valid HTTP tokens (contain spaces, quotes, etc.)', () => {
+        expect(serializeParameters({ filename: 'my file.txt' })).toBe(
+          ';filename="my file.txt"',
+        );
+        expect(serializeParameters({ x: 'a"b' })).toBe(';x="a\\"b"');
+        expect(serializeParameters({ y: 'a\\b' })).toBe(';y="a\\\\b"');
+        expect(serializeParameters({ z: 'a;"b' })).toBe(';z="a;\\"b"');
+      });
+
+      test('handles multiple parameters with the same name via array values', () => {
+        expect(serializeParameters({ foo: ['bar', 'baz'] })).toBe(
+          ';foo=bar;foo=baz',
+        );
+        expect(serializeParameters(new Map([['foo', ['bar', 'baz']]]))).toBe(
+          ';foo=bar;foo=baz',
+        );
+        expect(serializeParameters([['foo', ['bar', 'baz']]])).toBe(
+          ';foo=bar;foo=baz',
+        );
+      });
+
+      test('handles multiple parameters with the same name via repeated entries in Array or Map', () => {
+        const params: Array<[string, string]> = [
+          ['foo', 'bar'],
+          ['foo', 'baz'],
+        ];
+        const expected = ';foo=bar;foo=baz';
+        expect(serializeParameters(params)).toBe(expected);
+        // Map doesn't support duplicate keys, but serializeParameters takes any Iterable of [string, string|string[]]
+        expect(serializeParameters(params[Symbol.iterator]())).toBe(expected);
+      });
+
+      test('handles empty string values', () => {
+        // Empty string is not a valid HTTP token (requires at least one char), so it should be quoted
+        expect(serializeParameters({ a: '' })).toBe(';a=""');
+      });
+
+      test('throws when parameter_entry is not a tuple', () => {
+        expect(() => serializeParameters('x' as never)).toThrow(
+          new TypeError(
+            'Expected parameter_entry to be a tuple [string,to be string or array], got "x" instead',
+          ),
+        );
+      });
+
+      test('throws when parameter_value is invalid', () => {
+        expect(() => serializeParameters([['a', 1]] as never)).toThrow(
+          new TypeError(
+            'Expected parameter_entry to be a tuple [string,to be string or array], got ["a",1] instead',
+          ),
+        );
+        expect(() => serializeParameters([['a', ['b', 2]]] as never)).toThrow(
+          'Expected parameter_value[1] to be string, got number instead',
+        );
+      });
+    });
+
+    describe('isHttpToken', () => {
+      test('should return true for valid HTTP tokens', () => {
+        expect(isHttpToken('valid-token')).toBe(true);
+      });
+
+      test('should return false for invalid HTTP tokens', () => {
+        expect(isHttpToken('invalid/token')).toBe(false);
+      });
+
+      test('should throw an error for non-string input', () => {
+        expect(() => isHttpToken(123 as never)).toThrow(
+          new TypeError('Expected input to be string, got number instead'),
+        );
+      });
     });
   });
 });
