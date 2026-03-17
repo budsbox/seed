@@ -749,19 +749,19 @@ describe.concurrent('assertProp', () => {
 
     test('throws TypeError when third argument is not string, boolean or predicate', () => {
       const obj = { name: 'John' };
-      expect(() => void assertProp(obj, 'name', 123 as never)).toThrowError(
+      expect(() => void assertProp(obj, 'name', 123 as never)).toThrow(
         new TypeError(
           'Expected args[2] to be function, boolean, or string, got number instead',
         ),
       );
-      expect(() => void assertProp(obj, 'name', null as never)).toThrowError(
+      expect(() => void assertProp(obj, 'name', null as never)).toThrow(
         new TypeError(
           'Expected args[2] to be function, boolean, or string, got null instead',
         ),
       );
       expect(
         () => void assertProp(obj, 'name', isString, 123 as never),
-      ).toThrowError(
+      ).toThrow(
         new TypeError(
           'Expected args[3] to be boolean or string, got number instead',
         ),

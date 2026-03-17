@@ -1247,7 +1247,7 @@ describe.concurrent('assertTuple', () => {
 
   describe('negative cases', () => {
     test('throws TypeError when an element fails its predicate', () => {
-      expect(() => void assertTuple([1, 'x'], isNumber, isNumber)).toThrowError(
+      expect(() => void assertTuple([1, 'x'], isNumber, isNumber)).toThrow(
         new TypeError(
           'Expected value to be a tuple [number,number], got [1,"x"] instead',
         ),
@@ -1258,7 +1258,7 @@ describe.concurrent('assertTuple', () => {
     });
 
     test('throws TypeError when array is too short', () => {
-      expect(() => void assertTuple([1], isNumber, isNumber)).toThrowError(
+      expect(() => void assertTuple([1], isNumber, isNumber)).toThrow(
         new TypeError(
           'Expected value to be a tuple [number,number], got [1] instead',
         ),
@@ -1273,7 +1273,7 @@ describe.concurrent('assertTuple', () => {
     });
 
     test('throws TypeError for non-array values', () => {
-      expect(() => void assertTuple(null, isString)).toThrowError(
+      expect(() => void assertTuple(null, isString)).toThrow(
         new TypeError(
           'Expected value to be a tuple [string], got null instead',
         ),
@@ -1287,7 +1287,7 @@ describe.concurrent('assertTuple', () => {
     test('throws TypeError with custom name in error message', () => {
       expect(
         () => void assertTuple([1, 'x'], 'point', isNumber, isNumber),
-      ).toThrowError(
+      ).toThrow(
         new TypeError(
           'Expected point to be a tuple [number,number], got [1,"x"] instead',
         ),

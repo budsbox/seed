@@ -57,19 +57,19 @@ describe.concurrent('parsePackageName', () => {
   });
 
   test('throws TypeError for non-string packageName', (): void => {
-    expect(() => parsePackageName(123 as never)).toThrowError(
+    expect(() => parsePackageName(123 as never)).toThrow(
       new TypeError('Expected packageName to be string, got number instead'),
     );
-    expect(() => parsePackageName(null as never)).toThrowError(
+    expect(() => parsePackageName(null as never)).toThrow(
       new TypeError('Expected packageName to be string, got null instead'),
     );
-    expect(() => parsePackageName(undefined as never)).toThrowError(
+    expect(() => parsePackageName(undefined as never)).toThrow(
       new TypeError('Expected packageName to be string, got undefined instead'),
     );
   });
 
   test('throws TypeError for non-boolean clean flag', (): void => {
-    expect(() => parsePackageName('@scope/pkg', 'true' as never)).toThrowError(
+    expect(() => parsePackageName('@scope/pkg', 'true' as never)).toThrow(
       new TypeError('Expected clean to be boolean, got string instead'),
     );
   });
@@ -106,13 +106,11 @@ describe.concurrent('serializePackageName', () => {
   });
 
   test('throws TypeError for null without allowNil flag', (): void => {
-    expect(() => serializePackageName(null as never)).toThrowError(TypeError);
+    expect(() => serializePackageName(null as never)).toThrow(TypeError);
   });
 
   test('throws TypeError for undefined without allowNil flag', (): void => {
-    expect(() => serializePackageName(undefined as never)).toThrowError(
-      TypeError,
-    );
+    expect(() => serializePackageName(undefined as never)).toThrow(TypeError);
   });
 
   test('handles string identifier', (): void => {
@@ -362,21 +360,19 @@ describe.concurrent('formatPackageName', () => {
   });
 
   test('throws TypeError for non-string base', () => {
-    expect(() => formatPackageName(123 as never)).toThrowError(
+    expect(() => formatPackageName(123 as never)).toThrow(
       new TypeError('Expected base to be string, got number instead'),
     );
   });
 
   test('throws TypeError for non-object options', () => {
-    expect(() => formatPackageName('example', 'invalid' as never)).toThrowError(
+    expect(() => formatPackageName('example', 'invalid' as never)).toThrow(
       new TypeError('Expected options to be object, got string instead'),
     );
   });
 
   test('throws TypeError for invalid root type', () => {
-    expect(() =>
-      formatPackageName('example', { root: 123 as never }),
-    ).toThrowError(
+    expect(() => formatPackageName('example', { root: 123 as never })).toThrow(
       new TypeError(
         'Expected options.root to be string or null or undefined, got number instead',
       ),
@@ -386,7 +382,7 @@ describe.concurrent('formatPackageName', () => {
   test('throws TypeError for invalid parent type', () => {
     expect(() =>
       formatPackageName('example', { parent: true as never }),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected options.parent to be string or null or undefined, got boolean instead',
       ),
@@ -396,7 +392,7 @@ describe.concurrent('formatPackageName', () => {
   test('throws TypeError for invalid relCwd type', () => {
     expect(() =>
       formatPackageName('example', { relCwd: 123 as never }),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected options.relCwd to be string or undefined, got number instead',
       ),
@@ -406,7 +402,7 @@ describe.concurrent('formatPackageName', () => {
   test('throws TypeError for invalid pathDelimiter type', () => {
     expect(() =>
       formatPackageName('example', { pathDelimiter: null as never }),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected options.pathDelimiter to be string or undefined, got null instead',
       ),
@@ -416,7 +412,7 @@ describe.concurrent('formatPackageName', () => {
   test('throws TypeError for invalid nameDelimiter type', () => {
     expect(() =>
       formatPackageName('example', { nameDelimiter: [] as never }),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected options.nameDelimiter to be string or undefined, got array instead',
       ),
@@ -426,7 +422,7 @@ describe.concurrent('formatPackageName', () => {
   test('throws TypeError for non-array excludePathChunks', () => {
     expect(() =>
       formatPackageName('example', { excludePathChunks: 'invalid' as never }),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected excludePathChunks to be array, got string instead',
       ),
@@ -436,7 +432,7 @@ describe.concurrent('formatPackageName', () => {
   test('throws TypeError for excludePathChunks with non-string elements', () => {
     expect(() =>
       formatPackageName('example', { excludePathChunks: [123] as never }),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected excludePathChunks[0] to be string, got number instead',
       ),
@@ -484,19 +480,19 @@ describe.concurrent('clampWS', () => {
   });
 
   test('throws TypeError for non-string input', () => {
-    expect(() => clampWS(123 as never)).toThrowError(
+    expect(() => clampWS(123 as never)).toThrow(
       new TypeError('Expected str to be string, got number instead'),
     );
   });
 
   test('throws TypeError for null input', () => {
-    expect(() => clampWS(null as never)).toThrowError(
+    expect(() => clampWS(null as never)).toThrow(
       new TypeError('Expected str to be string, got null instead'),
     );
   });
 
   test('throws TypeError for undefined input', () => {
-    expect(() => clampWS(undefined as never)).toThrowError(
+    expect(() => clampWS(undefined as never)).toThrow(
       new TypeError('Expected str to be string, got undefined instead'),
     );
   });
@@ -572,7 +568,7 @@ describe.concurrent('joinPath', () => {
   });
 
   test('throws TypeError for invalid part type', () => {
-    expect(() => joinPath('foo', {} as never)).toThrowError(
+    expect(() => joinPath('foo', {} as never)).toThrow(
       new TypeError(
         'Expected parts[1] to be string, number, boolean, or null or undefined, got object instead',
       ),
@@ -580,7 +576,7 @@ describe.concurrent('joinPath', () => {
   });
 
   test('throws TypeError for array part', () => {
-    expect(() => joinPath('foo', [] as never)).toThrowError(
+    expect(() => joinPath('foo', [] as never)).toThrow(
       new TypeError(
         'Expected parts[1] to be string, number, boolean, or null or undefined, got array instead',
       ),
@@ -658,19 +654,19 @@ describe.concurrent('splitPath', () => {
   });
 
   test('throws TypeError for non-string path', () => {
-    expect(() => splitPath(123 as never)).toThrowError(
+    expect(() => splitPath(123 as never)).toThrow(
       new TypeError('Expected path to be string, got number instead'),
     );
   });
 
   test('throws TypeError for null path', () => {
-    expect(() => splitPath(null as never)).toThrowError(
+    expect(() => splitPath(null as never)).toThrow(
       new TypeError('Expected path to be string, got null instead'),
     );
   });
 
   test('throws TypeError for non-boolean keepEmptyChunks', () => {
-    expect(() => splitPath('foo/bar', 'invalid' as never)).toThrowError(
+    expect(() => splitPath('foo/bar', 'invalid' as never)).toThrow(
       new TypeError(
         'Expected keepEmptyChunks to be boolean, got string instead',
       ),
@@ -716,37 +712,31 @@ describe.concurrent('joinWithConjunction', () => {
   });
 
   test('throws TypeError for non-array items', () => {
-    expect(() => joinWithConjunction('invalid' as never, 'and')).toThrowError(
+    expect(() => joinWithConjunction('invalid' as never, 'and')).toThrow(
       new TypeError('Expected items to be array, got string instead'),
     );
   });
 
   test('throws TypeError for array with non-string elements', () => {
-    expect(() => joinWithConjunction([123] as never, 'and')).toThrowError(
+    expect(() => joinWithConjunction([123] as never, 'and')).toThrow(
       new TypeError('Expected items[0] to be string, got number instead'),
     );
   });
 
   test('throws TypeError for array with mixed types', () => {
-    expect(() =>
-      joinWithConjunction(['foo', null] as never, 'and'),
-    ).toThrowError(
+    expect(() => joinWithConjunction(['foo', null] as never, 'and')).toThrow(
       new TypeError('Expected items[1] to be string, got null instead'),
     );
   });
 
   test('throws TypeError for non-string conjunction', () => {
-    expect(() =>
-      joinWithConjunction(['foo', 'bar'], 123 as never),
-    ).toThrowError(
+    expect(() => joinWithConjunction(['foo', 'bar'], 123 as never)).toThrow(
       new TypeError('Expected conjunction to be string, got number instead'),
     );
   });
 
   test('throws TypeError for null conjunction', () => {
-    expect(() =>
-      joinWithConjunction(['foo', 'bar'], null as never),
-    ).toThrowError(
+    expect(() => joinWithConjunction(['foo', 'bar'], null as never)).toThrow(
       new TypeError('Expected conjunction to be string, got null instead'),
     );
   });
@@ -810,19 +800,19 @@ describe.concurrent('camelCase', () => {
   });
 
   test('throws TypeError for non-string input', (): void => {
-    expect(() => camelCase(123 as never)).toThrowError(
+    expect(() => camelCase(123 as never)).toThrow(
       new TypeError('Expected name to be string, got number instead'),
     );
   });
 
   test('throws TypeError for null input', (): void => {
-    expect(() => camelCase(null as never)).toThrowError(
+    expect(() => camelCase(null as never)).toThrow(
       new TypeError('Expected name to be string, got null instead'),
     );
   });
 
   test('throws TypeError for undefined input', (): void => {
-    expect(() => camelCase(undefined as never)).toThrowError(
+    expect(() => camelCase(undefined as never)).toThrow(
       new TypeError('Expected name to be string, got undefined instead'),
     );
   });
@@ -882,13 +872,13 @@ describe.concurrent('pascalCase', () => {
   });
 
   test('throws TypeError for non-string input', (): void => {
-    expect(() => pascalCase(123 as never)).toThrowError(
+    expect(() => pascalCase(123 as never)).toThrow(
       new TypeError('Expected name to be string, got number instead'),
     );
-    expect(() => pascalCase(null as never)).toThrowError(
+    expect(() => pascalCase(null as never)).toThrow(
       new TypeError('Expected name to be string, got null instead'),
     );
-    expect(() => pascalCase(undefined as never)).toThrowError(
+    expect(() => pascalCase(undefined as never)).toThrow(
       new TypeError('Expected name to be string, got undefined instead'),
     );
   });
@@ -961,25 +951,25 @@ describe.concurrent('delimCase', () => {
   });
 
   test('throws TypeError for non-string name', (): void => {
-    expect(() => delimCase(123 as never, '-')).toThrowError(
+    expect(() => delimCase(123 as never, '-')).toThrow(
       new TypeError('Expected name to be string, got number instead'),
     );
   });
 
   test('throws TypeError for non-string delimiter', (): void => {
-    expect(() => delimCase('foo', 123 as never)).toThrowError(
+    expect(() => delimCase('foo', 123 as never)).toThrow(
       new TypeError('Expected delimiter to be string, got number instead'),
     );
   });
 
   test('throws TypeError for null name', (): void => {
-    expect(() => delimCase(null as never, '-')).toThrowError(
+    expect(() => delimCase(null as never, '-')).toThrow(
       new TypeError('Expected name to be string, got null instead'),
     );
   });
 
   test('throws TypeError for null delimiter', (): void => {
-    expect(() => delimCase('foo', null as never)).toThrowError(
+    expect(() => delimCase('foo', null as never)).toThrow(
       new TypeError('Expected delimiter to be string, got null instead'),
     );
   });
@@ -1032,19 +1022,19 @@ describe.concurrent('kebabCase', () => {
   });
 
   test('throws TypeError for non-string input', (): void => {
-    expect(() => kebabCase(123 as never)).toThrowError(
+    expect(() => kebabCase(123 as never)).toThrow(
       new TypeError('Expected name to be string, got number instead'),
     );
   });
 
   test('throws TypeError for null input', (): void => {
-    expect(() => kebabCase(null as never)).toThrowError(
+    expect(() => kebabCase(null as never)).toThrow(
       new TypeError('Expected name to be string, got null instead'),
     );
   });
 
   test('throws TypeError for undefined input', (): void => {
-    expect(() => kebabCase(undefined as never)).toThrowError(
+    expect(() => kebabCase(undefined as never)).toThrow(
       new TypeError('Expected name to be string, got undefined instead'),
     );
   });
@@ -1096,19 +1086,19 @@ describe.concurrent('snakeCase', () => {
   });
 
   test('throws TypeError for non-string input', (): void => {
-    expect(() => snakeCase(123 as never)).toThrowError(
+    expect(() => snakeCase(123 as never)).toThrow(
       new TypeError('Expected name to be string, got number instead'),
     );
   });
 
   test('throws TypeError for null input', (): void => {
-    expect(() => snakeCase(null as never)).toThrowError(
+    expect(() => snakeCase(null as never)).toThrow(
       new TypeError('Expected name to be string, got null instead'),
     );
   });
 
   test('throws TypeError for undefined input', (): void => {
-    expect(() => snakeCase(undefined as never)).toThrowError(
+    expect(() => snakeCase(undefined as never)).toThrow(
       new TypeError('Expected name to be string, got undefined instead'),
     );
   });

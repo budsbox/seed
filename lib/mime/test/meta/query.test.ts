@@ -439,15 +439,15 @@ describe.concurrent('getMimesByExt', () => {
 
   describe.concurrent('invalid arguments', () => {
     test('throws on non-string extOrName', () => {
-      expect(() => getMimesByExt(123 as never)).toThrowError(TypeError);
+      expect(() => getMimesByExt(123 as never)).toThrow(TypeError);
     });
 
     test('throws on null extOrName', () => {
-      expect(() => getMimesByExt(null as never)).toThrowError(TypeError);
+      expect(() => getMimesByExt(null as never)).toThrow(TypeError);
     });
 
     test('throws on invalid customMap type', () => {
-      expect(() => getMimesByExt('json', 42 as never)).toThrowError(TypeError);
+      expect(() => getMimesByExt('json', 42 as never)).toThrow(TypeError);
     });
   });
 });
@@ -512,13 +512,11 @@ describe.concurrent('getMimeByExt', () => {
 
   describe.concurrent('invalid arguments', () => {
     test('throws on non-string extOrName', () => {
-      expect(() => getMimeByExt(undefined as never)).toThrowError(TypeError);
+      expect(() => getMimeByExt(undefined as never)).toThrow(TypeError);
     });
 
     test('throws on invalid customMap type', () => {
-      expect(() => getMimeByExt('json', 'bad' as never)).toThrowError(
-        TypeError,
-      );
+      expect(() => getMimeByExt('json', 'bad' as never)).toThrow(TypeError);
     });
   });
 });

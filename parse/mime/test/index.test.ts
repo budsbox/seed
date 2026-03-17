@@ -191,19 +191,15 @@ describe.sequential('MIME Parser test suite', () => {
   describe.concurrent('IETF standards strict compliance, edge cases', () => {
     test('should parse semantic whitespace (space and tab) and throw on non-semantic', () => {
       expect(parseFormatted('text/html ; ').essence).toEqual('text/html');
-      expect(() => parseFormatted('text/html ;\n')).toThrowError('Expected');
+      expect(() => parseFormatted('text/html ;\n')).toThrow('Expected');
     });
 
     test('should throw if an unquoted parameter value is not a valid HTTP token', () => {
-      expect(() => parseFormatted('x/x; foo=bar baz;')).toThrowError(
-        'Expected',
-      );
+      expect(() => parseFormatted('x/x; foo=bar baz;')).toThrow('Expected');
     });
 
     test('should throw if an unquoted parameter is empty', () => {
-      expect(() => parseFormatted('x/x; foo=; bar=baz')).toThrowError(
-        'Expected',
-      );
+      expect(() => parseFormatted('x/x; foo=; bar=baz')).toThrow('Expected');
     });
 
     test('should parse "charset" parameter and lowercase its value', () => {
@@ -225,9 +221,9 @@ describe.sequential('MIME Parser test suite', () => {
     });
 
     test('should throw on unclosed quoted parameter value', () => {
-      expect(() =>
-        parseFormatted('text/plain; charset="utf-8\\"'),
-      ).toThrowError('Expected');
+      expect(() => parseFormatted('text/plain; charset="utf-8\\"')).toThrow(
+        'Expected',
+      );
     });
   });
 
@@ -254,7 +250,7 @@ describe.sequential('MIME Parser test suite', () => {
         test('should throw when mimeType rule receives only type without subtype', () => {
           expect(() =>
             parseFormatted('text', { startRule: 'mimeType' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
       });
 
@@ -275,7 +271,7 @@ describe.sequential('MIME Parser test suite', () => {
             parseFormatted('text/plain; charset=utf-8', {
               startRule: 'essence',
             }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
       });
 
@@ -293,7 +289,7 @@ describe.sequential('MIME Parser test suite', () => {
         test('should throw when type rule receives type/subtype', () => {
           expect(() =>
             parseFormatted('text/html', { startRule: 'type' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
       });
 
@@ -319,7 +315,7 @@ describe.sequential('MIME Parser test suite', () => {
         test('should throw when subtype rule receives type/subtype', () => {
           expect(() =>
             parseFormatted('text/html', { startRule: 'subtype' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
       });
 
@@ -349,19 +345,17 @@ describe.sequential('MIME Parser test suite', () => {
         test('should throw when parameters rule receives non-parameter content', () => {
           expect(() =>
             parseFormatted('text/html', { startRule: 'parameters' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
 
         test('should throw when parameters rule receives non-parameter content (with leading semicolon)', () => {
           expect(() =>
             parseFormatted(';invalid@@@', { startRule: 'parameters' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
 
         test('should throw if an unquoted parameter is empty', () => {
-          expect(() => parseFormatted('; foo=; bar=baz')).toThrowError(
-            'Expected',
-          );
+          expect(() => parseFormatted('; foo=; bar=baz')).toThrow('Expected');
         });
 
         test('should throw when parameters rule receives parameters string without leading semicolon', () => {
@@ -369,7 +363,7 @@ describe.sequential('MIME Parser test suite', () => {
             parseFormatted('charset=utf-8; boundary=test', {
               startRule: 'parameters',
             }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
       });
 
@@ -393,7 +387,7 @@ describe.sequential('MIME Parser test suite', () => {
             parseFormatted('charset=utf-8; boundary=test', {
               startRule: 'parameter',
             }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
       });
 
@@ -415,19 +409,19 @@ describe.sequential('MIME Parser test suite', () => {
         test('should throw when parameterName rule receives non-token characters', () => {
           expect(() =>
             parseFormatted('invalid name', { startRule: 'parameterName' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
 
         test('should throw when parameterName rule receives parameter with value', () => {
           expect(() =>
             parseFormatted('charset=utf-8', { startRule: 'parameterName' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
 
         test('should throw on empty string for parameterName rule', () => {
           expect(() =>
             parseFormatted('', { startRule: 'parameterName' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
       });
 
@@ -452,13 +446,13 @@ describe.sequential('MIME Parser test suite', () => {
         test('should throw when httpToken rule receives invalid token chars (space)', () => {
           expect(() =>
             parseFormatted('invalid token', { startRule: 'httpToken' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
 
         test('should throw when httpToken rule receives invalid token chars (slash)', () => {
           expect(() =>
             parseFormatted('text/html', { startRule: 'httpToken' }),
-          ).toThrowError('Expected');
+          ).toThrow('Expected');
         });
       });
     });
@@ -467,27 +461,23 @@ describe.sequential('MIME Parser test suite', () => {
       test('should validate the option type', () => {
         expect(() =>
           parseFormatted('text/html', { trim: 'invalid' as never }),
-        ).toThrowError(
-          'Expected options.trim to be boolean, got string instead',
-        );
-        expect(() =>
-          parseFormatted('text/html', { trim: true }),
-        ).not.toThrowError(TypeError);
-        expect(() =>
-          parseFormatted('text/html', { trim: false }),
-        ).not.toThrowError(TypeError);
-        expect(() => parseFormatted('text/html', {})).not.toThrowError(
+        ).toThrow('Expected options.trim to be boolean, got string instead');
+        expect(() => parseFormatted('text/html', { trim: true })).not.toThrow(
           TypeError,
         );
+        expect(() => parseFormatted('text/html', { trim: false })).not.toThrow(
+          TypeError,
+        );
+        expect(() => parseFormatted('text/html', {})).not.toThrow(TypeError);
       });
 
       test('should throw on whitespace around type when trim is disabled (default mode)', () => {
-        expect(() => parseFormatted(' x/x ')).toThrowError('Expected');
-        expect(() => parseFormatted(' text/html')).toThrowError('Expected');
-        expect(() => parseFormatted('text/html ')).toThrowError('Expected');
-        expect(() =>
-          parseFormatted(' text/html ', { trim: false }),
-        ).toThrowError('Expected');
+        expect(() => parseFormatted(' x/x ')).toThrow('Expected');
+        expect(() => parseFormatted(' text/html')).toThrow('Expected');
+        expect(() => parseFormatted('text/html ')).toThrow('Expected');
+        expect(() => parseFormatted(' text/html ', { trim: false })).toThrow(
+          'Expected',
+        );
       });
 
       test('should parse whitespace around type when trim is enabled explicitly', () => {
@@ -517,7 +507,7 @@ describe.sequential('MIME Parser test suite', () => {
       test('should throw on whitespace in sniff mode when trim is explicitly disabled', () => {
         expect(() =>
           parseFormatted(' x/x ', { sniff: true, trim: false }),
-        ).toThrowError('Expected');
+        ).toThrow('Expected');
       });
     });
 
@@ -525,32 +515,30 @@ describe.sequential('MIME Parser test suite', () => {
       test('should validate the option type', () => {
         expect(() =>
           parseFormatted('text/html', { restrictNames: 'invalid' as never }),
-        ).toThrowError(
+        ).toThrow(
           'Expected options.restrictNames to be boolean, got string instead',
         );
         expect(() =>
           parseFormatted('text/html', { restrictNames: true }),
-        ).not.toThrowError(TypeError);
+        ).not.toThrow(TypeError);
         expect(() =>
           parseFormatted('text/html', { restrictNames: false }),
-        ).not.toThrowError(TypeError);
-        expect(() => parseFormatted('text/html', {})).not.toThrowError(
-          TypeError,
-        );
+        ).not.toThrow(TypeError);
+        expect(() => parseFormatted('text/html', {})).not.toThrow(TypeError);
       });
 
       test('should throw on non-restricted names when restrictNames is enabled explicitly', () => {
         expect(() =>
           parseFormatted('$app.lication/json', { restrictNames: true }),
-        ).toThrowError('Expected');
+        ).toThrow('Expected');
         expect(() =>
           parseFormatted('application/$emer.gency', { restrictNames: true }),
-        ).toThrowError('Expected');
+        ).toThrow('Expected');
         expect(() =>
           parseFormatted('application/emergency;$foo=bar', {
             restrictNames: true,
           }),
-        ).toThrowError('Expected');
+        ).toThrow('Expected');
       });
 
       test('should parse non-restricted names when restrictNames is disabled explicitly', () => {
@@ -586,7 +574,7 @@ describe.sequential('MIME Parser test suite', () => {
       test('should validate the option value', () => {
         expect(() =>
           parseFormatted('text/plain', { multiParameter: 'invalid' as never }),
-        ).toThrowError(
+        ).toThrow(
           'Expected options.multiParameter to be any of: "keep-first", "keep-last", or "list", got "invalid" instead',
         );
         expect(() =>
@@ -715,18 +703,16 @@ describe.sequential('MIME Parser test suite', () => {
       test('should validate the option type', () => {
         expect(() =>
           parseFormatted('text/html', { keepCharsetCase: 'invalid' as never }),
-        ).toThrowError(
+        ).toThrow(
           'Expected options.keepCharsetCase to be boolean, got string instead',
         );
         expect(() =>
           parseFormatted('text/html', { keepCharsetCase: true }),
-        ).not.toThrowError(TypeError);
+        ).not.toThrow(TypeError);
         expect(() =>
           parseFormatted('text/html', { keepCharsetCase: false }),
-        ).not.toThrowError(TypeError);
-        expect(() => parseFormatted('text/html', {})).not.toThrowError(
-          TypeError,
-        );
+        ).not.toThrow(TypeError);
+        expect(() => parseFormatted('text/html', {})).not.toThrow(TypeError);
       });
 
       test('should lowercase charset by default in semantic mode', () => {
@@ -824,7 +810,7 @@ describe.sequential('MIME Parser test suite', () => {
     test(`MIME Sniffing Standard generated tests (${String(generatedTestData.length)})`, () => {
       for (const { input, output } of generatedTestData) {
         if (output === null) {
-          expect.soft(() => sniffFormatted(input)).toThrowError('Expected');
+          expect.soft(() => sniffFormatted(input)).toThrow('Expected');
         } else {
           expect.soft(serializeMimeType(sniffFormatted(input))).toEqual(output);
           expect
@@ -839,7 +825,7 @@ describe.sequential('MIME Parser test suite', () => {
         'should correctly process $input',
         ({ input, output }) => {
           if (output === null) {
-            expect(() => sniffFormatted(input)).toThrowError('Expected');
+            expect(() => sniffFormatted(input)).toThrow('Expected');
           } else {
             expect(serializeMimeType(sniffFormatted(input))).toBe(output);
             expect(sniffFormatted(input)).toStrictEqual(sniffFormatted(output));
@@ -851,76 +837,70 @@ describe.sequential('MIME Parser test suite', () => {
 
   describe('edge cases', () => {
     test('throws when input is not string', () => {
-      expect(() => sniffFormatted(null as never)).toThrowError(TypeError);
-      expect(() => sniffFormatted(undefined as never)).toThrowError(
+      expect(() => sniffFormatted(null as never)).toThrow(TypeError);
+      expect(() => sniffFormatted(undefined as never)).toThrow(
         'Expected input to be string, got undefined instead',
       );
-      expect(() => sniffFormatted(123 as never)).toThrowError(TypeError);
-      expect(() => sniffFormatted(true as never)).toThrowError(TypeError);
-      expect(() => sniffFormatted({} as never)).toThrowError(TypeError);
-      expect(() => sniffFormatted([] as never)).toThrowError(TypeError);
+      expect(() => sniffFormatted(123 as never)).toThrow(TypeError);
+      expect(() => sniffFormatted(true as never)).toThrow(TypeError);
+      expect(() => sniffFormatted({} as never)).toThrow(TypeError);
+      expect(() => sniffFormatted([] as never)).toThrow(TypeError);
     });
 
     test('throws when options is not object or not a null/undefined', () => {
-      expect(() => sniffFormatted('text/html', null as never)).not.toThrowError(
+      expect(() => sniffFormatted('text/html', null as never)).not.toThrow(
         TypeError,
       );
-      expect(() =>
-        sniffFormatted('text/html', undefined as never),
-      ).not.toThrowError(TypeError);
-      expect(() => sniffFormatted('text/html', {} as never)).not.toThrowError(
+      expect(() => sniffFormatted('text/html', undefined as never)).not.toThrow(
         TypeError,
       );
-      expect(() => parse('text/html', 'foobar' as never)).toThrowError(
+      expect(() => sniffFormatted('text/html', {} as never)).not.toThrow(
         TypeError,
       );
-      expect(() => parse('text/html', 'foobar' as never)).toThrowError(
+      expect(() => parse('text/html', 'foobar' as never)).toThrow(TypeError);
+      expect(() => parse('text/html', 'foobar' as never)).toThrow(
         'Expected options to be object, got string instead',
       );
     });
 
     test('throws when serializeParameters receives invalid input', () => {
-      expect(() => serializeParameters('x' as never)).toThrowError(
+      expect(() => serializeParameters('x' as never)).toThrow(
         new TypeError(
           'Expected parameter_entry to be a tuple [string,to be string or array], got "x" instead',
         ),
       );
 
-      expect(() => serializeParameters([['a', 1]] as never)).toThrowError(
+      expect(() => serializeParameters([['a', 1]] as never)).toThrow(
         new TypeError(
           'Expected parameter_entry to be a tuple [string,to be string or array], got ["a",1] instead',
         ),
       );
-      expect(() =>
-        serializeParameters([['a', ['b', 2]]] as never),
-      ).toThrowError(TypeError);
-      expect(() =>
-        serializeParameters([['a', ['b', 2]]] as never),
-      ).toThrowError(
+      expect(() => serializeParameters([['a', ['b', 2]]] as never)).toThrow(
+        TypeError,
+      );
+      expect(() => serializeParameters([['a', ['b', 2]]] as never)).toThrow(
         'Expected parameter_value[1] to be string, got number instead',
       );
     });
 
     test('throws when serializeMimeType receives invalid record', () => {
-      expect(() => serializeMimeType({} as never)).toThrowError(TypeError);
-      expect(() => serializeMimeType({} as never)).toThrowError(
+      expect(() => serializeMimeType({} as never)).toThrow(TypeError);
+      expect(() => serializeMimeType({} as never)).toThrow(
         'Expected record to have own property "type"',
       );
       expect(() =>
         serializeMimeType({ type: 'text', subtype: 1 } as never),
-      ).toThrowError(TypeError);
+      ).toThrow(TypeError);
       expect(() =>
         serializeMimeType({ type: 'text', subtype: 1 } as never),
-      ).toThrowError(
-        'Expected record.subtype to be string, got number instead',
-      );
+      ).toThrow('Expected record.subtype to be string, got number instead');
       expect(() =>
         serializeMimeType({
           type: 'text',
           subtype: 'plain',
           parameters: 'x',
         } as never),
-      ).toThrowError(TypeError);
+      ).toThrow(TypeError);
     });
   });
 });

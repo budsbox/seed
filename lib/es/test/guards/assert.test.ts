@@ -152,7 +152,7 @@ describe.concurrent('normalizeOptionalRest', () => {
   test('throws for wrong subsequence', () => {
     expect(() =>
       normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', 'foo']),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected args[1] to be boolean or number, got string instead',
       ),
@@ -163,13 +163,13 @@ describe.concurrent('normalizeOptionalRest', () => {
         [isString, isBoolean, isNumber],
         ['foo', true, 'foo'],
       ),
-    ).toThrowError(
+    ).toThrow(
       new TypeError('Expected args[2] to be number, got string instead'),
     );
 
     expect(() =>
       normalizeOptionalRest([isString, isBoolean, isNumber], [true, 'foo']),
-    ).toThrowError(
+    ).toThrow(
       new TypeError('Expected args[1] to be number, got string instead'),
     );
 
@@ -178,7 +178,7 @@ describe.concurrent('normalizeOptionalRest', () => {
         [isString, isBoolean, isBoolean, isNumber],
         ['foo', true, 'foo'],
       ),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected args[2] to be boolean or number, got string instead',
       ),
@@ -188,7 +188,7 @@ describe.concurrent('normalizeOptionalRest', () => {
   test('throws correct error for wrong subsequence with restShift', () => {
     expect(() =>
       normalizeOptionalRest([isString, isBoolean, isNumber], ['foo', 'foo'], 1),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected args[2] to be boolean or number, got string instead',
       ),
@@ -200,13 +200,13 @@ describe.concurrent('normalizeOptionalRest', () => {
         ['foo', true, 'foo'],
         2,
       ),
-    ).toThrowError(
+    ).toThrow(
       new TypeError('Expected args[4] to be number, got string instead'),
     );
 
     expect(() =>
       normalizeOptionalRest([isString, isBoolean, isNumber], [true, 'foo'], 2),
-    ).toThrowError(
+    ).toThrow(
       new TypeError('Expected args[3] to be number, got string instead'),
     );
 
@@ -216,7 +216,7 @@ describe.concurrent('normalizeOptionalRest', () => {
         ['foo', true, 'foo'],
         1,
       ),
-    ).toThrowError(
+    ).toThrow(
       new TypeError(
         'Expected args[3] to be boolean or number, got string instead',
       ),

@@ -58,14 +58,14 @@ describe.concurrent('fif', () => {
   });
 
   test('throws TypeError when test is not a function', () => {
-    expect(() => fif(10, 'not a function' as never, 'value')).toThrowError(
+    expect(() => fif(10, 'not a function' as never, 'value')).toThrow(
       TypeError,
     );
   });
 
   test('throws TypeError when test does not return boolean', () => {
     const badTest = (() => 'not boolean') as never as Predicate;
-    expect(() => fif(10, badTest, 'value')).toThrowError(TypeError);
+    expect(() => fif(10, badTest, 'value')).toThrow(TypeError);
   });
 
   test('works with null values', () => {
