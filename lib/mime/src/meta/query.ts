@@ -262,7 +262,7 @@ export function getMimesByExt(
   assertString(extOrName, 'extOrName');
   assertSome(customMap, 'customMap', isMap, isObject, isUndef);
 
-  const ext = extOrName.split('.').at(-1) ?? '';
+  const ext = extOrName.split('.').at(-1)!;
   const customEssences: MimeTypeEssence[] = [];
   if (isMap(customMap) && customMap.has(ext)) {
     const value = customMap.get(ext);

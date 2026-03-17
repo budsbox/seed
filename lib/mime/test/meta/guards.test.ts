@@ -708,30 +708,26 @@ describe.concurrent('isCompressible', () => {
     expect(isCompressible('application/zip')).toBe(false);
   });
 
-  test('returns false for application/gzip (archive)', () => {
-    expect(isCompressible('application/gzip')).toBe(false);
-  });
-
-  test("returns false for application/x-tar (tar doesn't compress files inside)", () => {
-    expect(isCompressible('application/x-tar')).toBe(true);
+  test('returns false for application/tlsrpt+gzip (archive)', () => {
+    expect(isCompressible('application/tlsrpt+gzip')).toBe(false);
   });
 
   // Fallback: text data → true
-  test('returns true for text/csv (text data fallback)', () => {
-    expect(isCompressible('text/csv')).toBe(true);
+  test('returns true for application/geo+json-seq (text data fallback)', () => {
+    expect(isCompressible('application/geo+json-seq')).toBe(true);
   });
 
-  test('returns true for application/yaml (text data fallback)', () => {
-    expect(isCompressible('application/yaml')).toBe(true);
+  test('returns true for application/prs.implied-object+yaml (text data fallback)', () => {
+    expect(isCompressible('application/prs.implied-object+yaml')).toBe(true);
   });
 
   // Fallback: playable → false
-  test('returns false for audio/wav (playable fallback)', () => {
-    expect(isCompressible('audio/wav')).toBe(false);
+  test('returns false for audio/ac3 (playable fallback)', () => {
+    expect(isCompressible('audio/ac3')).toBe(false);
   });
 
-  test('returns false for video/mp4 (playable fallback)', () => {
-    expect(isCompressible('video/mp4')).toBe(false);
+  test('returns false for video/3gpp (playable fallback)', () => {
+    expect(isCompressible('video/3gpp')).toBe(false);
   });
 
   // Default value parameter

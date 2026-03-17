@@ -434,13 +434,35 @@ const parseParameterName = (name: string, options?: MimeTypeOptions): string =>
     'Failed to parse parameter name',
   );
 
-const customParse = <
+/**
+ * Parses the given input string using the specified grammar rules and options.
+ *
+ * This function leverages a low-level parsing mechanism to process the input
+ * and return the parse result based on the defined `startRule` and handling
+ * of multi-parameter values. If parsing fails, a detailed syntax error
+ * message is generated and thrown.
+ *
+ * @internal
+ * @param input - The input string to parse.
+ * @param options - Optional parsing configuration that includes the grammar rules
+ * and the handling of multi-parameter options.
+ * @param errorPrefix - Optional string to prefix error messages, if a parsing
+ * failure occurs.
+ * @returns The parsed result corresponding to the specified start rule.
+ * @throws {SyntaxError} Throws a syntax error if the parsing process fails.
+ * This error includes a formatted message with contextual details about
+ * the failure.
+ * @typeParam TRule - The type of the start rule name. Defaults to the `DefaultStartRule`.
+ * @typeParam TMultiParameter - Defines how to handle multi-parameter options.
+ * Defaults to `'keep-first'`.\
+ */
+export const customParse = <
   TRule extends StartRuleNames = DefaultStartRule,
   TMultiParameter extends MultiParameterOption = 'keep-first',
 >(
   input: string,
   options: ParseOptions<TRule, TMultiParameter> | undefined,
-  errorPrefix: string = `Failed to parse ${delimCase(options?.startRule ?? defaultStartRule, ' ')}`,
+  errorPrefix?: string,
 ): RuleResult<TMultiParameter>[TRule] => {
   assertString(input);
   const source = '<input>';
@@ -452,6 +474,9 @@ const customParse = <
     });
   } catch (parseError) {
     if (parseError instanceof ParseSyntaxError) {
+      errorPrefix =
+        errorPrefix ??
+        `Failed to parse ${delimCase(options?.startRule ?? defaultStartRule, ' ')}`;
       throw new SyntaxError(
         `${errorPrefix}: ${parseError
           .format([{ source, text: input }])

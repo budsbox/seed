@@ -276,6 +276,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/parser", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:8.48.1"],\
           ["@typescript-eslint/type-utils", "virtual:acc55f7526fd8037a0b0290d8d96e55a3599e77e8eaf655b1d1ebd16d66b11d482ba9f0ce38db682fcf7f81fb154e10d2286a8906c467219b221b09ebed9d76f#npm:8.48.1"],\
           ["@vitejs/plugin-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:5.1.1"],\
+          ["@vitest/ui", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
           ["@yarnpkg/cli", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.12.0"],\
           ["@yarnpkg/core", "npm:4.5.0"],\
           ["@yarnpkg/fslib", "npm:3.1.4"],\
@@ -5752,6 +5753,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/parser", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:8.48.1"],\
           ["@typescript-eslint/type-utils", "virtual:acc55f7526fd8037a0b0290d8d96e55a3599e77e8eaf655b1d1ebd16d66b11d482ba9f0ce38db682fcf7f81fb154e10d2286a8906c467219b221b09ebed9d76f#npm:8.48.1"],\
           ["@vitejs/plugin-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:5.1.1"],\
+          ["@vitest/ui", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
           ["@yarnpkg/cli", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.12.0"],\
           ["@yarnpkg/core", "npm:4.5.0"],\
           ["@yarnpkg/fslib", "npm:3.1.4"],\
@@ -9953,6 +9955,26 @@ const RAW_RUNTIME_STATE =
           ["tinyglobby", "npm:0.2.15"],\
           ["tinyrainbow", "npm:3.0.3"],\
           ["vitest", "virtual:42a42e663e548bd3ef2a4fbc6678ea70bfb5e08b6b548e58e63c19e940498c717860a79b5629175748608090fd2af02da4ba28d32285888de85dc34f1c30cca3#npm:4.1.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/vitest",\
+          "vitest"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0", {\
+        "packageLocation": "./.yarn/__virtual__/@vitest-ui-virtual-1c130f1b30/0/cache/@vitest-ui-npm-4.1.0-63cd44ac5c-3629aadc12.zip/node_modules/@vitest/ui/",\
+        "packageDependencies": [\
+          ["@types/vitest", null],\
+          ["@vitest/ui", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
+          ["@vitest/utils", "npm:4.1.0"],\
+          ["fflate", "npm:0.8.2"],\
+          ["flatted", "npm:3.4.0"],\
+          ["pathe", "npm:2.0.3"],\
+          ["sirv", "npm:3.0.2"],\
+          ["tinyglobby", "npm:0.2.15"],\
+          ["tinyrainbow", "npm:3.0.3"],\
+          ["vitest", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"]\
         ],\
         "packagePeers": [\
           "@types/vitest",\
@@ -21684,7 +21706,7 @@ const RAW_RUNTIME_STATE =
           ["@vitest/runner", "npm:4.1.0"],\
           ["@vitest/snapshot", "npm:4.1.0"],\
           ["@vitest/spy", "npm:4.1.0"],\
-          ["@vitest/ui", null],\
+          ["@vitest/ui", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
           ["@vitest/utils", "npm:4.1.0"],\
           ["es-module-lexer", "npm:2.0.0"],\
           ["expect-type", "npm:1.3.0"],\

@@ -1,5 +1,6 @@
 import { describe, expect, test } from 'vitest';
 import {
+  customParse,
   getParameter,
   normalize,
   normalizeInput,
@@ -42,7 +43,15 @@ describe.concurrent('MIME type library', () => {
     });
 
     test('should throw SyntaxError for invalid MIME type', () => {
-      expect(() => parse('invalid')).toThrow(SyntaxError);
+      expect(() => parse('invalid')).toThrow(
+        new SyntaxError(
+          `Failed to sniff MIME type: expected "/" but end of input found.
+ --> <input>:1:8
+  |
+1 | invalid
+  |        ^`,
+        ),
+      );
       expect(() => parse('text/')).toThrow(SyntaxError);
     });
   });
@@ -117,7 +126,11 @@ describe.concurrent('MIME type library', () => {
 
     test('should throw when updating with invalid value', () => {
       expect(() => update('text/html', 'subtype', 'invalid/subtype')).toThrow(
-        SyntaxError,
+        new SyntaxError(`Failed to parse subtype: expected end of input but "/" found.
+ --> <input>:1:8
+  |
+1 | invalid/subtype
+  |        ^`),
       );
     });
   });
@@ -175,6 +188,16 @@ describe.concurrent('MIME type library', () => {
         'text/html;charset=utf-8',
       );
     });
+
+    test('should keep charset case when lowercasing disabled', () => {
+      expect(
+        setParameter(
+          { mimeType: 'text/html', keepCharsetCase: true },
+          'charset',
+          'UTF-8',
+        ),
+      ).toBe('text/html;charset=UTF-8');
+    });
   });
 
   describe.concurrent('removeParameter', () => {
@@ -193,6 +216,11 @@ describe.concurrent('MIME type library', () => {
     test('should return string as-is', () => {
       const input = 'text/html; charset=UTF-8';
       expect(serialize(input)).toBe(input);
+    });
+
+    test('should return mimeType property as is', () => {
+      const input = { mimeType: 'text/html' };
+      expect(serialize(input)).toBe('text/html');
     });
 
     test('should serialize a record-like object without parsing (e.g. no lowercasing and so on)', () => {
@@ -377,6 +405,33 @@ describe.concurrent('MIME type library', () => {
       expect(() => normalizeInput(input)).toThrow(TypeError);
       expect(() => normalizeInput(input)).toThrow(
         'Expected source.parameters to be object or to be iterable, got number (123) instead',
+      );
+    });
+  });
+
+  describe('customParse', () => {
+    test('should throw SyntaxError when input is invalid', () => {
+      expect(() => customParse('text', undefined)).toThrow(
+        new SyntaxError(
+          `Failed to parse mime type: expected "/" but end of input found.
+ --> <input>:1:5
+  |
+1 | text
+  |     ^`,
+        ),
+      );
+    });
+
+    test('should throw TypeError parameters are invalid', () => {
+      expect(() =>
+        customParse('text/plain', {
+          trim: 'yes' as never,
+          grammarSource: '<input>',
+        }),
+      ).toThrow(
+        new TypeError(
+          'Expected options.trim to be boolean, got string instead',
+        ),
       );
     });
   });
