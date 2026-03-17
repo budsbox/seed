@@ -71,10 +71,12 @@
     "@budsbox/gen-mime-sniff-test-data": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
+    "@vitest/coverage-v8": "^4.1.0",
+    "@vitest/ui": "4.1.0",
     "eslint": "^9.39.1",
     "mime-db": "*",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.15"
+    "vitest": "^4.1.0"
   },
   "peerDependencies": {
     "mime-db": "*"
