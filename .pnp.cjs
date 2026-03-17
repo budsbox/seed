@@ -276,6 +276,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/parser", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:8.48.1"],\
           ["@typescript-eslint/type-utils", "virtual:acc55f7526fd8037a0b0290d8d96e55a3599e77e8eaf655b1d1ebd16d66b11d482ba9f0ce38db682fcf7f81fb154e10d2286a8906c467219b221b09ebed9d76f#npm:8.48.1"],\
           ["@vitejs/plugin-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:5.1.1"],\
+          ["@vitest/coverage-v8", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
           ["@vitest/ui", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
           ["@yarnpkg/cli", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.12.0"],\
           ["@yarnpkg/core", "npm:4.5.0"],\
@@ -5686,6 +5687,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/tsconfigs", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#workspace:tsconfigs"],\
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:22.19.1"],\
+          ["@vitest/coverage-v8", "virtual:cf0331094df7626dc8d3a5d517fdc8b41546d0f4328ed953fef4fb177222b7d597341fd4b16758ca381f9229764055f6ff8ed1821aa575f409ccbdd255442dda#npm:4.1.0"],\
           ["eslint", "virtual:7408e7760eed0853311e9adeeb5f70202e5e870f8c5d4f12e067dc088a49a285eadf2f9e1eb0f25fe51ff30ab32b0d5efcb87ecad2127c1051c13bd0148bbb48#npm:9.39.1"],\
           ["peggy", "npm:5.0.6"],\
           ["tslib", "npm:2.8.1"],\
@@ -5753,6 +5755,7 @@ const RAW_RUNTIME_STATE =
           ["@typescript-eslint/parser", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:8.48.1"],\
           ["@typescript-eslint/type-utils", "virtual:acc55f7526fd8037a0b0290d8d96e55a3599e77e8eaf655b1d1ebd16d66b11d482ba9f0ce38db682fcf7f81fb154e10d2286a8906c467219b221b09ebed9d76f#npm:8.48.1"],\
           ["@vitejs/plugin-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:5.1.1"],\
+          ["@vitest/coverage-v8", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
           ["@vitest/ui", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
           ["@yarnpkg/cli", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.12.0"],\
           ["@yarnpkg/core", "npm:4.5.0"],\
@@ -9797,6 +9800,60 @@ const RAW_RUNTIME_STATE =
           ["std-env", "npm:4.0.0"],\
           ["tinyrainbow", "npm:3.0.3"],\
           ["vitest", "virtual:42a42e663e548bd3ef2a4fbc6678ea70bfb5e08b6b548e58e63c19e940498c717860a79b5629175748608090fd2af02da4ba28d32285888de85dc34f1c30cca3#npm:4.1.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/vitest",\
+          "@types/vitest__browser",\
+          "@vitest/browser",\
+          "vitest"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0", {\
+        "packageLocation": "./.yarn/__virtual__/@vitest-coverage-v8-virtual-e782e7da9d/0/cache/@vitest-coverage-v8-npm-4.1.0-78fbf6dc32-0bcbc9d20d.zip/node_modules/@vitest/coverage-v8/",\
+        "packageDependencies": [\
+          ["@bcoe/v8-coverage", "npm:1.0.2"],\
+          ["@types/vitest", null],\
+          ["@types/vitest__browser", null],\
+          ["@vitest/browser", null],\
+          ["@vitest/coverage-v8", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"],\
+          ["@vitest/utils", "npm:4.1.0"],\
+          ["ast-v8-to-istanbul", "npm:1.0.0"],\
+          ["istanbul-lib-coverage", "npm:3.2.2"],\
+          ["istanbul-lib-report", "npm:3.0.1"],\
+          ["istanbul-reports", "npm:3.2.0"],\
+          ["magicast", "npm:0.5.2"],\
+          ["obug", "npm:2.1.1"],\
+          ["std-env", "npm:4.0.0"],\
+          ["tinyrainbow", "npm:3.0.3"],\
+          ["vitest", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:4.1.0"]\
+        ],\
+        "packagePeers": [\
+          "@types/vitest",\
+          "@types/vitest__browser",\
+          "@vitest/browser",\
+          "vitest"\
+        ],\
+        "linkType": "HARD"\
+      }],\
+      ["virtual:cf0331094df7626dc8d3a5d517fdc8b41546d0f4328ed953fef4fb177222b7d597341fd4b16758ca381f9229764055f6ff8ed1821aa575f409ccbdd255442dda#npm:4.1.0", {\
+        "packageLocation": "./.yarn/__virtual__/@vitest-coverage-v8-virtual-adc9799da6/0/cache/@vitest-coverage-v8-npm-4.1.0-78fbf6dc32-0bcbc9d20d.zip/node_modules/@vitest/coverage-v8/",\
+        "packageDependencies": [\
+          ["@bcoe/v8-coverage", "npm:1.0.2"],\
+          ["@types/vitest", null],\
+          ["@types/vitest__browser", null],\
+          ["@vitest/browser", null],\
+          ["@vitest/coverage-v8", "virtual:cf0331094df7626dc8d3a5d517fdc8b41546d0f4328ed953fef4fb177222b7d597341fd4b16758ca381f9229764055f6ff8ed1821aa575f409ccbdd255442dda#npm:4.1.0"],\
+          ["@vitest/utils", "npm:4.1.0"],\
+          ["ast-v8-to-istanbul", "npm:1.0.0"],\
+          ["istanbul-lib-coverage", "npm:3.2.2"],\
+          ["istanbul-lib-report", "npm:3.0.1"],\
+          ["istanbul-reports", "npm:3.2.0"],\
+          ["magicast", "npm:0.5.2"],\
+          ["obug", "npm:2.1.1"],\
+          ["std-env", "npm:4.0.0"],\
+          ["tinyrainbow", "npm:3.0.3"],\
+          ["vitest", "virtual:b4e1454d447938daf26d9bbb1af94d64d13eecdc7702e14764f1fa49a20f3141e083176bfb48f0acc6d37904bd9eccc467bad48e17d79cd4babd28f73235fd83#npm:4.1.0"]\
         ],\
         "packagePeers": [\
           "@types/vitest",\
