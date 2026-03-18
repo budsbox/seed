@@ -29,17 +29,18 @@ export { fnv1aHash, mulberry32, sfc32 };
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function createRng(options?: RNGOptions<undefined>): RNG<undefined>;
+
 /**
  * Creates a random number generator (RNG) instance based on the specified options.
  *
  * @param options - Configuration options for initializing the RNG,
  * including the seed source, ID length, and PRNG function to use.
  * @returns An RNG instance configured according to the provided options.
+ * @typeParam TSeedSource - The type of seed source used for generating random numbers.
  */
 export function createRng<TSeedSource extends SeedSource = SeedSource>(
   options: RNGOptions<TSeedSource>,
 ): RNG<TSeedSource>;
-// eslint-disable-next-line jsdoc/require-jsdoc
 export function createRng(options?: RNGOptions): RNG;
 export function createRng({
   seed: seedSource,

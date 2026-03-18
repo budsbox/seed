@@ -1,27 +1,27 @@
 {
   "name": "@budsbox/lib-node",
   "version": "1.1.1",
-  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "homepage": "https://github.com/budsbox/seed",
   "bugs": {
-    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+    "url": "https://github.com/budsbox/seed/issues"
   },
-  "repository": "gitlab:budsbox/fe/seed",
+  "repository": "git@github.com:budsbox/seed.git",
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
     "#package.json": "./package.json",
     "#ts": {
-      "import": "./dist/ts.js",
-      "types": "./dist/ts.d.ts"
+      "types": "./dist/ts.d.ts",
+      "import": "./dist/ts.js"
     },
     "#fs": {
-      "import": "./dist/fs.js",
-      "types": "./dist/fs.d.ts"
+      "types": "./dist/fs.d.ts",
+      "import": "./dist/fs.js"
     },
     "#pckg": {
-      "import": "./dist/pckg.js",
-      "types": "./dist/pckg.d.ts"
+      "types": "./dist/pckg.d.ts",
+      "import": "./dist/pckg.js"
     },
     "#types": {
       "types": "./dist/types.d.ts"
@@ -30,16 +30,16 @@
   "exports": {
     "./package.json": "./package.json",
     "./ts": {
-      "import": "./dist/ts.js",
-      "types": "./dist/ts.d.ts"
+      "types": "./dist/ts.d.ts",
+      "import": "./dist/ts.js"
     },
     "./fs": {
-      "import": "./dist/fs.js",
-      "types": "./dist/fs.d.ts"
+      "types": "./dist/fs.d.ts",
+      "import": "./dist/fs.js"
     },
     "./pckg": {
-      "import": "./dist/pckg.js",
-      "types": "./dist/pckg.d.ts"
+      "types": "./dist/pckg.d.ts",
+      "import": "./dist/pckg.js"
     }
   },
   "files": [
@@ -53,33 +53,32 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@budsbox/types": "workspace:^",
-    "execa": "^9.5.2",
+    "execa": "^9.6.1",
     "tslib": "^2.8.1",
-    "type-fest": "^4.32.0"
+    "type-fest": "^5.3.1"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
     "@budsbox/eslint_presets-node-lib": "workspace:^",
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
-    "@eslint/js": "^9.26.0",
+    "@eslint/js": "^9.39.1",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.15.2",
-    "@typescript-eslint/parser": "^8.32.1",
-    "eslint": "^9.26.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-import-resolver-typescript": "^4.3.4",
-    "eslint-plugin-jsdoc": "^50.6.17",
+    "@types/node": "^22.19.1",
+    "@typescript-eslint/parser": "^8.48.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-jsdoc": "^61.5.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "globals": "^16.1.0",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.1"
+    "globals": "^16.5.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1"
   },
   "peerDependencies": {
-    "@types/node": "^22.15.2",
-    "typescript": "^5.8.3"
+    "@types/node": "^22.19.1",
+    "typescript": "^5.9.3"
   },
   "peerDependenciesMeta": {
     "typescript": {

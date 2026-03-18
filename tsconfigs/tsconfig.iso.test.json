@@ -1,0 +1,12 @@
+{
+  "extends": "./tsconfig.iso.json",
+  "include": ["${configDir}/test"],
+  "compilerOptions": {
+    "target": "ESNext",
+    "noEmit": true,
+    "rootDir": "${configDir}/test",
+    "tsBuildInfoFile": "${configDir}/dist/test.tsbuildinfo",
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
+  }
+}

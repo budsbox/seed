@@ -6,9 +6,9 @@ import type { CamelCasedProperties } from 'type-fest';
  *
  * This function receives a variable number of arguments of a specific type and outputs a `ClassValue`.
  *
- * @typeParam TArgs - A tuple type representing the types of the arguments that the function can accept.
  * @param args - A rest parameter that accepts arguments matching the `TArgs` tuple type.
  * @returns A `ClassValue` computed based on the provided arguments.
+ * @typeParam TArgs - A tuple type representing the types of the arguments that the function can accept.
  */
 export type ClassNameFn<TArgs extends readonly unknown[]> = (
   ...args: TArgs

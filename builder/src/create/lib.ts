@@ -1,8 +1,6 @@
-import type { NonNil } from '@budsbox/lib-types';
-
 import type {
-  Archetype,
   ArchetypeExtendControlSymbol,
+  ArchetypeManifest,
   ArchetypeMap,
   ArchetypeName,
   ArchetypeResolved,
@@ -22,6 +20,7 @@ import {
   isArray,
   isNil,
   isNotNil,
+  isObject,
   isString,
   isTrue,
 } from '@budsbox/lib-es/guards';
@@ -32,11 +31,11 @@ import { archetypeExtendControlSymbol } from './const.js';
 
 /* eslint-disable no-console */
 export const log = {
-  step: (msg: string): void => void console.log(`▶️  ${msg}`),
-  info: (msg: string): void => void console.log(`ℹ️ ${msg}`),
-  warn: (msg: string): void => void console.log(`⚠️  ${chalk.yellow(msg)}`),
   error: (msg: string): void => void console.log(`❌ ${chalk.red(msg)}`),
+  info: (msg: string): void => void console.log(`ℹ️ ${msg}`),
+  step: (msg: string): void => void console.log(`▶️  ${msg}`),
   success: (msg: string): void => void console.log(`✅ ${msg}`),
+  warn: (msg: string): void => void console.log(`⚠️  ${chalk.yellow(msg)}`),
 };
 /* eslint-enable no-console */
 
@@ -44,7 +43,7 @@ export const log = {
  * Checks if a given path exists in the file system.
  *
  * @param path - The file system path to check for existence.
- * @returns A promise that resolves to `true` if the path exists, otherwise `false`.
+ * @returns A promise which resolves to `true` if the path exists, otherwise `false`.
  */
 export async function pathExists(path: string): Promise<boolean> {
   try {
@@ -101,7 +100,7 @@ export async function writeFileVerbose(
 
 function mergeArraysWithSpread<T>(
   parent: readonly T[] | undefined,
-  child: ReadonlyArray<T | ArchetypeExtendControlSymbol> | undefined,
+  child: ReadonlyArray<ArchetypeExtendControlSymbol | T> | undefined,
 ): T[] {
   if (!isArray(child)) return isArray(parent) ? [...parent] : [];
 
@@ -117,13 +116,38 @@ function mergeArraysWithSpread<T>(
  * @returns A single merged manifest object containing the combined data from the provided manifests.
  */
 export function mergeManifests(
-  ...manifests: ReadonlyArray<Archetype['manifest'] | undefined>
-): Archetype['manifest'] {
-  const filtered: Array<NonNil<Archetype['manifest']>> =
-    manifests.filter(isNotNil);
+  ...manifests: ReadonlyArray<ArchetypeManifest | undefined>
+): ArchetypeManifest {
+  return manifests
+    .filter((v) => isNotNil(v))
+    .reduce<ArchetypeManifest>((acc, { imports, exports, ...rest }) => {
+      const merged = merge.withOptions({ uniqueArrayItems: true }, acc, rest);
+      const mergedExports = overrideExports(acc.exports, exports);
+      if (isObject(mergedExports)) {
+        merged.exports = mergedExports;
+      }
 
-  return merge.withOptions({ uniqueArrayItems: true }, ...filtered);
+      const mergedImports = overrideExports(acc.imports, imports);
+      if (isObject(mergedImports)) {
+        merged.imports = mergedImports;
+      }
+
+      return merged as ArchetypeManifest;
+    }, {});
 }
+
+type Exports = ArchetypeManifest['exports'];
+
+const overrideExports = (parent: Exports, children: Exports): Exports => {
+  if (isObject(parent) && isObject(children)) {
+    return {
+      ...parent,
+      ...children,
+    };
+  }
+
+  return parent ?? children;
+};
 
 /**
  * Throws an error when an unknown archetype is encountered.
@@ -131,6 +155,7 @@ export function mergeManifests(
  * @param name - The name of the archetype that is not recognized.
  * @param archetypes - A map containing all known archetypes.
  * @param parentChain - An optional set representing the chain of parent archetypes, if applicable.
+ * @throws {@link Error} when an unknown archetype is encountered.
  */
 export function throwUnknownArchetype(
   name: ArchetypeName,
@@ -153,6 +178,8 @@ export function throwUnknownArchetype(
  * @param archetypes - A map of archetype names to their corresponding properties and configuration.
  * @param name - The name of the archetype to resolve.
  * @returns The fully resolved archetype configuration for the specified archetype name.
+ * @typeParam TName - Extends `ArchetypeName` and denotes the specific archetype identifiers
+ * used to extend or reference archetypes in the configuration.
  */
 export function resolveArchetype<TName extends ArchetypeName>(
   archetypes: ArchetypeMap,
@@ -177,39 +204,39 @@ export function resolveArchetype<TName extends ArchetypeName>(
 
         return {
           at: current.at === '.' ? acc.at : current.at,
+          commands: union(acc.commands, current.commands),
+          files: { ...acc.files, ...current.files },
           internal: false,
+          manifest: mergeManifests(acc.manifest, current.manifest),
+
           dependencies: union(acc.dependencies, current.dependencies),
           devDependencies: union(acc.devDependencies, current.devDependencies),
           peerDependencies: union(
             acc.peerDependencies,
             current.peerDependencies,
           ),
-          commands: union(acc.commands, current.commands),
-          manifest: merge.withOptions(
-            {
-              uniqueArrayItems: true,
-            },
-            acc.manifest,
-            current.manifest,
-          ),
-          files: { ...acc.files, ...current.files },
         };
       },
       {
         at: '.',
+        commands: [],
+        files: {},
         internal: false,
+        manifest: {},
+
         dependencies: [],
         devDependencies: [],
         peerDependencies: [],
-        commands: [],
-        manifest: {},
-        files: {},
       },
     );
 
     const _resolved = {
       at: node.at ?? joinedParent.at,
+      commands: mergeArraysWithSpread(joinedParent.commands, node.commands),
+      files: { ...joinedParent.files, ...node.files },
       internal: isTrue(node.internal),
+      manifest: mergeManifests(joinedParent.manifest, node.manifest),
+
       dependencies: dedupe(
         mergeArraysWithSpread(joinedParent.dependencies, node.dependencies),
       ),
@@ -225,9 +252,6 @@ export function resolveArchetype<TName extends ArchetypeName>(
           node.peerDependencies,
         ),
       ),
-      commands: mergeArraysWithSpread(joinedParent.commands, node.commands),
-      manifest: mergeManifests(joinedParent.manifest, node.manifest) ?? {},
-      files: { ...joinedParent.files, ...node.files },
     };
 
     return _resolved;
@@ -274,7 +298,7 @@ export async function runCommandVerbose(
  */
 export const resolveCommand = (
   cmd: Readonly<Command>,
-  defaults: Readonly<Pick<ResolvedCommand, 'workspace' | 'cwd'>>,
+  defaults: Readonly<Pick<ResolvedCommand, 'cwd' | 'workspace'>>,
 ): ResolvedCommand => {
   if (isString(cmd)) {
     return {

@@ -1,3 +1,9 @@
+/**
+ * @module
+ *
+ * This module provides the `Merge2` component, which is the main entry point for the Merge-2 game UI.
+ */
+
 import type { UnTag } from '@budsbox/lib-types';
 
 import type { Tile, TileKindId, TileModifierId } from '#types';
@@ -16,6 +22,15 @@ import { Board } from './Board';
 import { Merge2UiProvider } from './context';
 import classes from './style.module.scss';
 
+/**
+ * Main component for the Merge-2 game.
+ * It provides the game logic and UI context to its children.
+ *
+ * @param props - Component props including game configuration and class names.
+ * @returns The rendered Merge-2 game.
+ * @typeParam TKindId - The type of tile kind IDs.
+ * @typeParam TModId - The type of tile modifier IDs.
+ */
 export function Merge2<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,

@@ -1,11 +1,11 @@
-export * from '#types';
-export { defaultIgnores } from '#const';
-export { isConfig, getEcmaVersionFromContext } from '#lib';
-
+// Value exports
+export { createFlatConfig } from './create-flat-config.js';
 // export { unopinionated, loose } from './filters.js';
 export {
+  createBrowserConfigFactory,
   createBuiltInConfigFactory,
   createNodeConfigFactory,
-  createBrowserConfigFactory,
 } from '#configs';
-export { createFlatConfig } from './create-flat-config.js';
+export { defaultIgnores } from '#const';
+export { getEcmaVersionFromContext, isConfig } from '#lib';
+export * from '#types';

@@ -1,3 +1,9 @@
+/**
+ * @module
+ *
+ * This module provides components for rendering tiles in the Merge-2 game.
+ */
+
 import type { TileProps } from './types';
 
 import { useDraggable } from '@dnd-kit/core';
@@ -12,6 +18,12 @@ import { tileDataAttrs } from '#lib';
 import { useMerge2UiContext } from './context';
 import classes from './style.module.scss';
 
+/**
+ * Component for rendering a tile.
+ *
+ * @param props - Component props.
+ * @returns The rendered tile.
+ */
 export const Tile: FC<
   TileProps & Omit<ComponentPropsWithoutRef<'div'>, 'style'>
 > = ({ tile, cell, style, ...rest }) => {
@@ -29,6 +41,12 @@ export const Tile: FC<
   );
 };
 
+/**
+ * A draggable wrapper for the `Tile` component using `@dnd-kit/core`.
+ *
+ * @param props - Component props.
+ * @returns The draggable tile component.
+ */
 export const TileDraggable: FC<Omit<TileProps, 'ref' | 'state'>> = ({
   tile,
   cell,

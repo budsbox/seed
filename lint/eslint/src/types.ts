@@ -3,6 +3,7 @@ import type {
   Arrayable,
   EmptyObject,
   HasRequiredKeys,
+  OverrideProperties,
   PackageJson,
   SetOptional,
   TsConfigJson,
@@ -12,7 +13,7 @@ import type {
   JsSourceType,
   QueryJsExtensionsParams,
 } from '@budsbox/lib-extensions';
-import type { Awaitable, Maybe, NonNil } from '@budsbox/lib-types';
+import type { Awaitable, Maybe, Nil, NonNil } from '@budsbox/lib-types';
 
 import type {
   configDefaults,
@@ -30,23 +31,11 @@ export interface BaseContext {
    * An `import.meta` object of the `eslint.config.js` module.
    */
   readonly importMeta: Readonly<ImportMeta>;
-  /**
-   * An absolute path to the `package.json` file of the linted project.
-   */
-  readonly packageJsonPath: string;
+
   /**
    * A parsed `package.json` file of the linted project.
    */
   readonly packageJson: PackageJson;
-  /**
-   * An absolute path to the `tsconfig.json` file specified for the current lint entry.
-   */
-  readonly tsconfigPath: string;
-  /**
-   * A compiled (i.e. printed using `tsc --showConfig`) and parsed version of the referenced `tsconfig.json` file
-   * specified for the current lint entry.
-   */
-  readonly tsconfig: TsConfigJson;
 
   /**
    * The value of the `type` property from the `package.json` file of the linted project: `module` or `commonjs`.
@@ -54,6 +43,22 @@ export interface BaseContext {
    * @see {@link https://nodejs.org/docs/latest-v22.x/api/packages.html#type}
    */
   readonly sourceType: JsSourceType;
+
+  /**
+   * A compiled (i.e. printed using `tsc --showConfig`) and parsed version of the referenced `tsconfig.json` file
+   * specified for the current lint entry.
+   */
+  readonly tsconfig: TsConfigJson;
+
+  /**
+   * An absolute path to the `tsconfig.json` file specified for the current lint entry.
+   */
+  readonly tsconfigPath: string;
+
+  /**
+   * An absolute path to the `package.json` file of the linted project.
+   */
+  readonly packageJsonPath: string;
 }
 
 /**
@@ -76,12 +81,10 @@ export type ConfigLevel = keyof typeof configLevels;
  * @see {@link https://www.typescriptlang.org/docs/handbook/declaration-merging.html#merging-interfaces}
  */
 export interface ConfigNameSpace {
-  /* eslint-disable jsdoc/require-jsdoc */
-  core: 'core';
-  builtin: ConfigLevel;
-  node: 'node';
   browser: ConfigLevel;
-  /* eslint-enable jsdoc/require-jsdoc */
+  builtin: ConfigLevel;
+  core: 'core';
+  node: 'node';
 }
 
 /**
@@ -101,16 +104,29 @@ export type ConfigName = {
  * Represents a type alias for items in the `modifies` property,
  * which accepts an array of either a specific configuration name or the wildcard symbol (`'*'`).
  */
-export type ModifiesKey = ConfigName | typeof wildcard;
+export type ModifiesKey = typeof wildcard | ConfigName;
 
 /**
  * Represents a configuration object that can be used to create a new ESLint configuration.
  */
 export interface Config {
   /**
-   * A unique name for the configuration.
+   * An array of ESLint configuration objects.
    */
-  readonly name: ConfigName;
+  readonly configs: readonly Linter.Config[];
+
+  /**
+   * A non-enumerable symbol used to ensure that all the plugins use the same interface.
+   */
+  readonly [eslintSymbol]: true;
+
+  /**
+   * The level of the configuration.
+   *
+   * @see {@link ConfigLevel}
+   */
+  readonly level: ConfigLevel;
+
   /**
    * An array of configuration names that this configuration modifies.
    *
@@ -119,28 +135,21 @@ export interface Config {
    * @see {@link wildcard}
    */
   readonly modifies: readonly ModifiesKey[];
+
   /**
-   * An array of ESLint configuration objects.
+   * A unique name for the configuration.
    */
-  readonly configs: readonly Linter.Config[];
-  /**
-   * The level of the configuration.
-   *
-   * @see {@link ConfigLevel}
-   */
-  readonly level: ConfigLevel;
-  /**
-   * A non-enumerable symbol used to ensure that all the plugins use the same interface.
-   */
-  readonly [eslintSymbol]: true;
+  readonly name: ConfigName;
 }
 
 /**
  * Represents the options that can be passed to the `createConfig` function.
+ *
+ * @interface
  */
-export type CreateConfigOptions = Omit<
-  SetOptional<Config, keyof typeof configDefaults>,
-  typeof eslintSymbol
+export type CreateConfigOptions = OverrideProperties<
+  Omit<SetOptional<Config, keyof typeof configDefaults>, typeof eslintSymbol>,
+  { readonly configs: ReadonlyArray<Linter.Config | Nil> }
 >;
 
 /**
@@ -151,23 +160,6 @@ export type CreateConfigOptions = Omit<
  */
 export interface ConfigFactoryContext extends BaseContext {
   /**
-   * A function used to configure file matching logic based on TypeScript configuration settings.
-   * This function processes the `tsconfig` object to determine include patterns, file extensions, and directories
-   * relevant for file matching, then filters and resolves files and directories
-   * based on the specified language and query parameters.
-   *
-   * @returns An array of matching file paths or glob patterns based on
-   * the specified language and query parameters.
-   * @param query - A query object for the `queryJsExtensions` function.
-   * @see {@link QueryJsExtensionsParams}
-   * @see {@link @budsbox/lib-extensions#queryJsExtensions}
-   */
-  matchIncludes: (
-    this: void,
-    query: Readonly<QueryJsExtensionsParams>,
-  ) => string[];
-
-  /**
    * Creates a configuration object based on the provided options.
    *
    * @param options - An object containing the configuration parameters
@@ -175,6 +167,23 @@ export interface ConfigFactoryContext extends BaseContext {
    * @returns The generated configuration object.
    */
   createConfig: (this: void, options: CreateConfigOptions) => Config;
+
+  /**
+   * A function used to configure file matching logic based on TypeScript configuration settings.
+   * This function processes the `tsconfig` object to determine include patterns, file extensions, and directories
+   * relevant for file matching, then filters and resolves files and directories
+   * based on the specified language and query parameters.
+   *
+   * @param query - A query object for the `queryJsExtensions` function.
+   * @returns An array of matching file paths or glob patterns based on
+   * the specified language and query parameters.
+   * @see {@link QueryJsExtensionsParams}
+   * @see {@link import('@budsbox/lib-extensions').queryJsExtensions}
+   */
+  matchIncludes: (
+    this: void,
+    query: Readonly<QueryJsExtensionsParams>,
+  ) => string[];
 }
 
 /**
@@ -192,13 +201,13 @@ export type ConfigFactory = (
 /**
  * A type representing a factory function for creating configuration objects.
  *
+ * @param options - A read-only object containing configuration parameters used to create the `ConfigFactory`.
+ * The type of this parameter (`TOptions`) adjusts based on whether the object has required keys.
+ * @returns A `ConfigFactory` instance constructed using the provided options.
  * @typeParam TOptions - The type of the option object used for creating the configuration. Defaults to `EmptyObject`.
  * @remarks
  * - When `TOptions` has required keys, the `options` parameter must be passed to the factory function.
  * - When `TOptions` has no required keys, the `options` parameter can be omitted.
- * @param options - A read-only object containing configuration parameters used to create the `ConfigFactory`.
- * The type of this parameter (`TOptions`) adjusts based on whether the object has required keys.
- * @returns A `ConfigFactory` instance constructed using the provided options.
  */
 export type ConfigFactoryCreate<TOptions extends object = EmptyObject> =
   HasRequiredKeys<TOptions> extends true ?
@@ -239,9 +248,9 @@ export type PresetFactory = (
  * - If `TOptions` has any required properties, the `options` argument must be provided.
  * - If `TOptions` has no required properties, the `options` argument is optional.
  *
- * @typeParam TOptions - The structure of the configurable `options` object. Defaults to `EmptyObject` if not specified.
  * @param options - A read-only object of type `TOptions` containing configuration for the preset's behaviour.
  * @returns An instance of `PresetFactory` configured per the provided options.
+ * @typeParam TOptions - The structure of the configurable `options` object. Defaults to `EmptyObject` if not specified.
  */
 export type Preset<TOptions extends object = EmptyObject> =
   HasRequiredKeys<TOptions> extends true ?
@@ -261,14 +270,16 @@ export interface CreateFlatConfigEntry {
    * The path (relative or absolute) to the `tsconfig.json` file to use for the configuration.
    */
   tsconfigFile: string;
-  /**
-   * An array of preset factories to apply to the configuration.
-   */
-  presets?: PresetFactory[];
+
   /**
    * An array of configuration factories to apply to the configuration.
    */
   configs?: ConfigFactory[];
+
+  /**
+   * An array of preset factories to apply to the configuration.
+   */
+  presets?: PresetFactory[];
 }
 
 /**
@@ -283,17 +294,19 @@ export type InspectConfigCallback = (configs: readonly Linter.Config[]) => void;
  */
 export interface CreateFlatConfigParams {
   /**
+   * Represents a collection of flat configuration entries.
+   */
+  entries: ReadonlyArray<Readonly<CreateFlatConfigEntry>>;
+
+  /**
    * An `import.meta` object of the `eslint.config.js` module.
    */
   importMeta: ImportMeta;
+
   /**
    * This option configures "global" ignores for the entire flat config.
    */
   ignores?: readonly string[];
-  /**
-   * Set it to `true` to enable linting of sub-workspaces.
-   */
-  lintWorkspaces?: boolean;
 
   /**
    * Optional configuration for customising the inspection behaviour.
@@ -308,10 +321,11 @@ export interface CreateFlatConfigParams {
    */
   inspectConfig?:
     | boolean
-    | Readonly<NonNil<Parameters<typeof console.dir>[1]>>
-    | InspectConfigCallback;
+    | InspectConfigCallback
+    | Readonly<NonNil<Parameters<typeof console.dir>[1]>>;
+
   /**
-   * Represents a collection of flat configuration entries.
+   * Set it to `true` to enable linting of sub-workspaces.
    */
-  entries: ReadonlyArray<Readonly<CreateFlatConfigEntry>>;
+  lintWorkspaces?: boolean;
 }

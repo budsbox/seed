@@ -11,7 +11,13 @@ import type {
 import { basename, posix } from 'node:path';
 
 import { ensureArray } from '@budsbox/lib-es/array';
-import { hasProp, isArray, isNil, isString } from '@budsbox/lib-es/guards';
+import {
+  hasProp,
+  isArray,
+  isNil,
+  isObject,
+  isString,
+} from '@budsbox/lib-es/guards';
 import { sure } from '@budsbox/lib-es/logical';
 import { parsePackageName } from '@budsbox/lib-es/string';
 import {
@@ -146,7 +152,7 @@ const configMap = new WeakMap<Linter.Config, Config>();
 /**
  * Generates and returns a fully constructed `Config` object with the provided options
  * and context. The function processes configuration parameters, applies defaults,
- * and transforms the input into a standardised configuration format.
+ * and transforms the input into a standardized configuration format.
  *
  * @param options - An object containing configuration {@link CreateConfigOptions options}.
  * @param ctx - A readonly {@link BaseContext context object} containing metadata.
@@ -167,6 +173,7 @@ export const createConfig = (
     name: configName,
     configs: Object.freeze(
       configs
+        .filter((v) => isObject(v))
         .filter(({ files }) => isArray(files) && files.length > 0)
         .map(
           ({ name, ...rest }, index, { length }): Linter.Config => ({

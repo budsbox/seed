@@ -1,3 +1,9 @@
+/**
+ * @module
+ *
+ * This module provides the `Cell` component for the Merge-2 game.
+ */
+
 import type { FC } from 'react';
 
 import type { CellProps } from './types';
@@ -14,6 +20,12 @@ import { TileDraggable } from './Tile';
 import { useMerge2UiContext } from './context';
 import classes from './style.module.scss';
 
+/**
+ * Component representing a single cell in the Merge-2 grid.
+ *
+ * @param props - Component props.
+ * @returns The rendered cell.
+ */
 export const Cell: FC<CellProps> = ({ cell }) => {
   const ctx = useMerge2UiContext();
   const state = useCellState(cell);

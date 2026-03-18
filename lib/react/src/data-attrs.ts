@@ -6,8 +6,12 @@ import type {
   UnionToIntersection,
 } from 'type-fest';
 
-import type { Infer, Nil } from '@budsbox/lib-types';
-import type { EntryDeep, UnknownNestedEntry } from '@budsbox/lib-types/object';
+import type {
+  EntryDeep,
+  Infer,
+  Nil,
+  UnknownNestedEntry,
+} from '@budsbox/lib-types';
 
 import {
   isArray,
@@ -23,11 +27,11 @@ import { kebabCase } from '@budsbox/lib-es/string';
  *
  * @param input - The input object containing key-value pairs that represent data attributes to be processed.
  * @returns The resolved object containing the processed data attributes.
+ * @typeParam TInput - The type of the input object, which should extend the `DataAttrsInput` type.
  */
 export function dataAttrs<TInput extends DataAttrsInput>(
   input: TInput,
 ): DataAttrsResolved<TInput>;
-// eslint-disable-next-line jsdoc/require-jsdoc
 export function dataAttrs(input: Readonly<DataAttrsInput>): DataAttrsResolved;
 export function dataAttrs(input: Readonly<DataAttrsInput>): DataAttrsResolved {
   const queue: DataAttrEntry[] = Object.entries(input).map(([key, value]) => [

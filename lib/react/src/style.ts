@@ -49,6 +49,7 @@ export type WithDynamicStyle<
  * @param styles - A variadic list of styles, where each style can either be a function that accepts arguments and returns CSS properties,
  * or a static set of CSS properties.
  * @returns A function that takes arguments and produces a merged set of CSS properties by evaluating and combining the provided styles.
+ * @typeParam TArgs - The arguments required by the dynamic style generator. Defaults to an empty tuple.
  */
 export function styleFactory<TArgs extends readonly unknown[]>(
   ...styles: ReadonlyArray<DynamicStyle<TArgs>>

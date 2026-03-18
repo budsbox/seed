@@ -2,3 +2,6 @@ singleQuote: true
 quoteProps: consistent
 trailingComma: all
 experimentalTernaries: true
+overrides:
+  - files: .swcrc
+    parser: json

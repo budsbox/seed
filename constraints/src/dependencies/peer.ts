@@ -23,25 +23,6 @@ export interface PeerDependenciesConstraintOptions {
    * Indicates whether private workspaces can have peer dependencies.
    */
   readonly allowPrivates?: boolean;
-  /**
-   * Specifies an optional list of glob patterns used to automatically
-   * identify and import peer dependencies.
-   *
-   * The property defines a set of patterns (e.g., 'package-name', 'module-name')
-   * that determine which peer dependencies should be automatically imported
-   * and managed by the dependency constraints. These patterns make it easier
-   * to include relevant peer dependencies without manual configuration.
-   *
-   * @example
-   * // Example usage in configuration options:
-   * const options: PeerDependenciesConstraintOptions = {
-   *   autoImportFrom: ['eslint-plugin-*', 'packages/*']
-   * };
-   *
-   * // Patterns like 'eslint-plugin-*' can match all peer dependencies
-   * // starting with 'eslint-plugin-' (e.g., `eslint-plugin-react`).
-   * @see {@link micromatch} for supported glob syntax.
-   */
 
   /**
    * Glob patterns of direct dependencies whose `peerDependencies` should be

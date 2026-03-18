@@ -1,4 +1,4 @@
-import type { ConfigFactoryCreate } from '@budsbox/eslint';
+import type { ConfigFactory, ConfigFactoryCreate } from '@budsbox/eslint';
 
 import type { JsdocConfigFactoryOptions } from '#types';
 
@@ -11,15 +11,15 @@ import { fif, fifs } from '@budsbox/lib-es/logical';
 import { contextsRequireDescription, contextsRequireParam } from '#const';
 
 /**
- * Creates a `ConfigFactory` function which provides ESLint configuration for the plugin `eslint-plugin-jsdoc`.
+ * Creates a {@link ConfigFactory `ConfigFactory`} function which provides ESLint configuration for the plugin `eslint-plugin-jsdoc`.
  *
- * @param param0
+ * @param options - {@link JsdocConfigFactoryOptions Configuration options} for the factory.
  * @returns A `ConfigFactory` function.
  */
 export const createJsdocConfigFactory: ConfigFactoryCreate<
   JsdocConfigFactoryOptions
 > =
-  ({ optionalTillVersion = '0.1.0' } = {}) =>
+  ({ optionalTillVersion = '0.1.0', docTool = 'typedoc' } = {}) =>
   ({ createConfig, matchIncludes, packageJson }) => {
     const inDev = fif(
       optionalTillVersion,
@@ -47,6 +47,64 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
 
     const checkTagNamesOptions = {
       definedTags: ['remarks', 'privateRemarks'],
+      inlineTags: [
+        'link',
+        'linkcode',
+        'linkplain',
+        'tutorial',
+        'inheritdoc',
+        'inheritDoc',
+        'label',
+      ],
+    } as const;
+
+    const typedocCheckTagNamesOptions = {
+      ...checkTagNamesOptions,
+      definedTags: [
+        ...checkTagNamesOptions.definedTags,
+        'author',
+        'document',
+        'license',
+
+        'category',
+        'categoryDescription',
+        'showCategories',
+        'hideCategories',
+
+        'group',
+        'groupDescription',
+        'showGroups',
+        'hideGroups',
+        'disableGroups',
+
+        'include',
+        'includeCode',
+
+        'inline',
+        'inlineType',
+        'preventInline',
+
+        'expand',
+        'expandType',
+        'preventExpand',
+
+        'module',
+        'mergeModuleWith',
+
+        'primaryExport',
+        'sortStrategy',
+        'useDeclaredType',
+
+        // https://gitlab.com/hperchec/typedoc-plugin-import-target
+        'importTarget',
+        'includeExample',
+      ],
+      inlineTags: [
+        ...checkTagNamesOptions.inlineTags,
+        'include',
+        'includeCode',
+        'license',
+      ],
     };
 
     return [
@@ -56,11 +114,22 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
         modifies: ['core'],
         configs: [
           {
+            name: 'plugin',
             files: matchIncludes({ jsx: true }),
             plugins: {
               jsdoc: eslintPluginJsdoc,
             },
           },
+          fifs(docTool === 'typedoc', () => ({
+            name: 'typedoc',
+            files: matchIncludes({ jsx: true }),
+            rules: {
+              'jsdoc/check-tag-names': [
+                'error',
+                { ...typedocCheckTagNamesOptions },
+              ],
+            },
+          })),
         ],
       }),
 
@@ -122,18 +191,32 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
           {
             name: 'all',
             files: matchIncludes({ jsx: true }),
-            rules: {
-              'jsdoc/check-tag-names': [
-                'error',
-                {
-                  ...checkTagNamesOptions,
+            settings: {
+              jsdoc: {
+                tagNamePreference: {
+                  default: 'defaultValue',
+                  event: 'eventProperty',
+                  hidden: 'ignore',
+                  inheritdoc: 'inheritDoc',
+                  template: 'typeParam',
                 },
-              ],
+              },
+            },
+
+            rules: {
+              'jsdoc/check-tag-names': ['error', { ...checkTagNamesOptions }],
               'jsdoc/informative-docs': 'error',
+              'jsdoc/lines-before-block': 'error',
               'jsdoc/multiline-blocks': [
                 'error',
                 {
                   noSingleLineBlocks: true,
+                  singleLineTags: [
+                    'inheritdoc',
+                    'inheritDoc',
+                    'ignore',
+                    'type',
+                  ],
                 },
               ],
               'jsdoc/no-bad-blocks': 'error',
@@ -142,6 +225,7 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
                 'error',
                 {
                   contexts: [...contextsRequireDescription],
+                  exemptedBy: ['type', 'inheritdoc'],
                 },
               ],
               'jsdoc/require-hyphen-before-param-description': [
@@ -154,6 +238,9 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
                 requireJsdocOptions,
               ],
               'jsdoc/require-param': ['error', { ...requireParamOptions }],
+              'jsdoc/require-throws': 'error',
+              'jsdoc/require-throws-description': 'error',
+              'jsdoc/sort-tags': 'error',
               'jsdoc/tag-lines': ['error', 'never', { startLines: 1 }],
             },
           },
@@ -161,13 +248,6 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
           {
             name: 'ts',
             files: matchIncludes({ lang: 'ts', jsx: true }),
-            settings: {
-              jsdoc: {
-                tagNamePreference: {
-                  template: 'typeParam',
-                },
-              },
-            },
             rules: {
               'jsdoc/check-param-names': [
                 'error',
@@ -175,10 +255,7 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
               ],
               'jsdoc/check-tag-names': [
                 'error',
-                {
-                  ...checkTagNamesOptions,
-                  typed: true,
-                },
+                { ...checkTagNamesOptions, typed: true },
               ],
               'jsdoc/require-jsdoc': [
                 inDev ? 'off' : 'error',
@@ -198,18 +275,76 @@ export const createJsdocConfigFactory: ConfigFactoryCreate<
                 },
               ],
               'jsdoc/require-param-name': 'off',
-            },
-          },
-          {
-            name: 'js',
-            files: matchIncludes({ lang: 'js', jsx: true }),
-            rules: {
-              'jsdoc/require-description': [
+              'jsdoc/require-template': [
                 'error',
-                { exemptedBy: ['type', 'inheritdoc'] },
+                { requireSeparateTemplates: true },
               ],
             },
           },
+          fifs(docTool === 'typedoc', () => ({
+            name: 'typedoc',
+            files: matchIncludes({ lang: 'ts', jsx: true }),
+            settings: {
+              jsdoc: {
+                tagNamePreference: {
+                  abstract: false,
+                  access: false,
+                  augments: false,
+                  callback: false,
+                  class: false,
+                  constant: false,
+                  constructs: false,
+                  enum: 'enum',
+                  export: false,
+                  exports: false,
+                  function: false,
+                  global: false,
+                  hidden: 'ignore',
+                  implements: false,
+                  inherits: false,
+                  instance: false,
+                  // it's intentional, as typedoc infers a "full" type of type alias when `@interface` presented
+                  interface: 'interface',
+                  member: false,
+                  memberOf: false,
+                  memberof: false,
+                  method: false,
+                  mixes: false,
+                  mixin: false,
+                  module: false,
+                  name: false,
+                  // can be used to tell TypeDoc to convert a variable as a namespace
+                  namespace: 'namespace',
+                  override: false,
+                  // when using typedoc, `module` preferred as it matches with `@mergeModuleWith`
+                  packageDocumentation: 'module',
+                  private: false,
+                  property: false,
+                  protected: false,
+                  public: false,
+                  readonly: false,
+                  requires: false,
+                  static: false,
+                  this: false,
+                  type: false,
+                  typedef: false,
+                },
+              },
+            },
+            rules: {
+              'jsdoc/check-tag-names': [
+                'error',
+                {
+                  ...typedocCheckTagNamesOptions,
+                  typed: false,
+                },
+              ],
+              // typedoc allows non-empty `@inheritDoc`, and there's no way to configure the rule to exclude the tag
+              'jsdoc/empty-tags': 'off',
+              // doesnt support {@link ErrorType} syntax
+              'jsdoc/require-throws-type': 'off',
+            },
+          })),
         ],
       }),
     ];

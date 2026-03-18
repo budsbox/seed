@@ -30,10 +30,12 @@ import { lookupFileSync } from '@budsbox/lib-node/fs';
  *
  * @param base - A custom user configuration function that defines the base options.
  * @returns A configuration factory function that accepts a custom config and an options object to customize or extend the base configuration.
+ * @typeParam TOptions - The type of options accepted by the custom user configuration function.
  */
 export function createConfigFactory<TOptions extends object>(
   base: CustomUserConfigFn<TOptions>,
 ): ConfigFactoryWithOptions<TOptions>;
+
 /**
  * Creates a configuration factory function that merges a base configuration with a custom configuration.
  *
@@ -45,7 +47,6 @@ export function createConfigFactory(
 ): (custom?: UserConfigExport) => UserConfigFnPromise;
 export function createConfigFactory(
   base: CustomUserConfigFn | UserConfigExport,
-  // eslint-disable-next-line jsdoc/require-jsdoc
 ): (custom?: UserConfigExport, options?: object) => UserConfigFnPromise {
   return (custom, options) => async (env) => {
     const resolvedBase = await fif(

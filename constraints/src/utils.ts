@@ -28,9 +28,9 @@ export type Constraint = (options: ConstraintOptions) => Awaitable<void>;
  * - If `Options` is an empty object, the factory function can be called with or without the `options` parameter.
  * - Otherwise, the `options` parameter is required when calling the factory function.
  *
- * @typeParam Options - The type of the option parameter used to configure the `Constraint`.
  * @param options - An optional or required configuration object, depending on whether `Options` is an empty object or not.
  * @returns A `Constraint` object configured based on the provided options.
+ * @typeParam Options - The type of the option parameter used to configure the `Constraint`.
  */
 export type ConstraintFactory<Options extends object> =
   object extends Options ? (options?: Options) => Constraint
@@ -54,12 +54,15 @@ export function getRootWs(
 
   return root;
 }
+
 /**
  * Retrieves the manifest of the provided workspace. If the workspace's manifest is null,
  * an error is thrown.
  *
  * @param workspace - The workspace whose manifest is to be retrieved.
  * @returns The manifest of the provided workspace as an object of type T.
+ * @throws {@link Error} if the workspace manifest is null.
+ * @typeParam T - The type of the manifest object, defaults to PackageJson.
  */
 export function getManifest<
   // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-parameters
@@ -83,7 +86,7 @@ export function getManifest<
  */
 export const getRangeConsideringRoot = (
   yarn: YarnNS.Constraints.Yarn,
-  dependency: Readonly<Pick<YarnNS.Constraints.Dependency, 'range' | 'ident'>>,
+  dependency: Readonly<Pick<YarnNS.Constraints.Dependency, 'ident' | 'range'>>,
 ): string =>
   sure(
     yarn.dependency({

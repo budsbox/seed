@@ -1,137 +1,86 @@
 {
   "name": "@budsbox/lib-es",
   "version": "2.3.0",
-  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "homepage": "https://github.com/budsbox/seed",
   "bugs": {
-    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+    "url": "https://github.com/budsbox/seed/issues"
   },
-  "repository": "gitlab:budsbox/fe/seed",
+  "repository": "git@github.com:budsbox/seed.git",
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
   "imports": {
     "#package.json": "./package.json",
+    "#types": "./dist/types.d.ts",
     "#array": {
-      "import": {
-        "default": "./dist/array.js",
-        "types": "./dist/array.d.ts"
-      },
-      "require": {
-        "default": "./dist/array.js",
-        "types": "./dist/array.d.ts"
-      }
+      "types": "./dist/array.d.ts",
+      "default": "./dist/array.js"
     },
     "#object": {
-      "import": {
-        "default": "./dist/object.js",
-        "types": "./dist/object.d.ts"
-      },
-      "require": {
-        "default": "./dist/object.js",
-        "types": "./dist/object.d.ts"
-      }
+      "types": "./dist/object.d.ts",
+      "default": "./dist/object.js"
     },
     "#string": {
-      "import": {
-        "default": "./dist/string.js",
-        "types": "./dist/string.d.ts"
-      },
-      "require": {
-        "default": "./dist/string.js",
-        "types": "./dist/string.d.ts"
-      }
+      "types": "./dist/string.d.ts",
+      "default": "./dist/string.js"
     },
     "#guards": {
-      "import": {
-        "default": "./dist/guards.js",
-        "types": "./dist/guards.d.ts"
-      },
-      "require": {
-        "default": "./dist/guards.js",
-        "types": "./dist/guards.d.ts"
-      }
+      "types": "./dist/guards/index.d.ts",
+      "default": "./dist/guards/index.js"
+    },
+    "#guards/*": {
+      "types": "./dist/guards/*.d.ts",
+      "default": "./dist/guards/*.js"
     },
     "#logical": {
-      "import": {
-        "default": "./dist/logical.js",
-        "types": "./dist/logical.d.ts"
-      },
-      "require": {
-        "default": "./dist/logical.js",
-        "types": "./dist/logical.d.ts"
-      }
+      "types": "./dist/logical.d.ts",
+      "default": "./dist/logical.js"
     },
     "#function": {
-      "import": {
-        "default": "./dist/function.js",
-        "types": "./dist/function.d.ts"
-      },
-      "require": {
-        "default": "./dist/function.js",
-        "types": "./dist/function.d.ts"
-      }
+      "types": "./dist/function.d.ts",
+      "default": "./dist/function.js"
+    },
+    "#set": {
+      "types": "./dist/set.d.ts",
+      "default": "./dist/set.js"
+    },
+    "#map": {
+      "types": "./dist/map.d.ts",
+      "default": "./dist/map.js"
     }
   },
   "exports": {
     "./array": {
-      "import": {
-        "default": "./dist/array.js",
-        "types": "./dist/array.d.ts"
-      },
-      "require": {
-        "default": "./dist/array.js",
-        "types": "./dist/array.d.ts"
-      }
+      "types": "./dist/array.d.ts",
+      "default": "./dist/array.js"
     },
     "./object": {
-      "import": {
-        "default": "./dist/object.js",
-        "types": "./dist/object.d.ts"
-      },
-      "require": {
-        "default": "./dist/object.js",
-        "types": "./dist/object.d.ts"
-      }
+      "types": "./dist/object.d.ts",
+      "default": "./dist/object.js"
     },
     "./string": {
-      "import": {
-        "default": "./dist/string.js",
-        "types": "./dist/string.d.ts"
-      },
-      "require": {
-        "default": "./dist/string.js",
-        "types": "./dist/string.d.ts"
-      }
+      "types": "./dist/string.d.ts",
+      "default": "./dist/string.js"
     },
     "./guards": {
-      "import": {
-        "default": "./dist/guards.js",
-        "types": "./dist/guards.d.ts"
-      },
-      "require": {
-        "default": "./dist/guards.js",
-        "types": "./dist/guards.d.ts"
-      }
+      "types": "./dist/guards/index.d.ts",
+      "default": "./dist/guards/index.js"
     },
     "./logical": {
-      "import": {
-        "default": "./dist/logical.js",
-        "types": "./dist/logical.d.ts"
-      },
-      "require": {
-        "default": "./dist/logical.js",
-        "types": "./dist/logical.d.ts"
-      }
+      "types": "./dist/logical.d.ts",
+      "default": "./dist/logical.js"
     },
     "./function": {
-      "import": {
-        "default": "./dist/function.js",
-        "types": "./dist/function.d.ts"
-      },
-      "require": {
-        "default": "./dist/function.js",
-        "types": "./dist/function.d.ts"
-      }
+      "types": "./dist/function.d.ts",
+      "default": "./dist/function.js"
+    },
+    "./set": {
+      "types": "./dist/set.d.ts",
+      "default": "./dist/set.js"
+    },
+    "./map": {
+      "types": "./dist/map.d.ts",
+      "default": "./dist/map.js"
     },
     "./package.json": "./package.json"
   },
@@ -140,34 +89,38 @@
     "dist/**/*.js"
   ],
   "scripts": {
+    "build": "run p:ts:build",
     "name": "echo $npm_package_name",
-    "prepack": "yarn p:ts:prepack"
+    "prepack": "yarn p:ts:prepack",
+    "test": "run p:vitest",
+    "watch": "yarn p:ts:watch"
   },
   "dependencies": {
     "@budsbox/lib-types": "workspace:^",
-    "@types/node": "^22.15.2",
+    "@types/node": "^22.19.1",
     "tslib": "^2.8.1",
-    "type-fest": "^4.32.0"
+    "type-fest": "^5.3.1"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
     "@budsbox/eslint_presets-lib": "workspace:^",
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
-    "@eslint/js": "^9.26.0",
+    "@eslint/js": "^9.39.1",
     "@types/eslint": "^9.6.1",
-    "@typescript-eslint/parser": "^8.32.1",
-    "eslint": "^9.26.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-import-resolver-typescript": "^4.3.4",
-    "eslint-plugin-import-x": "^4.11.1",
-    "eslint-plugin-jsdoc": "^50.6.17",
+    "@typescript-eslint/parser": "^8.48.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-import-x": "^4.16.1",
+    "eslint-plugin-jsdoc": "^61.5.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.1.0",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.1"
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1",
+    "vitest": "^4.1.0"
   },
   "packageManager": "yarn@4.9.2"
 }

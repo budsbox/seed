@@ -7,6 +7,9 @@ declare module '@budsbox/eslint' {
   }
 }
 
+type DocToolName = 'typedoc' | 'api-extractor';
+
 export interface JsdocConfigFactoryOptions {
   optionalTillVersion?: false | string;
+  docTool?: DocToolName;
 }

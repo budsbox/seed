@@ -6,7 +6,6 @@ import { join, posix, relative } from 'node:path';
 
 import { hasProp, isNil, isNotNil } from '@budsbox/lib-es/guards';
 import { getTsConfig } from '@budsbox/lib-node/ts';
-
 import { getRootWorkspace, getWorkspaceByFilepath } from '@budsbox/lib-yarn';
 
 const rootWorkspace = getRootWorkspace();
@@ -53,7 +52,8 @@ const getWsLocalTsconfigPaths = (() => {
             // no external references
             getWorkspaceByFilepath(path) === workspace &&
             // ignore tools tsconfigs
-            !path.endsWith('tsconfig.tools.json'),
+            !path.endsWith('tsconfig.tools.json') &&
+            !path.endsWith('.test.json'),
         ) ?? []
     );
   };
@@ -79,7 +79,9 @@ const updateTsconfigsReferences = async (
           absolutePaths: true,
           stupid: true,
         }),
-        JSON.parse(await fs.readFile(tsconfigPath, 'utf8')) as TsConfigJson,
+        fs
+          .readFile(tsconfigPath, 'utf8')
+          .then((content) => JSON.parse(content) as TsConfigJson),
       ]);
       const { references } = tsconfig.json;
       const currentSet = new Set(references?.map(({ path }) => path) ?? []);

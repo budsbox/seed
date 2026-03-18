@@ -20,3 +20,13 @@ tab_width = 4
 [{*.markdown,*.md}]
 indent_size = 4
 tab_width = 4
+
+[.peggy-test.txt]
+insert_final_newline = false
+trim_trailing_whitespace = false
+
+[Caddyfile]
+indent_style = tab
+
+[*.key]
+insert_final_newline = false

@@ -5,6 +5,8 @@ import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
 import type { TypeScriptConfigFactoryOptions } from '#types';
 
+import { dirname } from 'node:path';
+
 import perfectionist from 'eslint-plugin-perfectionist';
 import * as eslintTs from 'typescript-eslint';
 
@@ -20,21 +22,19 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
   TypeScriptConfigFactoryOptions
 > =
   (options = {}) =>
-  ({ createConfig, matchIncludes, sourceType }) => {
+  ({ createConfig, matchIncludes, sourceType, tsconfigPath }) => {
     return [
       createConfig({
         name: 'typescript/basic',
         level: 'basic',
         configs: [
           {
-            files: matchIncludes({
-              lang: 'ts',
-              jsx: true,
-            }),
+            files: matchIncludes({ jsx: true }),
             languageOptions: {
               parser: eslintTs.parser as Linter.Parser,
               parserOptions: {
                 projectService: true,
+                tsconfigRootDir: dirname(tsconfigPath),
               },
             },
             plugins: {
@@ -47,12 +47,10 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
       createConfig({
         name: 'typescript/recommended',
         level: 'recommended',
+        modifies: ['typescript/basic'],
         configs: [
           {
-            files: matchIncludes({
-              lang: 'ts',
-              jsx: true,
-            }),
+            files: matchIncludes({ jsx: true }),
             rules:
               eslintTs.configs.recommendedTypeChecked.reduce<Linter.RulesRecord>(
                 (acc, { rules }) => ({
@@ -71,10 +69,7 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
         modifies: ['typescript/recommended'],
         configs: [
           {
-            files: matchIncludes({
-              lang: 'ts',
-              jsx: true,
-            }),
+            files: matchIncludes({ jsx: true }),
             rules:
               eslintTs.configs.strictTypeChecked.reduce<Linter.RulesRecord>(
                 (acc, { rules }) => ({
@@ -89,17 +84,22 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
 
       createConfig({
         name: 'typescript/opinionated',
-        modifies: ['typescript/strict'],
+        modifies: [
+          'typescript/strict',
+          'builtin/basic',
+          'builtin/strict',
+          'builtin/recommended',
+          'builtin/opinionated',
+        ],
         configs: [
           {
-            files: matchIncludes({
-              lang: 'ts',
-              jsx: true,
-            }),
+            files: matchIncludes({ jsx: true }),
             plugins: {
               perfectionist,
             },
             rules: {
+              'no-undef': ['off'],
+
               '@typescript-eslint/array-type': [
                 'error',
                 { default: 'array-simple' },
@@ -211,6 +211,38 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
                   ignoreCase: false,
                 },
               ],
+              'perfectionist/sort-interfaces': [
+                'error',
+                {
+                  ignoreCase: false,
+                  type: 'natural',
+
+                  customGroups: [
+                    ...['required', 'optional'].map((modifier) => ({
+                      groupName: 'callbacks',
+                      type: 'natural',
+                      newlinesInside: 0,
+                      anyOf: ['method', 'member', 'property'].map(
+                        (selector) => ({
+                          selector,
+                          modifiers: [modifier],
+                          elementNamePattern: 'on[A-Z0-9]',
+                        }),
+                      ),
+                    })),
+                  ],
+                  groups: [
+                    ['required-index-signature', 'optional-index-signature'],
+                    ['required-property', 'required-member'],
+                    ['required-method'],
+                    { newlinesBetween: 1 },
+                    ['optional-property', 'optional-member'],
+                    ['optional-method'],
+                    { newlinesBetween: 1 },
+                    ['callbacks'],
+                  ],
+                },
+              ],
               'perfectionist/sort-union-types': [
                 'error',
                 {
@@ -248,12 +280,29 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
         configs: [
           {
             files: matchIncludes({
-              lang: 'ts',
               sourceType,
               targetSourceType: 'commonjs',
             }),
             rules: {
               '@typescript-eslint/no-require-imports': 'off',
+            },
+          },
+        ],
+      }),
+
+      createConfig({
+        name: 'typescript/js',
+        level: 'recommended',
+        modifies: [
+          'typescript/recommended',
+          'typescript/strict',
+          'typescript/opinionated',
+        ],
+        configs: [
+          {
+            files: matchIncludes({ lang: 'js', jsx: true }),
+            rules: {
+              '@typescript-eslint/explicit-module-boundary-types': 'off',
             },
           },
         ],

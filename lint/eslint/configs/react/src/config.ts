@@ -58,7 +58,13 @@ export const createReactConfigFactory: ConfigFactoryCreate<
         configs: [
           {
             name: 'main',
+
             files: matchIncludes({ jsx: true }),
+            languageOptions: {
+              parserOptions: {
+                ecmaFeatures: { jsx: true },
+              },
+            },
             plugins: {
               'react': eslintPluginReact,
               'react-hooks': eslintPluginReactHooks,
@@ -67,11 +73,6 @@ export const createReactConfigFactory: ConfigFactoryCreate<
               react: {
                 version: 'detect',
                 linkComponents,
-              },
-            },
-            languageOptions: {
-              parserOptions: {
-                ecmaFeatures: { jsx: true },
               },
             },
           },

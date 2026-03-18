@@ -1,11 +1,11 @@
 {
   "name": "@budsbox/builder",
   "version": "0.4.2",
-  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "homepage": "https://github.com/budsbox/seed",
   "bugs": {
-    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+    "url": "https://github.com/budsbox/seed/issues"
   },
-  "repository": "gitlab:budsbox/fe/seed",
+  "repository": "git@github.com:budsbox/seed.git",
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
@@ -40,7 +40,8 @@
   "scripts": {
     "name": "echo $npm_package_name",
     "prepack": "run p:ts:prepack",
-    "setup": "[ -f dist/dist.tsbuildinfo ] || run p:lib:setup"
+    "setup": "run p:lib:setup-worktree",
+    "watch": "run p:ts:watch"
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
@@ -48,18 +49,18 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/lib-yarn": "workspace:^",
     "@clack/prompts": "^0.11.0",
-    "@types/node": "^22.15.2",
-    "@vitejs/plugin-react": "^5.0.3",
+    "@types/node": "^22.19.1",
+    "@vitejs/plugin-react": "^5.1.1",
     "chalk": "^5.6.2",
-    "execa": "^9.5.2",
+    "execa": "^9.6.1",
     "json5": "^2.2.3",
     "meow": "^13.2.0",
-    "sass": "^1.92.1",
+    "sass": "^1.94.2",
     "ts-deepmerge": "^7.0.3",
     "tslib": "^2.8.1",
-    "type-fest": "^4.32.0",
-    "typescript": "^5.8.3",
-    "vite": "^7.1.5"
+    "type-fest": "^5.3.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
@@ -67,16 +68,16 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@yarnpkg/cli": "^4.8.1",
-    "@yarnpkg/core": "^4.3.1",
-    "@yarnpkg/fslib": "^3.1.2",
+    "@yarnpkg/cli": "^4.12.0",
+    "@yarnpkg/core": "^4.5.0",
+    "@yarnpkg/fslib": "^3.1.4",
     "@yarnpkg/types": "^4.0.1",
-    "eslint": "^9.26.0"
+    "eslint": "^9.39.1"
   },
   "peerDependencies": {
-    "@yarnpkg/cli": "^4.8.1",
-    "@yarnpkg/core": "^4.3.1",
-    "@yarnpkg/fslib": "^3.1.2",
+    "@yarnpkg/cli": "^4.12.0",
+    "@yarnpkg/core": "^4.5.0",
+    "@yarnpkg/fslib": "^3.1.4",
     "@yarnpkg/types": "^4.0.1"
   },
   "packageManager": "yarn@4.9.2"

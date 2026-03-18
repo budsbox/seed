@@ -1,3 +1,9 @@
+/**
+ * @module
+ *
+ * This module provides the `useMerge2` hook which acts as the main model/controller for the game.
+ */
+
 import type { Merge2Model, Merge2ModelOptions } from '#types';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -9,10 +15,12 @@ import { isCellOccupied } from '#lib';
 import { useMerge2State } from './state';
 
 /**
- * This function creates a Merge-2 game model based on the provided options.
+ * Hook that creates a Merge-2 game model, providing game state and actions.
  *
- * @param options - A readonly object containing the configuration options for the game.
- * @returns An instance of `Merge2Model` configured with the provided options.
+ * @param options - Configuration options for the game.
+ * @returns The game model containing state and callbacks.
+ * @typeParam TKindId - The type of tile kind IDs.
+ * @typeParam TModId - The type of tile modifier IDs.
  */
 export function useMerge2<TKindId extends string, TModId extends string>(
   options: Readonly<Merge2ModelOptions<TKindId, TModId>>,

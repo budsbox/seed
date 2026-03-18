@@ -315,3 +315,9 @@ GitHub.sublime-settings
 
 # projected-related stuff to not checkout
 **/.ignored
+
+# test files for Peggy parsers
+.peggy-test.txt
+
+# auto-generated docs
+docs/

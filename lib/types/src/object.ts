@@ -1,26 +1,39 @@
+/**
+ * This module provides utility types for working with objects and records.
+ *
+ * @module
+ * @importTarget .
+ */
+
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type {
   ArrayTail,
   ConditionalExcept,
   ConditionalPick,
+  IsLiteral,
   IsNever,
+  LiteralToPrimitive,
   Merge,
   OverrideProperties,
   UnknownRecord,
 } from 'type-fest';
 
-import type { IsNil, TupleN } from './core.js';
+import type { TupleN } from '#array';
+
+import type { IsNil } from './core.js';
 
 /**
  * Hack to show the inferred type (instead of union, intersections, generics, etc.) in tips
  *
+ * @typeParam TObject - The object type to infer.
  * @example
  * ```typescript
  * // a tip for Foo would be like { bla: string } & { bla?: string; lol?: string; }
  * type Foo = { bla: string } & { bla?: string; lol?: string; };
- *
  * // {bla: string; lol?: string}
  * type Bla = InferObj<Foo>;
  * ```
+ * @category Object
  */
 export type InferObject<TObject extends object> = {
   foo: {
@@ -29,17 +42,112 @@ export type InferObject<TObject extends object> = {
 }['foo'];
 
 /**
- * A TypeScript utility type `Diff` that computes the difference between two object types.
+ * This type computes the difference between two object types.
  *
- * This type extracts properties from the first object type `T1` that do not exist in the second object type `T2`.
+ * It extracts properties from the first object type `T1` that do not exist in the second object type `T2`.
  * The resulting object contains only the properties of `T1` that are not present in both `T1` and `T2`.
  *
  * @typeParam T1 - The first object type.
  * @typeParam T2 - The second object type.
+ * @category Object
  */
 export type Diff<T1 extends object, T2 extends object> = InferObject<
   Omit<T1, keyof T2 & keyof T1>
 >;
+
+/**
+ * This type creates an immutable and optional record structure.
+ * Useful for generic interfaces that accept a record of properties
+ * and for the usage in function arguments.
+ *
+ * @typeParam TKey - The type of the property keys. Defaults to `PropertyKey`.
+ * @typeParam TValue - The type of the property values. Defaults to `any`.
+ * @category Object
+ */
+export type AnyRecord<
+  TKey extends PropertyKey = PropertyKey,
+  TValue = any,
+> = CustomRecord<TKey, TValue, true, true>;
+
+/**
+ * Creates a customizable record type with configurable partiality and mutability.
+ *
+ * This type allows you to define a record where you can control whether properties
+ * are partial (optional) and/or readonly through boolean type parameters.
+ *
+ * @typeParam TKey - The type of the property keys. Defaults to `PropertyKey`.
+ * @typeParam TValue - The type of the property values. Defaults to `any`.
+ * @typeParam TPartial - When `true`, makes literal keys optional using {@link ConditionalPartial}. Defaults to `false`.
+ * @typeParam TReadOnly - When `true`, makes all properties readonly using {@link ConditionalReadonly}. Defaults to `false`.
+ * @see {@link AnyRecord} for a specialized version with both partial and readonly behavior.
+ * @category Object
+ */
+export type CustomRecord<
+  TKey extends PropertyKey = PropertyKey,
+  TValue = any,
+  TPartial extends boolean = false,
+  TReadOnly extends boolean = false,
+> = ConditionalPartial<
+  ConditionalReadonly<Record<TKey, TValue>, TReadOnly>,
+  TPartial
+>;
+
+/**
+ * Conditionally makes literal keys of a type optional based on a boolean parameter.
+ *
+ * When `TPartial` is `true`, this type applies {@link LiteralKeysPartial} to make
+ * literal string/number/symbol keys optional while preserving index signatures as required.
+ * When `TPartial` is `false`, the source type is returned unchanged.
+ *
+ * @typeParam TSource - The source type to potentially make partial.
+ * @typeParam TPartial - When `true`, applies partial behavior to literal keys. Defaults to `false`.
+ * @see {@link LiteralKeysPartial} for the underlying transformation logic.
+ * @category Object
+ */
+export type ConditionalPartial<TSource, TPartial extends boolean = false> =
+  TPartial extends true ? LiteralKeysPartial<TSource> : TSource;
+
+/**
+ * Makes only literal keys of an object type optional while preserving index signatures as is.
+ *
+ * This type splits properties into two groups: literal keys (specific string/number/symbol literals)
+ * become optional, while index signatures (e.g., `[x: string]: T`) remain required. This prevents
+ * `undefined` from being added to the value type when using index signatures, which would occur
+ * with a simple `Partial<T>`.
+ *
+ * This type scope of application is other generic types,
+ * and `undefined` may interfere with type safety and expected behavior.
+ *
+ * @typeParam TSource - The source object type to transform.
+ * @example
+ * ```typescript
+ * type Example = { foo: string; bar: number; [x: string]: string | number };
+ *
+ * // Result: { foo?: string; bar?: number; [x: string]: string | number }
+ * type Result = LiteralKeysPartial<Example>;
+ * ```
+ * @category Object
+ */
+export type LiteralKeysPartial<TSource> = InferObject<
+  {
+    [K in keyof TSource as IsLiteral<K> extends true ? K : never]?: TSource[K];
+  } & {
+    [K in keyof TSource as IsLiteral<K> extends false ? K : never]: TSource[K];
+  }
+>;
+
+/**
+ * Conditionally makes a type readonly based on a boolean parameter.
+ *
+ * When `TReadOnly` is `true`, applies `Readonly<T>` to make all properties immutable.
+ * When `TReadOnly` is `false`, returns the type unchanged.
+ *
+ * @typeParam T - The type to potentially make readonly.
+ * @typeParam TReadOnly - When `true`, makes all properties readonly. Defaults to `false`.
+ * @category Object
+ */
+export type ConditionalReadonly<T, TReadOnly extends boolean = false> =
+  TReadOnly extends true ? Readonly<T> : T;
 
 /**
  * Represents a mapped type that transforms an object type `T` into a union of tuples.
@@ -54,14 +162,20 @@ export type Diff<T1 extends object, T2 extends object> = InferObject<
  * So if `T` is `{ a: number; b: string }`, then `EntryUnion<T>` will resolve to `[ "a", number ] | [ "b", string ]`,
  * while `Entry<T>` will resolve to `[ 'a' | 'b', number | string ]`.
  * Also, it's intended to work with objects only, not with arrays, Maps or Sets. Use `Entry<T>` for those cases.
+ * @category Object
  */
-export type EntryUnion<T extends object> = {
-  [K in keyof T]: [K, T[K]];
-}[keyof T];
+export type EntryUnion<T extends object> =
+  T extends object ?
+    {
+      [K in keyof T]: [K, T[K]];
+    }[keyof T]
+  : never;
 
 /**
  * Represents a general type of object where the first item is a key of type `PropertyKey`
  * and the second item is an associated value of any type.
+ *
+ * @category Object
  */
 export type UnknownEntry = readonly [key: PropertyKey, value: unknown];
 
@@ -71,6 +185,8 @@ export type UnknownEntry = readonly [key: PropertyKey, value: unknown];
  *
  * This is useful for representing data structures such as hierarchical
  * keys or paths paired with a corresponding value.
+ *
+ * @category Object
  */
 export type UnknownNestedEntry = readonly [
   key: readonly PropertyKey[],
@@ -93,7 +209,7 @@ export type UnknownNestedEntry = readonly [
  *   - If `TKey` is an array of key parts (`TKeyParts`), `TPrefix` will be prepended to an array of keys,
  *      resulting in a new tuple `[[...TPrefix, ...TKeyParts[]], TValue]`.
  *   - Otherwise (if `TKey` is a single key), `TPrefix` will be prepended to a single key, resulting in a new tuple `[[...TPrefix, TKey], TValue]`.
- * @returns A new transformed entry where the key is combined with the prefix.
+ * @category Object
  */
 export type PrependEntryKey<
   TEntry extends UnknownEntry | UnknownNestedEntry,
@@ -155,6 +271,7 @@ type _ExpandedEntry<
  *
  * @typeParam T - The base object type to define the entries from.
  * @typeParam TMaxDepth - The maximum depth to which the entries are expanded. Defaults to 4.
+ * @category Object
  */
 export type EntryDeep<
   T extends object,
@@ -171,6 +288,7 @@ export type EntryDeep<
  * generate `never` values for specific keys.
  *
  * @typeParam T - The object type to process and omit `never` properties from.
+ * @category Object
  */
 export type OmitNeverProps<T extends object> =
   T extends unknown ?
@@ -181,11 +299,83 @@ export type OmitNeverProps<T extends object> =
  * A utility type that omits properties from an object type where the property type can resolve to `Nil`, i.e., `null` or `undefined`
  *
  * @typeParam T - The object type to process for excluding `Nil` properties.
+ * @category Object
  */
 export type OmitNilProps<T extends object> =
   T extends unknown ?
     { [K in keyof T as IsNil<T[K]> extends true ? never : K]: T[K] }
   : never;
+
+/**
+ * Extracts the value type of property from a union of object types distributively.
+ *
+ * This type distributes over union members of `TSource` and extracts the value type
+ * associated with the specified key `TKey`. It handles both explicit properties
+ * and index signatures.
+ *
+ * @typeParam TSource - The source type (typically a union of objects) to extract the property value from.
+ * @typeParam TKey - The property key to look up.
+ * @typeParam TStripPartial - When `true`, excludes `undefined` from the result for optional/index signature matches.
+ *   Defaults to `false`.
+ * @example
+ * ```typescript
+ * type Union = { foo: string } | { foo: number } | { bar: boolean };
+ *
+ * // Resolves to: string | number
+ * type FooValue = DistributedPropValue<Union, 'foo'>;
+ *
+ * type WithIndex = { [x: string]: number };
+ *
+ * // Resolves to: number | undefined
+ * type IndexValue = DistributedPropValue<WithIndex, 'anyKey'>;
+ *
+ * // Resolves to: number (undefined stripped)
+ * type IndexValueStripped = DistributedPropValue<WithIndex, 'anyKey', true>;
+ * ```
+ * @category Object
+ */
+export type DistributedPropValue<
+  TSource,
+  TKey extends PropertyKey,
+  TStripPartial extends boolean = false,
+> = TSource extends AnyRecord ? PropValue<TSource, TKey, TStripPartial> : never;
+
+type NoPropValue<T extends boolean> = T extends true ? never : undefined;
+
+type PropValue<
+  TSource,
+  TKey extends PropertyKey,
+  TStripPartial extends boolean = false,
+  TSourceKey extends keyof TSource = keyof TSource,
+> =
+  [LiteralToPrimitive<TKey>] extends [TSourceKey] ?
+    NoPropValue<TStripPartial> | TSource[TKey & TSourceKey]
+  : [TKey] extends [TSourceKey] ?
+    TStripPartial extends true ?
+      ValueOfPartial<TSource, TKey>
+    : TSource[TKey & TSourceKey]
+  : NoPropValue<TStripPartial>;
+
+type ValueOfPartial<TSource, TKey extends keyof TSource> =
+  TSource extends AnyRecord<TKey, infer TValue> ? TValue : never;
+
+/**
+ * A conditional type that evaluates whether a given object type `T` is an empty object (`{}`).
+ *
+ * The type resolves to `true` when the following conditions are met:
+ * - The type `T` extends `Record<PropertyKey, never>`, indicating it's a record without properties and methods.
+ * - The keys of `T` are determined to be of `never` type using the `IsNever` utility type.
+ *
+ * If the conditions are not met, the type resolves to `false`.
+ *
+ * @typeParam T - The object type to evaluate as an empty object.
+ * @remarks It's superior to `type-fest`'s `IsEmptyObject<T>` because it handles `Record<symbol, never>` correctly.
+ * @category Object
+ */
+export type IsEmptyObject<T> =
+  T extends Record<PropertyKey, never> ? IsNever<keyof T> : false;
+
+/* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DEPRECATED ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
 /**
  * Represents a utility type `Override` that combines the properties of a `Source` object
@@ -195,8 +385,8 @@ export type OmitNilProps<T extends object> =
  * This type is particularly useful when creating a new object type by mixing in specific overrides
  * to an existing source object type.
  *
- * @typeParam Source - The base object type whose properties may be overridden.
- * @typeParam Values - An object type that defines properties to override in the `Source` type.
+ * @typeParam TSource - The base object type whose properties may be overridden.
+ * @typeParam TValues - An object type that defines properties to override in the `Source` type.
  *                    Each key in `Values` must exist in the `Source` type.
  * @deprecated Use `Mixin<Source, Values>` from `type-fest` instead.
  */
@@ -242,7 +432,6 @@ export type FilterByType<T, U> = ConditionalPick<T, U>;
  * @typeParam T - The type from which keys are to be extracted. Default is `any`.
  * @deprecated Use `KeysOfUnion<T>` from `type-fest` or simple `keyof <Type>` instead.
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type Key<T = any> =
   T extends Record<infer K, unknown> ? K
   : T extends object ? keyof T
@@ -277,8 +466,8 @@ export type Value<T = object, K extends PropertyKey = PropertyKey> =
  * properties of `Child`, along with only those properties of `Parent` that do not overlap
  * with `Child`.
  *
- * @typeParam Parent - The base object type whose non-overlapping properties are included.
- * @typeParam Child - The object type whose properties take precedence.
+ * @typeParam TParent - The base object type whose non-overlapping properties are included.
+ * @typeParam TChild - The object type whose properties take precedence.
  * @deprecated Use `Merge<Destination, Source>` from `type-fest` instead.
  */
 export type Mixin<TParent extends object, TChild extends object> = Merge<

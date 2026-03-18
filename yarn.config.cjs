@@ -31,7 +31,7 @@ module.exports = defineConfig({
           'repository',
         ],
         requiredFields: [
-          // @ts-expect-error TS2322 — temporary workaround
+          // @ts-expect-error: TS2322 because nested keys actually work, but the type definition is outdated
           [['scripts', 'name'], 'echo $npm_package_name'],
           ['version', '0.0.0'],
           ['type', 'module'],

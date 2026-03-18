@@ -1,11 +1,11 @@
 {
   "name": "@budsbox/sass-importers",
   "version": "2.1.1",
-  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "homepage": "https://github.com/budsbox/seed",
   "bugs": {
-    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+    "url": "https://github.com/budsbox/seed/issues"
   },
-  "repository": "gitlab:budsbox/fe/seed",
+  "repository": "git@github.com:budsbox/seed.git",
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "commonjs",
@@ -15,8 +15,8 @@
   "exports": {
     ".": {
       "import": {
-        "default": "./dist/index.js",
-        "types": "./dist/index.d.ts"
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
       }
     },
     "./package.json": "./package.json"
@@ -31,7 +31,7 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/ui-tools": "workspace:^",
-    "enhanced-resolve": "^5.17.1"
+    "enhanced-resolve": "^5.18.3"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
@@ -40,24 +40,24 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
-    "@eslint/js": "^9.26.0",
+    "@eslint/js": "^9.39.1",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.15.2",
-    "@typescript-eslint/parser": "^8.32.1",
-    "eslint": "^9.26.0",
-    "eslint-config-prettier": "^10.1.5",
-    "eslint-import-resolver-typescript": "^4.3.4",
-    "eslint-plugin-jsdoc": "^50.6.17",
+    "@types/node": "^22.19.1",
+    "@typescript-eslint/parser": "^8.48.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.4",
+    "eslint-plugin-jsdoc": "^61.5.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.20",
-    "globals": "^16.1.0",
-    "sass": "^1.92.1",
-    "sass-embedded": "^1.92.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "sass": "^1.94.2",
+    "sass-embedded": "^1.93.3",
     "tslib": "^2.8.1",
-    "type-fest": "^4.32.0",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "^8.32.1"
+    "type-fest": "^5.3.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.48.1"
   },
   "packageManager": "yarn@4.9.2"
 }

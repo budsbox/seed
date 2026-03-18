@@ -1,36 +1,67 @@
-import type { TupleN } from '@budsbox/lib-types';
+/**
+ * This module provides array utility functions for common operations like deduplication, union, intersection, difference, etc.
+ *
+ * @module
+ * @importTarget ./array
+ */
 
-import type { FValue } from './types.js';
+import type { FValue, TupleN } from '@budsbox/lib-types';
 
-import { isFunction } from '#guards';
+import {
+  assertArray,
+  assertEvery,
+  isArray,
+  isFunction,
+  isInteger,
+  isNonNegative,
+  isNumber,
+} from '#guards';
 
 /**
- * Ensures that the provided value is returned as an array. If the value is already an array,
- * it is returned as-is. If the value is not an array, it is wrapped in a new array.
+ * @module
  *
- * @param value - The value to be checked and converted into an array if necessary.
- * @returns An array containing the original value or the original array if it was already an array.
+ * Array utility functions for common operations like deduplication, union, intersection, and difference.
  */
+
+/**
+ * {@label MUTABLE} Returns the value as an array. If already an array, returns it as-is; otherwise wraps it.
+ *
+ * @param value - The value to convert.
+ * @returns An array containing the value.
+ * @typeParam T - The element type.
+ */
+// eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
 export function ensureArray<T>(value: T | T[]): T[];
-// eslint-disable-next-line jsdoc/require-jsdoc
+
+/**
+ * {@label READONLY} Returns the value as an array. If already an array, returns it as-is; otherwise wraps it.
+ *
+ * @param value - The value to convert.
+ * @returns An array containing the value.
+ * @typeParam T - The element type.
+ */
 export function ensureArray<T>(value: readonly T[] | T): readonly T[];
+
 export function ensureArray(value: unknown): unknown[] {
   return Array.isArray(value) ? (value as unknown[]) : [value];
 }
 
 /**
- * Creates an array of a fixed length with all elements initialized to the specified value.
+ * Creates a fixed-length array filled with a value or computed by a function.
  *
- * @param n - The length of the array to create.
- * @param value - The value to fill the array with. Defaults to `null`.
- * @returns A tuple of the specified length with all elements set to the given value.
+ * @param n - The desired array length.
+ * @param value - The fill value or a function that receives the index and returns the element value. Defaults to `null`.
+ * @returns A tuple of length N with all elements set to the value or computed result.
+ * @throws {@link !TypeError} if `n` is not a non-negative integer.
+ * @typeParam N - The array length.
+ * @typeParam T - The element type.
  */
 export function nArray<N extends number, T = null>(
   n: N,
   value?: FValue<number, T>,
 ): TupleN<N, T>;
 export function nArray(n: number, value: unknown = null): unknown[] {
-  // eslint-disable-next-line jsdoc/require-jsdoc
+  assertEvery(n, 'n', isNumber, isNonNegative, isInteger);
   if (isFunction<(n: number) => unknown>(value)) {
     const newArray: unknown[] = new Array(n);
     for (let i = 0; i < newArray.length; i++) {
@@ -44,32 +75,35 @@ export function nArray(n: number, value: unknown = null): unknown[] {
 }
 
 /**
- * Removes duplicate elements from the provided array while preserving the order of the first occurrence of each element.
+ * Removes duplicate elements from an array, preserving the order of the first occurrence.
  *
- * @param items - The array of items from which duplicates should be removed.
- *                The array is expected to be read-only and can contain elements of any type.
- * @returns A new array containing only the unique elements from the input array, in the order of their first occurrence.
+ * @param items - The array to deduplicate.
+ * @returns A new array with unique elements in their original order.
+ * @throws {@link !TypeError} if `items` is not an array.
+ * @typeParam T - The element type.
  */
-export const dedupe = <T>(items: readonly T[]): T[] =>
-  Array.from(new Set(items));
+export const dedupe = <T>(items: readonly T[]): T[] => {
+  assertArray(items, 'items');
+  return Array.from(new Set(items));
+};
 
 /**
- * Creates an array of unique values from the combined elements of the input arrays.
+ * Creates an array of unique values from multiple input arrays.
  *
- * @param arrays - The arrays to be merged and deduplicated.
- * @returns An array containing unique elements from all input arrays.
+ * @param arrays - Arrays or individual elements to merge.
+ * @returns A new array containing unique elements from all inputs.
+ * @typeParam T - The element type.
  */
 export function union<T>(...arrays: ReadonlyArray<readonly T[] | T>): T[] {
   return dedupe(arrays.flatMap((v) => v));
 }
 
 /**
- * Computes the intersection of multiple arrays, returning an array that contains
- * all elements that are present in every input array.
+ * Returns elements present in all input arrays.
  *
- * @param arrays - A variadic parameter allowing multiple arrays or single elements.
- * Each array or element will be checked for intersection.
- * @returns An array containing elements that are present in all input arrays.
+ * @param arrays - Arrays or individual elements to intersect.
+ * @returns A new array containing elements common to all inputs.
+ * @typeParam T - The element type.
  */
 export function intersection<T>(
   ...arrays: ReadonlyArray<readonly T[] | T>
@@ -90,17 +124,19 @@ export function intersection<T>(
 }
 
 /**
- * Computes the difference between a source array and one or more arrays of exclusions.
- * Returns a new array containing elements from the source array that are not present in any of the exclusion arrays.
+ * Returns elements from the source array that are not in any exclusion arrays.
  *
- * @param source - The source array to compare against.
- * @param excludes - Arrays containing elements to be excluded from the source array.
- * @returns A new array containing elements from the source array that are not in the exclusion arrays.
+ * @param source - The source array.
+ * @param excludes - Arrays of elements to exclude.
+ * @returns A new array with excluded elements removed.
+ * @throws {@link !TypeError} if `source` is not an array or `excludes` contains non-array elements.
+ * @typeParam T - The element type.
  */
 export function diff<T>(
   source: readonly T[],
   ...excludes: ReadonlyArray<readonly T[]>
 ): T[] {
+  assertArray(excludes, isArray, 'excludes');
   const set = new Set(excludes.flatMap((v) => v));
   return source.filter((v) => !set.has(v));
 }

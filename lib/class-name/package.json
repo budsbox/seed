@@ -1,11 +1,11 @@
 {
   "name": "@budsbox/lib-class-name",
   "version": "1.0.0",
-  "homepage": "https://gitlab.com/budsbox/fe/seed",
+  "homepage": "https://github.com/budsbox/seed",
   "bugs": {
-    "url": "https://gitlab.com/budsbox/fe/seed/-/issues"
+    "url": "https://github.com/budsbox/seed/issues"
   },
-  "repository": "gitlab:budsbox/fe/seed",
+  "repository": "git@github.com:budsbox/seed.git",
   "license": "MIT",
   "author": "Konstantin Kutsyllo <trikadin@pm.me>",
   "type": "module",
@@ -35,7 +35,7 @@
     "@budsbox/lib-es": "workspace:^",
     "clsx": "^2.1.1",
     "tslib": "^2.8.1",
-    "type-fest": "^4.32.0"
+    "type-fest": "^5.3.1"
   },
   "devDependencies": {
     "@budsbox/eslint": "workspace:^",
@@ -44,9 +44,9 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.15.2",
-    "eslint": "^9.26.0",
-    "typescript": "^5.8.3"
+    "@types/node": "^22.19.1",
+    "eslint": "^9.39.1",
+    "typescript": "^5.9.3"
   },
   "packageManager": "yarn@4.9.2"
 }

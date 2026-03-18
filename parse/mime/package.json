@@ -1,0 +1,82 @@
+{
+  "name": "@budsbox/parse-mime",
+  "version": "1.0.0",
+  "homepage": "https://github.com/budsbox/seed",
+  "bugs": {
+    "url": "https://github.com/budsbox/seed/issues"
+  },
+  "repository": "git@github.com:budsbox/seed.git",
+  "license": "MIT",
+  "author": "Konstantin Kutsyllo <trikadin@pm.me>",
+  "type": "module",
+  "imports": {
+    "#parser": {
+      "import": {
+        "types": "./dist/parser.d.ts",
+        "development": "./dist/parser.js",
+        "production": "./dist/parser.min.js",
+        "default": "./dist/parser.min.js"
+      }
+    },
+    "#types": {
+      "types": "./dist/types.d.ts"
+    },
+    "#package.json": "./package.json"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.mjs",
+    "dist/**/*.cjs",
+    "dist/**/*.d.ts"
+  ],
+  "scripts": {
+    "build": "run p:peggy:build; run p:ts:build",
+    "check:types": "run p:peggy:build; run p:ts:build",
+    "name": "echo $npm_package_name",
+    "prepack": "run p:peggy:prepack; run p:ts:prepack",
+    "test": "run p:vitest",
+    "trace": "run p:ts:watch:no-clear & run p:peggy:trace",
+    "watch": "run p:ts:watch:no-clear & run p:peggy:watch"
+  },
+  "dependencies": {
+    "@budsbox/lib-es": "workspace:^",
+    "@budsbox/lib-types": "workspace:^",
+    "@types/node": "^22.19.1",
+    "tslib": "^2.8.1",
+    "type-fest": "^5.3.1"
+  },
+  "devDependencies": {
+    "@budsbox/eslint": "workspace:^",
+    "@budsbox/eslint_presets-lib": "workspace:^",
+    "@budsbox/eslint_presets-tools": "workspace:^",
+    "@budsbox/gen-mime-sniff-test-data": "workspace:^",
+    "@budsbox/tsconfigs": "workspace:^",
+    "@types/eslint": "^9.6.1",
+    "@vitest/coverage-v8": "^4.1.0",
+    "eslint": "^9.39.1",
+    "peggy": "^5.0.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.0"
+  },
+  "packageManager": "yarn@4.9.2",
+  "publishConfig": {
+    "imports": {
+      "#parser": {
+        "import": {
+          "types": "./dist/parser.d.ts",
+          "default": "./dist/parser.min.js"
+        }
+      },
+      "#types": {
+        "types": "./dist/types.d.ts"
+      }
+    }
+  }
+}

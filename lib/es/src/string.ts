@@ -1,3 +1,19 @@
+/* eslint-disable jsdoc/informative-docs */
+
+/**
+ * This module provides string utility functions for common operations like case conversion, trimming, splitting, etc.
+ *
+ * @module
+ * @importTarget ./string
+ * @showCategories
+ * @categoryDescription Package Name
+ * This category contains functions for manipulating and formatting names of packages.
+ * @categoryDescription Casing
+ * This category contains functions for converting strings to different casing formats.
+ * @categoryDescription Paths
+ * This category contains functions for manipulating and formatting paths.
+ */
+
 import type {
   CamelCase,
   DelimiterCase,
@@ -6,13 +22,35 @@ import type {
   SnakeCase,
 } from 'type-fest';
 
-import type { Maybe, Nil, Undef } from '@budsbox/lib-types';
+import type { Nil, Undef } from '@budsbox/lib-types';
 
-import type { ParsedPackageName } from './types.js';
+import type { PackageNameFormatOptions, ParsedPackageName } from './types.js';
 
-import { isNil, isNotNil, isString } from './guards.js';
+import {
+  assertArray,
+  assertBoolean,
+  assertNotNil,
+  assertObject,
+  assertOptionalProp,
+  assertProp,
+  assertSome,
+  assertString,
+  isBoolean,
+  isNil,
+  isNotNil,
+  isNumber,
+  isObject,
+  isPropKey,
+  isString,
+  isUndef,
+  somePredicate,
+} from '#guards';
+import {
+  joinWithConjunction as _joinWithConjunction,
+  formatAccessString,
+} from '#guards/format';
 
-export type { ParsedPackageName };
+export type { PackageNameFormatOptions, ParsedPackageName };
 
 /**
  * Parses a package name string to extract its scope and name.
@@ -20,11 +58,14 @@ export type { ParsedPackageName };
  * @param packageName - The full name of the package, potentially including a scope.
  * @param clean - A flag indicating whether to return a cleaned version (i.e., without a leading `@` and trailing `/`) of the scope. Defaults to false.
  * @returns An object containing the parsed scope and name of the package. The scope will be `null` if no scope is present.
+ * @category Package Name
  */
 export function parsePackageName(
   packageName: string,
   clean: boolean = false,
 ): Required<ParsedPackageName> {
+  assertString(packageName, 'packageName');
+  assertBoolean(clean, 'clean');
   const [scope, cleanScope] = /^@([^/]+)\//.exec(packageName) ?? [null, null];
   return {
     scope: clean ? cleanScope : scope,
@@ -32,34 +73,57 @@ export function parsePackageName(
   };
 }
 
+function normalizePackageName(
+  ident: string | Readonly<ParsedPackageName>,
+  clean?: boolean,
+): Required<ParsedPackageName> {
+  assertSome(ident, 'ident', isString, isObject);
+
+  if (isObject(ident)) {
+    assertProp(ident, 'name', isString);
+    assertOptionalProp(ident, 'scope', somePredicate(isString, isNil));
+    return {
+      ...ident,
+      scope: ident.scope ?? null,
+    };
+  }
+
+  return parsePackageName(ident, clean);
+}
+
 /**
  * Converts a ParsedPackageName object into its string representation.
  *
  * @param parsedPackageName - An object representing the parsed package name with fields such as `scope` and `name`.
  * @returns The string representation of the package name, including the scope if it exists.
+ * @category Package Name
  */
 export function serializePackageName(
   parsedPackageName: Readonly<ParsedPackageName>,
 ): string;
+
 /**
  * Converts a parsed package name object or a Nil value into a string representation.
  *
  * @param parsedPackageName - A parsed package name object of type `ParsedPackageName` or a Nil value.
  * @param allowNil - A boolean flag specifying whether Nil values are allowed for conversion.
  * @returns The string representation of the package name if valid, or an empty string if `allowNil` is true and the input is Nil.
+ * @category Package Name
  */
 export function serializePackageName(
-  parsedPackageName: Readonly<ParsedPackageName> | Nil,
+  parsedPackageName: Nil | Readonly<ParsedPackageName>,
   allowNil: true,
 ): string;
 export function serializePackageName(
-  parsedPackageName: Readonly<ParsedPackageName> | Nil,
+  parsedPackageName: Nil | Readonly<ParsedPackageName>,
   allowNil: boolean = false,
 ): string {
-  if (!allowNil && isNil(parsedPackageName)) {
-    throw new TypeError('Expected a non-nil value');
+  if (!allowNil) {
+    assertNotNil(parsedPackageName, 'parsedPackageName');
   }
-  const { scope, name } = parsedPackageName ?? { scope: null, name: '' };
+  const { scope, name } = normalizePackageName(
+    parsedPackageName ?? { scope: null, name: '' },
+  );
   return joinPath(scope?.replace(/^@?/, '@'), name);
 }
 
@@ -73,6 +137,8 @@ export function serializePackageName(
  *                  to indicate whether the result should be returned as a parsed package name object.
  * @returns The resolved package name as a string if `parsed` is false or not specified,
  *         or as a `ParsedPackageName` object if `parsed` is true.
+ * @typeParam TParsed - Controls the return type: when `true`, returns `ParsedPackageName`; when `false` (default), returns `string`.
+ * @category Package Name
  */
 export function resolvePackageName<TParsed extends boolean = false>(
   ident: string | Readonly<ParsedPackageName>,
@@ -85,7 +151,7 @@ export function resolvePackageName(
     parsed = false,
   }: { baseScope?: Undef<string>; parsed?: boolean } = {},
 ): string | ParsedPackageName {
-  const { scope, name } = isString(ident) ? parsePackageName(ident) : ident;
+  const { scope, name } = normalizePackageName(ident);
 
   const parsedIdent: ParsedPackageName = {
     scope: scope ?? baseScope ?? null,
@@ -93,36 +159,6 @@ export function resolvePackageName(
   };
 
   return parsed ? parsedIdent : serializePackageName(parsedIdent);
-}
-
-/**
- * Options for formatting the package name
- */
-export interface PackageNameFormatOptions {
-  /**
-   * The root identifier for the package.
-   */
-  root?: Maybe<string>;
-  /**
-   * The parent package name.
-   */
-  parent?: Maybe<string>;
-  /**
-   * The path to the package, relative to its parent.
-   */
-  relCwd?: Undef<string>;
-  /**
-   * The delimiter used to separate path chunks.
-   */
-  pathDelimiter?: Undef<string>;
-  /**
-   * The delimiter used to separate parents name from the base name of the package.
-   */
-  nameDelimiter?: Undef<string>;
-  /**
-   * Array of path chunks to be excluded when constructing the path.
-   */
-  excludePathChunks?: Undef<readonly string[]>;
 }
 
 /**
@@ -137,25 +173,50 @@ export interface PackageNameFormatOptions {
  * @param options.nameDelimiter - The delimiter used to separate parents name from the base name of the package. Defaults to `'_'`.
  * @param options.excludePathChunks - Array of path chunks to be excluded when constructing the path. Defaults to `['packages']`.
  * @returns The formatted package name as a string.
+ * @category Package Name
  */
 export function formatPackageName(
   base: string,
-  {
+  options: Readonly<PackageNameFormatOptions> = {},
+): string {
+  assertString(base, 'base');
+  assertObject(options, 'options');
+  (['root', 'parent'] as const).forEach((key) => {
+    assertOptionalProp(options, key, somePredicate(isString, isNil), 'options');
+  });
+  (['relCwd', 'pathDelimiter', 'nameDelimiter'] as const).forEach((key) => {
+    assertOptionalProp(
+      options,
+      key,
+      somePredicate(isString, isUndef),
+      'options',
+    );
+  });
+
+  const {
     root = null,
     parent = root,
     relCwd = '',
     pathDelimiter = '-',
     nameDelimiter = '_',
     excludePathChunks = ['packages'],
-  }: Readonly<PackageNameFormatOptions> = {},
-): string {
+  } = options;
+  assertArray(excludePathChunks, isString, 'excludePathChunks');
+
+  [
+    ['relCwd', relCwd],
+    ['pathDelimiter', pathDelimiter],
+    ['nameDelimiter', nameDelimiter],
+  ].forEach(([name, value]) => void assertString(value, name));
+  assertArray(excludePathChunks, isString, 'options.excludePathChunks');
+
   const topLevel = parent === root;
   const exclude = new Set(excludePathChunks);
   const pathChunks = splitPath(relCwd).filter((chunk) => !exclude.has(chunk));
   if (pathChunks.at(-1) === base) {
     pathChunks.pop();
   }
-  const { scope, name: parentName } = parsePackageName(parent ?? '');
+  const { scope, name: parentName } = normalizePackageName(parent ?? '');
 
   return serializePackageName({
     scope,
@@ -172,6 +233,7 @@ export function formatPackageName(
  * @param value - The value to be converted to its string representation. Can be of any type.
  * @returns A string representation of the input value.
  * If the value cannot be serialized using JSON.stringify, it falls back to using String conversion.
+ * @deprecated Use `formatDebugValue` from `@budsbox/lib-es/guards` instead.
  */
 export function debugString(value: unknown): string {
   try {
@@ -189,6 +251,7 @@ export function debugString(value: unknown): string {
  * @returns The processed string with trimmed and normalized whitespace.
  */
 export function clampWS(str: string): string {
+  assertString(str, 'str');
   return str.trim().replace(/\s+/g, ' ');
 }
 
@@ -200,10 +263,16 @@ export function clampWS(str: string): string {
  * @param parts - An array of path parts to join. Each part can be a string, number, boolean, null, or undefined.
  * Non-string values will be serialized, and null/undefined values are ignored.
  * @returns The combined path as a single string, with proper slash formatting.
+ * @category Paths
  */
 export function joinPath(
-  ...parts: ReadonlyArray<string | number | boolean | null | undefined>
+  ...parts: ReadonlyArray<boolean | number | string | null | undefined>
 ): string {
+  assertArray(
+    parts,
+    somePredicate(isString, isNumber, isBoolean, isNil),
+    'parts',
+  );
   return parts
     .filter(isNotNil)
     .reduce<string>(
@@ -223,9 +292,12 @@ export function joinPath(
  * @param keepEmptyChunks - A boolean indicating whether empty strings (resulting from consecutive delimiters)
  * should be preserved in the output array. Defaults to `false`.
  * @returns An array of strings representing the components of the path.
+ * @category Paths
  */
 export function splitPath(path: string, keepEmptyChunks = false): string[] {
-  const splitted = path.split(/\/+/);
+  assertString(path, 'path');
+  assertBoolean(keepEmptyChunks, 'keepEmptyChunks');
+  const splitted = path.split(keepEmptyChunks ? '/' : /\/+/);
   return keepEmptyChunks ? splitted : (
       splitted.filter((chunk) => chunk.length > 0)
     );
@@ -236,12 +308,16 @@ export function splitPath(path: string, keepEmptyChunks = false): string[] {
  *
  * @param str - The string to be converted to camelCase.
  * @returns The input string transformed into camelCase.
+ * @typeParam T - The input string type; used to derive the resulting `CamelCase<T>` type.
+ * @category Casing
  */
 export function camelCase<T extends string>(str: T): CamelCase<T>;
 export function camelCase(name: string): string {
-  return clampWS(name).replace(/[-_\s]+([^-_\s])/g, (_, suffix: string) =>
-    suffix.toUpperCase(),
-  );
+  assertString(name, 'name');
+  return clampWS(name)
+    .replace(/[-_\s]+([^-_\s])/g, (_, suffix: string) => suffix.toUpperCase())
+    .replace(/^./, (char) => char.toLowerCase())
+    .replace(/[-_\s]+/g, '');
 }
 
 /**
@@ -249,10 +325,12 @@ export function camelCase(name: string): string {
  *
  * @param str - The string to be transformed into PascalCase.
  * @returns The transformed string in PascalCase format.
+ * @typeParam T - The input string type; used to derive the resulting `PascalCase<T>` type.
+ * @category Casing
  */
 export function pascalCase<T extends string>(str: T): PascalCase<T>;
 export function pascalCase(name: string): string {
-  return camelCase(name).replace(/^./, (c) => c.toUpperCase());
+  return camelCase(name).replace(/^./, (char) => char.toUpperCase());
 }
 
 /**
@@ -261,14 +339,29 @@ export function pascalCase(name: string): string {
  * @param name - The input string that will be converted to the delimited case.
  * @param delimiter - The character or string to use as a delimiter in the transformed output.
  * @returns The input string transformed into the delimited case format using the given delimiter.
+ * @typeParam T - The input string type; used to derive the resulting `DelimiterCase<T, D>` type.
+ * @typeParam D - The delimiter string type used to separate words in the result.
+ * @category Casing
  */
 export function delimCase<T extends string, D extends string>(
   name: T,
   delimiter: D,
 ): DelimiterCase<T, D>;
 export function delimCase(name: string, delimiter = '-'): string {
-  return clampWS(name)
-    .replace(/(.)([A-Z])/g, `$1${delimiter}$2`)
+  assertString(name, 'name');
+  assertString(delimiter, 'delimiter');
+  const clamped = clampWS(name);
+  const chars: string[] = [];
+  for (let i = 0; i < clamped.length; i++) {
+    const char = clamped[i]!;
+    if (/^[A-Z]$/.test(char) && i !== 0) {
+      chars.push(delimiter);
+    }
+    chars.push(char);
+  }
+
+  return chars
+    .join('')
     .replace(/[-_\s]+/g, delimiter)
     .toLowerCase();
 }
@@ -278,6 +371,8 @@ export function delimCase(name: string, delimiter = '-'): string {
  *
  * @param name - The string input to be converted to kebab-case. The input should be a string type.
  * @returns The transformed string in kebab-case format.
+ * @typeParam T - The input string type; used to derive the resulting `KebabCase<T>` type.
+ * @category Casing
  */
 export function kebabCase<T extends string>(name: T): KebabCase<T>;
 export function kebabCase(name: string): string {
@@ -289,8 +384,50 @@ export function kebabCase(name: string): string {
  *
  * @param name - The string to be converted to snake_case.
  * @returns The converted string in snake_case format.
+ * @typeParam T - The input string type; used to derive the resulting `SnakeCase<T>` type.
+ * @category Casing
  */
 export function snakeCase<T extends string>(name: T): SnakeCase<T>;
 export function snakeCase(name: string): string {
   return delimCase(name, '_');
+}
+
+/**
+ * Joins an array of strings into a single formatted string using the specified conjunction.
+ *
+ * @param items - An array of strings to be joined. If the array is empty, an empty string is returned.
+ * @param conjunction - A word or phrase (`and` or `or`) to be used as the conjunction between the last two items.
+ * @returns A formatted string where the items are separated by commas and the conjunction is added before the final item.
+ */
+export function joinWithConjunction(
+  items: readonly string[],
+  conjunction: string,
+): string {
+  assertArray(items, isString, 'items');
+  assertString(conjunction, 'conjunction');
+
+  return _joinWithConjunction(items, conjunction);
+}
+
+/**
+ * Constructs a dot-notation or bracket-notation string representation
+ * for accessing nested properties of an object based on the provided keys.
+ *
+ * @internal
+ * @param sourceName - The base name of the object or source from which properties are being accessed.
+ * @param keys - A variadic list of property keys representing the nested path.
+ * Each key will be used to generate the accessor string.
+ * @returns A string representing the accessor path in dot-notation for valid identifiers
+ * or bracket-notation for non-identifier keys.
+ * @remarks This function considers "valid" for identifiers only alphanumeric characters,
+ * underscores, and dollar signs.
+ */
+export function formatPropAccessor(
+  sourceName: string,
+  ...keys: readonly PropertyKey[]
+): string {
+  assertString(sourceName, 'sourceName');
+  assertArray(keys, isPropKey, 'keys');
+
+  return formatAccessString(sourceName, ...keys);
 }
