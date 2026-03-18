@@ -1,0 +1,42 @@
+name: Trunk
+
+on:
+  push:
+    branches: [trunk]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    env:
+      YARN_GLOBAL_FOLDER: .yarn/global
+      COREPACK_TAR_FILE: corepack.tgz
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          check-latest: true
+          cache: yarn
+          package-manager-cache: true
+          cache-dependency-path: yarn.lock
+
+      - name: Install Dependencies
+        run: yarn install --immutable
+
+      - name: Setup monorepo
+        run: yarn run setup
+
+      - name: Build Typings
+        run: yarn workspaces foreach --all --parallel --topological --no-private --exclude '{packages/*,linting,build}' run check:types
+
+      - name: Lint
+        run: yarn workspaces foreach --all --parallel --no-private --exclude '{packages/*,linting,build}' run check:lint
+
+      - name: Test
+        run: yarn workspaces foreach --all --parallel --no-private --exclude '{packages/*,linting,build}' run check:test
