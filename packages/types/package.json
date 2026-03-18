@@ -86,7 +86,7 @@
   ],
   "scripts": {
     "name": "echo $npm_package_name",
-    "prepack": "yarn p:ts:prepack:dual"
+    "prepack": "yarn p:ts:prepack"
   },
   "devDependencies": {
     "@budsbox/lib-types": "workspace:^",

@@ -44,7 +44,8 @@
   },
   "files": [
     "dist/*.ts",
-    "es.d.ts"
+    "es.d.ts",
+    "exec-dependency.d.ts"
   ],
   "scripts": {
     "build": "run p:ts:build",
