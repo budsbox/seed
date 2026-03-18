@@ -33,7 +33,7 @@ jobs:
         run: yarn run setup
 
       - name: Build Typings
-        run: yarn workspaces foreach --all --parallel --topological --no-private --exclude '{packages/*,linting,build}' run check:types
+        run: yarn workspaces foreach --all --parallel --topological --exclude '{packages/*,linting,build}' run check:types
 
       - name: Lint
         run: yarn workspaces foreach --all --parallel --no-private --exclude '{packages/*,linting,build}' run check:lint
