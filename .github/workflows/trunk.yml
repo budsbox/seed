@@ -36,7 +36,7 @@ jobs:
         run: yarn workspaces foreach --all --parallel --topological --exclude '{packages/*,linting,build}' run check:types
 
       - name: Lint
-        run: yarn workspaces foreach --all --parallel --no-private --exclude '{packages/*,linting,build}' run check:lint
+        run: yarn workspaces foreach --all --parallel --exclude '{packages/*,linting,build}' run check:lint
 
       - name: Test
-        run: yarn workspaces foreach --all --parallel --no-private --exclude '{packages/*,linting,build}' run check:test
+        run: yarn workspaces foreach --all --parallel --exclude '{packages/*,linting,build}' run check:test
