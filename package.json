@@ -93,7 +93,7 @@
     "p:wsr": "cd $INIT_CWD; yarn remove $(run p:scope-prefix \"$@\")",
     "playground": "yarn workspace @budsbox/playground p:serve",
     "prepare": "husky",
-    "publish-all-since": "YARN_CHANGESET_BASE_REFS=$0 yarn workspaces foreach --parallel --since --no-private --topological npm publish",
+    "publish-all-since": "YARN_CHANGESET_BASE_REFS=$0 yarn workspaces foreach --parallel --since --no-private --topological npm publish --tolerate-republish",
     "relink": "budsbox-update-ts-references",
     "scss-types": "typed-scss-modules packages",
     "setup": "run setup-builder; run setup-constraints; run setup-eslint;",
