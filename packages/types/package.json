@@ -19,64 +19,29 @@
       }
     },
     "#es.d.ts": {
-      "import": {
-        "types": "./es.d.ts"
-      },
-      "require": {
-        "types": "./es.d.ts"
-      }
+      "types": "./es.d.ts"
     },
     "#package.json": "./package.json",
     "#object": {
-      "import": {
-        "types": "./dist/esm/object.d.ts"
-      },
-      "require": {
-        "types": "./dist/cjs/object.d.ts"
-      }
+      "types": "./dist/object.d.ts"
     },
     "#string": {
-      "import": {
-        "types": "./dist/esm/string.d.ts"
-      },
-      "require": {
-        "types": "./dist/cjs/string.d.ts"
-      }
+      "types": "./dist/string.d.ts"
     }
   },
   "exports": {
     ".": {
-      "import": {
-        "types": "./dist/esm/index.d.ts"
-      },
-      "require": {
-        "types": "./dist/cjs/index.d.ts"
-      }
+      "types": "./dist/index.d.ts"
     },
     "./es.d.ts": {
-      "import": {
-        "types": "./es.d.ts"
-      },
-      "require": {
-        "types": "./es.d.ts"
-      }
+      "types": "./es.d.ts"
     },
     "./package.json": "./package.json",
     "./object": {
-      "import": {
-        "types": "./dist/esm/object.d.ts"
-      },
-      "require": {
-        "types": "./dist/cjs/object.d.ts"
-      }
+      "types": "./dist/object.d.ts"
     },
     "./string": {
-      "import": {
-        "types": "./dist/esm/string.d.ts"
-      },
-      "require": {
-        "types": "./dist/cjs/string.d.ts"
-      }
+      "types": "./dist/string.d.ts"
     }
   },
   "files": [

@@ -13,31 +13,23 @@
   "imports": {
     "#package.json": "./package.json",
     "#tsconfig": {
-      "import": {
-        "types": "./dist/esm/tsconfig.d.ts",
-        "default": "./dist/esm/tsconfig.js"
-      }
+      "types": "./dist/tsconfig.d.ts",
+      "default": "./dist/tsconfig.js"
     },
     "#fs": {
-      "import": {
-        "types": "./dist/esm/fs.d.ts",
-        "default": "./dist/esm/fs.js"
-      }
+      "types": "./dist/fs.d.ts",
+      "default": "./dist/fs.js"
     }
   },
   "exports": {
     "./package.json": "./package.json",
     "./tsconfig": {
-      "import": {
-        "types": "./dist/esm/tsconfig.d.ts",
-        "default": "./dist/esm/tsconfig.js"
-      }
+      "types": "./dist/tsconfig.d.ts",
+      "default": "./dist/tsconfig.js"
     },
     "./fs": {
-      "import": {
-        "types": "./dist/esm/fs.d.ts",
-        "default": "./dist/esm/fs.js"
-      }
+      "types": "./dist/fs.d.ts",
+      "default": "./dist/fs.js"
     }
   },
   "files": [

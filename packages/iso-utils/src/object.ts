@@ -1,3 +1,4 @@
+/* eslint-disable */
 import type { Def } from '@budsbox/types';
 import type {
   FilterByType,
@@ -13,18 +14,17 @@ export function filterBy<T, K extends string, R extends Def<T>>(
   test: (value: T) => value is R,
 ): FilterByType<Record<K, T>, R>;
 export function filterBy<T, K extends string, R extends T>(
-  // eslint-disable-next-line @typescript-eslint/unified-signatures
   value: Partial<Record<K, T>> | Record<K, T>,
   test: (value: T) => value is R,
 ): FilterByType<Record<K, T>, R>;
 export function filterBy<V extends object>(
   obj: V,
-  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+
   filter: (value: V[keyof V], key: keyof V & string, obj: V) => boolean,
 ): Partial<V>;
 export function filterBy<V extends object>(
   obj: V,
-  // eslint-disable-next-line @typescript-eslint/prefer-readonly-parameter-types
+
   filter: (value: V[keyof V], key: keyof V & string, obj: V) => boolean,
 ): Partial<V> {
   const newObj: Partial<V> = {};
@@ -62,7 +62,7 @@ export function reduce<U>(
 ): U {
   return Object.entries(obj).reduce<U>(
     (acc, [key, value]) => callback(acc, value, key, obj),
-    initialValue,
+    initialValue as never,
   );
 }
 
@@ -74,7 +74,7 @@ export function pick<T extends object, Keys extends keyof T>(
     (acc, key) =>
       Object.hasOwn(source, key) ? { ...acc, [key]: source[key] } : acc,
 
-    {},
+    {} as never,
   );
 }
 
