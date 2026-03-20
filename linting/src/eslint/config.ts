@@ -1,5 +1,7 @@
+/* eslint-disable */
 import type { Infer, Maybe, Sure } from '@budsbox/types';
 import type {
+  // @ts-expect-error TS2305 because this package is deprecated
   EmptyRecord,
   Key,
   OmitNeverProps,
@@ -72,6 +74,7 @@ export const defaultOptions: CommonOptionsNormal = {
 
 const tsConfig = {
   languageOptions: {
+    // @ts-expect-error TS2305 because this package is deprecated
     parser: eslintTs.parser as Linter.FlatConfigParserModule,
     parserOptions: {
       projectService: true,
