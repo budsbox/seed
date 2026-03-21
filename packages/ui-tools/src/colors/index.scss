@@ -1,5 +1,0 @@
-@use 'budsbox:ui-tools/configs/colors-config';
-
-@function test() {
-  @return colors-config.$test;
-}

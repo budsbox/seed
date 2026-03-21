@@ -1,8 +1,0 @@
-{
-  "extends": "@budsbox/tsconfigs/tsconfig.node.lib.json",
-  "include": ["src/sass-importer.*"],
-  "compilerOptions": {
-    "verbatimModuleSyntax": false,
-    "outDir": "dist"
-  }
-}

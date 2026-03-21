@@ -47,7 +47,6 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
-    "@budsbox/types": "workspace:^",
     "@eslint/js": "^9.39.1",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.19.1",

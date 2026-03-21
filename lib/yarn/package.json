@@ -31,7 +31,6 @@
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-extensions": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@budsbox/types": "workspace:^",
     "tslib": "^2.8.1",
     "type-fest": "^5.3.1"
   },
