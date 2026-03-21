@@ -1006,31 +1006,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/iso-utils@workspace:^, @budsbox/iso-utils@workspace:packages/iso-utils":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/iso-utils@workspace:packages/iso-utils"
-  dependencies:
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
-    "@types/node": "npm:^22.19.1"
-    "@typescript-eslint/parser": "npm:^8.48.1"
-    eslint: "npm:^9.39.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-jsdoc: "npm:^61.5.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    eslint-plugin-react-refresh: "npm:^0.4.24"
-    globals: "npm:^16.5.0"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.48.1"
-  languageName: unknown
-  linkType: soft
-
 "@budsbox/lib-class-name@workspace:^, @budsbox/lib-class-name@workspace:lib/class-name":
   version: 0.0.0-use.local
   resolution: "@budsbox/lib-class-name@workspace:lib/class-name"
@@ -1339,36 +1314,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/node-utils@workspace:^, @budsbox/node-utils@workspace:packages/node-utils":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/node-utils@workspace:packages/node-utils"
-  dependencies:
-    "@budsbox/iso-utils": "workspace:^"
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
-    "@types/node": "npm:^22.19.1"
-    "@typescript-eslint/parser": "npm:^8.48.1"
-    eslint: "npm:^9.39.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-jsdoc: "npm:^61.5.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    eslint-plugin-react-refresh: "npm:^0.4.24"
-    execa: "npm:^9.6.1"
-    globals: "npm:^16.5.0"
-    package-up: "npm:^5.0.0"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.48.1"
-  peerDependencies:
-    typescript: ^5.9.3
-  languageName: unknown
-  linkType: soft
-
 "@budsbox/parse-mime@workspace:^, @budsbox/parse-mime@workspace:parse/mime":
   version: 0.0.0-use.local
   resolution: "@budsbox/parse-mime@workspace:parse/mime"
@@ -1413,7 +1358,6 @@ __metadata:
     "@budsbox/eslint_presets-node-lib": "workspace:^"
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/gen-mime-sniff-test-data": "workspace:^"
-    "@budsbox/iso-utils": "workspace:^"
     "@budsbox/lib-class-name": "workspace:^"
     "@budsbox/lib-data-uri": "workspace:^"
     "@budsbox/lib-es": "workspace:^"
@@ -1425,7 +1369,6 @@ __metadata:
     "@budsbox/lib-react": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/lib-yarn": "workspace:^"
-    "@budsbox/node-utils": "workspace:^"
     "@budsbox/parse-mime": "workspace:^"
     "@budsbox/sass-importers": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
@@ -10952,15 +10895,6 @@ __metadata:
   version: 1.1.2
   resolution: "package-json-type@npm:1.1.2"
   checksum: 10c0/5792f12acc6bcb99c334a2f1ae7a2eea28fa9724e7e3b07ffc399831b14d58989d18686dfdb80373ec1a7db62a0945797d3f67db2cbf2a90d9bacd008a031b94
-  languageName: node
-  linkType: hard
-
-"package-up@npm:^5.0.0":
-  version: 5.0.0
-  resolution: "package-up@npm:5.0.0"
-  dependencies:
-    find-up-simple: "npm:^1.0.0"
-  checksum: 10c0/539ca3cded589ed374b9f729a94a0e09f1ffa9e640037c557ac209293d56685c8a6cee1f6fe08585ed125335ec7276d10e9c556cfc6bb3258dcb99af32fd5cb5
   languageName: node
   linkType: hard
 
