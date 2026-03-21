@@ -1482,7 +1482,6 @@ __metadata:
     "@budsbox/types": "workspace:^"
     "@budsbox/ui-components-media": "workspace:^"
     "@budsbox/ui-components-merge-2": "workspace:^"
-    "@budsbox/ui-tools": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
     "@swc/cli": "npm:^0.7.9"
     "@swc/core": "npm:1.15.3"
@@ -1562,7 +1561,6 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
-    "@budsbox/ui-tools": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
@@ -1697,44 +1695,6 @@ __metadata:
     "@types/react-dom": ^19.1.9
     react: ^19.1.1
     react-dom: ^19.1.1
-  languageName: unknown
-  linkType: soft
-
-"@budsbox/ui-tools@workspace:^, @budsbox/ui-tools@workspace:packages/ui-tools":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/ui-tools@workspace:packages/ui-tools"
-  dependencies:
-    "@budsbox/iso-utils": "workspace:^"
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/linting": "workspace:^"
-    "@budsbox/sass-importers": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
-    "@types/node": "npm:^22.19.1"
-    "@typescript-eslint/parser": "npm:^8.48.1"
-    eslint: "npm:^9.39.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-jsdoc: "npm:^61.5.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    eslint-plugin-react-refresh: "npm:^0.4.24"
-    globals: "npm:^16.5.0"
-    sass: "npm:^1.94.2"
-    sass-embedded: "npm:^1.93.3"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.48.1"
-  peerDependencies:
-    sass: ^1.94.2
-    sass-embedded: ^1.93.3
-  peerDependenciesMeta:
-    sass:
-      optional: true
-    sass-embedded:
-      optional: true
   languageName: unknown
   linkType: soft
 

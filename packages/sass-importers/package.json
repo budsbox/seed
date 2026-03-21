@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
-    "@budsbox/ui-tools": "workspace:^",
     "enhanced-resolve": "^5.18.3"
   },
   "devDependencies": {

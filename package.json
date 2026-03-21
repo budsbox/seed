@@ -145,7 +145,6 @@
     "@budsbox/types": "workspace:^",
     "@budsbox/ui-components-media": "workspace:^",
     "@budsbox/ui-components-merge-2": "workspace:^",
-    "@budsbox/ui-tools": "workspace:^",
     "@eslint/js": "^9.39.1",
     "@swc/cli": "^0.7.9",
     "@swc/core": "1.15.3",
