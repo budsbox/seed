@@ -1011,7 +1011,6 @@ __metadata:
   resolution: "@budsbox/iso-utils@workspace:packages/iso-utils"
   dependencies:
     "@budsbox/lib-types": "workspace:^"
-    "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
@@ -1340,60 +1339,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/linting@workspace:^, @budsbox/linting@workspace:linting":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/linting@workspace:linting"
-  dependencies:
-    "@budsbox/iso-utils": "workspace:^"
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/node-utils": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
-    "@types/eslint": "npm:^9.6.1"
-    "@types/micromatch": "npm:^4.0.10"
-    "@types/node": "npm:^22.19.1"
-    "@typescript-eslint/parser": "npm:^8.48.1"
-    eslint: "npm:^9.39.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-import-x: "npm:^4.16.1"
-    eslint-plugin-jsdoc: "npm:^61.5.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    eslint-plugin-react-refresh: "npm:^0.4.24"
-    globals: "npm:^16.5.0"
-    micromatch: "npm:^4.0.8"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.48.1"
-  peerDependencies:
-    "@eslint/js": ^9.39.1
-    "@typescript-eslint/parser": ^8.48.1
-    eslint: ^9.39.1
-    eslint-config-prettier: ^10.1.8
-    eslint-import-resolver-typescript: ^4.4.4
-    eslint-plugin-jsdoc: ^61.5.0
-    eslint-plugin-react: ^7.37.5
-    eslint-plugin-react-hooks: ^5.2.0
-    eslint-plugin-react-refresh: ^0.4.24
-    globals: ^16.5.0
-    typescript: ^5.9.3
-    typescript-eslint: ^8.48.1
-  peerDependenciesMeta:
-    eslint-plugin-react-refresh:
-      optional: true
-  languageName: unknown
-  linkType: soft
-
 "@budsbox/node-utils@workspace:^, @budsbox/node-utils@workspace:packages/node-utils":
   version: 0.0.0-use.local
   resolution: "@budsbox/node-utils@workspace:packages/node-utils"
   dependencies:
     "@budsbox/iso-utils": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
-    "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
@@ -1474,7 +1425,6 @@ __metadata:
     "@budsbox/lib-react": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/lib-yarn": "workspace:^"
-    "@budsbox/linting": "workspace:^"
     "@budsbox/node-utils": "workspace:^"
     "@budsbox/parse-mime": "workspace:^"
     "@budsbox/sass-importers": "workspace:^"
@@ -1601,7 +1551,6 @@ __metadata:
   resolution: "@budsbox/types@workspace:packages/types"
   dependencies:
     "@budsbox/lib-types": "workspace:^"
-    "@budsbox/linting": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
     "@types/node": "npm:^22.19.1"

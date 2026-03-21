@@ -1,8 +1,0 @@
-{
-  "extends": "@budsbox/tsconfigs/tsconfig.tools.json",
-  "references": [
-    {
-      "path": "./tsconfig.lib.json"
-    }
-  ]
-}

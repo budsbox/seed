@@ -109,7 +109,6 @@
   },
   "devDependencies": {
     "@budsbox/lib-types": "workspace:^",
-    "@budsbox/linting": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@eslint/js": "^9.39.1",
     "@types/node": "^22.19.1",
