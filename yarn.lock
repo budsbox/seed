@@ -488,19 +488,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@budsbox/const@workspace:^, @budsbox/const@workspace:packages/const":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/const@workspace:packages/const"
-  dependencies:
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
-    "@types/node": "npm:^22.19.1"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-  languageName: unknown
-  linkType: soft
-
 "@budsbox/constraints@workspace:^, @budsbox/constraints@workspace:constraints":
   version: 0.0.0-use.local
   resolution: "@budsbox/constraints@workspace:constraints"
@@ -1343,7 +1330,6 @@ __metadata:
   dependencies:
     "@budsbox/builder": "workspace:^"
     "@budsbox/builder_vite": "workspace:^"
-    "@budsbox/const": "workspace:^"
     "@budsbox/constraints": "workspace:^"
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint_configs-import": "workspace:^"
@@ -1370,7 +1356,6 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/lib-yarn": "workspace:^"
     "@budsbox/parse-mime": "workspace:^"
-    "@budsbox/sass-importers": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/types": "workspace:^"
     "@budsbox/ui-components-media": "workspace:^"
@@ -1440,39 +1425,6 @@ __metadata:
   dependenciesMeta:
     typedoc-github-theme@0.4.0:
       unplugged: true
-  languageName: unknown
-  linkType: soft
-
-"@budsbox/sass-importers@workspace:^, @budsbox/sass-importers@workspace:packages/sass-importers":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/sass-importers@workspace:packages/sass-importers"
-  dependencies:
-    "@budsbox/eslint": "workspace:^"
-    "@budsbox/eslint_presets-node-lib": "workspace:^"
-    "@budsbox/eslint_presets-tools": "workspace:^"
-    "@budsbox/lib-es": "workspace:^"
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
-    "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
-    "@typescript-eslint/parser": "npm:^8.48.1"
-    enhanced-resolve: "npm:^5.18.3"
-    eslint: "npm:^9.39.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-jsdoc: "npm:^61.5.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    eslint-plugin-react-refresh: "npm:^0.4.24"
-    globals: "npm:^16.5.0"
-    sass: "npm:^1.94.2"
-    sass-embedded: "npm:^1.93.3"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.48.1"
   languageName: unknown
   linkType: soft
 
@@ -6642,16 +6594,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"enhanced-resolve@npm:^5.18.3":
-  version: 5.18.3
-  resolution: "enhanced-resolve@npm:5.18.3"
-  dependencies:
-    graceful-fs: "npm:^4.2.4"
-    tapable: "npm:^2.2.0"
-  checksum: 10c0/d413c23c2d494e4c1c9c9ac7d60b812083dc6d446699ed495e69c920988af0a3c66bf3f8d0e7a45cb1686c2d4c1df9f4e7352d973f5b56fe63d8d711dd0ccc54
-  languageName: node
-  linkType: hard
-
 "enquirer@npm:^2.3.6":
   version: 2.4.1
   resolution: "enquirer@npm:2.4.1"
@@ -8122,7 +8064,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.10, graceful-fs@npm:^4.2.11, graceful-fs@npm:^4.2.4, graceful-fs@npm:^4.2.6":
+"graceful-fs@npm:^4.1.6, graceful-fs@npm:^4.2.0, graceful-fs@npm:^4.2.10, graceful-fs@npm:^4.2.11, graceful-fs@npm:^4.2.6":
   version: 4.2.11
   resolution: "graceful-fs@npm:4.2.11"
   checksum: 10c0/386d011a553e02bc594ac2ca0bd6d9e4c22d7fa8cfbfc448a6d148c59ea881b092db9dbe3547ae4b88e55f1b01f7c4a2ecc53b310c042793e63aa44cf6c257f2
@@ -13029,13 +12971,6 @@ __metadata:
   version: 1.0.0
   resolution: "tagged-tag@npm:1.0.0"
   checksum: 10c0/91d25c9ffb86a91f20522cefb2cbec9b64caa1febe27ad0df52f08993ff60888022d771e868e6416cf2e72dab68449d2139e8709ba009b74c6c7ecd4000048d1
-  languageName: node
-  linkType: hard
-
-"tapable@npm:^2.2.0":
-  version: 2.2.1
-  resolution: "tapable@npm:2.2.1"
-  checksum: 10c0/bc40e6efe1e554d075469cedaba69a30eeb373552aaf41caeaaa45bf56ffacc2674261b106245bd566b35d8f3329b52d838e851ee0a852120acae26e622925c9
   languageName: node
   linkType: hard
 

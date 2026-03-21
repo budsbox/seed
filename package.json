@@ -109,7 +109,6 @@
   "dependencies": {
     "@budsbox/builder": "workspace:^",
     "@budsbox/builder_vite": "workspace:^",
-    "@budsbox/const": "workspace:^",
     "@budsbox/constraints": "workspace:^",
     "@budsbox/eslint": "workspace:^",
     "@budsbox/eslint_configs-import": "workspace:^",
@@ -136,7 +135,6 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/lib-yarn": "workspace:^",
     "@budsbox/parse-mime": "workspace:^",
-    "@budsbox/sass-importers": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@budsbox/types": "workspace:^",
     "@budsbox/ui-components-media": "workspace:^",
