@@ -498,7 +498,6 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
     "@types/eslint": "npm:^9.6.1"
     "@types/micromatch": "npm:^4.0.10"
@@ -1072,7 +1071,6 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
@@ -1272,7 +1270,6 @@ __metadata:
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
@@ -1357,7 +1354,6 @@ __metadata:
     "@budsbox/lib-yarn": "workspace:^"
     "@budsbox/parse-mime": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
     "@budsbox/ui-components-media": "workspace:^"
     "@budsbox/ui-components-merge-2": "workspace:^"
     "@eslint/js": "npm:^9.39.1"
@@ -1438,30 +1434,6 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@types/node": ^22.19.1
     tslib: ^2.8.1
-  languageName: unknown
-  linkType: soft
-
-"@budsbox/types@workspace:^, @budsbox/types@workspace:packages/types":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/types@workspace:packages/types"
-  dependencies:
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
-    "@types/node": "npm:^22.19.1"
-    "@typescript-eslint/parser": "npm:^8.48.1"
-    eslint: "npm:^9.39.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-jsdoc: "npm:^61.5.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    eslint-plugin-react-refresh: "npm:^0.4.24"
-    globals: "npm:^16.5.0"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.48.1"
   languageName: unknown
   linkType: soft
 

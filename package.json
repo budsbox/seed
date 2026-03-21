@@ -30,7 +30,6 @@
     "./lib/*",
     "./lint/*",
     "./tsconfigs",
-    "./packages/*",
     "./ui/components/*",
     "./parse/*",
     "./gen/*"
@@ -136,7 +135,6 @@
     "@budsbox/lib-yarn": "workspace:^",
     "@budsbox/parse-mime": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
-    "@budsbox/types": "workspace:^",
     "@budsbox/ui-components-media": "workspace:^",
     "@budsbox/ui-components-merge-2": "workspace:^",
     "@eslint/js": "^9.39.1",
