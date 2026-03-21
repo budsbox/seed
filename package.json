@@ -108,7 +108,6 @@
     "eslint-module-utils@npm:^2.8.0": "patch:eslint-module-utils@npm%3A2.8.0#~/.yarn/patches/eslint-module-utils-npm-2.8.0-05e42bcab0.patch"
   },
   "dependencies": {
-    "@budsbox/build": "workspace:^",
     "@budsbox/builder": "workspace:^",
     "@budsbox/builder_vite": "workspace:^",
     "@budsbox/const": "workspace:^",

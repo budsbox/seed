@@ -411,41 +411,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@budsbox/build@workspace:^, @budsbox/build@workspace:build":
-  version: 0.0.0-use.local
-  resolution: "@budsbox/build@workspace:build"
-  dependencies:
-    "@budsbox/iso-utils": "workspace:^"
-    "@budsbox/lib-types": "workspace:^"
-    "@budsbox/linting": "workspace:^"
-    "@budsbox/node-utils": "workspace:^"
-    "@budsbox/tsconfigs": "workspace:^"
-    "@budsbox/types": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
-    "@types/node": "npm:^22.19.1"
-    "@typescript-eslint/parser": "npm:^8.48.1"
-    "@vitejs/plugin-react": "npm:^5.1.1"
-    eslint: "npm:^9.39.1"
-    eslint-config-prettier: "npm:^10.1.8"
-    eslint-import-resolver-typescript: "npm:^4.4.4"
-    eslint-plugin-jsdoc: "npm:^61.5.0"
-    eslint-plugin-react: "npm:^7.37.5"
-    eslint-plugin-react-hooks: "npm:^5.2.0"
-    execa: "npm:^9.6.1"
-    globals: "npm:^16.5.0"
-    meow: "npm:^13.2.0"
-    sass: "npm:^1.94.2"
-    tsconfig-to-swcconfig: "npm:^2.8.1"
-    tslib: "npm:^2.8.1"
-    type-fest: "npm:^5.3.1"
-    typescript: "npm:^5.9.3"
-    typescript-eslint: "npm:^8.48.1"
-    vite: "npm:^7.3.1"
-  bin:
-    budsbox-build-lib: ./dist/bin/build-lib.js
-  languageName: unknown
-  linkType: soft
-
 "@budsbox/builder@workspace:^, @budsbox/builder@workspace:builder":
   version: 0.0.0-use.local
   resolution: "@budsbox/builder@workspace:builder"
@@ -1480,7 +1445,6 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/root@workspace:."
   dependencies:
-    "@budsbox/build": "workspace:^"
     "@budsbox/builder": "workspace:^"
     "@budsbox/builder_vite": "workspace:^"
     "@budsbox/const": "workspace:^"
@@ -2404,13 +2368,6 @@ __metadata:
     "@eslint/core": "npm:^0.17.0"
     levn: "npm:^0.4.1"
   checksum: 10c0/51600f78b798f172a9915dffb295e2ffb44840d583427bc732baf12ecb963eb841b253300e657da91d890f4b323d10a1bd12934bf293e3018d8bb66fdce5217b
-  languageName: node
-  linkType: hard
-
-"@fastify/deepmerge@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "@fastify/deepmerge@npm:1.3.0"
-  checksum: 10c0/8115ed7b891189ee4ebba554a105cb69111615bdb2961f8c58a80872fac9d7b74b2c6317d545a7d378325d094ce73a91fc9c5d7d6189476779cd5a5493cb1351
   languageName: node
   linkType: hard
 
@@ -8125,7 +8082,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"get-tsconfig@npm:^4.10.1, get-tsconfig@npm:^4.7.2":
+"get-tsconfig@npm:^4.10.1":
   version: 4.13.0
   resolution: "get-tsconfig@npm:4.13.0"
   dependencies:
@@ -13480,19 +13437,6 @@ __metadata:
   bin:
     ts-json-schema-generator: bin/ts-json-schema-generator.js
   checksum: 10c0/5b64b79980e59f3d524e4e93687c592eab10aba6488fb3a979f1d47f157bbec23b3fb83b65171aa76c7c91f6d03e729e16b7fcf61caec13d674db5422eb543bd
-  languageName: node
-  linkType: hard
-
-"tsconfig-to-swcconfig@npm:^2.8.1":
-  version: 2.8.1
-  resolution: "tsconfig-to-swcconfig@npm:2.8.1"
-  dependencies:
-    "@fastify/deepmerge": "npm:^1.3.0"
-    get-tsconfig: "npm:^4.7.2"
-  bin:
-    t2s: dist/cli.js
-    tsconfig-to-swcconfig: dist/cli.js
-  checksum: 10c0/e0982b121c66ec30415fa39deec4238444fe49f550644cc51739abbca7e9a8ed541e5feb382493fc3dc449aaff8dd8ae16c704344f333a25c766ad4c969ec734
   languageName: node
   linkType: hard
 
