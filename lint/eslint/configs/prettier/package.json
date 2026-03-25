@@ -66,5 +66,5 @@
     "eslint": "^9.39.1",
     "eslint-config-prettier": "^10.1.8"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }

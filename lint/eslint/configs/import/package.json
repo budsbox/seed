@@ -72,5 +72,5 @@
     "eslint-plugin-perfectionist": "*",
     "typescript-eslint": "^8.48.1"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }
