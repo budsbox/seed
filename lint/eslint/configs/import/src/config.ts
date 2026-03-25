@@ -158,10 +158,8 @@ export const createImportConfigFactory: ConfigFactoryCreate<
                 {
                   newlinesBetween: 1,
                   groups: [
-                    { commentAbove: 'Type exports' },
-                    'type-export',
-                    { commentAbove: 'Value exports' },
-                    'value-export',
+                    { commentAbove: 'Type exports', group: 'type-export' },
+                    { commentAbove: 'Value exports', group: 'value-export' },
                   ],
                 },
               ],

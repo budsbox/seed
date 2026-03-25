@@ -43,16 +43,16 @@
     "@eslint/js": "^9.39.1",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.19.1",
-    "@typescript-eslint/parser": "^8.48.1",
-    "@typescript-eslint/type-utils": "^8.48.1",
+    "@typescript-eslint/parser": "^8.57.2",
+    "@typescript-eslint/type-utils": "^8.57.2",
     "eslint": "^9.39.1",
     "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import-x": "^4.16.1",
-    "eslint-plugin-perfectionist": "*",
-    "globals": "^16.5.0",
+    "eslint-plugin-import-x": "^4.16.2",
+    "eslint-plugin-perfectionist": "^5.7.0",
+    "globals": "^17.4.0",
     "type-fest": "^5.3.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.1"
+    "typescript-eslint": "^8.57.2"
   },
   "peerDependencies": {
     "@budsbox/eslint": "workspace:^",

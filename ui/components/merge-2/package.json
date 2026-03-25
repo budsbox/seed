@@ -118,7 +118,7 @@
     "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "clsx": "^2.1.1",
     "eslint": "^9.39.1",
-    "eslint-plugin-perfectionist": "*",
+    "eslint-plugin-perfectionist": "^5.7.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "sass-embedded": "^1.93.3",

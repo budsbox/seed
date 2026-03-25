@@ -128,7 +128,7 @@ const createInitialState = ({
     modifiers: modifiersInput,
     seed,
   },
-  rules = {},
+  rules,
 }: StateInitContext): Merge2State => {
   const initialRng = createRng({ seed });
 

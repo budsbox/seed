@@ -67,6 +67,7 @@ export function useMerge2({
 
   useEffect(() => {
     if (gameOver && !isEndGame) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsEndGame(true);
       onGameEnded?.(gameOverReason!, { board, events, rules });
     }
