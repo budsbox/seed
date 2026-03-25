@@ -66,7 +66,7 @@
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "clsx": "^2.1.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "sass-embedded": "^1.93.3",

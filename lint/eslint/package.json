@@ -64,7 +64,7 @@
     "@budsbox/lib-extensions": "workspace:^",
     "@budsbox/lib-node": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.4",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.19.1",
     "globals": "^17.4.0",
@@ -77,7 +77,7 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@typescript-eslint/parser": "^8.57.2",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-jsdoc": "^62.8.0",
@@ -86,7 +86,7 @@
     "typescript-eslint": "^8.57.2"
   },
   "peerDependencies": {
-    "eslint": "^9.39.1"
+    "eslint": "^9.39.4"
   },
   "packageManager": "yarn@4.13.0"
 }

@@ -60,7 +60,7 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "@vitest/coverage-v8": "^4.1.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "peggy": "^5.0.6",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"

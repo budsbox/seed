@@ -45,7 +45,7 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "@types/node": "^22.19.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "typescript": "^5.9.3"
   },
   "packageManager": "yarn@4.13.0"

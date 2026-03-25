@@ -558,7 +558,7 @@ __metadata:
     "@yarnpkg/fslib": "npm:^3.1.5"
     "@yarnpkg/types": "npm:^4.0.1"
     chalk: "npm:^5.6.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     execa: "npm:^9.6.1"
     json5: "npm:^2.2.3"
     meow: "npm:^13.2.0"
@@ -597,7 +597,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^5.1.1"
     babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
     cssesc: "npm:^3.0.0"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     sass-embedded: "npm:^1.93.3"
     ts-deepmerge: "npm:^7.0.3"
     tslib: "npm:^2.8.1"
@@ -624,14 +624,14 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/micromatch": "npm:^4.0.10"
     "@types/node": "npm:^22.19.1"
     "@types/semver": "npm:^7.7.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@yarnpkg/types": "npm:^4.0.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-jsdoc: "npm:^62.8.0"
@@ -660,11 +660,11 @@ __metadata:
     "@budsbox/lib-node": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-jsdoc: "npm:^62.8.0"
@@ -676,7 +676,7 @@ __metadata:
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.57.2"
   peerDependencies:
-    eslint: ^9.39.1
+    eslint: ^9.39.4
   languageName: unknown
   linkType: soft
 
@@ -691,11 +691,11 @@ __metadata:
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -713,7 +713,7 @@ __metadata:
     "@types/eslint": ^9.6.1
     "@types/node": ^22.19.1
     "@typescript-eslint/parser": ^8.57.2
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     eslint-import-resolver-typescript: ^4.4.4
     eslint-plugin-import-x: ^4.16.2
     eslint-plugin-perfectionist: ^5.7.0
@@ -731,12 +731,12 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@types/semver": "npm:^7.7.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -753,7 +753,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     eslint-plugin-jsdoc: ^62.8.0
   languageName: unknown
   linkType: soft
@@ -769,11 +769,11 @@ __metadata:
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -788,7 +788,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     eslint-config-prettier: ^10.1.8
   languageName: unknown
   linkType: soft
@@ -802,11 +802,11 @@ __metadata:
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -822,7 +822,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     eslint-plugin-promise: ^7.2.1
   languageName: unknown
   linkType: soft
@@ -838,7 +838,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-plugin-react: "npm:^7.37.5"
     eslint-plugin-react-hooks: "npm:^7.0.1"
     eslint-plugin-react-refresh: "npm:^0.5.2"
@@ -848,7 +848,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     eslint-plugin-react: ^7.37.5
     eslint-plugin-react-hooks: ^7.0.1
     eslint-plugin-react-refresh: ^0.5.2
@@ -869,12 +869,12 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -890,12 +890,12 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@budsbox/eslint_configs-import": "workspace:^"
-    "@eslint/js": ^9.39.1
+    "@eslint/js": ^9.39.4
     "@types/eslint": ^9.6.1
     "@types/node": ^22.19.1
     "@typescript-eslint/parser": ^8.57.2
     "@typescript-eslint/type-utils": ^8.57.2
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     eslint-import-resolver-typescript: ^4.4.4
     eslint-plugin-import-x: ^4.16.2
     eslint-plugin-perfectionist: ^5.7.0
@@ -923,12 +923,12 @@ __metadata:
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -946,7 +946,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     typescript: ^5.9.3
   languageName: unknown
   linkType: soft
@@ -964,12 +964,12 @@ __metadata:
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
     eslint-plugin-perfectionist: "npm:^5.7.0"
@@ -984,7 +984,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     typescript: ^5.9.3
   languageName: unknown
   linkType: soft
@@ -1003,12 +1003,12 @@ __metadata:
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -1023,7 +1023,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     typescript: ^5.9.3
   languageName: unknown
   linkType: soft
@@ -1039,12 +1039,12 @@ __metadata:
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
     eslint-plugin-perfectionist: "npm:^5.7.0"
@@ -1056,7 +1056,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     typescript: ^5.9.3
   languageName: unknown
   linkType: soft
@@ -1074,12 +1074,12 @@ __metadata:
     "@budsbox/eslint_presets-node-lib": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -1093,7 +1093,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    eslint: ^9.39.1
+    eslint: ^9.39.4
     typescript: ^5.9.3
   languageName: unknown
   linkType: soft
@@ -1110,7 +1110,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
     typescript: "npm:^5.9.3"
@@ -1131,7 +1131,7 @@ __metadata:
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     clsx: "npm:^2.1.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
     typescript: "npm:^5.9.3"
@@ -1150,7 +1150,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
     typescript: "npm:^5.9.3"
@@ -1166,11 +1166,11 @@ __metadata:
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -1197,12 +1197,12 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
     globals: "npm:^17.4.0"
@@ -1231,7 +1231,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^5.1.1"
     babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
     clsx: "npm:^2.1.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
     sass-embedded: "npm:^1.93.3"
@@ -1262,7 +1262,7 @@ __metadata:
     "@types/node": "npm:^22.19.1"
     "@vitest/coverage-v8": "npm:^4.1.0"
     "@vitest/ui": "npm:4.1.0"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     mime-db: "npm:*"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
@@ -1283,11 +1283,11 @@ __metadata:
     "@budsbox/lib-es": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-jsdoc: "npm:^62.8.0"
@@ -1320,7 +1320,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     nanoid: "npm:^5.1.6"
     pure-rand: "npm:^7.0.1"
     tslib: "npm:^2.8.1"
@@ -1347,7 +1347,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^5.1.1"
     babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
     clsx: "npm:^2.1.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
     sass-embedded: "npm:^1.93.3"
@@ -1374,7 +1374,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
     typescript: "npm:^5.9.3"
@@ -1396,7 +1396,7 @@ __metadata:
     "@budsbox/lib-extensions": "workspace:^"
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
@@ -1404,7 +1404,7 @@ __metadata:
     "@yarnpkg/core": "npm:^4.6.0"
     "@yarnpkg/fslib": "npm:^3.1.5"
     "@yarnpkg/types": "npm:^4.0.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-jsdoc: "npm:^62.8.0"
@@ -1438,7 +1438,7 @@ __metadata:
     "@types/eslint": "npm:^9.6.1"
     "@types/node": "npm:^22.19.1"
     "@vitest/coverage-v8": "npm:^4.1.0"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     peggy: "npm:^5.0.6"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
@@ -1482,7 +1482,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@budsbox/ui-components-media": "workspace:^"
     "@budsbox/ui-components-merge-2": "workspace:^"
-    "@eslint/js": "npm:^9.39.1"
+    "@eslint/js": "npm:^9.39.4"
     "@swc/cli": "npm:^0.7.9"
     "@swc/core": "npm:1.15.3"
     "@types/eslint": "npm:^9.6.1"
@@ -1504,7 +1504,7 @@ __metadata:
     "@yarnpkg/types": "npm:^4.0.1"
     babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
     clsx: "npm:^2.1.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
     eslint-import-resolver-typescript: "npm:^4.4.4"
     eslint-plugin-import-x: "npm:^4.16.2"
@@ -1582,7 +1582,7 @@ __metadata:
     babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
     browser-detection: "npm:^0.3.3"
     clsx: "npm:^2.1.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
     sass-embedded: "npm:^1.93.3"
@@ -1622,7 +1622,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^5.1.1"
     babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
     clsx: "npm:^2.1.1"
-    eslint: "npm:^9.39.1"
+    eslint: "npm:^9.39.4"
     eslint-plugin-perfectionist: "npm:^5.7.0"
     react: "npm:^19.1.1"
     react-dom: "npm:^19.1.1"
@@ -2260,7 +2260,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:9.39.4, @eslint/js@npm:^9.39.1":
+"@eslint/js@npm:9.39.4, @eslint/js@npm:^9.39.4":
   version: 9.39.4
   resolution: "@eslint/js@npm:9.39.4"
   checksum: 10c0/5aa7dea2cbc5decf7f5e3b0c6f86a084ccee0f792d288ca8e839f8bc1b64e03e227068968e49b26096e6f71fd857ab6e42691d1b993826b9a3883f1bdd7a0e46
@@ -7368,7 +7368,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^9.39.1":
+"eslint@npm:^9.39.4":
   version: 9.39.4
   resolution: "eslint@npm:9.39.4"
   dependencies:

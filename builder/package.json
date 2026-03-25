@@ -72,7 +72,7 @@
     "@yarnpkg/core": "^4.6.0",
     "@yarnpkg/fslib": "^3.1.5",
     "@yarnpkg/types": "^4.0.1",
-    "eslint": "^9.39.1"
+    "eslint": "^9.39.4"
   },
   "peerDependencies": {
     "@yarnpkg/cli": "^4.13.0",
