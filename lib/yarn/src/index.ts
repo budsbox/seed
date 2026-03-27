@@ -50,7 +50,7 @@ const resolveIdent = (
 ): string => {
   return resolvePackageName(ident, {
     baseScope:
-      autoScope ? rootWorkspace.manifest.name?.scope ?? undefined : undefined,
+      autoScope ? (rootWorkspace.manifest.name?.scope ?? undefined) : undefined,
   });
 };
 

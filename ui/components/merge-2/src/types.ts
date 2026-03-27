@@ -666,8 +666,10 @@ export interface Merge2State {
 /**
  * Context used for initializing the game state.
  */
-export interface StateInitContext
-  extends Pick<Merge2ModelOptions, 'initSettings' | 'rules'> {}
+export interface StateInitContext extends Pick<
+  Merge2ModelOptions,
+  'initSettings' | 'rules'
+> {}
 
 /**
  * A function that transforms the game state.
@@ -793,8 +795,8 @@ interface BaseEvent {
 export interface BoardEvent<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> extends BaseEvent,
-    BoardsDiff<TKindId, TModId> {
+>
+  extends BaseEvent, BoardsDiff<TKindId, TModId> {
   /**
    * The reason for the board change.
    */

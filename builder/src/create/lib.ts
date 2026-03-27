@@ -105,7 +105,7 @@ function mergeArraysWithSpread<T>(
   if (!isArray(child)) return isArray(parent) ? [...parent] : [];
 
   return child.flatMap((str) =>
-    str === archetypeExtendControlSymbol ? parent ?? [] : str,
+    str === archetypeExtendControlSymbol ? (parent ?? []) : str,
   );
 }
 

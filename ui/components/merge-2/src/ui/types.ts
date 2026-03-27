@@ -30,7 +30,9 @@ import type {
 export interface Merge2Props<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> extends Merge2ClassNames<TKindId, TModId>,
+>
+  extends
+    Merge2ClassNames<TKindId, TModId>,
     Merge2ModelOptions<TKindId, TModId>,
     PropsWithChildren {}
 
@@ -44,7 +46,9 @@ export interface Merge2Props<
 export interface Merge2ClassNames<
   TKindId extends UnTag<TileKindId> = UnTag<TileKindId>,
   TModId extends UnTag<TileModifierId> = UnTag<TileModifierId>,
-> extends WithClassName,
+>
+  extends
+    WithClassName,
     WithClassName<
       'board',
       [board: Board<TKindId, TModId>, ctx: Merge2UiContext<TKindId, TModId>]
@@ -110,8 +114,10 @@ export interface CellProps {
 /**
  * Props for the {@link Tile} component.
  */
-export interface TileProps
-  extends WithDynamicStyle<'', [tile: Tile, cell: Cell]> {
+export interface TileProps extends WithDynamicStyle<
+  '',
+  [tile: Tile, cell: Cell]
+> {
   /**
    * The cell where the tile is located.
    */

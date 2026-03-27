@@ -22,18 +22,17 @@ export interface UseMediaOptions {
   onCurrentTimeChange?: (currentTime: number) => void;
 }
 
-export interface UseMediaState
-  extends Pick<
-    HTMLMediaElement,
-    | 'buffered'
-    | 'duration'
-    | 'ended'
-    | 'error'
-    | 'loop'
-    | 'muted'
-    | 'networkState'
-    | 'seeking'
-  > {
+export interface UseMediaState extends Pick<
+  HTMLMediaElement,
+  | 'buffered'
+  | 'duration'
+  | 'ended'
+  | 'error'
+  | 'loop'
+  | 'muted'
+  | 'networkState'
+  | 'seeking'
+> {
   isPlaying: boolean;
 }
 

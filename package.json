@@ -39,6 +39,7 @@
     "c": "run setup-constraints; yarn constraints",
     "cf": "yarn constraints --fix; yarn",
     "check:eslint": "cd $INIT_CWD; [ -f ./$(run p:eslint:config-filename || echo '.') ] || exit 0; run p:eslint",
+    "check:format": "prettier --check $INIT_CWD; sort-package-json --check --quiet $INIT_CWD/package.json",
     "check:lint": "cd $INIT_CWD; run check:eslint",
     "check:test": "cd $INIT_CWD; [ -d ./test ] || exit 0; run build; CI=true run test",
     "check:typings": "cd $INIT_CWD; [ -f ./tsconfig.json ] || exit 0; run p:ts:build",

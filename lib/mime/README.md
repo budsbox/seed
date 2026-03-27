@@ -6,12 +6,12 @@ Built on top of a [Peggy](https://peggyjs.org/)-based parser [@budsbox/parse-mim
 
 ### Features
 
--   **Parse & serialize** MIME type strings into strongly-typed immutable records and back
--   **Get, set, remove** individual parameters with automatic normalization
--   **Canonicalize** MIME types using a rich alias map (covers IANA, Apache, nginx, and community sources)
--   **Query metadata** — file extensions (with reverse lookup), charset, compressibility, source database
--   **40+ guard functions** — `isJson`, `isImage`, `isArchive`, `isCompressible`, `isTextData`, and many more
--   **MIME Sniffing Standard** conformance for content-type group detection
+- **Parse & serialize** MIME type strings into strongly-typed immutable records and back
+- **Get, set, remove** individual parameters with automatic normalization
+- **Canonicalize** MIME types using a rich alias map (covers IANA, Apache, nginx, and community sources)
+- **Query metadata** — file extensions (with reverse lookup), charset, compressibility, source database
+- **40+ guard functions** — `isJson`, `isImage`, `isArchive`, `isCompressible`, `isTextData`, and many more
+- **MIME Sniffing Standard** conformance for content-type group detection
 
 ## Installation
 
