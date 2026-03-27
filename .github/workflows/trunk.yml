@@ -33,10 +33,13 @@ jobs:
         run: yarn run setup
 
       - name: Build Typings
-        run: yarn workspaces foreach --all --parallel --topological --exclude '{packages/*,linting,build}' run check:types
+        run: yarn workspaces foreach --all --parallel --topological run check:types
 
       - name: Lint
-        run: yarn workspaces foreach --all --parallel --exclude '{packages/*,linting,build}' run check:lint
+        run: yarn workspaces foreach --all --parallel run check:lint
 
       - name: Test
-        run: yarn workspaces foreach --all --parallel --exclude '{packages/*,linting,build}' run check:test
+        run: yarn workspaces foreach --all --parallel --topological run check:test
+
+      - name: Format
+        run: yarn prettier --check --ignore-unknown . ; yarn sort-package-json --check --quiet ./**/package.json

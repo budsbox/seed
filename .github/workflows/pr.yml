@@ -43,3 +43,6 @@ jobs:
 
       - name: Test
         run: yarn workspaces foreach --since --parallel --topological run check:test
+
+      - name: Format
+        run: yarn workspaces foreach --since --parallel run check:format
