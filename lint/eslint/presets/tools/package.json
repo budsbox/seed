@@ -35,7 +35,7 @@
     "@budsbox/eslint_configs-promise": "workspace:^",
     "@budsbox/eslint_configs-typescript": "workspace:^",
     "@eslint/js": "^9.39.4",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "@typescript-eslint/parser": "^8.57.2",
     "@typescript-eslint/type-utils": "^8.57.2",
     "eslint-config-prettier": "^10.1.8",

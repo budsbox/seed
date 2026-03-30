@@ -38,7 +38,7 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-node": "workspace:^",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "cssesc": "^3.0.0",
     "ts-deepmerge": "^7.0.3",
     "tslib": "^2.8.1",

@@ -33,12 +33,12 @@
     "name": "echo $npm_package_name"
   },
   "devDependencies": {
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "tslib": "^2.8.1"
   },
   "peerDependencies": {
     "@budsbox/lib-types": "workspace:^",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "tslib": "^2.8.1"
   },
   "packageManager": "yarn@4.13.0"

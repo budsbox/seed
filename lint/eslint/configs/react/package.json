@@ -43,7 +43,7 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",

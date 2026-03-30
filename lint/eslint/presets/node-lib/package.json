@@ -42,7 +42,7 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@eslint/js": "^9.39.4",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "@typescript-eslint/parser": "^8.57.2",
     "@typescript-eslint/type-utils": "^8.57.2",
     "eslint": "^9.39.4",

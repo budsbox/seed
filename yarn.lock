@@ -551,7 +551,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@clack/prompts": "npm:^0.11.0"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@vitejs/plugin-react": "npm:^5.1.1"
     "@yarnpkg/cli": "npm:^4.13.0"
     "@yarnpkg/core": "npm:^4.6.0"
@@ -593,7 +593,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@types/cssesc": "npm:^3.0.2"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@vitejs/plugin-react": "npm:^5.1.1"
     babel-plugin-react-compiler: "npm:^19.1.0-rc.3"
     cssesc: "npm:^3.0.0"
@@ -628,7 +628,7 @@ __metadata:
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
     "@types/micromatch": "npm:^4.0.10"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@types/semver": "npm:^7.7.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@vitejs/plugin-react": "npm:^5.1.1"
@@ -668,7 +668,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
@@ -699,7 +699,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
@@ -717,7 +717,7 @@ __metadata:
   peerDependencies:
     "@budsbox/eslint": "workspace:^"
     "@types/eslint": ^9.6.1
-    "@types/node": ^22.19.1
+    "@types/node": ^24
     "@typescript-eslint/parser": ^8.57.2
     eslint: ^9.39.4
     eslint-import-resolver-typescript: ^4.4.4
@@ -739,7 +739,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@types/semver": "npm:^7.7.1"
     "@typescript-eslint/parser": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
@@ -777,7 +777,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
@@ -810,7 +810,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
@@ -843,7 +843,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     eslint: "npm:^9.39.4"
     eslint-plugin-react: "npm:^7.37.5"
     eslint-plugin-react-hooks: "npm:^7.0.1"
@@ -877,7 +877,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
@@ -898,7 +898,7 @@ __metadata:
     "@budsbox/eslint_configs-import": "workspace:^"
     "@eslint/js": ^9.39.4
     "@types/eslint": ^9.6.1
-    "@types/node": ^22.19.1
+    "@types/node": ^24
     "@typescript-eslint/parser": ^8.57.2
     "@typescript-eslint/type-utils": ^8.57.2
     eslint: ^9.39.4
@@ -931,7 +931,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
@@ -972,7 +972,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
@@ -1011,7 +1011,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
@@ -1047,7 +1047,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
@@ -1082,7 +1082,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
@@ -1115,7 +1115,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     eslint: "npm:^9.39.4"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
@@ -1135,7 +1135,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     clsx: "npm:^2.1.1"
     eslint: "npm:^9.39.4"
     tslib: "npm:^2.8.1"
@@ -1155,7 +1155,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     eslint: "npm:^9.39.4"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
@@ -1174,7 +1174,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
@@ -1205,7 +1205,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@typescript-eslint/type-utils": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
@@ -1231,7 +1231,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@types/react": "npm:^19.1.13"
     "@types/react-dom": "npm:^19.1.9"
     "@vitejs/plugin-react": "npm:^5.1.1"
@@ -1265,7 +1265,7 @@ __metadata:
     "@budsbox/parse-mime": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@vitest/coverage-v8": "npm:^4.1.0"
     "@vitest/ui": "npm:4.1.0"
     eslint: "npm:^9.39.4"
@@ -1291,7 +1291,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     eslint: "npm:^9.39.4"
     eslint-config-prettier: "npm:^10.1.8"
@@ -1306,7 +1306,7 @@ __metadata:
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.57.2"
   peerDependencies:
-    "@types/node": ^22.19.1
+    "@types/node": ^24
     typescript: ^5.9.3
   peerDependenciesMeta:
     typescript:
@@ -1325,7 +1325,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     eslint: "npm:^9.39.4"
     nanoid: "npm:^5.1.6"
     pure-rand: "npm:^7.0.1"
@@ -1347,7 +1347,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@types/react": "npm:^19.1.13"
     "@types/react-dom": "npm:^19.1.9"
     "@vitejs/plugin-react": "npm:^5.1.1"
@@ -1379,14 +1379,14 @@ __metadata:
     "@budsbox/eslint_presets-tools": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     eslint: "npm:^9.39.4"
     tslib: "npm:^2.8.1"
     type-fest: "npm:^5.3.1"
     typescript: "npm:^5.9.3"
     vitest: "npm:^4.1.0"
   peerDependencies:
-    "@types/node": ^22.19.1
+    "@types/node": ^24
     type-fest: ^5.3.1
   languageName: unknown
   linkType: soft
@@ -1404,7 +1404,7 @@ __metadata:
     "@budsbox/tsconfigs": "workspace:^"
     "@eslint/js": "npm:^9.39.4"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@typescript-eslint/parser": "npm:^8.57.2"
     "@yarnpkg/cli": "npm:^4.13.0"
     "@yarnpkg/core": "npm:^4.6.0"
@@ -1422,7 +1422,7 @@ __metadata:
     typescript: "npm:^5.9.3"
     typescript-eslint: "npm:^8.57.2"
   peerDependencies:
-    "@types/node": ^22.19.1
+    "@types/node": ^24
     "@yarnpkg/cli": ^4.13.0
     "@yarnpkg/core": ^4.6.0
     "@yarnpkg/fslib": ^3.1.5
@@ -1442,7 +1442,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@vitest/coverage-v8": "npm:^4.1.0"
     eslint: "npm:^9.39.4"
     peggy: "npm:^5.0.6"
@@ -1493,7 +1493,7 @@ __metadata:
     "@swc/core": "npm:1.15.3"
     "@types/eslint": "npm:^9.6.1"
     "@types/micromatch": "npm:^4.0.10"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@types/react": "npm:^19.1.13"
     "@types/react-dom": "npm:^19.1.9"
     "@types/semver": "npm:^7.7.1"
@@ -1560,11 +1560,11 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@budsbox/tsconfigs@workspace:tsconfigs"
   dependencies:
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     tslib: "npm:^2.8.1"
   peerDependencies:
     "@budsbox/lib-types": "workspace:^"
-    "@types/node": ^22.19.1
+    "@types/node": ^24
     tslib: ^2.8.1
   languageName: unknown
   linkType: soft
@@ -1581,7 +1581,7 @@ __metadata:
     "@budsbox/lib-types": "workspace:^"
     "@budsbox/tsconfigs": "workspace:^"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@types/react": "npm:^19.1.13"
     "@types/react-dom": "npm:^19.1.9"
     "@vitejs/plugin-react": "npm:^5.1.1"
@@ -1622,7 +1622,7 @@ __metadata:
     "@dnd-kit/core": "npm:^6.3.1"
     "@dnd-kit/modifiers": "npm:^9.0.0"
     "@types/eslint": "npm:^9.6.1"
-    "@types/node": "npm:^22.19.1"
+    "@types/node": "npm:^24"
     "@types/react": "npm:^19.1.13"
     "@types/react-dom": "npm:^19.1.9"
     "@vitejs/plugin-react": "npm:^5.1.1"
@@ -3874,7 +3874,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:^22.19.1":
+"@types/node@npm:*":
   version: 22.19.1
   resolution: "@types/node@npm:22.19.1"
   dependencies:
@@ -3889,6 +3889,15 @@ __metadata:
   dependencies:
     undici-types: "npm:~5.26.4"
   checksum: 10c0/22ba2bc9f8863101a7e90a56aaeba1eb3ebdc51e847cef4a6d188967ab1acbce9b4f92251372fd0329ecb924bbf610509e122c3dfe346c04dbad04013d4ad7d0
+  languageName: node
+  linkType: hard
+
+"@types/node@npm:^24":
+  version: 24.12.0
+  resolution: "@types/node@npm:24.12.0"
+  dependencies:
+    undici-types: "npm:~7.16.0"
+  checksum: 10c0/8b31c0af5b5474f13048a4e77c57f22cd4f8fe6e58c4b6fde9456b0c13f46a5bfaf5744ff88fd089581de9f0d6e99c584e022681de7acb26a58d258c654c4843
   languageName: node
   linkType: hard
 
@@ -13745,6 +13754,13 @@ __metadata:
   version: 6.21.0
   resolution: "undici-types@npm:6.21.0"
   checksum: 10c0/c01ed51829b10aa72fc3ce64b747f8e74ae9b60eafa19a7b46ef624403508a54c526ffab06a14a26b3120d055e1104d7abe7c9017e83ced038ea5cf52f8d5e04
+  languageName: node
+  linkType: hard
+
+"undici-types@npm:~7.16.0":
+  version: 7.16.0
+  resolution: "undici-types@npm:7.16.0"
+  checksum: 10c0/3033e2f2b5c9f1504bdc5934646cb54e37ecaca0f9249c983f7b1fc2e87c6d18399ebb05dc7fd5419e02b2e915f734d872a65da2e3eeed1813951c427d33cc9a
   languageName: node
   linkType: hard
 

@@ -62,14 +62,14 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "eslint": "^9.39.4",
     "type-fest": "^5.3.1",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"
   },
   "peerDependencies": {
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "type-fest": "^5.3.1"
   },
   "packageManager": "yarn@4.13.0"

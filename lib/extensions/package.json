@@ -30,7 +30,7 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "tslib": "^2.8.1",
     "type-fest": "^5.3.1"
   },
