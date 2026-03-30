@@ -1,7 +1,6 @@
-import { isNil } from '@budsbox/lib-es/guards';
+import { isNil, isNotNil } from '@budsbox/lib-es/guards';
 
-import { type Constraint, getRootWs } from '../utils';
-import { isNotNil } from '@budsbox/lib-es/guards';
+import { type Constraint, getRootWs } from '../utils.js';
 
 /**
  * A constraint function that enforces the consistency of dependencies among Yarn workspaces.

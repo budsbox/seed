@@ -1,6 +1,7 @@
-import { type ConstraintFactory, getRootWs, softUpdate } from '../utils';
-import { sure } from '@budsbox/lib-es/logical';
 import { isNotNil } from '@budsbox/lib-es/guards';
+import { sure } from '@budsbox/lib-es/logical';
+
+import { type ConstraintFactory, getRootWs, softUpdate } from '../utils.js';
 
 /**
  * A factory function to create a constraint that ensures specific dependency policies

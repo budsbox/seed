@@ -1,5 +1,18 @@
 import type { Constraint, ConstraintOptions } from './utils.js';
 
+// Value exports
+export {
+  constraintPackageName,
+  createHomepageConstraint,
+  createManifestFieldsConstraint,
+} from './base.js';
+export {
+  constraintRootDependencies,
+  createPeerDependenciesConstraint,
+  createWorkspaceDependenciesConstraint,
+} from './dependencies/index.js';
+export { constraintExports, constraintImports } from './esm.js';
+
 /**
  * Runs a sequence of constraint functions in order.
  *
@@ -19,14 +32,3 @@ export async function runConstraintsSequence(
     await constraint(options);
   }
 }
-
-export {
-  constraintPackageName,
-  createManifestFieldsConstraint,
-} from './base.js';
-export { constraintExports, constraintImports } from './esm.js';
-export {
-  constraintRootDependencies,
-  createPeerDependenciesConstraint,
-  createWorkspaceDependenciesConstraint,
-} from './dependencies/index.js';
