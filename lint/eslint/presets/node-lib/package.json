@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/eslint_presets-node-lib",
   "version": "1.0.5",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lint/eslint/presets/node-lib",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },

@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/lib-mime",
   "version": "1.0.0",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lib/mime",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },

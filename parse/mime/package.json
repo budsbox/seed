@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/parse-mime",
   "version": "1.0.1",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/parse/mime",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },

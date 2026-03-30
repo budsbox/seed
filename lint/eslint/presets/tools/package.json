@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/eslint_presets-tools",
   "version": "1.0.5",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lint/eslint/presets/tools",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },

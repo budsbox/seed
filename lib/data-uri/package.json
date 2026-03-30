@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/lib-data-uri",
   "version": "0.0.0",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lib/data-uri",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },

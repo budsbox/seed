@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/lib-types",
   "version": "1.4.0",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lib/types",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },

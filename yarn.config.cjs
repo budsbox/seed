@@ -15,6 +15,7 @@ const {
   createPeerDependenciesConstraint,
   createWorkspaceDependenciesConstraint,
   runConstraintsSequence,
+  createHomepageConstraint,
 } = require('@budsbox/constraints');
 
 /**
@@ -39,6 +40,9 @@ module.exports = defineConfig({
           ['type', 'module'],
           ['files', ['dist/**/*.js', 'dist/**/*.d.ts']],
         ],
+      }),
+      createHomepageConstraint({
+        baseUrl: 'https://github.com/budsbox/seed/tree/trunk',
       }),
       constraintExports,
       constraintImports,
