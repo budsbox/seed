@@ -37,7 +37,7 @@
   "scripts": {
     "name": "echo $npm_package_name",
     "prepack": "run p:vite:prepack; run p:ts:prepack;",
-    "setup": "[ -f dist/index.cjs ] || run p:vite:build",
+    "setup": "[ -f dist/index.cjs ] && exit 0; run p:vite:build; run p:ts:build",
     "watch": "run p:ts:watch --preserveWatchOutput & run p:vite:watch --emptyOutDir false"
   },
   "dependencies": {
