@@ -123,11 +123,6 @@ export const createReactConfigFactory: ConfigFactoryCreate<
             rules: {
               ...eslintPluginReact.configs.recommended.rules,
               ...eslintPluginReactHooks.configs.recommended.rules,
-
-              'react/display-name': 'off',
-              'react/no-direct-mutation-state': 'off',
-              'react/no-render-return-value': 'off',
-              'react/no-string-refs': 'off',
             },
           },
           ...(await withRefreshPlugin((eslintPluginReactRefresh) => [
