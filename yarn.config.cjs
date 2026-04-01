@@ -2,6 +2,10 @@
  * @type {import('@yarnpkg/types')}
  */
 const { defineConfig } = require('@yarnpkg/types');
+
+/**
+ * @type {import('@budsbox/constraints')}
+ */
 const {
   constraintPackageName,
   createManifestFieldsConstraint,
@@ -11,6 +15,7 @@ const {
   createPeerDependenciesConstraint,
   createWorkspaceDependenciesConstraint,
   runConstraintsSequence,
+  createHomepageConstraint,
 } = require('@budsbox/constraints');
 
 /**
@@ -25,18 +30,19 @@ module.exports = defineConfig({
         sharedFields: [
           'author',
           'bugs',
-          'homepage',
           'license',
           'packageManager',
           'repository',
         ],
         requiredFields: [
-          // @ts-expect-error: TS2322 because nested keys actually work, but the type definition is outdated
           [['scripts', 'name'], 'echo $npm_package_name'],
           ['version', '0.0.0'],
           ['type', 'module'],
           ['files', ['dist/**/*.js', 'dist/**/*.d.ts']],
         ],
+      }),
+      createHomepageConstraint({
+        baseUrl: 'https://github.com/budsbox/seed/tree/trunk',
       }),
       constraintExports,
       constraintImports,

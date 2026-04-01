@@ -1,4 +1,4 @@
-import type { Linter } from 'eslint';
+import type { ESLint, Linter } from 'eslint';
 
 import type { ConfigFactoryCreate } from '@budsbox/eslint';
 
@@ -13,13 +13,13 @@ const withRefreshPluginFactory =
   (enabled: boolean) =>
   async (
     configFactory: (
-      // eslint-disable-next-line @typescript-eslint/consistent-type-imports
-      refresh: typeof import('eslint-plugin-react-refresh'),
+      // eslint-disable-next-line @typescript-eslint/consistent-type-imports,@typescript-eslint/prefer-readonly-parameter-types
+      refresh: (typeof import('eslint-plugin-react-refresh'))['reactRefresh'],
     ) => Awaitable<Linter.Config[]>,
   ): Promise<Linter.Config[]> => {
     if (enabled) {
       const pluginReactRefresh = await import('eslint-plugin-react-refresh');
-      return await configFactory(pluginReactRefresh);
+      return await configFactory(pluginReactRefresh.reactRefresh);
     }
     return [];
   };
@@ -67,7 +67,7 @@ export const createReactConfigFactory: ConfigFactoryCreate<
             },
             plugins: {
               'react': eslintPluginReact,
-              'react-hooks': eslintPluginReactHooks,
+              'react-hooks': eslintPluginReactHooks as ESLint.Plugin,
             },
             settings: {
               react: {
@@ -81,7 +81,8 @@ export const createReactConfigFactory: ConfigFactoryCreate<
               name: 'refresh',
               files: matchIncludes({ jsx: true }),
               plugins: {
-                'react-refresh': eslintPluginReactRefresh,
+                'react-refresh':
+                  eslintPluginReactRefresh.plugin as ESLint.Plugin,
               },
             },
           ])),
@@ -129,7 +130,7 @@ export const createReactConfigFactory: ConfigFactoryCreate<
               name: 'refresh',
               files: matchIncludes({ jsx: true }),
               rules: {
-                ...eslintPluginReactRefresh.configs.recommended.rules,
+                ...eslintPluginReactRefresh.configs.recommended().rules,
               },
             },
           ])),
@@ -179,7 +180,7 @@ export const createReactConfigFactory: ConfigFactoryCreate<
               name: 'refresh',
               files: matchIncludes({ jsx: true }),
               rules: {
-                ...eslintPluginReactRefresh.configs.vite.rules,
+                ...eslintPluginReactRefresh.configs.vite().rules,
               },
             },
           ])),

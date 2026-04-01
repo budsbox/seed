@@ -82,7 +82,9 @@ export async function makePlan({
   }
 
   const parentWs =
-    alreadyExists ? tryWorkspaceByFilepath(join(cwd, '..')) ?? root : wsOwnsCwd;
+    alreadyExists ?
+      (tryWorkspaceByFilepath(join(cwd, '..')) ?? root)
+    : wsOwnsCwd;
   const parentIdent = resolvePackageName(parentWs.manifest.name ?? '');
 
   const ident = formatPackageName(name, {

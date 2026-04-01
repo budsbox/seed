@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/lib-react",
   "version": "2.1.1",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lib/react",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },
@@ -50,7 +50,7 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "tslib": "^2.8.1",
     "type-fest": "^5.3.1"
   },
@@ -66,7 +66,7 @@
     "@vitejs/plugin-react": "^5.1.1",
     "babel-plugin-react-compiler": "^19.1.0-rc.3",
     "clsx": "^2.1.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "sass-embedded": "^1.93.3",
@@ -80,5 +80,5 @@
     "react": "^19.1.1",
     "react-dom": "^19.1.1"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }

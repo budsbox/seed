@@ -1,7 +1,9 @@
-import { sure } from '@budsbox/lib-es/logical';
-import type { Awaitable } from '@budsbox/lib-types';
 import type { Yarn as YarnNS } from '@yarnpkg/types';
 import type { PackageJson } from 'type-fest';
+
+import type { Awaitable } from '@budsbox/lib-types';
+
+import { sure } from '@budsbox/lib-es/logical';
 
 /**
  * Interface representing the constraint options for configurations.

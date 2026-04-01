@@ -196,7 +196,6 @@ export const createTypescriptConfigFactory: ConfigFactoryCreate<
                   type: 'natural',
 
                   fallbackSort: { type: 'line-length', order: 'asc' },
-                  forceNumericSort: true,
                   ignoreCase: false,
                   partitionByComment: true,
                   partitionByNewLine: true,

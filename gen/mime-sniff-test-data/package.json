@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/gen-mime-sniff-test-data",
   "version": "1.0.0",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/gen/mime-sniff-test-data",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },
@@ -32,7 +32,7 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "tslib": "^2.8.1",
     "type-fest": "^5.3.1"
   },
@@ -42,9 +42,9 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }

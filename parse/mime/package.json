@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/parse-mime",
   "version": "1.0.1",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/parse/mime",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },
@@ -38,7 +38,7 @@
   ],
   "scripts": {
     "build": "run p:peggy:build; run p:ts:build",
-    "check:types": "run p:peggy:build; run p:ts:build",
+    "check:typings": "run p:peggy:build; run p:ts:build",
     "name": "echo $npm_package_name",
     "prepack": "run p:peggy:prepack; run p:ts:prepack",
     "test": "run p:vitest",
@@ -48,7 +48,7 @@
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "tslib": "^2.8.1",
     "type-fest": "^5.3.1"
   },
@@ -60,12 +60,12 @@
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
     "@vitest/coverage-v8": "^4.1.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "peggy": "^5.0.6",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"
   },
-  "packageManager": "yarn@4.9.2",
+  "packageManager": "yarn@4.13.0",
   "publishConfig": {
     "imports": {
       "#parser": {

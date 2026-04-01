@@ -6,12 +6,12 @@ Built on a [Peggy](https://peggyjs.org/)-generated PEG grammar, `@budsbox/parse-
 
 **Key features:**
 
--   🔬 **Dual-mode parsing** — strict [RFC 9110](https://datatracker.ietf.org/doc/html/rfc9110) / [RFC 6838](https://datatracker.ietf.org/doc/html/rfc6838) mode and lenient WHATWG sniffing mode
--   🧩 **Structured output** — type, subtype, facet (`vnd.`), suffix (`+xml`), and parameters as a `Map`
--   🔁 **Round-trip serialization** — parse a MIME string and serialize it back
--   ⚙️ **Flexible options** — trimming, restricted names, charset case handling, and duplicate parameter strategies (`keep-first`, `keep-last`, `list`)
--   🛡️ **Fully typed** — generic return types driven by the chosen start rule and options
--   💯 **Thoroughly tested** — 100% code coverage, including all the MIME Sniffing test data of [web-platform-tests](https://github.com/web-platform-tests/wpt/tree/master/mimesniff)
+- 🔬 **Dual-mode parsing** — strict [RFC 9110](https://datatracker.ietf.org/doc/html/rfc9110) / [RFC 6838](https://datatracker.ietf.org/doc/html/rfc6838) mode and lenient WHATWG sniffing mode
+- 🧩 **Structured output** — type, subtype, facet (`vnd.`), suffix (`+xml`), and parameters as a `Map`
+- 🔁 **Round-trip serialization** — parse a MIME string and serialize it back
+- ⚙️ **Flexible options** — trimming, restricted names, charset case handling, and duplicate parameter strategies (`keep-first`, `keep-last`, `list`)
+- 🛡️ **Fully typed** — generic return types driven by the chosen start rule and options
+- 💯 **Thoroughly tested** — 100% code coverage, including all the MIME Sniffing test data of [web-platform-tests](https://github.com/web-platform-tests/wpt/tree/master/mimesniff)
 
 ## Installation
 

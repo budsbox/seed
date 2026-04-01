@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/builder",
   "version": "0.5.0",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/builder",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },
@@ -49,7 +49,7 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/lib-yarn": "workspace:^",
     "@clack/prompts": "^0.11.0",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "@vitejs/plugin-react": "^5.1.1",
     "chalk": "^5.6.2",
     "execa": "^9.6.1",
@@ -68,17 +68,17 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@yarnpkg/cli": "^4.12.0",
-    "@yarnpkg/core": "^4.5.0",
-    "@yarnpkg/fslib": "^3.1.4",
+    "@yarnpkg/cli": "^4.13.0",
+    "@yarnpkg/core": "^4.6.0",
+    "@yarnpkg/fslib": "^3.1.5",
     "@yarnpkg/types": "^4.0.1",
-    "eslint": "^9.39.1"
+    "eslint": "^9.39.4"
   },
   "peerDependencies": {
-    "@yarnpkg/cli": "^4.12.0",
-    "@yarnpkg/core": "^4.5.0",
-    "@yarnpkg/fslib": "^3.1.4",
+    "@yarnpkg/cli": "^4.13.0",
+    "@yarnpkg/core": "^4.6.0",
+    "@yarnpkg/fslib": "^3.1.5",
     "@yarnpkg/types": "^4.0.1"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }

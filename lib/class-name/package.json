@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/lib-class-name",
   "version": "1.0.0",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lib/class-name",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },
@@ -44,9 +44,9 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.19.1",
-    "eslint": "^9.39.1",
+    "@types/node": "^24",
+    "eslint": "^9.39.4",
     "typescript": "^5.9.3"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }

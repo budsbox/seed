@@ -1,12 +1,24 @@
-import { parsePackageName, serializePackageName } from '@budsbox/lib-es/string';
+import type { Arrayable } from 'type-fest';
+
+import {
+  hasProp,
+  isArray,
+  isNil,
+  isNotNil,
+  isString,
+} from '@budsbox/lib-es/guards';
+import {
+  joinPath,
+  parsePackageName,
+  serializePackageName,
+} from '@budsbox/lib-es/string';
 
 import {
   type Constraint,
   type ConstraintFactory,
   getManifest,
   getRootWs,
-} from './utils';
-import { isNil } from '@budsbox/lib-es/guards';
+} from './utils.js';
 
 /**
  * The `constraintPackageName` variable is a constraint function that performs
@@ -71,7 +83,9 @@ export const constraintPackageName: Constraint = ({ Yarn }) => {
  */
 export const createManifestFieldsConstraint: ConstraintFactory<{
   readonly sharedFields: readonly string[];
-  readonly requiredFields?: ReadonlyArray<string | [string, unknown]>;
+  readonly requiredFields?: ReadonlyArray<
+    string | [Arrayable<string>, unknown]
+  >;
 }> = ({ sharedFields, requiredFields = [] }) =>
   function constraintManifestFields({ Yarn }) {
     const rootManifest = getManifest(getRootWs(Yarn));
@@ -83,13 +97,52 @@ export const createManifestFieldsConstraint: ConstraintFactory<{
       for (const field of [['type', 'module'], ...requiredFields]) {
         const [key, value] = Array.isArray(field) ? field : [field, null];
         const manifest = getManifest(workspace);
-        if (!Object.hasOwn(manifest, key)) {
-          if (value != null) {
+        if (isNotNil(value)) {
+          if (isArray(key) || !hasProp(manifest, key)) {
             workspace.set(key, value);
-          } else {
-            workspace.error(`Missing field ${key} in package.json`);
           }
-        }
+        } else if (!isArray(key) && !hasProp(manifest, key))
+          workspace.error(`Missing field ${key} in package.json`);
       }
+    }
+  };
+
+/**
+ * Factory function to create a constraint that ensures the `homepage` field
+ * in package manifests is correctly set based on a provided base URL for all
+ * Yarn workspaces.
+ *
+ * This constraint will:
+ * 1. Check if the root workspace (package) has the `homepage` field set.
+ *    - If unset or invalid, it will set it to the given `baseUrl`.
+ * 2. Iterate through all non-root workspaces and validate their `homepage` fields.
+ *    - If unset or inconsistent, it will compute the `homepage` field by
+ *      appending the workspace's relative path to the given `baseUrl` and
+ *      update it accordingly.
+ *
+ * @param config - The configuration for the constraint factory.
+ * Contains the `baseUrl` that serves as the foundation for `homepage` URLs.
+ * @returns A constraint function that applies the `homepage` validation and update logic
+ * across all workspaces within a Yarn project.
+ * @typeParam TConfig - An object type for the constraint configuration.
+ * It includes:
+ * - `baseUrl` (readonly): The base URL used as the root for constructing `homepage` fields.
+ */
+export const createHomepageConstraint: ConstraintFactory<{
+  readonly baseUrl: string;
+}> = ({ baseUrl }) =>
+  function constraintHomepage({ Yarn }) {
+    const rootWs = getRootWs(Yarn);
+    const rootManifest = getManifest(rootWs);
+    if (!isString(rootManifest.homepage)) rootWs.set('homepage', baseUrl);
+
+    for (const workspace of Yarn.workspaces()) {
+      if (workspace === getRootWs(Yarn)) continue;
+      const workspaceUrl = new URL(baseUrl);
+      workspaceUrl.pathname = joinPath(workspaceUrl.pathname, workspace.cwd);
+
+      const workspaceManifest = getManifest(workspace);
+      if (workspaceManifest.homepage !== workspaceUrl.toString())
+        workspace.set('homepage', workspaceUrl.toString());
     }
   };

@@ -1,19 +1,22 @@
+import type { Yarn as YarnType } from '@yarnpkg/types';
+
+import * as micromatch from 'micromatch';
+
+import {
+  hasProp,
+  isNil,
+  isNotNil,
+  isTrue,
+  isTruly,
+} from '@budsbox/lib-es/guards';
+import { sure } from '@budsbox/lib-es/logical';
+
 import {
   type ConstraintFactory,
   getManifest,
   getRangeConsideringRoot,
   softUpdate,
-} from '../utils';
-import {
-  hasProp,
-  isNotNil,
-  isNil,
-  isTrue,
-  isTruly,
-} from '@budsbox/lib-es/guards';
-import * as micromatch from 'micromatch';
-import { sure } from '@budsbox/lib-es/logical';
-import type { Yarn as YarnType } from '@yarnpkg/types';
+} from '../utils.js';
 
 /**
  * Configuration options for defining constraints on peer dependencies.

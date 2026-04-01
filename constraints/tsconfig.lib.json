@@ -1,12 +1,7 @@
 {
   "extends": "@budsbox/tsconfigs/tsconfig.node.lib.json",
   "compilerOptions": {
-    "outDir": "dist/cjs",
-    "verbatimModuleSyntax": false
+    "emitDeclarationOnly": true
   },
-  "references": [
-    {
-      "path": "../lib/es/tsconfig.lib.json"
-    }
-  ]
+  "references": []
 }

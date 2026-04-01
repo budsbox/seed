@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/eslint_configs-jsdoc",
   "version": "2.0.0",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lint/eslint/configs/jsdoc",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },
@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@budsbox/lib-es": "workspace:^",
-    "semver": "^7.7.3",
+    "semver": "^7.7.4",
     "tslib": "^2.8.1"
   },
   "devDependencies": {
@@ -48,29 +48,29 @@
     "@budsbox/eslint_presets-tools": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.4",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "@types/semver": "^7.7.1",
-    "@typescript-eslint/parser": "^8.48.1",
-    "eslint": "^9.39.1",
+    "@typescript-eslint/parser": "^8.57.2",
+    "eslint": "^9.39.4",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import-x": "^4.16.1",
-    "eslint-plugin-jsdoc": "^61.5.0",
+    "eslint-plugin-import-x": "^4.16.2",
+    "eslint-plugin-jsdoc": "^62.8.0",
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "globals": "^16.5.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "globals": "^17.4.0",
     "type-fest": "^5.3.1",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.48.1"
+    "typescript-eslint": "^8.57.2"
   },
   "peerDependencies": {
     "@budsbox/eslint": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "eslint": "^9.39.1",
-    "eslint-plugin-jsdoc": "^61.5.0"
+    "eslint": "^9.39.4",
+    "eslint-plugin-jsdoc": "^62.8.0"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }

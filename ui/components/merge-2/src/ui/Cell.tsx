@@ -39,7 +39,10 @@ export const Cell: FC<CellProps> = ({ cell }) => {
 
   return (
     <div
-      ref={droppable.setNodeRef}
+      ref={
+        // eslint-disable-next-line react-hooks/refs
+        droppable.setNodeRef
+      }
       className={cnFactory(
         classes.cell,
         classNameCell,

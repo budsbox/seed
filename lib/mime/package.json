@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/lib-mime",
   "version": "1.0.0",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lib/mime",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },
@@ -60,7 +60,7 @@
     "@budsbox/lib-es": "workspace:^",
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/parse-mime": "workspace:^",
-    "@types/node": "^22.19.1",
+    "@types/node": "^24",
     "tslib": "^2.8.1",
     "type-fest": "^5.3.1"
   },
@@ -73,7 +73,7 @@
     "@types/eslint": "^9.6.1",
     "@vitest/coverage-v8": "^4.1.0",
     "@vitest/ui": "4.1.0",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "mime-db": "*",
     "typescript": "^5.9.3",
     "vitest": "^4.1.0"
@@ -81,5 +81,5 @@
   "peerDependencies": {
     "mime-db": "*"
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }

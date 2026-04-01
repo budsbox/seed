@@ -1,7 +1,7 @@
 {
   "name": "@budsbox/eslint_configs-react",
   "version": "1.0.1",
-  "homepage": "https://github.com/budsbox/seed",
+  "homepage": "https://github.com/budsbox/seed/tree/trunk/lint/eslint/configs/react",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"
   },
@@ -43,26 +43,26 @@
     "@budsbox/lib-types": "workspace:^",
     "@budsbox/tsconfigs": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "@types/node": "^22.19.1",
-    "eslint": "^9.39.1",
+    "@types/node": "^24",
+    "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.24",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
     "type-fest": "^5.3.1",
     "typescript": "^5.9.3"
   },
   "peerDependencies": {
     "@budsbox/eslint": "workspace:^",
     "@types/eslint": "^9.6.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.4",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "eslint-plugin-react-refresh": "^0.4.24"
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2"
   },
   "peerDependenciesMeta": {
     "eslint-plugin-react-refresh": {
       "optional": true
     }
   },
-  "packageManager": "yarn@4.9.2"
+  "packageManager": "yarn@4.13.0"
 }

@@ -178,20 +178,19 @@ export type MimeTypeInput =
  * This is mostly a subset of {@link LowLevelParseOptions} without the `grammarSource` and `startRule` fields.
  * Additionally, it allows specifying whether to return a string instead of a {@link MimeTypeRecord}.
  */
-export interface MimeTypeOptions
-  extends Infer<
-    Except<LowLevelParseOptions<never>, 'grammarSource' | 'startRule'> & {
-      /**
-       * Whether to return a string instead of a {@link MimeTypeRecord}.
-       *
-       * When `true`, helper functions like {@link .!update `update`} or {@link .!setParameter `setParameter`}
-       * will return a serialized MIME type string.
-       *
-       * @defaultValue `false`
-       */
-      readonly serialize?: boolean;
-    }
-  > {}
+export interface MimeTypeOptions extends Infer<
+  Except<LowLevelParseOptions<never>, 'grammarSource' | 'startRule'> & {
+    /**
+     * Whether to return a string instead of a {@link MimeTypeRecord}.
+     *
+     * When `true`, helper functions like {@link .!update `update`} or {@link .!setParameter `setParameter`}
+     * will return a serialized MIME type string.
+     *
+     * @defaultValue `false`
+     */
+    readonly serialize?: boolean;
+  }
+> {}
 
 /**
  * Object shape that carries a MIME type string under the `mimeType` property.

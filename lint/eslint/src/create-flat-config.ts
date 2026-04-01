@@ -111,9 +111,10 @@ export async function createFlatConfig({
           const { workspaces } = packageJson.json;
 
           return (
-            isArray(workspaces) ? workspaces : workspaces?.packages ?? []).map(
-            (pattern) =>
-              pattern.replace(/^\.\//, '').replace(/(?:\/\*)?$/, '/'),
+            isArray(workspaces) ? workspaces : (
+              (workspaces?.packages ?? [])
+            )).map((pattern) =>
+            pattern.replace(/^\.\//, '').replace(/(?:\/\*)?$/, '/'),
           );
         }),
       ],
