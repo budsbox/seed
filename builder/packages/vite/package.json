@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/builder_vite",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "homepage": "https://github.com/budsbox/seed/tree/trunk/builder/packages/vite",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"

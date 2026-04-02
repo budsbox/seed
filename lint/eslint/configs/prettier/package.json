@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/eslint_configs-prettier",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "homepage": "https://github.com/budsbox/seed/tree/trunk/lint/eslint/configs/prettier",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"

@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/eslint_presets-lib",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "homepage": "https://github.com/budsbox/seed/tree/trunk/lint/eslint/presets/lib",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"

@@ -1,6 +1,6 @@
 {
   "name": "@budsbox/gen-mime-sniff-test-data",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "homepage": "https://github.com/budsbox/seed/tree/trunk/gen/mime-sniff-test-data",
   "bugs": {
     "url": "https://github.com/budsbox/seed/issues"

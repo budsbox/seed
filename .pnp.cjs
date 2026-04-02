@@ -151,10 +151,10 @@ const RAW_RUNTIME_STATE =
     ["@budsbox/eslint_configs-jsdoc", ["virtual:019111f5ec7d34c8e543ba3103d51049c5f98f3aba7f5ff29a02b0f2742027ad3d7d53ef30c6bb52af0ff74912225352025cbd88d16e171b30a786b016bc64b1#workspace:lint/eslint/configs/jsdoc", "virtual:0c2b5089d3c8a7bc317b9cb83e4168207bfc667f823c606e60f4ac8bb20e84862c064ba0c1250271fd3f9d6f9f420a7ce1b92b83b0a9d025febd4cba23be178e#workspace:lint/eslint/configs/jsdoc", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/jsdoc", "virtual:5e78e2b9c20c318996131b260c70fc239387b84b3b253be6ef11005632177fad6c007b37582a9d8e810050cade52c2841964fe5e25d8756227900beaaa0da1cf#workspace:lint/eslint/configs/jsdoc", "virtual:c792d4045f014f8c2ed7d0c39091e209b0640bec55566e1506b038e65575c8200a9facfe061aee016f6fc69fc92cdf3ee77c8986fc7197e9195388d9005f76c7#workspace:lint/eslint/configs/jsdoc", "virtual:fed2e2152b8049e8191f8112d528beb5502a394d9ca57243e6f658040aadcd6380ef63683b2b80ae2624939e3b6e923718368c7a2cf25abc105516718ec1fa4b#workspace:lint/eslint/configs/jsdoc", "workspace:lint/eslint/configs/jsdoc"]],\
     ["@budsbox/eslint_configs-prettier", ["virtual:0c2b5089d3c8a7bc317b9cb83e4168207bfc667f823c606e60f4ac8bb20e84862c064ba0c1250271fd3f9d6f9f420a7ce1b92b83b0a9d025febd4cba23be178e#workspace:lint/eslint/configs/prettier", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/prettier", "virtual:3ae0a14be1e86b898ada39a04b51f663ec68f34698b8faacd4f0f46322eb08aa7325a1a4e6c61f6050cba7dec8f3c93513cfca1013d15c31152bc09a1d3ed471#workspace:lint/eslint/configs/prettier", "virtual:5e78e2b9c20c318996131b260c70fc239387b84b3b253be6ef11005632177fad6c007b37582a9d8e810050cade52c2841964fe5e25d8756227900beaaa0da1cf#workspace:lint/eslint/configs/prettier", "virtual:c792d4045f014f8c2ed7d0c39091e209b0640bec55566e1506b038e65575c8200a9facfe061aee016f6fc69fc92cdf3ee77c8986fc7197e9195388d9005f76c7#workspace:lint/eslint/configs/prettier", "virtual:fed2e2152b8049e8191f8112d528beb5502a394d9ca57243e6f658040aadcd6380ef63683b2b80ae2624939e3b6e923718368c7a2cf25abc105516718ec1fa4b#workspace:lint/eslint/configs/prettier", "workspace:lint/eslint/configs/prettier"]],\
     ["@budsbox/eslint_configs-promise", ["virtual:0c2b5089d3c8a7bc317b9cb83e4168207bfc667f823c606e60f4ac8bb20e84862c064ba0c1250271fd3f9d6f9f420a7ce1b92b83b0a9d025febd4cba23be178e#workspace:lint/eslint/configs/promise", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/promise", "virtual:3ae0a14be1e86b898ada39a04b51f663ec68f34698b8faacd4f0f46322eb08aa7325a1a4e6c61f6050cba7dec8f3c93513cfca1013d15c31152bc09a1d3ed471#workspace:lint/eslint/configs/promise", "virtual:5e78e2b9c20c318996131b260c70fc239387b84b3b253be6ef11005632177fad6c007b37582a9d8e810050cade52c2841964fe5e25d8756227900beaaa0da1cf#workspace:lint/eslint/configs/promise", "virtual:c792d4045f014f8c2ed7d0c39091e209b0640bec55566e1506b038e65575c8200a9facfe061aee016f6fc69fc92cdf3ee77c8986fc7197e9195388d9005f76c7#workspace:lint/eslint/configs/promise", "virtual:fed2e2152b8049e8191f8112d528beb5502a394d9ca57243e6f658040aadcd6380ef63683b2b80ae2624939e3b6e923718368c7a2cf25abc105516718ec1fa4b#workspace:lint/eslint/configs/promise", "workspace:lint/eslint/configs/promise"]],\
-    ["@budsbox/eslint_configs-react", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react", "workspace:lint/eslint/configs/react"]],\
+    ["@budsbox/eslint_configs-react", ["virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react", "workspace:lint/eslint/configs/react"]],\
     ["@budsbox/eslint_configs-typescript", ["virtual:3ae0a14be1e86b898ada39a04b51f663ec68f34698b8faacd4f0f46322eb08aa7325a1a4e6c61f6050cba7dec8f3c93513cfca1013d15c31152bc09a1d3ed471#workspace:lint/eslint/configs/typescript", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/typescript", "virtual:c710ae2b4eeaea23076ac89cbeea950625306f1f61b46f92ae1fad7ac97857927ba3de952589d83aa84cb005f6abb1919f43f7e67b7d03d26017f5b4346a9695#workspace:lint/eslint/configs/typescript", "virtual:c7751ed5b01c9dd31e9be803ed68a2d01033a1a48342df8fe88375796718b27a3d3f49271cabf14f849b2b851c75dbfc559bfbd725d0f544ed7861c668647660#workspace:lint/eslint/configs/typescript", "virtual:cf202f8318e57d37bee12d198a625a03dcfb0b68837e4f6e8206a48afc6e4dc3d524af331978a6f7b608262c84d896df08f4d7036a79501b35f3d89b6915aa57#workspace:lint/eslint/configs/typescript", "virtual:d212e3af3a58d1c930e29ea244c6f7b5bf0ad86306f016a60a3126f682d1de9e817c1266c96435e4dce00a9756e7620e8b5c09b6bdbf5ab6f1a4b4df1ae69fc7#workspace:lint/eslint/configs/typescript", "workspace:lint/eslint/configs/typescript"]],\
     ["@budsbox/eslint_presets-browser-app", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-app", "workspace:lint/eslint/presets/browser-app"]],\
-    ["@budsbox/eslint_presets-browser-lib", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib", "workspace:lint/eslint/presets/browser-lib"]],\
+    ["@budsbox/eslint_presets-browser-lib", ["virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib", "workspace:lint/eslint/presets/browser-lib"]],\
     ["@budsbox/eslint_presets-lib", ["virtual:3ae0a14be1e86b898ada39a04b51f663ec68f34698b8faacd4f0f46322eb08aa7325a1a4e6c61f6050cba7dec8f3c93513cfca1013d15c31152bc09a1d3ed471#workspace:lint/eslint/presets/lib", "virtual:3cbf6b17473ea4e2ea7988f6fddb8711362a3ae4d762b349d57aa138409d67d895844b0f605772c877d30076a6f0f949b006d6f9997d86362d66ebc0df8624be#workspace:lint/eslint/presets/lib", "virtual:643e5737cdef6929e40eabd00276116cbb14068c42eda155c37a973210bcbd0fe43d6c58952a9e8529986b56db9cf77d2a156d66a73102b03b2797d8b795f3d3#workspace:lint/eslint/presets/lib", "virtual:6cf857811860b2d53a1ede8f5933679b3a3d1ed7071ba0a0f1e126c4540901bdcc134f17301b0cc378d4562842540a2c89f1870eaa46d3904394a795b056ac1d#workspace:lint/eslint/presets/lib", "virtual:9166282e17abe3b23a4a399b7a89cc6725724741f544913bceb2a7af60f7917733d24baf2dc18488ba26d6266f579d1e3c5c8f3669f7a97f13a2144f0a17f6c2#workspace:lint/eslint/presets/lib", "virtual:c7751ed5b01c9dd31e9be803ed68a2d01033a1a48342df8fe88375796718b27a3d3f49271cabf14f849b2b851c75dbfc559bfbd725d0f544ed7861c668647660#workspace:lint/eslint/presets/lib", "virtual:cf202f8318e57d37bee12d198a625a03dcfb0b68837e4f6e8206a48afc6e4dc3d524af331978a6f7b608262c84d896df08f4d7036a79501b35f3d89b6915aa57#workspace:lint/eslint/presets/lib", "virtual:d212e3af3a58d1c930e29ea244c6f7b5bf0ad86306f016a60a3126f682d1de9e817c1266c96435e4dce00a9756e7620e8b5c09b6bdbf5ab6f1a4b4df1ae69fc7#workspace:lint/eslint/presets/lib", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/lib", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:lint/eslint/presets/lib", "workspace:lint/eslint/presets/lib"]],\
     ["@budsbox/eslint_presets-node-lib", ["virtual:1287f1b01dd2d4c2cad206204706ae47e285461fd79406ec408ab902c68ff7072d287b17bbcfea09e58c194b8e7f5684c1fc2d88386d712213b6bbc9a9bbdc66#workspace:lint/eslint/presets/node-lib", "virtual:2124a3c153e594d15c846ecc0c9889c8176441816422daf8fcc61775abe7be69ab8be3e66c11eee238b4f541dfecf1404b8c0ddbf2f1dead45e96aa469921953#workspace:lint/eslint/presets/node-lib", "virtual:3ae0a14be1e86b898ada39a04b51f663ec68f34698b8faacd4f0f46322eb08aa7325a1a4e6c61f6050cba7dec8f3c93513cfca1013d15c31152bc09a1d3ed471#workspace:lint/eslint/presets/node-lib", "virtual:5daf0e3ddd1d5fdcb10132b56c8485e8bc3ce6e89e68714ff41c5f41c3e767e20fa035c23dc82d7a8b2781e1cfcc59aad32e87f99e0b263ab43f71c8a0ccd583#workspace:lint/eslint/presets/node-lib", "virtual:628aa841a933a3ea1f351fc82e11840a50f90f0a886cea504e9a71b3b734a4d868fe1e2e72991f8d78da0125478d2a509df8654a34d4656f96e9b46b526a6d76#workspace:lint/eslint/presets/node-lib", "virtual:8c41fb32c97ec01dabd94e06cbe82df0ad73ee654b68e31b7dc7a572c3ab03b98e160808c18058ba5f7bcc0c5344e53ccace64b61b51213eb8091d8b0e7031d7#workspace:lint/eslint/presets/node-lib", "virtual:8f9a4d5aa212f85001c9cdc2f212a86385c2bd5e0bd84ac20446d7b3fb64818137aad0c2886f0369fc4f4ea626d0cc3304a5515c6d13b90a48636177f8811916#workspace:lint/eslint/presets/node-lib", "virtual:d07ef6c855b287d69f10a9d5185f77fdc959bdf9a40a94c1d5a6d5316491dd95e1bf912d70e8ec54c6dff4f55c10de1a65b0f12eef98642a3c82d82460bcee31#workspace:lint/eslint/presets/node-lib", "virtual:ee56910e7603fd094280332bee70b2b4f260309721099b356c744ed7a774cd6334d0ab85d5cf4f317ee7d986f985ed670ee9d261a9a80872a9d018bd22449c40#workspace:lint/eslint/presets/node-lib", "workspace:lint/eslint/presets/node-lib"]],\
     ["@budsbox/eslint_presets-tools", ["virtual:20fb785b64422ba07a14a5b221b875deb4799a19dae40ea6e1dfce4a0adfb48b8c71d882f03f0d2c95a393200cf29ab1cfaed6ee2bc32fc7e0a7a54b6346af3b#workspace:lint/eslint/presets/tools", "virtual:2124a3c153e594d15c846ecc0c9889c8176441816422daf8fcc61775abe7be69ab8be3e66c11eee238b4f541dfecf1404b8c0ddbf2f1dead45e96aa469921953#workspace:lint/eslint/presets/tools", "virtual:5daf0e3ddd1d5fdcb10132b56c8485e8bc3ce6e89e68714ff41c5f41c3e767e20fa035c23dc82d7a8b2781e1cfcc59aad32e87f99e0b263ab43f71c8a0ccd583#workspace:lint/eslint/presets/tools", "virtual:628aa841a933a3ea1f351fc82e11840a50f90f0a886cea504e9a71b3b734a4d868fe1e2e72991f8d78da0125478d2a509df8654a34d4656f96e9b46b526a6d76#workspace:lint/eslint/presets/tools", "virtual:c7751ed5b01c9dd31e9be803ed68a2d01033a1a48342df8fe88375796718b27a3d3f49271cabf14f849b2b851c75dbfc559bfbd725d0f544ed7861c668647660#workspace:lint/eslint/presets/tools", "virtual:d07ef6c855b287d69f10a9d5185f77fdc959bdf9a40a94c1d5a6d5316491dd95e1bf912d70e8ec54c6dff4f55c10de1a65b0f12eef98642a3c82d82460bcee31#workspace:lint/eslint/presets/tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools", "virtual:d93d4a4d20395a299ed8fa823f85e7a98343b13f580779977fa000ee98d600ec1e85ab5b1315e0ea8e8dd557354b949cf159921464fdf30eaeb15b5a887629e1#workspace:lint/eslint/presets/tools", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:lint/eslint/presets/tools", "virtual:ee56910e7603fd094280332bee70b2b4f260309721099b356c744ed7a774cd6334d0ab85d5cf4f317ee7d986f985ed670ee9d261a9a80872a9d018bd22449c40#workspace:lint/eslint/presets/tools", "virtual:f8b450a06d2927f7673b9c72b5c72eb8b27d1bf7eaa64b928db820a30dadfee56383eef7b70dd819ec9712397bb5e3e4abc10c8fa834d148ec49152840741fdf#workspace:lint/eslint/presets/tools", "workspace:lint/eslint/presets/tools"]],\
@@ -173,7 +173,7 @@ const RAW_RUNTIME_STATE =
     ["@budsbox/parse-mime", ["workspace:parse/mime"]],\
     ["@budsbox/root", ["workspace:."]],\
     ["@budsbox/tsconfigs", ["virtual:2124a3c153e594d15c846ecc0c9889c8176441816422daf8fcc61775abe7be69ab8be3e66c11eee238b4f541dfecf1404b8c0ddbf2f1dead45e96aa469921953#workspace:tsconfigs", "virtual:3ae0a14be1e86b898ada39a04b51f663ec68f34698b8faacd4f0f46322eb08aa7325a1a4e6c61f6050cba7dec8f3c93513cfca1013d15c31152bc09a1d3ed471#workspace:tsconfigs", "virtual:d07ef6c855b287d69f10a9d5185f77fdc959bdf9a40a94c1d5a6d5316491dd95e1bf912d70e8ec54c6dff4f55c10de1a65b0f12eef98642a3c82d82460bcee31#workspace:tsconfigs", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:tsconfigs", "virtual:e764256e67d2d206c97c4058327e5a79cc363ce65132c0c3823e4c8828c8d580c435f0914a9e524121cbb4df00f448fd0b988406996e09669bd3a8f2748e0481#workspace:tsconfigs", "workspace:tsconfigs"]],\
-    ["@budsbox/ui-components-media", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media", "workspace:ui/components/media"]],\
+    ["@budsbox/ui-components-media", ["workspace:ui/components/media"]],\
     ["@budsbox/ui-components-merge-2", ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/merge-2", "workspace:ui/components/merge-2"]]\
   ],\
   "fallbackPool": [\
@@ -191,10 +191,10 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint_configs-jsdoc", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/jsdoc"],\
           ["@budsbox/eslint_configs-prettier", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/prettier"],\
           ["@budsbox/eslint_configs-promise", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/promise"],\
-          ["@budsbox/eslint_configs-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react"],\
+          ["@budsbox/eslint_configs-react", "virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react"],\
           ["@budsbox/eslint_configs-typescript", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/typescript"],\
           ["@budsbox/eslint_presets-browser-app", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-app"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-lib", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/lib"],\
           ["@budsbox/eslint_presets-node-lib", "virtual:8f9a4d5aa212f85001c9cdc2f212a86385c2bd5e0bd84ac20446d7b3fb64818137aad0c2886f0369fc4f4ea626d0cc3304a5515c6d13b90a48636177f8811916#workspace:lint/eslint/presets/node-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
@@ -213,7 +213,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/parse-mime", "workspace:parse/mime"],\
           ["@budsbox/root", "workspace:."],\
           ["@budsbox/tsconfigs", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:tsconfigs"],\
-          ["@budsbox/ui-components-media", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media"],\
+          ["@budsbox/ui-components-media", "workspace:ui/components/media"],\
           ["@budsbox/ui-components-merge-2", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/merge-2"],\
           ["@eslint/js", "npm:9.39.4"],\
           ["@swc/cli", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.7.9"],\
@@ -222,7 +222,7 @@ const RAW_RUNTIME_STATE =
           ["@types/micromatch", "npm:4.0.10"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@types/semver", "npm:7.7.1"],\
           ["@types/whatwg-mimetype", "npm:3.0.2"],\
           ["@typescript-eslint/parser", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:8.57.2"],\
@@ -258,7 +258,7 @@ const RAW_RUNTIME_STATE =
           ["peggy", "npm:5.0.6"],\
           ["prettier", "npm:3.8.1"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass", "npm:1.94.2"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["semver", "npm:7.7.4"],\
@@ -2511,11 +2511,11 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@budsbox/eslint_configs-react", [\
-      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react", {\
-        "packageLocation": "./.yarn/__virtual__/@budsbox-eslint_configs-react-virtual-3fd92b042e/1/lint/eslint/configs/react/",\
+      ["virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react", {\
+        "packageLocation": "./.yarn/__virtual__/@budsbox-eslint_configs-react-virtual-b14444a14d/1/lint/eslint/configs/react/",\
         "packageDependencies": [\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_configs-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react"],\
+          ["@budsbox/eslint_configs-react", "virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react"],\
           ["@budsbox/eslint_presets-node-lib", "virtual:8f9a4d5aa212f85001c9cdc2f212a86385c2bd5e0bd84ac20446d7b3fb64818137aad0c2886f0369fc4f4ea626d0cc3304a5515c6d13b90a48636177f8811916#workspace:lint/eslint/presets/node-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-types", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lib/types"],\
@@ -3033,7 +3033,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint_configs-jsdoc", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/jsdoc"],\
           ["@budsbox/eslint_configs-prettier", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/prettier"],\
           ["@budsbox/eslint_configs-promise", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/promise"],\
-          ["@budsbox/eslint_configs-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react"],\
+          ["@budsbox/eslint_configs-react", "virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react"],\
           ["@budsbox/eslint_configs-typescript", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/typescript"],\
           ["@budsbox/eslint_presets-browser-app", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-app"],\
           ["@budsbox/eslint_presets-node-lib", "virtual:8f9a4d5aa212f85001c9cdc2f212a86385c2bd5e0bd84ac20446d7b3fb64818137aad0c2886f0369fc4f4ea626d0cc3304a5515c6d13b90a48636177f8811916#workspace:lint/eslint/presets/node-lib"],\
@@ -3081,7 +3081,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint_configs-jsdoc", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/jsdoc"],\
           ["@budsbox/eslint_configs-prettier", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/prettier"],\
           ["@budsbox/eslint_configs-promise", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/promise"],\
-          ["@budsbox/eslint_configs-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react"],\
+          ["@budsbox/eslint_configs-react", "virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react"],\
           ["@budsbox/eslint_configs-typescript", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/typescript"],\
           ["@budsbox/eslint_presets-browser-app", "workspace:lint/eslint/presets/browser-app"],\
           ["@budsbox/eslint_presets-node-lib", "virtual:8f9a4d5aa212f85001c9cdc2f212a86385c2bd5e0bd84ac20446d7b3fb64818137aad0c2886f0369fc4f4ea626d0cc3304a5515c6d13b90a48636177f8811916#workspace:lint/eslint/presets/node-lib"],\
@@ -3113,14 +3113,14 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@budsbox/eslint_presets-browser-lib", [\
-      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib", {\
-        "packageLocation": "./.yarn/__virtual__/@budsbox-eslint_presets-browser-lib-virtual-f6aed3b563/1/lint/eslint/presets/browser-lib/",\
+      ["virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib", {\
+        "packageLocation": "./.yarn/__virtual__/@budsbox-eslint_presets-browser-lib-virtual-17d64e8b50/1/lint/eslint/presets/browser-lib/",\
         "packageDependencies": [\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
           ["@budsbox/eslint_configs-import", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/import"],\
-          ["@budsbox/eslint_configs-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react"],\
+          ["@budsbox/eslint_configs-react", "virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react"],\
           ["@budsbox/eslint_configs-typescript", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/typescript"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-lib", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/lib"],\
           ["@budsbox/eslint_presets-node-lib", "virtual:8f9a4d5aa212f85001c9cdc2f212a86385c2bd5e0bd84ac20446d7b3fb64818137aad0c2886f0369fc4f4ea626d0cc3304a5515c6d13b90a48636177f8811916#workspace:lint/eslint/presets/node-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
@@ -3161,7 +3161,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
           ["@budsbox/eslint_configs-import", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/import"],\
-          ["@budsbox/eslint_configs-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react"],\
+          ["@budsbox/eslint_configs-react", "virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react"],\
           ["@budsbox/eslint_configs-typescript", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/typescript"],\
           ["@budsbox/eslint_presets-browser-lib", "workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-lib", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/lib"],\
@@ -4665,7 +4665,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/builder_vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#workspace:builder/packages/vite"],\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-hooks", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/hooks"],\
@@ -4674,13 +4674,13 @@ const RAW_RUNTIME_STATE =
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@vitejs/plugin-react", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:5.1.1"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
           ["clsx", "npm:2.1.1"],\
           ["eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:9.39.4"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:5.3.1"],\
@@ -4699,7 +4699,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/builder_vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#workspace:builder/packages/vite"],\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-hooks", "workspace:lib/hooks"],\
@@ -4708,13 +4708,13 @@ const RAW_RUNTIME_STATE =
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@vitejs/plugin-react", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:5.1.1"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
           ["clsx", "npm:2.1.1"],\
           ["eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:9.39.4"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:5.3.1"],\
@@ -5017,7 +5017,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/builder_vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#workspace:builder/packages/vite"],\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lib/react"],\
@@ -5026,13 +5026,13 @@ const RAW_RUNTIME_STATE =
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@vitejs/plugin-react", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:5.1.1"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
           ["clsx", "npm:2.1.1"],\
           ["eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:9.39.4"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:5.3.1"],\
@@ -5053,7 +5053,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/builder_vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#workspace:builder/packages/vite"],\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-react", "workspace:lib/react"],\
@@ -5062,13 +5062,13 @@ const RAW_RUNTIME_STATE =
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@vitejs/plugin-react", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:5.1.1"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
           ["clsx", "npm:2.1.1"],\
           ["eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:9.39.4"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:5.3.1"],\
@@ -5315,10 +5315,10 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/eslint_configs-jsdoc", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/jsdoc"],\
           ["@budsbox/eslint_configs-prettier", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/prettier"],\
           ["@budsbox/eslint_configs-promise", "virtual:1db1b3b5b300c9c5aaa765e84bcfa0a98f84a7a71d89575b376f2c4a0a731210fb7f1d4c8c0b978543d41980b67a8995ab4b0c7216f2a5a6508fa7aa698b2c48#workspace:lint/eslint/configs/promise"],\
-          ["@budsbox/eslint_configs-react", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/configs/react"],\
+          ["@budsbox/eslint_configs-react", "virtual:17d64e8b5084956f190d29924e2fe986ae028172eb522ba777dee170a53f926f1fa004c698c4b761c70e7cf2521ff19d3105a523337fbcf60807cc52dc5bc153#workspace:lint/eslint/configs/react"],\
           ["@budsbox/eslint_configs-typescript", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#workspace:lint/eslint/configs/typescript"],\
           ["@budsbox/eslint_presets-browser-app", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-app"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-lib", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/lib"],\
           ["@budsbox/eslint_presets-node-lib", "virtual:8f9a4d5aa212f85001c9cdc2f212a86385c2bd5e0bd84ac20446d7b3fb64818137aad0c2886f0369fc4f4ea626d0cc3304a5515c6d13b90a48636177f8811916#workspace:lint/eslint/presets/node-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
@@ -5337,7 +5337,7 @@ const RAW_RUNTIME_STATE =
           ["@budsbox/parse-mime", "workspace:parse/mime"],\
           ["@budsbox/root", "workspace:."],\
           ["@budsbox/tsconfigs", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:tsconfigs"],\
-          ["@budsbox/ui-components-media", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media"],\
+          ["@budsbox/ui-components-media", "workspace:ui/components/media"],\
           ["@budsbox/ui-components-merge-2", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/merge-2"],\
           ["@eslint/js", "npm:9.39.4"],\
           ["@swc/cli", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:0.7.9"],\
@@ -5346,7 +5346,7 @@ const RAW_RUNTIME_STATE =
           ["@types/micromatch", "npm:4.0.10"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@types/semver", "npm:7.7.1"],\
           ["@types/whatwg-mimetype", "npm:3.0.2"],\
           ["@typescript-eslint/parser", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:8.57.2"],\
@@ -5382,7 +5382,7 @@ const RAW_RUNTIME_STATE =
           ["peggy", "npm:5.0.6"],\
           ["prettier", "npm:3.8.1"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass", "npm:1.94.2"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["semver", "npm:7.7.4"],\
@@ -5512,49 +5512,12 @@ const RAW_RUNTIME_STATE =
       }]\
     ]],\
     ["@budsbox/ui-components-media", [\
-      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media", {\
-        "packageLocation": "./.yarn/__virtual__/@budsbox-ui-components-media-virtual-f3424ba7b9/1/ui/components/media/",\
-        "packageDependencies": [\
-          ["@budsbox/builder_vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#workspace:builder/packages/vite"],\
-          ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
-          ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
-          ["@budsbox/lib-es", "workspace:lib/es"],\
-          ["@budsbox/lib-types", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lib/types"],\
-          ["@budsbox/tsconfigs", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:tsconfigs"],\
-          ["@budsbox/ui-components-media", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:ui/components/media"],\
-          ["@types/eslint", "npm:9.6.1"],\
-          ["@types/node", "npm:24.12.0"],\
-          ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
-          ["@vitejs/plugin-react", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:5.1.1"],\
-          ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
-          ["browser-detection", "npm:0.3.3"],\
-          ["clsx", "npm:2.1.1"],\
-          ["eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:9.39.4"],\
-          ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
-          ["sass-embedded", "npm:1.93.3"],\
-          ["tslib", "npm:2.8.1"],\
-          ["type-fest", "npm:5.3.1"],\
-          ["typescript", "patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"],\
-          ["vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:7.3.1"],\
-          ["vite-plugin-react-rich-svg", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:1.3.0"]\
-        ],\
-        "packagePeers": [\
-          "@types/react-dom",\
-          "@types/react",\
-          "react-dom",\
-          "react"\
-        ],\
-        "linkType": "SOFT"\
-      }],\
       ["workspace:ui/components/media", {\
         "packageLocation": "./ui/components/media/",\
         "packageDependencies": [\
           ["@budsbox/builder_vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#workspace:builder/packages/vite"],\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
           ["@budsbox/lib-types", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lib/types"],\
@@ -5563,14 +5526,14 @@ const RAW_RUNTIME_STATE =
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@vitejs/plugin-react", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:5.1.1"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
           ["browser-detection", "npm:0.3.3"],\
           ["clsx", "npm:2.1.1"],\
           ["eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:9.39.4"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:5.3.1"],\
@@ -5587,7 +5550,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/builder_vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#workspace:builder/packages/vite"],\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-class-name", "workspace:lib/class-name"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
@@ -5601,14 +5564,14 @@ const RAW_RUNTIME_STATE =
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@vitejs/plugin-react", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:5.1.1"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
           ["clsx", "npm:2.1.1"],\
           ["eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:9.39.4"],\
           ["eslint-plugin-perfectionist", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#npm:5.7.0"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:5.3.1"],\
@@ -5629,7 +5592,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@budsbox/builder_vite", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#workspace:builder/packages/vite"],\
           ["@budsbox/eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint"],\
-          ["@budsbox/eslint_presets-browser-lib", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#workspace:lint/eslint/presets/browser-lib"],\
+          ["@budsbox/eslint_presets-browser-lib", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#workspace:lint/eslint/presets/browser-lib"],\
           ["@budsbox/eslint_presets-tools", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#workspace:lint/eslint/presets/tools"],\
           ["@budsbox/lib-class-name", "workspace:lib/class-name"],\
           ["@budsbox/lib-es", "workspace:lib/es"],\
@@ -5643,14 +5606,14 @@ const RAW_RUNTIME_STATE =
           ["@types/eslint", "npm:9.6.1"],\
           ["@types/node", "npm:24.12.0"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["@vitejs/plugin-react", "virtual:8bfee1c2314b12b2575480c5d9b1804828e34d37d4a8df4094a286fb84eae2395578c6e840508cacd40c9e4a0e60855abce9b258bc55bab47c57c4710cb35914#npm:5.1.1"],\
           ["babel-plugin-react-compiler", "npm:19.1.0-rc.3"],\
           ["clsx", "npm:2.1.1"],\
           ["eslint", "virtual:d59bd4760c63ea2a4b2dde8dc8ae580c265f79a14ac0148f9d3a0d6a113d83c6ca4a1ee0d6553d338b7262f967530ff15528f86e59746220c2c315e3efd9781c#npm:9.39.4"],\
           ["eslint-plugin-perfectionist", "virtual:5707e2c40b81c2569e4fee679cbfc8831a2593393cb14f6affc3b2e966a0fade2c65d5bcd56013a9086b7e9292843983c39c0a4e0aad7e33bd1c09da2d1aa80c#npm:5.7.0"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["sass-embedded", "npm:1.93.3"],\
           ["tslib", "npm:2.8.1"],\
           ["type-fest", "npm:5.3.1"],\
@@ -5770,9 +5733,9 @@ const RAW_RUNTIME_STATE =
           ["@dnd-kit/core", "virtual:29adae2b9ac54bc6408ff445826eba474457ffd3df660fa0a7be20e15e9f81b6e08bbbd26797cffec5054fc7094b633735025c152ae386ab6320352a2942ed0e#npm:6.3.1"],\
           ["@dnd-kit/utilities", "virtual:cd8353f93fb1225354bdb2833b7795fd9017c8790f0c620260e2daef699b1625ee5cf9b9e5b7ebec6005c9628b26e28b3d0fc43cdcc31b8a1fc2eb05f4e6128c#npm:3.2.2"],\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"],\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["tslib", "npm:2.8.1"]\
         ],\
         "packagePeers": [\
@@ -8470,11 +8433,11 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9", {\
-        "packageLocation": "./.yarn/__virtual__/@types-react-dom-virtual-257dda633b/0/cache/@types-react-dom-npm-19.1.9-85743cfbd2-34c8dda86c.zip/node_modules/@types/react-dom/",\
+      ["virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9", {\
+        "packageLocation": "./.yarn/__virtual__/@types-react-dom-virtual-d673cd2289/0/cache/@types-react-dom-npm-19.1.9-85743cfbd2-34c8dda86c.zip/node_modules/@types/react-dom/",\
         "packageDependencies": [\
           ["@types/react", "npm:19.1.13"],\
-          ["@types/react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.9"]\
+          ["@types/react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.9"]\
         ],\
         "packagePeers": [\
           "@types/react"\
@@ -17978,12 +17941,12 @@ const RAW_RUNTIME_STATE =
         ],\
         "linkType": "SOFT"\
       }],\
-      ["virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1", {\
-        "packageLocation": "./.yarn/__virtual__/react-dom-virtual-8441b4f3a2/0/cache/react-dom-npm-19.1.1-552337dd3b-8c91198510.zip/node_modules/react-dom/",\
+      ["virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1", {\
+        "packageLocation": "./.yarn/__virtual__/react-dom-virtual-4bc2044410/0/cache/react-dom-npm-19.1.1-552337dd3b-8c91198510.zip/node_modules/react-dom/",\
         "packageDependencies": [\
           ["@types/react", "npm:19.1.13"],\
           ["react", "npm:19.1.1"],\
-          ["react-dom", "virtual:c1bdb50daa65ea58cd49f84519f7d0e8f3ab812fdf7d262544ce51d61da23110adeb3abc6f78e59222c500faa13cd26ce67f65e05b1d5b639531ee89d018df7b#npm:19.1.1"],\
+          ["react-dom", "virtual:4f0ed481fab07ea9c7155d13e556ba64e7580d803a06d1a27bf9d0549eb5f9fefe6c3e4746db0b786eff7789d3ee6aa404841672bcd1bcd21de52a310e451be6#npm:19.1.1"],\
           ["scheduler", "npm:0.26.0"]\
         ],\
         "packagePeers": [\
