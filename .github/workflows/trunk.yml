@@ -36,7 +36,7 @@ jobs:
         run: yarn run setup
 
       - name: Build Typings
-        run: yarn workspaces foreach --all --parallel --topological run check:types
+        run: yarn workspaces foreach --all --parallel --topological run check:typings
 
       - name: Lint
         run: yarn workspaces foreach --all --parallel run check:lint
